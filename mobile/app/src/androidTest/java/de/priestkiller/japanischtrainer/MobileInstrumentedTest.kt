@@ -5,6 +5,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import org.junit.Assert.*
 import org.junit.Test
+import org.junit.Before
+import org.junit.After
 import org.junit.runner.RunWith
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
@@ -16,6 +18,28 @@ import android.webkit.WebView
 
 @RunWith(AndroidJUnit4::class)
 class MobileInstrumentedTest {
+    private lateinit var testProfile:android.util.AtomicFile
+    private var previousProfile:ByteArray?=null
+    private fun writeProfile(bytes:ByteArray) {
+        val output=testProfile.startWrite()
+        try { output.write(bytes);testProfile.finishWrite(output) }
+        catch(e:Exception) { testProfile.failWrite(output);throw e }
+    }
+    @Before fun isolateEveryNativeProfile() {
+        val instrumentation=InstrumentationRegistry.getInstrumentation()
+        instrumentation.waitForIdleSync()
+        val context=instrumentation.targetContext
+        check(context.packageName=="de.priestkiller.japanischtrainer.test") { "Only the separate debug test package may be reset" }
+        testProfile=android.util.AtomicFile(File(context.filesDir,"progress.json"))
+        previousProfile=if(testProfile.baseFile.exists() || File(testProfile.baseFile.path+".bak").exists())testProfile.readFully() else null
+        writeProfile("""{"xp":0,"completed":[]}""".toByteArray(Charsets.UTF_8))
+    }
+    @After fun restoreNativeProfileAfterActivityHasClosed() {
+        // Closing a WebView saves its in-memory state on visibilitychange.
+        // Restore only after ActivityScenario.use has actually closed it.
+        InstrumentationRegistry.getInstrumentation().waitForIdleSync()
+        previousProfile?.let { writeProfile(it) } ?: testProfile.delete()
+    }
     @Test fun regularAndTestUpdatesUseSeparateReleaseTags() {
         fun release(tag:String,preview:Boolean=false,draft:Boolean=false)=org.json.JSONObject()
             .put("tag_name",tag).put("prerelease",preview).put("draft",draft)
