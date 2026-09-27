@@ -42,7 +42,7 @@ class MainActivity:Activity() {
         super.onCreate(savedInstanceState)
         profile=AtomicFile(File(filesDir,"progress.json")); models=ModelStore(this); updates=AppUpdates(this)
         speech=SpeechEngine(models) { type,data -> emit(type,JSONObject(data)) }
-        val root=FrameLayout(this); root.setBackgroundColor(Color.rgb(37,31,53)); setContentView(root)
+        val root=FrameLayout(this); root.setBackgroundColor(Color.rgb(7,23,45)); setContentView(root)
         web=WebView(this); web.setBackgroundColor(Color.rgb(247,243,237))
         root.addView(web,FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT))
         ViewCompat.setOnApplyWindowInsetsListener(root) { v,insets ->
