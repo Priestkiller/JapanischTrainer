@@ -2,6 +2,7 @@
 export const PHASES=['speak','meaning','listen','build','write','apply'];
 export const LABELS={speak:'Hören & Sprechen',meaning:'Bedeutung erkennen',listen:'Hörverstehen',build:'Bausteine ordnen',write:'Selbst schreiben',apply:'Anwenden'};
 export const FLOW_REVISION=2;
+export const isShortKana=text=>/^[ぁ-んァ-ヶ][ゃゅょャュョ]?$/u.test(String(text).trim());
 export const compact=s=>String(s??'').normalize('NFKC').toLowerCase().replace(/[\s\-・、。！？!?.,:;~〜～/…「」“”"'()]/gu,'');
 export function romajiForms(text) {
   const forms=new Set([compact(text)]);
@@ -108,7 +109,7 @@ export class Session {
   }
   get card() {return this.lesson.cards[this.index];}
   get key() {return `${this.lesson.key}:${this.index}`;}
-  reset() { this.success=false;this.feedback='';this.tokens=[];this.audio_seen=false;this.audio_skipped=false;this.skipped=false;this.chosen=null;this.listenCard=shuffle(this.lesson.cards.slice(0,this.index+1),`${this.key}:${this.phase}`)[0]; }
+  reset() { this.success=false;this.feedback='';this.tokens=[];this.audio_seen=false;this.audio_skipped=false;this.shortSpeechReady=false;this.skipped=false;this.chosen=null;this.listenCard=shuffle(this.lesson.cards.slice(0,this.index+1),`${this.key}:${this.phase}`)[0]; }
   snapshot() {this.store.data.lesson_sessions[this.lesson.key]={flow_revision:FLOW_REVISION,passed:[...this.passed],index:this.index,phase:this.phase,mode:this.mode,recap:[...this.recap],recap_total:this.recap_total,recap_passed:this.recap_passed};this.store.data.last_lesson={key:this.lesson.key,card:this.index};this.store.save();}
   metrics() { const existing=this.store.data.study_cards[this.key];const m=record(existing)?existing:{};this.store.data.study_cards[this.key]=m;for(const key of ['attempts','mistakes','speech_attempts','speech_skips'])if(!Number.isInteger(m[key]))m[key]=0;if(!Array.isArray(m.phases))m.phases=[];return m; }
   mark(ok,feedback,skipped=false) {
@@ -138,11 +139,19 @@ export class Session {
     if(this.mode!=='learn'||this.phase!=='speak'||this.success)return false;
     if(!this.audio_seen) {this.feedback='Höre die Vorlage zuerst vollständig an.';return false;}
     const target=this.course.speechTarget(this.card,this.lesson),matched=speechMatch(text,[target.target,...(target.accept??[])]);
+    this.shortSpeechReady=!matched&&isShortKana(this.card.jp)&&compact(text).length>0;
     this.metrics().speech_attempts++;
     const old=this.store.data.speech_scores[target.target]??{};
     this.store.data.speech_scores[target.target]={best:Math.max(Number(old.best)||0,matched?100:0),last:matched?100:0,heard:text};
     this.mark(matched,matched?'Der erkannte Text passt. Schritt 1 ist geschafft!':'Der erkannte Text passt noch nicht. Höre die Vorlage erneut und sprich noch einmal.');
     return matched;
+  }
+  confirmShortSpeech() {
+    if(this.mode!=='learn'||this.phase!=='speak'||this.success||!this.audio_seen||!this.shortSpeechReady||!isShortKana(this.card.jp))return false;
+    const m=this.metrics();m.speech_self_checks=(Number(m.speech_self_checks)||0)+1;
+    this.shortSpeechReady=false;
+    this.mark(true,'Selbstprüfung bestätigt: Du hast den Laut nachgesprochen. Weiter geht’s mit Schritt 2.');
+    return true;
   }
   checkWrite(text) {if(this.mode!=='learn'||this.phase!=='write')return;const ok=[this.card.romaji,...(this.card.romaji_aliases??[])].some(r=>matchesRomaji(text,r));this.mark(ok,ok?'Richtig geschrieben. Auch die Vokallängen stimmen.':'Noch nicht passend. Für ō kannst du ou oder oo schreiben; die Länge darf nicht fehlen.');}
   checkBuild() {if(this.mode!=='learn'||this.phase!=='build')return;const parts=this.course.blocks(this.card,this.lesson);if(!parts.length)return;const ok=this.tokens.length===parts.length&&this.tokens.map(i=>parts[i]).every((v,i)=>v===parts[i]);this.mark(ok,ok?'Richtig zusammengesetzt.':'Die Reihenfolge stimmt noch nicht. Ordne die Bausteine neu und versuche es erneut.');}

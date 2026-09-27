@@ -28,6 +28,11 @@ Erst ein passender erkannter Text gibt **Weiter zu 2/6** frei. Nach spätestens
 15 Sekunden endet die Aufnahme automatisch. Sie bleibt im Arbeitsspeicher des
 Handys. Die Rückmeldung vergleicht den erkannten Text; sie ist keine phonetische
 Aussprache-Note. Bei sehr kurzen Kana ist die Spracherkennung weniger zuverlässig.
+Nur bei diesen kurzen Kana erscheint nach einer Aufnahme mit erkanntem Sprachinhalt
+gegebenenfalls **Einzellaut selbst prüfen**. Vergleiche deinen gesprochenen Laut
+mit der Vorlage und bestätige **Ja, selbst geprüft**, wenn er passt. Das wird als
+Selbstprüfung gespeichert. Wörter und Sätze benötigen weiterhin einen passenden
+erkannten Text; ohne Aufnahme ist kein Überspringen möglich.
 
 Danach folgen Bedeutung erkennen, Hörverstehen, Bausteine ordnen, selbst Schreiben
 und Anwenden. Die nächsten Schritte werden erst nach einer richtigen Antwort
@@ -64,6 +69,6 @@ wird der bisherige Handy-Lernstand intern gesichert. Über **Exportieren** erhä
 du eine eigene Sicherungsdatei, die auch nach einer Deinstallation bestehen
 bleiben kann. Es gibt keinen automatischen Abgleich zwischen PC und Handy.
 
-Diese erste Android-Version ist als Vorschau gekennzeichnet. Quellcode und
+Die Android-Ausgabe ist als Vorschau gekennzeichnet. Quellcode und
 Lizenztexte sind auf derselben Downloadseite verfügbar. Die bestehende
 Windows-Version verwendet weiterhin ihren eigenen Update-Kanal.

@@ -35,7 +35,12 @@ geprüft. Bei älteren Lernständen beginnt nur die noch angefangene Karte mit d
 neuen ersten Schritt; abgeschlossene Lektionen, XP und Abschlussrunden bleiben
 erhalten. Der Sprachvergleich
 bewertet erkannten Text, keine Einzellaute oder Tonhöhen. Kurze Kana können von
-Spracherkennung unzuverlässig erkannt werden. Stimmen und Erkennung werden
+Spracherkennung unzuverlässig erkannt werden. Nur bei einzelnen Kana (einschließlich
+Kombinationen wie きゃ) kann deshalb nach einer Aufnahme mit erkanntem Sprachinhalt
+eine ausdrücklich gekennzeichnete Selbstprüfung den Sprechschritt abschließen.
+Sie wird separat gespeichert und verbessert nicht den automatischen Textvergleich.
+Wörter und Sätze werden weiterhin automatisch geprüft. Stille, Aufnahmefehler und
+fehlende Mikrofonfreigabe öffnen diese Möglichkeit nicht. Stimmen und Erkennung werden
 abwechselnd geladen, damit nicht beide Modelle gleichzeitig RAM belegen.
 
 ## Lernstände und Updates

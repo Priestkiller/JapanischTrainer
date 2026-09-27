@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-import {Course,Store,Session,PHASES,FLOW_REVISION,cleanProfile,matchesRomaji,speechMatch,reviewCard} from '../web/core.mjs';
+import {Course,Store,Session,PHASES,FLOW_REVISION,isShortKana,cleanProfile,matchesRomaji,speechMatch,reviewCard} from '../web/core.mjs';
 const read=name=>JSON.parse(readFileSync(new URL('../../data/'+name,import.meta.url),'utf8'));
 const raw=read('course.json'),catalog=read('catalog.json'),details=read('deep_lessons.json');
 const setup=(profile={})=>new Course(raw,catalog,details,new Store(profile));
@@ -58,6 +58,20 @@ test('Successful steps and the current exercise persist without reopening later 
  const restored=new Session(lesson,setup(JSON.parse(JSON.stringify(s.store.data))));assert.equal(restored.phase,'listen');assert.deepEqual(restored.passed,['speak','meaning']);assert.equal(restored.advance(),'blocked');
  for(const phase of ['listen','build','write','apply']){assert.equal(restored.phase,phase);pass(restored);restored.advance();}
  assert.equal(restored.index,1);assert.equal(restored.phase,'speak');assert.deepEqual(restored.passed,[]);assert.equal(restored.advance(),'blocked');
+});
+test('Short kana self-check needs a real nonempty speech result and never forges an ASR match',()=>{
+ const c=setup(),s=new Session(c.lessons[0],c);assert.equal(s.confirmShortSpeech(),false);
+ s.audio_seen=true;assert.equal(s.confirmShortSpeech(),false);s.checkSpeech('');assert.equal(s.confirmShortSpeech(),false);
+ s.checkSpeech('いい？');assert.equal(s.success,false);assert.equal(s.shortSpeechReady,true);assert.equal(s.confirmShortSpeech(),true);
+ assert.equal(s.metrics().speech_self_checks,1);assert.equal(c.store.data.speech_scores['あ'].last,0);assert.equal(c.store.data.speech_scores['あ'].best,0);
+ assert.equal(s.advance(),'next');assert.equal(s.phase,'meaning');assert.equal(s.confirmShortSpeech(),false);
+});
+test('Words never allow self-check, and a short-kana self-check is not carried across restart',()=>{
+ const c=setup(),s=new Session(c.lessons[0],c);s.audio_seen=true;s.checkSpeech('いい');
+ const resumed=new Session(s.lesson,setup(JSON.parse(JSON.stringify(c.store.data))));assert.equal(resumed.confirmShortSpeech(),false);
+ for(const word of ['はい','こんにちは','いえ','ありがとうございます'])assert.equal(isShortKana(word),false);
+ for(const kana of ['い','カ','きゃ'])assert.equal(isShortKana(kana),true);
+ const lesson=c.lessons.find(l=>l.cards.some(card=>card.jp==='こんにちは'));const word=new Session(lesson,c,false);word.index=lesson.cards.findIndex(card=>card.jp==='こんにちは');word.reset();word.audio_seen=true;word.checkSpeech('違います');assert.equal(word.confirmShortSpeech(),false);assert.equal(word.advance(),'blocked');
 });
 test('Out-of-order saved steps and a success flag alone cannot bypass prerequisites',()=>{
  const c=setup({lesson_sessions:{'0:0':{flow_revision:FLOW_REVISION,index:0,phase:'write',passed:['meaning'],mode:'learn'}}});

@@ -52,7 +52,9 @@ try {
   await page.locator('#hear-normal').click();
   await page.evaluate(()=>{const call=window.testCalls.at(-1);window.JTNative('audioError',{request:call.request,message:'Test: Kein Audio'});});
   assert.equal(await page.locator('#record').isDisabled(),true);
+  assert.equal(await page.locator('#confirm-short-speech').count(),0);
   await audioDone('#hear-normal');await recognize('falsch');assert.equal(await page.locator('#advance').isDisabled(),true);
+  assert.equal(await page.locator('#confirm-short-speech').count(),1);
   await recognize('あ');assert.equal(await page.locator('#advance').isDisabled(),false);
   await page.locator('#advance').click();assert.ok(await page.locator('[data-choice]').count());
   assert.equal(await page.locator('#step-count').textContent(),'Schritt 2/6');
@@ -76,6 +78,10 @@ try {
   await page.locator('#advance').click();assert.equal(await page.locator('#step-count').textContent(),'Schritt 6/6');
   await page.getByRole('button',{name:'Ein Zeichen für den Laut a.',exact:true}).click();await page.locator('#advance').click();
   assert.equal(await page.locator('#step-count').textContent(),'Schritt 1/6');assert.equal(await page.locator('.romaji').first().innerText(),'i');assert.equal(await page.locator('#advance').isDisabled(),true);
+  assert.equal(await page.locator('#confirm-short-speech').count(),0);await audioDone('#hear-normal');await recognize('いい？');
+  assert.equal(await page.locator('#advance').isDisabled(),true);await page.locator('#confirm-short-speech').click();assert.equal(await page.locator('#advance').isDisabled(),false);
+  assert.ok((await page.locator('#task-feedback').innerText()).includes('Selbstprüfung'));
+  assert.equal(await page.evaluate(()=>JSON.parse(localStorage.getItem('jt-test-profile')).speech_scores['い'].last),0);
   await page.locator('#settings-shortcut').click();await noOverflow('settings');
   await page.screenshot({path:path.join(output,`settings-${width}x${height}.png`),fullPage:true});
   await page.locator('[data-page=teachers]').click();await page.locator('[data-teacher=yuki]').click();await page.locator('#select-teacher').click();

@@ -49,7 +49,7 @@ function openLesson(key) {
 function pronunciation(card) {return card.approx??card.pron_de??card.pron??card.pronunciation??card.hint??'';}
 function cardView(card) {
   return `<div class="speaking-card"><p class="sub" id="speak-instruction">Höre die Vorlage an und sprich sie danach nach.</p><p class="jp" lang="ja">${esc(card.jp)}</p><p class="romaji">${esc(card.romaji)}</p><p class="translation">${esc(card.de)}</p>${pronunciation(card)?`<p class="pronunciation">Aussprachehilfe: ${esc(pronunciation(card))}</p>`:''}<div class="audio-actions"><button id="hear-normal">▷ Anhören</button><button id="hear-slow">▷ Langsam</button></div><p id="audio-status" class="speech-message" role="status"></p>
-  <div class="speech-panel"><button id="record" class="record-button" disabled>Erst die Vorlage anhören</button><p id="speech-status" class="speech-message" aria-live="polite">${esc(state.speechMessage)}</p><p class="speech-caption">Der passende erkannte Text schaltet Schritt 2 frei. Keine phonetische Aussprache-Note.</p></div>${!state.caps.models?'<div class="info"><p>Für diesen Schritt brauchst du das lokale Sprachpaket.</p><button class="small ghost" data-nav="settings">Sprachpaket einrichten</button></div>':''}</div>`;
+  <div class="speech-panel"><button id="record" class="record-button" disabled>Erst die Vorlage anhören</button><p id="speech-status" class="speech-message" aria-live="polite">${esc(state.speechMessage)}</p><p class="speech-caption">Sprich die Vorlage nach, um Schritt 2 freizuschalten. Die Erkennung vergleicht Text und vergibt keine Aussprache-Note.</p></div>${!state.caps.models?'<div class="info"><p>Für diesen Schritt brauchst du das lokale Sprachpaket.</p><button class="small ghost" data-nav="settings">Sprachpaket einrichten</button></div>':''}</div>`;
 }
 function explanation(card,lesson) {
   const p=course.profile(card,lesson),ex=course.example(card);
@@ -73,7 +73,9 @@ function task() {
     html=parts.length?`<p>Setze die Bausteine in die richtige Reihenfolge.</p><p class="build-meaning">${esc(s.card.de)}</p><div class="token-board" id="token-board">${s.tokens.length?s.tokens.map((v,i)=>`<button data-remove-token="${i}">${esc(parts[v])}</button>`).join(''):'<span class="sub">Tippe die Bausteine unten an.</span>'}</div><div class="tokens">${shuffle(parts.map((p,i)=>i),s.key).map(i=>`<button data-token="${i}" ${s.tokens.includes(i)||s.success?'disabled':''}>${esc(parts[i])}</button>`).join('')}</div><button class="ghost wide" id="check-build" ${s.success?'disabled':''}>Reihenfolge prüfen</button>`:`<p>Diese kurze Form hat keine getrennten Bausteine. Wähle ihre Lesung.</p><p class="jp exercise-prompt" lang="ja">${esc(s.card.jp)}</p>`+options(s);
   } else if(s.phase==='write')html=`<p>Schreibe die Lesung aus dem Gedächtnis in Romaji.</p><p class="jp exercise-prompt" lang="ja">${esc(s.card.jp)}</p><form id="write-form"><label class="field"><span>Deine Lesung</span><input id="romaji-input" type="text" autocomplete="off" autocapitalize="none" spellcheck="false" enterkeyhint="done" placeholder="Romaji eingeben" ${s.success?'disabled':''}></label><button class="ghost wide" ${s.success?'disabled':''}>Lesung prüfen</button></form>`;
   else if(s.phase==='apply')html=`<p>${esc(course.profile(s.card,s.lesson).scenario.question)}</p>${options(s)}`;
-  html+=`<div id="task-feedback" aria-live="polite">${feedback(s)}</div><div class="task-footer"><button id="advance" class="primary" ${s.success?'':'disabled'}>${s.mode==='recap'?(s.recap.length===1?'Lektion abschließen':'Weiter →'):PHASES.indexOf(s.phase)<5?`Weiter zu ${PHASES.indexOf(s.phase)+2}/6 →`:s.index<s.lesson.cards.length-1?'Nächste Karte →':'Zur Abschlussrunde →'}</button></div>`;
+  html+=`<div id="task-feedback" aria-live="polite">${feedback(s)}</div>`;
+  if(s.mode==='learn'&&s.phase==='speak'&&s.shortSpeechReady&&!s.success)html+='<div class="info"><strong>Einzellaut selbst prüfen</strong><p>Bei kurzen Kana kann die Erkennung abweichen. Vergleiche mit der Vorlage: Hast du den Laut nachgesprochen?</p><button id="confirm-short-speech" class="ghost wide">Ja, selbst geprüft</button><p class="sub" style="margin-top:8px">Als Selbstprüfung gespeichert, nicht als automatisch erkannte Übereinstimmung.</p></div>';
+  html+=`<div class="task-footer"><button id="advance" class="primary" ${s.success?'':'disabled'}>${s.mode==='recap'?(s.recap.length===1?'Lektion abschließen':'Weiter →'):PHASES.indexOf(s.phase)<5?`Weiter zu ${PHASES.indexOf(s.phase)+2}/6 →`:s.index<s.lesson.cards.length-1?'Nächste Karte →':'Zur Abschlussrunde →'}</button></div>`;
   if(s.mode!=='recap'&&(s.phase==='speak'||s.success))html+=`<details><summary>Erklärung und Beispiel ansehen ＋</summary>${explanation(s.card,s.lesson)}</details>`;
   return html;
 }
@@ -90,6 +92,7 @@ function bindTask() {
   if($('#hear-normal'))$('#hear-normal').onclick=()=>play(s.card.jp,true);
   if($('#hear-slow'))$('#hear-slow').onclick=()=>play(s.card.jp,true,true);
   if($('#record'))$('#record').onclick=record;
+  if($('#confirm-short-speech'))$('#confirm-short-speech').onclick=()=>{if(state.recording==='idle'&&s.confirmShortSpeech())refreshTask();};
   if($('#hear-task'))$('#hear-task').onclick=()=>play(s.listenCard.jp,true);
   if($('#hear-example'))$('#hear-example').onclick=()=>play(course.example(s.card).jp);
   $('#advance').onclick=()=>{
@@ -194,6 +197,7 @@ function record() {
   if(!state.caps.models){toast('Bitte zuerst unter Einstellungen das Sprachpaket laden.');return;}
   if(!s.audio_seen){toast('Höre die Vorlage zuerst vollständig an.');return;}
   native('stopAudio');state.audio=null;
+  s.shortSpeechReady=false;
   const id=`speech-${++requestCounter}`;
   state.speech={id,context:`${s.key}:${s.phase}`,target:course.speechTarget(s.card,s.lesson)};
   state.recording='requesting';state.speechMessage='Mikrofon wird vorbereitet …';native('record',id);refreshAudio();
@@ -203,6 +207,7 @@ function refreshAudio() {
   const s=state.session,button=$('#record');if(button) {button.textContent=s.success?'✓ Gesprochen':!s.audio_seen?'Erst die Vorlage anhören':{idle:'◉ Jetzt nachsprechen',requesting:'Mikrofon wird vorbereitet …',recording:'■ Aufnahme beenden',recognizing:'Sprache wird erkannt …'}[state.recording];button.disabled=s.success||!s.audio_seen||!['idle','recording'].includes(state.recording);button.classList.toggle('recording',state.recording==='recording');}
   if($('#speak-instruction'))$('#speak-instruction').textContent=s.success?'Geschafft! Weiter geht’s mit der Bedeutung.':s.audio_seen?'Jetzt bist du dran: Sprich die Vorlage nach.':'Höre die Vorlage an und sprich sie danach nach.';
   if(s?.phase==='listen')$$('[data-choice]').forEach(b=>b.disabled=s.success||!s.audio_seen);
+  if($('#confirm-short-speech'))$('#confirm-short-speech').disabled=state.recording!=='idle'||!s.shortSpeechReady;
   if($('#speech-status'))$('#speech-status').textContent=state.speechMessage;
   if($('#audio-status'))$('#audio-status').textContent=state.audio?.message??'';
 }
