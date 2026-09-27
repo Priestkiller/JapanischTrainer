@@ -1,5 +1,6 @@
 """Real TLS download, signed release, frozen updater, and two built app versions."""
 import base64
+import argparse
 from datetime import datetime, timedelta, timezone
 import functools
 import http.server
@@ -25,9 +26,14 @@ import updater
 work=ROOT/'validation'/('update-e2e-'+uuid.uuid4().hex)
 work.mkdir(parents=True)
 installed=work/'installed';profile=work/'profile';profile.mkdir()
-shutil.copytree(ROOT/'dist/JapanischTrainer',installed)
-archive=ROOT/'release/JapanischTrainer-11.0.1-Update-x64.zip'
-release=ROOT/'build-release/11.0.1/dist/JapanischTrainer'
+p=argparse.ArgumentParser()
+p.add_argument('--installed-source',type=Path,default=ROOT/'dist/JapanischTrainer')
+p.add_argument('--new-release',type=Path,default=ROOT/'build-release/11.0.1/dist/JapanischTrainer')
+p.add_argument('--archive',type=Path,default=ROOT/'release/JapanischTrainer-11.0.1-Update-x64.zip')
+args=p.parse_args()
+shutil.copytree(args.installed_source,installed)
+archive=args.archive;release=args.new_release
+old_version=updater.current_version(installed);new_version=updater.current_version(release)
 signing=ed25519.Ed25519PrivateKey.generate()
 public=base64.b64encode(signing.public_key().public_bytes_raw()).decode()
 tls_key=rsa.generate_private_key(public_exponent=65537,key_size=2048)
@@ -53,7 +59,7 @@ server=http.server.ThreadingHTTPServer(('127.0.0.1',0),Handler)
 context=ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER);context.load_cert_chain(work/'tls-cert.pem',work/'tls-key.pem')
 server.socket=context.wrap_socket(server.socket,server_side=True)
 base=f'https://localhost:{server.server_port}'
-payload=json.dumps({'format':1,'app':updater.APP,'version':'11.0.1','minimum_version':'11.0.0',
+payload=json.dumps({'format':1,'app':updater.APP,'version':new_version,'minimum_version':old_version,
     'url':base+'/update.zip','sha256':updater.sha256(archive),'size':archive.stat().st_size,'notes':'Lokaler Integrationstest'}).encode()
 manifest=json.dumps({'payload':base64.b64encode(payload).decode(),'signature':base64.b64encode(signing.sign(payload)).decode()}).encode()
 (installed/'update-source.json').write_text(json.dumps({'manifest_url':base+'/update.json','public_key':public}),encoding='utf8')
@@ -67,17 +73,17 @@ client_context=ssl.create_default_context(cafile=str(work/'tls-cert.pem'))
 def local_transport(url):
     updater.secure_url(url)
     return urllib.request.urlopen(url,context=client_context,timeout=20)
-report={'passed':False,'work':str(work),'from':'11.0.0','to':'11.0.1','tls':True,'frozen_worker':True}
+report={'passed':False,'work':str(work),'from':old_version,'to':new_version,'tls':True,'frozen_worker':True}
 try:
     with patch('updater.open_url',local_transport):
-        raw,info=updater.check_update(installed,'11.0.0')
+        raw,info=updater.check_update(installed,old_version)
         downloaded=updater.download_update(installed,raw,work/'download')
     worker=work/'download/JapanischTrainerUpdater.exe';shutil.copy2(release/worker.name,worker)
     result=subprocess.run([str(worker),'--target',str(installed),'--archive',str(downloaded),
         '--manifest',str(downloaded.parent/'update.json'),'--profile',str(profile),'--no-restart'],timeout=180,cwd=work)
     outcome=json.loads((downloaded.parent/'result.json').read_text(encoding='utf8'))
     if result.returncode or not outcome['success']:raise RuntimeError(outcome)
-    assert updater.current_version(installed)=='11.0.1'
+    assert updater.current_version(installed)==new_version
     capture=work/'after-update.png'
     env=os.environ.copy();env['JAPANISCHTRAINER_DATA_DIR']=str(profile)
     result=subprocess.run([str(installed/'JapanischTrainer.exe'),'--capture',str(capture),'--size','1280x860'],cwd=work,env=env,timeout=90)

@@ -1,3 +1,15 @@
+# Android-Prüfbericht 11.0.2-android.1
+
+Aktualisiert am 27.09.2026. VersionCode 11000201. Details: [gemeinsamer Prüfbericht](https://github.com/Priestkiller/JapanischTrainer/blob/main/TESTBERICHT_11.0.2.md).
+
+26 Verhaltenstests, 7 Browserformate und 3 native Android-15-Tests bestanden. APK-Build und Lint erfolgreich. [Buildlauf](https://github.com/Priestkiller/JapanischTrainer/actions/runs/36331576609), Programmcommit bc625904f62fc943e7c4c8bf6b27f641977783bb. 30 Lektionen mit 138 Karten wurden vertieft; alle 150 Lektionen bleiben lösbar.
+
+Die signierte APK verwendet den bisherigen Schlüssel; Lernstand und Sprachpaket bleiben erhalten. APK-SHA-256: f75f351f9062d0a6e2934ab49e31d105da32e4a8cea5edbf5492250eff150161.
+
+Echter S24-Ultra-Test, menschliche Sprachprüfung und Mikrofon-/Hörprüfung bleiben offen. Die folgenden Abschnitte dokumentieren den vorherigen Android-3-Stand.
+
+---
+
 # Android-Prüfbericht – JapanischTrainer 11.0.1-android.3
 
 Datum: 27.09.2026. Paket `de.priestkiller.japanischtrainer`, VersionCode 11000103.

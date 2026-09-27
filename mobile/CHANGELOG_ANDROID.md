@@ -1,3 +1,10 @@
+# Android 11.0.2-android.1
+
+- 30 Einstiegslektionen vertieft: Lernziele, Zeichenhilfen und erste Satzmuster.
+- 18 konkrete Situationsaufgaben und selbstständig erreichbare Hinweise.
+- Leseverständnis zeigt den japanischen Ausgangstext ohne Übersetzung.
+- Lernstand, Pflichtschritte und Sprachpaket bleiben erhalten.
+
 # Android 11.0.1-android.3
 
 - Neuer Gesprächsraum auf der Startseite, unter Üben und unter Mehr.

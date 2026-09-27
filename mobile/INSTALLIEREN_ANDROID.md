@@ -2,8 +2,8 @@
 
 ## Einmal installieren
 
-1. Öffne auf dem Handy die [Android-Downloadseite](https://github.com/Priestkiller/JapanischTrainer/releases/tag/android-v11.0.1-3).
-2. Lade **JapanischTrainer-11.0.1-Android.apk** herunter und öffne die Datei.
+1. Öffne auf dem Handy die [Android-Downloadseite](https://github.com/Priestkiller/JapanischTrainer/releases/tag/android-v11.0.2-1).
+2. Lade **JapanischTrainer-11.0.2-Android.apk** herunter und öffne die Datei.
 3. Bestätige die Android-Installation. Falls Android fragt, erlaube der verwendeten Download-App die Installation dieser APK.
 4. Öffne **JapanischTrainer**. Kursübersicht und Nachschlagewerk stehen sofort bereit.
 5. Öffne das Zahnrad → **Offline-Stimmen & Sprechen** und lade das Sprachpaket einmalig, am besten über WLAN. Der Download ist rund 284 MB groß; halte währenddessen ungefähr 900 MB Speicher frei und lasse die App geöffnet. Bei einem Abbruch kannst du den Download erneut starten.
