@@ -14,3 +14,14 @@ installer_tools/Protokolle/
 installer_tools/build-work/
 *.log
 progress*.json
+mobile/research/
+mobile/vendor/
+mobile/.gradle/
+mobile/**/build/
+mobile/local.properties
+mobile/generated/
+mobile/test-results/
+mobile/toolchain/
+mobile/release/
+mobile/.keys/
+mobile/node_modules/

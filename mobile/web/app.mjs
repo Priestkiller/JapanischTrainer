@@ -1,0 +1,280 @@
+import {Store,Course,Session,PHASES,LABELS,cleanProfile,compact,shuffle,speechMatch,reviewCard} from './core.mjs';
+
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const bridge=window.AndroidTrainer;
+const state={page:'home',session:null,query:'',stage:'Alle',libraryQuery:'',review:null,revealed:false,teacherDetail:null,
+  caps:{native:!!bridge,models:false,modelBytes:0,version:'11.0.1-android.1'},audio:null,speech:null,speechMessage:'',recording:'idle',
+  modelStatus:'',modelPercent:0,modelBusy:false,updateStatus:'',updateAvailable:false,updateBusy:false,licenseText:'',completeLesson:null};
+let course,store,catalog,blinkIndex,expressions,animationStop=()=>{},toastTimer,requestCounter=0,saveError='';
+const native=(name,...args)=> { if(bridge&&typeof bridge[name]==='function')return bridge[name](...args);return undefined; };
+function toast(text) { $('#toast').textContent=text;$('#toast').classList.add('visible');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('#toast').classList.remove('visible'),4800); }
+function persist(text) {
+  try {if(bridge) {if(!native('saveProfile',text))throw Error('Speichern fehlgeschlagen.');} else localStorage.setItem('jt-mobile-profile',text);saveError='';return true;}
+  catch(e) {saveError='Lernstand konnte nicht gespeichert werden. Bitte Speicherplatz prüfen und die App geöffnet lassen.';showSaveError();return false;}
+}
+function showSaveError() {let el=$('#save-error');if(!el){el=document.createElement('div');el.id='save-error';el.className='storage-error';el.role='alert';document.body.prepend(el);}el.textContent=saveError;}
+function save() {try{store.save();}catch(e){toast(e.message);}}
+function stopMedia() {native('stopAudio');native('stopRecording',true);state.audio=null;state.speech=null;state.recording='idle';}
+function navigate(page) {
+  if(state.session&&state.page==='lesson')state.session.snapshot();
+  stopMedia();animationStop();state.page=page;state.speechMessage='';render();window.scrollTo(0,0);$('#app').focus({preventScroll:true});
+}
+function heading(eyebrow,title,description='') {return `<div class="page-heading"><p class="eyebrow">${esc(eyebrow)}</p><h1>${esc(title)}</h1>${description?`<p class="sub">${esc(description)}</p>`:''}</div>`;}
+function teacherStrip() {const t=course.teacher();return `<div class="coach"><img src="assets/teachers/${t.id}/avatar.png" alt=""><div class="coach-copy"><strong>${esc(t.name)} begleitet dich</strong><p class="sub">${esc(t.style)}</p></div><span class="pill">Schritt für Schritt</span></div>`;}
+function home() {
+  const t=course.teacher(),next=course.next(),done=course.lessons.filter(l=>store.data.completed.includes(l.key)).length;
+  return `<p class="eyebrow">Dein kleiner Schritt nach Japan</p><section class="hero" aria-label="Willkommen"><div class="hero-copy"><span class="pill">${state.caps.models?'● Alles bereit · offline':'150 Lektionen · offline lernen'}</span><h1 style="margin-top:16px">Ein bisschen<br>Japanisch.<br>Jeden Tag.</h1><p class="sub">${esc(t.name)} begleitet dich auf deinem Lernweg.</p><button class="primary" id="hero-resume">Weiterlernen →</button><p class="hero-quote">„${esc(t.de)}“</p></div><canvas id="teacher-canvas" width="512" height="768" role="img" aria-label="${esc(t.name)}"></canvas></section>
+  <div class="stats"><div class="stat accent"><strong>${store.data.streak} ${store.data.streak===1?'Tag':'Tage'}</strong><span>Lernserie</span></div><div class="stat"><strong>${store.data.xp} XP</strong><span>Level ${Math.floor(store.data.xp/250)+1}</span></div><div class="stat"><strong>${done} / 150</strong><span>Lektionen</span></div></div>
+  <section class="section"><div class="section-title"><h2>Dein nächster Schritt</h2><button class="text-link" data-nav="course">Lernweg ansehen</button></div><article class="card next-card"><span class="pill">${esc(next.level)}</span><p class="lesson-title">${esc(next.title)}</p><p class="sub">${esc(next.goal??next.unit)}</p><div class="progress" aria-label="${done} von 150 Lektionen"><span style="width:${done/150*100}%"></span></div><div class="row"><span class="sub">${next.cards.length} Lernkarten · ${next.xp??20} XP</span><button class="small primary" id="next-resume">${store.data.last_lesson.key===next.key?'Fortsetzen':'Loslegen'} →</button></div></article></section>
+  ${!state.caps.models?`<aside class="info"><strong>Deine Lehrer bekommen eine Stimme.</strong><p style="margin:5px 0 7px">Lade einmal das Sprachpaket für Stimmen und Sprechen. Danach funktioniert auch das offline.</p><button class="small ghost" data-nav="settings">Sprachpaket einrichten</button></aside>`:''}
+  ${store.data.show_kiko?`<div class="kiko-note"><img src="assets/mascot/kiko_idle.png" alt="Kiko"><span>Lieber fünf Minuten mit Freude als gar nicht anfangen.</span></div>`:''}`;
+}
+function courseList() {return heading('Dein Lernweg','Schritt für Schritt','150 Lektionen. Vom ersten Laut bis zum zusammenhängenden Text.')+
+  `<div class="filters"><label class="field"><span>Lektion oder Wort suchen</span><input id="course-search" type="search" placeholder="Zum Beispiel: Hiragana, Reisen …" value="${esc(state.query)}"></label><label class="field"><span>Abschnitt</span><select id="stage"><option>Alle</option>${course.stages.map(s=>`<option ${s===state.stage?'selected':''}>${esc(s)}</option>`).join('')}</select></label></div><div id="course-results">${courseRows()}</div>`;}
+function courseRows() {
+  const list=course.search(state.query,state.stage);let previous='';
+  if(!list.length)return '<div class="empty">Keine passende Lektion gefunden.</div>';
+  return `<p class="sub">${list.length} Lektionen</p>`+list.map(l=> {
+    const group=l.level!==previous?`<h2 class="course-group">${esc(l.level)}</h2>`:'';previous=l.level;
+    const done=store.data.completed.includes(l.key),unlocked=course.unlocked(l.key);
+    return group+`<button class="lesson-row ${done?'done':''} ${unlocked?'':'locked'}" data-lesson="${esc(l.key)}" aria-label="${esc(l.title)}${unlocked?'':' · noch gesperrt'}"><span class="lesson-number">${done?'✓':unlocked?course.positions.get(l.key)+1:'⌑'}</span><span class="lesson-text"><strong>${esc(l.title)}</strong><small>${l.cards.length} Karten · ${l.xp??20} XP${done?' · abgeschlossen':''}</small></span><span class="chevron">›</span></button>`;
+  }).join('');
+}
+function openLesson(key) {
+  if(!course.unlocked(key)) {toast('Schließe zuerst die vorherige Lektion ab. Dein Lernweg führt dich der Reihe nach weiter.');return;}
+  state.session=new Session(course.byKey.get(key),course);navigate('lesson');
+}
+function pronunciation(card) {return card.approx??card.pron_de??card.pron??card.pronunciation??card.hint??'';}
+function cardView(card) {
+  return `<article class="learn-card"><div class="card-content"><span class="pill">Lernkarte ${state.session.index+1} / ${state.session.lesson.cards.length}</span><p class="jp" lang="ja">${esc(card.jp)}</p><p class="romaji">${esc(card.romaji)}</p><p class="translation">${esc(card.de)}</p>${pronunciation(card)?`<p class="pronunciation">Aussprachehilfe: ${esc(pronunciation(card))}</p>`:''}<div class="audio-actions"><button id="hear-normal">▷ Anhören</button><button id="hear-slow">▷ Langsam</button></div><p id="audio-status" class="speech-message" role="status"></p></div>
+  <div class="speech-panel"><button id="record" class="record-button">◉ Jetzt sprechen</button><p id="speech-status" class="speech-message" aria-live="polite">${esc(state.speechMessage)}</p><p class="speech-caption">Freiwillig · lokale Erkennung · Textvergleich, keine Aussprache-Note</p></div></article>`;
+}
+function explanation(card,lesson) {
+  const p=course.profile(card,lesson),ex=course.example(card);
+  return `<div class="explain"><h3>${esc(p.kind)}</h3><p>${esc(p.usage)}</p><h3>So funktioniert es</h3><p>${esc(p.explain)}</p>${p.parts?.length?`<ul>${p.parts.map(part=>`<li><strong lang="ja">${esc(part[0])}</strong> – ${esc(part[1])}</li>`).join('')}</ul>`:''}<h3>Ein Beispiel</h3><div class="example"><p class="jp" lang="ja">${esc(ex.jp)}</p><p class="romaji">${esc(ex.romaji)}</p><p>${esc(ex.de)}</p><button class="small ghost" id="hear-example">▷ Beispiel hören</button></div>${p.register?`<h3>Wann passt das?</h3><p>${esc(p.register)}</p>`:''}<h3>Achte darauf</h3><p>${esc(p.pitfall)}</p>${p.extra?.length?`<ul>${p.extra.map(x=>`<li>${esc(Array.isArray(x)?x.join(' · '):x)}</li>`).join('')}</ul>`:''}</div>`;
+}
+function lesson() {
+  const s=state.session;if(!s)return '';
+  const phase=PHASES.indexOf(s.phase);
+  return `<div class="lesson-layout"><div class="lesson-header"><button class="back-button" data-nav="course" aria-label="Zurück zum Lernweg">‹</button><div><h1>${esc(s.lesson.title)}</h1><span class="sub">${esc(s.lesson.level)} · ${s.mode==='recap'?'Abschlussrunde':`Karte ${s.index+1} von ${s.lesson.cards.length}`}</span></div></div>${teacherStrip()}${cardView(s.card)}
+  ${s.mode==='recap'?`<div class="info">Noch ${s.recap.length} Zuordnungen in der Abschlussrunde. Schwierige Karten kommen noch einmal dran.</div>`:`<div class="phase-track" aria-label="Schritt ${phase+1} von 6">${PHASES.map((p,i)=>`<span class="${i===phase?'current':i<phase?'past':''}"></span>`).join('')}</div>`}
+  <section class="card"><div class="task-header"><h2>${s.mode==='recap'?'Zum Abschluss':LABELS[s.phase]}</h2><span class="sub">${s.mode==='recap'?`${s.recap_passed+1} / ${s.recap_total}`:`${phase+1} / 6`}</span></div><div id="task">${task()}</div></section></div>`;
+}
+function task() {
+  const s=state.session;let html='';
+  if(s.mode==='recap')html='<p>Welche Bedeutung passt zu dieser Lernkarte?</p>'+options(s);
+  else if(s.phase==='understand')html=explanation(s.card,s.lesson);
+  else if(s.phase==='meaning')html='<p>Was bedeutet die japanische Form?</p>'+options(s);
+  else if(s.phase==='listen')html=`<p>Höre ein Beispiel aus den bereits geübten Karten. Welche Bedeutung passt?</p><div class="toolbar"><button class="primary" id="hear-task">▷ Hörbeispiel abspielen</button><button class="ghost" id="without-audio">Ohne Ton üben</button></div>${s.audio_skipped?'<p class="info warning">Du übst diese Zuordnung ohne Ton. Sie wird nicht als erfolgreiches Hörtraining gewertet.</p>':''}${options(s)}`;
+  else if(s.phase==='build') {
+    const parts=course.blocks(s.card,s.lesson);
+    html=parts.length?`<p>Setze die Bausteine in die richtige Reihenfolge.</p><div class="token-board" id="token-board">${s.tokens.length?s.tokens.map((v,i)=>`<button data-remove-token="${i}">${esc(parts[v])}</button>`).join(''):'<span class="sub">Tippe die Bausteine unten an.</span>'}</div><div class="tokens">${shuffle(parts.map((p,i)=>i),s.key).map(i=>`<button data-token="${i}" ${s.tokens.includes(i)||s.success?'disabled':''}>${esc(parts[i])}</button>`).join('')}</div><button class="ghost wide" id="check-build" ${s.success?'disabled':''}>Reihenfolge prüfen</button>`:'<p>Diese kurze Form hat keine getrennten Bausteine. Wähle ihre Lesung.</p>'+options(s);
+  } else if(s.phase==='write')html=`<p>Schreibe die Lesung in Romaji. Du darfst oben nachsehen.</p><form id="write-form"><label class="field"><span>Deine Lesung</span><input id="romaji-input" type="text" autocomplete="off" autocapitalize="none" spellcheck="false" enterkeyhint="done" placeholder="Romaji eingeben" ${s.success?'disabled':''}></label><button class="ghost wide" ${s.success?'disabled':''}>Lesung prüfen</button></form>`;
+  else if(s.phase==='apply')html=`<p>${esc(course.profile(s.card,s.lesson).scenario.question)}</p>${options(s)}`;
+  if(s.phase!=='understand'&&s.mode!=='recap')html+=`<details><summary>Erklärung und Beispiel ansehen ＋</summary>${explanation(s.card,s.lesson)}</details>`;
+  html+=`<div id="task-feedback" aria-live="polite">${feedback(s)}</div><div class="task-footer"><button id="advance" class="primary" ${s.phase==='understand'||s.success?'':'disabled'}>${s.phase==='understand'&&!s.success?'Verstanden · weiter':s.mode==='recap'&&s.recap.length===1?'Lektion abschließen':'Weiter →'}</button></div>`;
+  return html;
+}
+function options(s) {return `<div class="options">${s.answers().options.map((o,i)=>`<button class="option ${s.chosen===o?(s.success?'correct':'wrong'):''}" data-choice="${i}" ${s.success?'disabled':''}>${esc(o)}</button>`).join('')}</div>`;}
+function feedback(s) {return s.feedback?`<div class="feedback ${s.success?'correct':'wrong'}">${s.success?'✓ ':''}${esc(s.feedback)}</div>`:'';}
+function refreshTask() {$('#task').innerHTML=task();bindTask();}
+function bindTask() {
+  const s=state.session;
+  $$('[data-choice]').forEach(b=>b.onclick=()=>{s.choose(s.answers().options[Number(b.dataset.choice)]);refreshTask();});
+  $$('[data-token]').forEach(b=>b.onclick=()=>{s.tokens.push(Number(b.dataset.token));refreshTask();});
+  $$('[data-remove-token]').forEach(b=>b.onclick=()=>{if(!s.success){s.tokens.splice(Number(b.dataset.removeToken),1);refreshTask();}});
+  if($('#check-build'))$('#check-build').onclick=()=>{s.checkBuild();refreshTask();};
+  if($('#write-form'))$('#write-form').onsubmit=e=>{e.preventDefault();const value=$('#romaji-input').value;s.checkWrite(value);refreshTask();if($('#romaji-input'))$('#romaji-input').value=value;};
+  if($('#without-audio'))$('#without-audio').onclick=()=>{s.audio_skipped=true;s.feedback='';refreshTask();};
+  if($('#hear-task'))$('#hear-task').onclick=()=>play(s.listenCard.jp,true);
+  if($('#hear-example'))$('#hear-example').onclick=()=>play(course.example(s.card).jp);
+  $('#advance').onclick=()=>{
+    if(s.phase==='understand'&&!s.success)s.mark(true,'Verstanden.');
+    const result=s.advance();if(result==='blocked')return;
+    stopMedia();state.speechMessage='';
+    if(result==='complete'){state.completeLesson=s.lesson;navigate('complete');}
+    else {render();window.scrollTo({top:0,behavior:'instant'});}
+  };
+}
+function complete() {const l=state.completeLesson;return `<div class="completion"><div class="seal">✓</div><p class="eyebrow">Schritt für Schritt</p><h1>Gut gemacht!</h1><p>Du hast „${esc(l.title)}“ abgeschlossen.</p><p class="sub">${l.xp??20} XP für den ersten Abschluss dieser Lektion.</p><div class="card" style="margin-top:25px"><h2>Bereit für den nächsten Schritt?</h2><p class="sub">${esc(course.next().title)}</p><button class="primary wide" id="complete-next">Weiterlernen →</button></div><button class="ghost wide" data-nav="home">Zur Startseite</button></div>`;}
+function teachers() {
+  const selected=course.teacher();const detail=catalog.TEACHERS.find(t=>t.id===state.teacherDetail)??selected;
+  return heading('Deine Begleitung','Mit wem lernst du?','Acht Persönlichkeiten. Wähle die Begleitung, mit der du dich wohlfühlst.')+
+  `<section class="card"><div class="teacher-detail"><img src="assets/teachers/${detail.id}/avatar.png" alt=""><div><h2>${esc(detail.name)}</h2><p class="sub">${esc(detail.style)}</p><p class="sub">${esc(detail.voice)}</p></div></div><p class="sub">${esc(detail.detail)}</p><p class="sub"><strong>Schwerpunkt:</strong> ${esc(detail.focus)}</p><div class="toolbar"><button id="select-teacher" class="primary" ${detail.id===selected.id?'disabled':''}>${detail.id===selected.id?'✓ Ausgewählt':'Mit '+esc(detail.name)+' lernen'}</button><button id="teacher-voice" class="ghost">▷ Stimmprobe</button></div></section>
+  <div class="teacher-grid">${catalog.TEACHERS.map(t=>`<button class="teacher-tile ${t.id===selected.id?'selected':''}" data-teacher="${t.id}" aria-label="${esc(t.name)} ansehen"><img src="assets/teachers/${t.id}/card.png" alt="" loading="lazy">${t.id===selected.id?'<span class="selected-check">✓</span>':''}<div class="tile-copy"><strong>${esc(t.name)}</strong><p class="sub">${esc(t.style)}</p></div></button>`).join('')}</div>`;
+}
+function nextReview() {const available=course.available();const due=available.filter(c=>(store.data.review[c.key]?.due??0)<=Date.now()/1000);const pool=due.length?due:available;const old=state.review?.key;state.review=pool.find(c=>c.key!==old)??pool[0];state.revealed=false;}
+function review() {
+  if(!state.review)nextReview();const c=state.review;
+  return heading('Ein bisschen festigen','Was ist hängen geblieben?','Hier wiederholst du bereits kennengelernte Karten in deinem Tempo.')+
+  `<article class="card review-card"><span class="pill">${esc(c.lesson)}</span><p class="jp" lang="ja">${esc(c.jp)}</p><button id="review-audio" class="ghost small">▷ Anhören</button>${state.revealed?`<div style="margin-top:20px"><p class="romaji">${esc(c.romaji)}</p><p>${esc(c.de)}</p><div class="toolbar"><button id="review-again" class="ghost">Noch einmal</button><button id="review-known" class="primary">Gewusst ✓</button></div></div>`:`<button class="primary wide" id="reveal" style="margin-top:25px">Lesung & Bedeutung zeigen</button>`}</article><p class="sub">Ehrlich einschätzen hilft mehr als Raten. „Noch einmal“ legt die Karte früher wieder vor.</p><button class="ghost wide" data-nav="library">Alle gelernten Wörter ansehen</button>`;
+}
+function library() {return heading('Dein Nachschlagewerk','Wörter & Sätze','Lerne im Kurs weiter und fülle nach und nach deine persönliche Bibliothek.')+
+  `<label class="field"><span>Japanisch, Romaji oder Deutsch</span><input id="library-search" type="search" placeholder="Wort oder Satz suchen" value="${esc(state.libraryQuery)}"></label><label class="setting-row"><span>Auch noch nicht gelernte Karten anzeigen</span><input id="library-all" type="checkbox" ${store.data.library_all?'checked':''}></label><div id="library-results">${libraryRows()}</div>`;}
+function libraryRows() {const query=state.libraryQuery.normalize('NFKC').toLowerCase();const cards=course.available(store.data.library_all).filter(c=>[c.jp,c.de,c.romaji].join(' ').normalize('NFKC').toLowerCase().includes(query));return `<p class="sub">${cards.length} Karten${cards.length>60?' · zeige die ersten 60; grenze die Suche ein':''}</p>`+cards.slice(0,60).map(c=>`<article class="card library-card"><span class="sub">${esc(c.lesson)}</span><p class="jp" lang="ja">${esc(c.jp)}</p><p class="romaji">${esc(c.romaji)}</p><p>${esc(c.de)}</p><button class="small ghost" data-library-audio="${esc(c.key)}">▷ Anhören</button></article>`).join('');}
+function grammar() {return heading('Zum Nachlesen','Grammatik im Überblick','Kleine Erklärungen, die du jederzeit wieder aufschlagen kannst.')+catalog.GRAMMAR_TOPICS.map(([title,jp,romaji,text])=>`<article class="card library-card"><h2>${esc(title)}</h2><p class="jp" lang="ja">${esc(jp)}</p><p class="romaji">${esc(romaji)}</p><p class="sub">${esc(text)}</p></article>`).join('');}
+function progress() {const done=course.lessons.filter(l=>store.data.completed.includes(l.key));return heading('Dein Fortschritt','Jeder kleine Schritt zählt.')+
+  `<div class="stats"><div class="stat"><strong>${done.length}/150</strong><span>Lektionen</span></div><div class="stat accent"><strong>${store.data.xp} XP</strong><span>Erfahrung</span></div><div class="stat"><strong>${store.data.streak}</strong><span>Tage in Folge</span></div></div><section class="section">${course.stages.map(stage=>{const lessons=course.lessons.filter(l=>l.level===stage),count=lessons.filter(l=>store.data.completed.includes(l.key)).length;return `<article class="card"><div class="row"><h3>${esc(stage)}</h3><span class="sub">${count} / ${lessons.length}</span></div><div class="progress"><span style="width:${count/lessons.length*100}%"></span></div></article>`;}).join('')}</section><div class="info">Der Kurs ist ein Lernweg und keine JLPT- oder GER-Zertifizierung.</div>`;}
+function more() {return heading('Alles an einem Ort','Mehr für deinen Lernweg')+`<div class="list-menu">${[['library','Wörter & Sätze','Deine persönliche Bibliothek'],['grammar','Grammatik','Erklärungen zum Nachschlagen'],['progress','Fortschritt','Lektionen, XP und deine Lernserie'],['settings','Einstellungen','Stimmen, Updates und Lernstand sichern']].map(([page,title,desc])=>`<button class="menu-button" data-nav="${page}"><div>${title}<span>${desc}</span></div><b>›</b></button>`).join('')}</div>`;}
+function settings() {return heading('So passt es zu dir','Einstellungen')+
+  `<section class="card"><h2>Offline-Stimmen & Sprechen</h2><p class="sub">Die acht Lehrer-Stimmen und japanische Erkennung arbeiten mit dem Sprachpaket direkt auf deinem Handy. Aufnahmen werden nicht hochgeladen.</p><div id="models-box">${modelBox()}</div></section>
+  <section class="card"><h2>Lernen & Darstellung</h2><label class="field"><span>Sprechtempo · zusätzlich zum Lehrerprofil</span><select id="speed">${[.65,.8,.85,1,1.15].map(v=>`<option value="${v}" ${Math.abs(store.data.tts_speed-v)<.001?'selected':''}>${v.toLocaleString('de-DE')}× ${v===1?'· normal':''}</option>`).join('')}</select></label><label class="setting-row"><span>Sanfte Figurenbewegung</span><input id="motion" type="checkbox" ${store.data.motion_enabled?'checked':''}></label><label class="setting-row"><span>Kiko auf der Startseite</span><input id="kiko" type="checkbox" ${store.data.show_kiko?'checked':''}></label><p class="sub">Schriftgröße und Bildschirmzoom folgen zusätzlich deinen Android-Einstellungen.</p></section>
+  <section class="card"><h2>Lernstand sichern</h2><p class="sub">Eine JSON-Sicherung enthält XP, Lehrerauswahl und Lernschritte. Du kannst auch einen Export der Windows-Version übernehmen. Es gibt keine automatische Synchronisierung.</p><div class="toolbar"><button id="export" class="ghost">Exportieren</button><button id="import" class="ghost">Importieren</button></div><p class="sub">Bei Deinstallation löscht Android die App-Daten. Exportiere deinen Lernstand vorher. Bei einem App-Update bleiben sie erhalten.</p></section>
+  <section class="card"><h2>App-Updates</h2><p class="sub">Installiert: ${esc(state.caps.version)}</p><p class="sub">Updates werden erst auf deinen Wunsch geladen. Android bittet anschließend um deine Installationsbestätigung.</p><div id="updates-box">${updateBox()}</div></section>
+  <section class="card"><h2>Über den Trainer</h2><p class="sub">Kurs 11.0.1 · 150 Lektionen · 680 Lernkarten</p><p class="sub">Programmquellcode: GPL-3.0-or-later.<br>Sprachmodelle haben eigene Lizenzbedingungen.</p><button id="licenses" class="ghost wide">Lizenzen & Modellbedingungen</button></section>`;}
+function modelBox() {return state.caps.models?'<p class="info success">✓ Sprachpaket bereit. Stimmen und Erkennung sind offline verfügbar.</p>':
+  `<p class="download-status">${esc(state.modelStatus||`Einmaliger Download: ca. ${Math.round(state.caps.modelBytes/1e6)} MB. Für spätere App-Updates wird das Paket weiterverwendet.`)}</p>${state.modelBusy?`<div class="progress"><span style="width:${state.modelPercent}%"></span></div><button class="ghost wide" id="cancel-models">Download abbrechen</button>`:`<button class="primary wide" id="download-models">Sprachpaket laden</button>`}`;}
+function updateBox() {return `<p class="download-status" role="status">${esc(state.updateStatus)}</p><button class="ghost wide" id="check-updates" ${state.updateBusy?'disabled':''}>Nach Updates suchen</button>${state.updateAvailable?`<button style="margin-top:10px" class="primary wide" id="install-update" ${state.updateBusy?'disabled':''}>Update installieren</button>`:''}`;}
+function render() {
+  animationStop();document.body.classList.toggle('motion-off',!store.data.motion_enabled);
+  const pages={home,course:courseList,lesson,complete,teachers,review,library,grammar,progress,more,settings,
+    licenses:()=>heading('Informationen','Lizenzen & Modellbedingungen')+`<button class="ghost" data-nav="settings">‹ Einstellungen</button><pre class="licenses">${esc(state.licenseText)}</pre>`};
+  $('#app').innerHTML=(pages[state.page]??home)();
+  const active=['home','course','review','teachers'].includes(state.page)?state.page:['lesson','complete'].includes(state.page)?'course':'more';
+  $$('.bottom-nav button').forEach(b=>b.setAttribute('aria-current',b.dataset.page===active?'page':'false'));
+  bindNavigation();bindPage();if(saveError)showSaveError();
+}
+function bindNavigation() {$$('[data-nav]').forEach(b=>b.onclick=()=>navigate(b.dataset.nav));$$('[data-lesson]').forEach(b=>b.onclick=()=>openLesson(b.dataset.lesson));}
+function bindPage() {
+  if(state.page==='home') {$('#hero-resume').onclick=$('#next-resume').onclick=()=>openLesson(course.next().key);animateTeacher();}
+  if(state.page==='complete')$('#complete-next').onclick=()=>openLesson(course.next().key);
+  if(state.page==='course') {const update=()=>{$('#course-results').innerHTML=courseRows();bindNavigation();};$('#course-search').oninput=e=>{state.query=e.target.value;update();};$('#stage').onchange=e=>{state.stage=e.target.value;update();};}
+  if(state.page==='lesson') {$('#hear-normal').onclick=()=>play(state.session.card.jp);$('#hear-slow').onclick=()=>play(state.session.card.jp,false,true);$('#record').onclick=record;bindTask();refreshAudio();}
+  if(state.page==='teachers') {
+    $$('[data-teacher]').forEach(b=>b.onclick=()=>{stopMedia();state.teacherDetail=b.dataset.teacher;render();window.scrollTo(0,0);});
+    const t=catalog.TEACHERS.find(t=>t.id===state.teacherDetail)??course.teacher();
+    $('#select-teacher').onclick=()=>{store.data.teacher_id=t.id;store.data.speaker_id=t.speaker_id;save();render();toast(`${t.name} begleitet dich ab jetzt.`);};
+    $('#teacher-voice').onclick=()=>play(t.jp,false,false,t);
+  }
+  if(state.page==='review') {
+    $('#review-audio').onclick=()=>play(state.review.jp);
+    if($('#reveal'))$('#reveal').onclick=()=>{state.revealed=true;render();};
+    for(const [id,known] of [['review-again',false],['review-known',true]])if($('#'+id))$('#'+id).onclick=()=>{reviewCard(course,known,state.review);nextReview();render();};
+  }
+  if(state.page==='library') {
+    const update=()=>{$('#library-results').innerHTML=libraryRows();bindLibraryAudio();};
+    $('#library-search').oninput=e=>{state.libraryQuery=e.target.value;update();};
+    $('#library-all').onchange=e=>{store.data.library_all=e.target.checked;save();update();};bindLibraryAudio();
+  }
+  if(state.page==='settings') {
+    $('#speed').onchange=e=>{store.data.tts_speed=Number(e.target.value);save();};
+    $('#motion').onchange=e=>{store.data.motion_enabled=e.target.checked;save();document.body.classList.toggle('motion-off',!e.target.checked);};
+    $('#kiko').onchange=e=>{store.data.show_kiko=e.target.checked;save();};
+    $('#export').onclick=()=>{save();if(bridge)native('exportProfile',JSON.stringify(store.data,null,2));else toast('Datei-Export ist in der installierten Android-App verfügbar.');};
+    $('#import').onclick=()=>{if(bridge)native('importProfile');else toast('Datei-Import ist in der installierten Android-App verfügbar.');};
+    $('#licenses').onclick=async()=>{const [gpl,models,third]=await Promise.all(['LICENSE.txt','MODEL_LICENSES.txt','THIRD_PARTY_NOTICES.txt'].map(p=>fetch(p).then(r=>r.text())));state.licenseText=[gpl,models,third,'Android: sherpa-onnx 1.13.8 (Apache-2.0), AndroidX (Apache-2.0), Kotlin (Apache-2.0).'].join('\n\n');navigate('licenses');};
+    bindSettingsBoxes();
+  }
+}
+function bindSettingsBoxes() {
+  if($('#download-models'))$('#download-models').onclick=()=>bridge?native('downloadModels'):toast('Das Sprachpaket wird in der installierten Android-App geladen.');
+  if($('#cancel-models'))$('#cancel-models').onclick=()=>native('cancelDownload');
+  if($('#check-updates'))$('#check-updates').onclick=()=>bridge?native('checkUpdates'):toast('Die Update-Prüfung ist in der Android-App verfügbar.');
+  if($('#install-update'))$('#install-update').onclick=()=>{save();native('installUpdate');};
+}
+function refreshSettingsBoxes() {if($('#models-box'))$('#models-box').innerHTML=modelBox();if($('#updates-box'))$('#updates-box').innerHTML=updateBox();bindSettingsBoxes();}
+function bindLibraryAudio() {$$('[data-library-audio]').forEach(b=>b.onclick=()=>play(course.cards.find(c=>c.key===b.dataset.libraryAudio).jp));}
+function play(text,forListen=false,slow=false,teacher=course.teacher()) {
+  if(!bridge){toast('Die lokale Stimme läuft in der installierten Android-App.');return;}
+  if(!state.caps.models){toast('Bitte zuerst unter Einstellungen das Sprachpaket laden.');return;}
+  if(state.recording!=='idle'){toast('Bitte zuerst die Aufnahme beenden.');return;}
+  const id=`audio-${++requestCounter}`;state.audio={id,forListen,context:state.session?`${state.session.key}:${state.session.phase}`:'',message:'Stimme wird vorbereitet …'};
+  native('speak',text,teacher.speaker_id,Math.min(1.4,Math.max(.5,teacher.speed*store.data.tts_speed*(slow?.72:1))),id);refreshAudio();
+  if(state.page!=='lesson')toast('Stimme wird vorbereitet …');
+}
+function record() {
+  if(state.recording==='recording'){state.recording='recognizing';native('stopRecording',false);refreshAudio();return;}
+  if(state.recording!=='idle')return;
+  if(!bridge){toast('Das Mikrofon ist in der installierten Android-App verfügbar.');return;}
+  if(!state.caps.models){toast('Bitte zuerst unter Einstellungen das Sprachpaket laden.');return;}
+  native('stopAudio');state.audio=null;
+  const s=state.session,id=`speech-${++requestCounter}`;
+  state.speech={id,context:`${s.key}:${s.phase}`,target:course.speechTarget(s.card,s.lesson)};
+  state.recording='requesting';state.speechMessage='Mikrofon wird vorbereitet …';native('record',id);refreshAudio();
+}
+function refreshAudio() {
+  const button=$('#record');if(button) {button.textContent={idle:'◉ Jetzt sprechen',requesting:'Mikrofon wird vorbereitet …',recording:'■ Aufnahme beenden',recognizing:'Sprache wird erkannt …'}[state.recording];button.disabled=!['idle','recording'].includes(state.recording);button.classList.toggle('recording',state.recording==='recording');}
+  if($('#speech-status'))$('#speech-status').textContent=state.speechMessage;
+  if($('#audio-status'))$('#audio-status').textContent=state.audio?.message??'';
+}
+window.JTNative=(type,data={})=> {
+  if(!course)return;
+  if(type==='capabilities'){state.caps={...state.caps,...data};refreshSettingsBoxes();}
+  else if(type==='message')toast(data.message);
+  else if(type==='modelProgress'){state.modelBusy=true;state.modelPercent=data.done/data.total*100;state.modelStatus=`${Math.round(data.done/1e6)} / ${Math.round(data.total/1e6)} MB · ${Math.floor(state.modelPercent)} %`;refreshSettingsBoxes();}
+  else if(type==='modelsReady'){state.modelBusy=false;state.caps={...state.caps,...data};refreshSettingsBoxes();toast('Sprachpaket bereit. Du kannst jetzt offline hören und sprechen.');}
+  else if(type==='modelError'){state.modelBusy=false;state.modelStatus=data.message;refreshSettingsBoxes();toast(data.message);}
+  else if(type.startsWith('update')) {
+    if(type==='updateChecking'){state.updateBusy=true;state.updateStatus='Verbindung zu GitHub wird geprüft …';}
+    if(type==='updateCurrent'){state.updateBusy=false;state.updateAvailable=false;state.updateStatus='Du verwendest die aktuelle Android-Version.';}
+    if(type==='updateAvailable'){state.updateBusy=false;state.updateAvailable=true;state.updateStatus=`Version ${data.name} ist verfügbar. ${data.notes??''}`;}
+    if(type==='updateProgress'){state.updateBusy=true;state.updateStatus=`Update wird geladen: ${Math.floor(data.done/data.total*100)} %`;}
+    if(type==='updateReady'){state.updateBusy=false;state.updateAvailable=true;state.updateStatus='Download und Herausgeber geprüft. Android fragt nach deiner Bestätigung.';}
+    if(type==='updateError'){state.updateBusy=false;state.updateStatus=data.message;}
+    refreshSettingsBoxes();
+  } else if(type==='profileCandidate') {
+    try {const profile=cleanProfile(JSON.parse(data.json),true);native('confirmImport',JSON.stringify(profile));}catch(e){toast(e.message);}
+  } else if(type==='profileImported') {store.data=cleanProfile(data,true);state.session=null;state.review=null;navigate('home');toast('Lernstand übernommen.');}
+  else if(type==='audioCancelled'){state.audio=null;state.speech=null;state.recording='idle';state.speechMessage='';refreshAudio();}
+  else if(type.startsWith('audio')&&data.request===state.audio?.id) {
+    if(type==='audioLoading')state.audio.message='Stimme wird vorbereitet …';
+    if(type==='audioStarted')state.audio.message='Wiedergabe läuft …';
+    if(type==='audioDone') {if(state.audio.forListen&&state.session&&state.audio.context===`${state.session.key}:${state.session.phase}`)state.session.audio_seen=true;state.audio=null;}
+    if(type==='audioError'){toast(data.message);state.audio.message=data.message;}
+    refreshAudio();
+  } else if(data.request===state.speech?.id) {
+    if(type==='recording'){state.recording='recording';state.speechMessage='Sprich jetzt. Nach spätestens 15 Sekunden endet die Aufnahme.';}
+    if(type==='recognizing'){state.recording='recognizing';state.speechMessage='Dein Handy wertet die Aufnahme lokal aus …';}
+    if(type==='speechError'){state.recording='idle';state.speechMessage=data.message;state.speech=null;}
+    if(type==='speechResult') {
+      state.recording='idle';const s=state.session;
+      if(s&&state.speech.context===`${s.key}:${s.phase}`) {
+        const target=state.speech.target,matched=speechMatch(data.text,[target.target,...(target.accept??[])]);
+        state.speechMessage=`Erkannt: „${data.text}“\n${matched?'Der erkannte Text passt zur Vorlage.':'Der Text weicht von der Vorlage ab. Höre noch einmal und probiere es erneut. Das ist keine Aussprache-Note.'}`;
+        const old=store.data.speech_scores[target.target]??{};
+        store.data.speech_scores[target.target]={best:Math.max(Number(old.best)||0,matched?100:0),last:matched?100:0,heard:data.text};
+        s.metrics().speech_attempts++;store.touch();save();
+      }
+      state.speech=null;
+    }
+    refreshAudio();
+  }
+};
+window.JTBack=()=> {if(state.page==='home')native('closeApp');else navigate(state.page==='lesson'?'course':state.page==='licenses'?'settings':'home');};
+async function animateTeacher() {
+  const canvas=$('#teacher-canvas');if(!canvas)return;
+  const t=course.teacher(),ctx=canvas.getContext('2d');let alive=true,raf=0;
+  animationStop=()=>{alive=false;cancelAnimationFrame(raf);};
+  const load=src=>new Promise(resolve=>{const image=new Image();image.onload=()=>resolve(image);image.onerror=()=>resolve(null);image.src=src;});
+  const base=await load(`assets/teachers/${t.id}/full.png`);if(!alive||!base)return;
+  const expression=expressions.expressions[t.id],blink=blinkIndex[t.id];
+  const mouth=await load(`assets/animation/${t.id}/${expression.idle.file}`);
+  const frames=await Promise.all((blink?.frames??[]).map(file=>load(`assets/animation/${t.id}/${file}`)));
+  const drawPatch=(image,box)=>{if(image)ctx.drawImage(image,box[0]/2,box[1]/2,(box[2]-box[0])/2,(box[3]-box[1])/2);};
+  const start=performance.now();let last=-2;
+  const draw=now=> {
+    if(!alive)return;
+    const moving=store.data.motion_enabled&&!matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const tick=moving?(now-start)%5200:1000;const position=tick<320?Math.min(4,Math.floor((tick<160?tick:320-tick)/32)):-1;
+    if(position!==last){ctx.clearRect(0,0,512,768);ctx.drawImage(base,0,0,512,768);drawPatch(mouth,expression.idle.bbox);if(position>=0)drawPatch(frames[position],blink.bbox);last=position;}
+    if(moving)raf=requestAnimationFrame(draw);
+  };
+  draw(performance.now());
+}
+async function start() {
+  const files=['data/course.json','data/catalog.json','data/deep_lessons.json','assets/animation/blink_index.json','assets/animation/expressions.json'];
+  const [raw,c,d,b,e]=await Promise.all(files.map(p=>fetch(p).then(r=>{if(!r.ok)throw Error('Kursdatei fehlt: '+p);return r.json();})));
+  catalog=c;blinkIndex=b;expressions=e;
+  let profile={};try{profile=JSON.parse(bridge?native('getProfile'):localStorage.getItem('jt-mobile-profile')??'{}');}catch(error){toast('Lernstand ist nicht lesbar. Bitte eine Sicherung importieren.');}
+  store=new Store(profile,persist);course=new Course(raw,c,d,store);
+  if(bridge)state.caps={...state.caps,...JSON.parse(native('getCapabilities'))};
+  else {const pack=await fetch('model-pack.json').then(r=>r.json());state.caps.modelBytes=pack.bytes;}
+  $$('.bottom-nav button').forEach(button=>button.onclick=()=>navigate(button.dataset.page));
+  $('#settings-shortcut').onclick=()=>navigate('settings');$('.brand').onclick=e=>{e.preventDefault();navigate('home');};
+  document.addEventListener('visibilitychange',()=>{if(document.hidden){stopMedia();save();}});
+  document.addEventListener('focusin',e=>{if(e.target.matches('input[type=text],input[type=search]'))document.body.classList.add('keyboard');});
+  document.addEventListener('focusout',()=>{setTimeout(()=>{if(!document.activeElement.matches('input[type=text],input[type=search]'))document.body.classList.remove('keyboard');},100);});
+  render();document.documentElement.dataset.ready='true';
+}
+start().catch(error=>{$('#app').innerHTML=`<div class="info error"><h1>Start nicht möglich</h1><p>${esc(error.message)}</p><p>Bitte starte die App erneut. Deine Lernstand-Datei wird nicht absichtlich gelöscht.</p></div>`;console.error(error);});

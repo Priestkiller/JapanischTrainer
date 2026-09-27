@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#07172d">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; object-src 'none'; frame-src 'none'; base-uri 'none'">
+  <title>JapanischTrainer</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar"><a class="brand" href="#home" aria-label="JapanischTrainer Startseite"><span class="brand-mark" lang="ja">日</span><span>Japanisch<span class="brand-light">Trainer</span></span></a><button id="settings-shortcut" class="icon-button" aria-label="Einstellungen öffnen">⚙</button></header>
+  <main id="app" tabindex="-1"><div class="loading"><span lang="ja">ようこそ</span><p>Dein Lernweg wird geöffnet …</p></div></main>
+  <nav class="bottom-nav" aria-label="Hauptnavigation">
+    <button data-page="home"><span aria-hidden="true">⌂</span>Start</button>
+    <button data-page="course"><span aria-hidden="true">▤</span>Lernweg</button>
+    <button data-page="review"><span aria-hidden="true">↻</span>Üben</button>
+    <button data-page="teachers"><span aria-hidden="true">✿</span>Lehrer</button>
+    <button data-page="more"><span aria-hidden="true">•••</span>Mehr</button>
+  </nav>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <script type="module" src="app.mjs"></script>
+</body>
+</html>
