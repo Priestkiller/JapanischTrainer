@@ -2,8 +2,8 @@
 
 ## Einmal installieren
 
-1. Öffne auf dem Handy die [Android-Downloadseite](https://github.com/Priestkiller/JapanischTrainer/releases/tag/android-v11.0.2-1).
-2. Lade **JapanischTrainer-11.0.2-Android.apk** herunter und öffne die Datei.
+1. Öffne auf dem Handy die [Android-Downloadseite](https://github.com/Priestkiller/JapanischTrainer/releases/tag/android-v11.0.4-1).
+2. Lade **JapanischTrainer-11.0.4-Android.apk** herunter und öffne die Datei.
 3. Bestätige die Android-Installation. Falls Android fragt, erlaube der verwendeten Download-App die Installation dieser APK.
 4. Öffne **JapanischTrainer**. Kursübersicht und Nachschlagewerk stehen sofort bereit.
 5. Öffne das Zahnrad → **Offline-Stimmen & Sprechen** und lade das Sprachpaket einmalig, am besten über WLAN. Der Download ist rund 284 MB groß; halte währenddessen ungefähr 900 MB Speicher frei und lasse die App geöffnet. Bei einem Abbruch kannst du den Download erneut starten.
@@ -80,6 +80,11 @@ Zahnrad → **App-Updates** → **Nach Updates suchen**. Wenn eine neue Android-
 vorliegt, kannst du sie dort laden und die Installation in Android bestätigen.
 Die App prüft Datei und Herausgeber. Android kann dafür eine einmalige
 Installationsfreigabe für JapanischTrainer verlangen.
+
+Ab 11.0.4 gibt es daneben **Testversion suchen**. Dieser Button sucht bewusst
+nach neueren Vorabversionen in einem getrennten Kanal. Der normale Button bleibt
+bei regulären Ausgaben. Ohne neueres Testpaket wird das ausdrücklich angezeigt.
+Du brauchst zuerst das reguläre Update auf 11.0.4, um den neuen Button zu erhalten.
 
 **Vor einem Update nicht deinstallieren.** Lernstand und Sprachpaket bleiben bei
 einer Aktualisierung erhalten. Eine Deinstallation löscht dagegen die lokalen

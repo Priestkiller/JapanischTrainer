@@ -1,6 +1,4 @@
-> Lokaler Teststand 11.0.3: zweites Inhaltspaket mit 25 Lektionen / 121 Karten umgesetzt; nicht veröffentlicht. [Lokaler Prüfbericht](TESTBERICHT_11.0.3_LOKAL.md).
-
-> Aktuell: [Windows 11.0.2](https://github.com/Priestkiller/JapanischTrainer/releases/tag/v11.0.2) und [Android 11.0.2-android.1](https://github.com/Priestkiller/JapanischTrainer/releases/tag/android-v11.0.2-1). 30 Einstiegslektionen vertieft; [Änderungen](RELEASE_NOTES_11.0.2.md), [Prüfungen](TESTBERICHT_11.0.2.md).
+> Ausgabe 11.0.4: [Windows](https://github.com/Priestkiller/JapanischTrainer/releases/tag/v11.0.4) und [Android](https://github.com/Priestkiller/JapanischTrainer/releases/tag/android-v11.0.4-1). Zweites Inhaltspaket mit weiteren 25 Lektionen / 121 Karten und separater Test-Update-Button. [Änderungen](RELEASE_NOTES_11.0.4.md), [Testversionen](TESTVERSIONEN.md).
 
 # JapanischTrainer
 
@@ -21,7 +19,7 @@ werden separat mit Ed25519 signiert und in der App geprüft.
 
 ### Android
 
-[Android-APK und Installationshilfe](https://github.com/Priestkiller/JapanischTrainer/releases/tag/android-v11.0.1-3)
+[Android-APK und Installationshilfe](https://github.com/Priestkiller/JapanischTrainer/releases/tag/android-v11.0.4-1)
 für Android 9+ mit ARM64, darunter das Samsung Galaxy S24 Ultra. Die erste
 Android-Version wird als Vorschau veröffentlicht. Sie hat eine eigene
 Handy-Oberfläche mit Navigation am unteren Rand, großen Bedienelementen,
