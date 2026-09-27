@@ -69,7 +69,7 @@ def export(out):
         for nk,node in scene['nodes'].items():
             scene_text.append(f"#### Knoten `{nk}`\n\nQuelle: `mobile/web/talk.mjs: SCENES[{scene['id']}].nodes.{nk}`\n\n```json\n{json.dumps(node,ensure_ascii=False,indent=2)}\n```")
         scene_text.append('Vorwissen bleibt pro Gespräch fachlich zu prüfen. Unbekannte Antworten führen zu einer Rückfrage, Wiederholungsbitten bleiben am Knoten. Erkannten Text kann man korrigieren; Hilfen liefern ganze Antwortvarianten. Abschluss bleibt von Kurs-XP und Freischaltung getrennt. Die automatisierten Routentests prüfen erreichbare Ziele, keine freie Konversationsfähigkeit.')
-    md('BESTAND.md',f'''# Kursbestand {d['content_version']} – lokaler Teststand
+    md('BESTAND.md',f'''# Kursbestand {d['content_version']} – veröffentlichter Stand
 
 Ausgangscommit vor Umsetzung: `{BASE}`. Laufzeitquellen: `data/course.json`, `data/catalog.json`, `data/deep_lessons.json`; beide Plattformen verwenden diese Quellen. Android kopiert sie mit `mobile/tools/prepare_assets.py`, Windows mit `tools/stage_release.py`.
 
@@ -90,7 +90,7 @@ Alle fünf tatsächlich vorhandenen Szenen, Knoten, Muster und Folgeknoten folge
 ''')
     md('LUECKEN_UND_SPRUENGE.md','''# Belegte Befunde und verbleibende Lücken
 
-Stand: Paket 01 veröffentlicht mit 11.0.2, Paket 02 lokal mit 11.0.3 umgesetzt; keine vollständige Fachabnahme.
+Stand: Paket 01 veröffentlicht mit 11.0.2, Paket 02 zunächst lokal mit 11.0.3 umgesetzt und mit 11.0.4 veröffentlicht; keine vollständige Fachabnahme.
 
 | Priorität | Fundstelle | Befund am Ausgangsstand | Umsetzung / Rest |
 | --- | --- | --- | --- |
@@ -115,7 +115,7 @@ Offen: eigene sprachliche Einzelprüfung der übrigen 95 Lektionen, menschliche 
         l=raw[m['lektion']][0];g=l['study_guide']
         package.append(f"## {m['position']}. {m['titel']} (`{m['lektion']}`)\n\nArt: Überarbeitung. Position unverändert.\n\nZiel: {m['lernziel']}\n\nVoraussetzungen: {m['vorwissen'] or 'keine'}.\n\n"+'\n\n'.join(g['points'])+f"\n\nAbruf / Wiederholung: {g['recall']}\n\nÜbungen: bestehende sechs Schritte; situationsbezogene Ergänzungen siehe Kartenmatrix. Gesprächsbezug: Grundlagen für Kennenlernen; bei Aussprache und Schrift auch für alle weiteren Szenen. Eine vollständige Gesprächsvorbereitung wird daraus nicht abgeleitet.")
     md('PAKET_01.md','\n\n'.join(package))
-    second=['# Paket 02: in Windows und Android umgesetzt, lokal 11.0.3',
+    second=['# Paket 02: in Windows und Android umgesetzt, veröffentlicht mit 11.0.4',
       '25 bestehende Lektionen / 121 Karten. Keine neue Lektion nötig: vorhandene Einheiten bieten Platz für lokale Wort- und Mustererklärungen, Anwendung und spätere Wiederaufnahme. Keine Änderung an IDs, Kartenpositionen, learning_order, Kursrevision 11, Speicherschema oder Android FLOW_REVISION 2. Die ersten 30 Lektionen sind unverändert; ihr Inhalt und sämtliche Kartenidentitäten werden gegen einen gespeicherten 11.0.2-Vertrag getestet.',
       '## Auswahl anhand der Befunde',
       'Partikeln und Fragen an Position 31–41 werden gebraucht, bevor Orts- und Alltagssätze funktionieren. Position 54–58 setzt diese Markierungen in Handlungssätzen um. Zimmer/Positionen (62–63) und Richtungen (77) bereiten Standort und Wegbeschreibung vor. Smalltalk/Hobbys (86–87) bereiten echte Rückfragen beim Kennenlernen vor. Die späten Dialoge (130/133) und Lesetexte (135/136) geben diesen Formen eine spätere Anwendung. Zahlen-, Einkaufs- und andere Zwischenlektionen werden nicht nur wegen ihrer Position angefasst.',
@@ -126,7 +126,7 @@ Offen: eigene sprachliche Einzelprüfung der übrigen 95 Lektionen, menschliche 
       '| Szene / Knoten | Vorbereitete Verbindung | Noch offen |\n| --- | --- | --- |\n| meeting / name, country | Paket 01: Name + です; Paket 02 dialog-meeting: どこからきましたか, ドイツからきました | Weitere Herkunftswörter Österreich/Schweiz; Kanji-Lesevarianten und vollständiges Verstehen aller Lehreraussagen |\n| meeting / hobby, ask | hobbies: おんがく・りょこう + がすきです; Rückfrage しゅみはなんですか; smalltalk: いいですね | Anime-Zweig und vollständige Bitte 私にも何か聞いてください sowie Abschiedsformulierungen sind nicht vollständig vorbereitet |\n| directions / destination, detail, right | here-there, directions, dialog-directions: Bahnhof/Toilette, Ortsfrage, geradeaus/rechts, Rückbestätigung; Lernhilfe für feste て-Bitten | Convenience-Store-Wort, vollständige Sequenz ～てから und sämtliche Hörvarianten noch nicht einzeln abgeglichen |\n| directions / time, thanks | Verständnisbestätigung, Dank; clock-minutes existiert außerhalb dieses Pakets | 歩いて何分・ぐらい, Begrüßungs-/Abschiedsformeln und jede alternative Route benötigen weitere Vorbereitung |\n| cafe, shopping, weekend | Allgemeine Partikel, Fragen, Orts- und Zeitmuster werden gefestigt | Temperatur/Größe, Mitnehmen, Zahlung, Wunschformen und Auswahlzweige bleiben Folgepakete; keine Vollabdeckung behauptet |',
       'Der Gesprächsraum bleibt Android-only. Keine Gesprächs-, Lehrer-, Modell- oder Audioänderung durch Paket 02.',
       '## Prüfgrenzen',
-      'Erfassung: alle Kursquellen und acht ursprünglichen Berichte ausgewertet; Matrizen neu aus den veränderten Quellen erzeugt. Eigene sprachliche Durchsicht: alle ausgewählten Ziele, Guides, Kartenprofile, Beispiele und Aufgaben. Belegte Funktionsprobleme siehe LUECKEN_UND_SPRUENGE.md. Aussagen zu Natürlichkeit, Nuancen von は/が, Gesprächston und Angemessenheit sind keine muttersprachliche Abnahme. Menschliche Fachprüfung und Anfänger-Durchlauf offen. Automatische Tests und Build-Prüfungen stehen getrennt in TESTBERICHT_11.0.3_LOKAL.md.']
+      'Erfassung: alle Kursquellen und acht ursprünglichen Berichte ausgewertet; Matrizen neu aus den veränderten Quellen erzeugt. Eigene sprachliche Durchsicht: alle ausgewählten Ziele, Guides, Kartenprofile, Beispiele und Aufgaben. Belegte Funktionsprobleme siehe LUECKEN_UND_SPRUENGE.md. Aussagen zu Natürlichkeit, Nuancen von は/が, Gesprächston und Angemessenheit sind keine muttersprachliche Abnahme. Menschliche Fachprüfung und Anfänger-Durchlauf offen. Automatische Tests und Build-Prüfungen stehen getrennt in TESTBERICHT_11.0.4.md; die öffentliche Prüfung in VEROEFFENTLICHUNG_11.0.4.md. TESTBERICHT_11.0.3_LOKAL.md bleibt der historische Nachweis des ersten lokalen Paketstands.']
     for m in package2:
         l=raw[m['lektion']][0];g=l['study_guide']
         second.append(f"## {m['position']}. {m['titel']} (`{m['lektion']}`)\n\n{m['karten']} bestehende Karten. Ziel: {m['lernziel']}\n\nVoraussetzungen: {m['vorwissen']}.\n\n"+'\n\n'.join(g['points'])+f"\n\nAbruf: {g['recall']}\n\nExplizite spätere Wiederaufnahme früherer Lektionen: {', '.join(g.get('retrieves',[])) or 'Abrufimpuls und bestehende Abschlussrunde'}.\n\nNeue Transferfrage: {l['cards'][0]['detail']['scenario']['question']}")
@@ -137,7 +137,7 @@ Paket 01 und 02 sind in gemeinsamen Kursdaten und beiden Programmen umgesetzt. P
 
 | Folgepaket | Ziel / Position | Umfang als Planung | Erklärungen und Übungen | Gespräch / Abnahme |
 | --- | --- | --- | --- | --- |
-| 02: Satzbau und Rückfragen – lokal umgesetzt | Positionen 31–41, 54–58, 62–63, 77, 86–87, 130, 133, 135–136 | 25 Überarbeitungen, 121 Karten, keine neue Lektion | 75 Guide-Absätze, 25 zusätzliche Transferfragen, Fehlantwortbegründungen und spätere Wiederaufnahme | Kennenlernen, einfache Ortsfrage und Wegverständnis verbessert; nicht alle Gesprächszweige abgedeckt, menschliche Abnahme offen |
+| 02: Satzbau und Rückfragen – veröffentlicht | Positionen 31–41, 54–58, 62–63, 77, 86–87, 130, 133, 135–136 | 25 Überarbeitungen, 121 Karten, keine neue Lektion | 75 Guide-Absätze, 25 zusätzliche Transferfragen, Fehlantwortbegründungen und spätere Wiederaufnahme | Kennenlernen, einfache Ortsfrage und Wegverständnis verbessert; nicht alle Gesprächszweige abgedeckt, menschliche Abnahme offen |
 | 03: Einkaufen und Café | Auf Partikeln und Zahlen aufbauen | 15–25 Überarbeitungen; 0–6 neue Brücken nach Prüfung der tatsächlichen Gesprächszweige | Preise, Mengen, Temperatur, Größen, Mitnehmen und Bezahlen als echte Auswahlaufgaben | Beide Szenen mit mindestens zwei verschiedenen Wegen ohne ungelernte Pflichtantwort absolvieren |
 | 04: Zeit und Verabredungen | Auf Zeitangaben, Verben und Einladungen aufbauen | 15–25 Überarbeitungen; 0–5 Ergänzungen bei nachgewiesenen Lücken | Tag/Uhrzeit/Treffpunkt austauschen, Alternativen anbieten, später erneut abrufen | Wochenendszene; menschliche Sprachprüfung und Anfänger-Durchlauf |
 | 05: Lesen und Wiederholen | Über mehrere Kapitel verteilt, nach den jeweiligen Formen | 10–20 bestehende Lektionen prüfen; neue Anzahl offen | Kurze ungesehene Texte mit bekanntem Wortschatz; zeitlich versetzter Abruf und echte Verständnisfragen | Inhalt beantworten statt Vorlage kopieren; jede falsche Auswahl begründbar |
@@ -150,9 +150,9 @@ Fachliche Abnahme: muttersprachliche Person prüft Natürlichkeit, Bedeutungen u
 
 {len(matrix)} eindeutige Lektionszeilen und {len(cards)} eindeutige Kartenzeilen; vollständige Abdeckung der tatsächlichen Kursquellen. {len(edges)} getrennt typisierte Beziehungen; alle Ziele vorhanden, alle hier explizit modellierten Voraussetzungskanten zeigen auf eine frühere Lektion und sind damit zyklenfrei. Unbekannte implizite Voraussetzungen bleiben unbekannt.
 
-Erfassung: alle 150 Lektionen / 680 Karten. Eigene sprachliche Durchsicht und Überarbeitung: 55 Lektionen / 259 Karten (Paket 01: 30/138, Paket 02: 25/121). Vollständige fachliche Prüfung aller 150 Lektionen: **nicht abgeschlossen**. Menschliche Sprach- und Anfängerprüfung: **nicht ausgeführt**. Automatische Programmtests sind getrennt im lokalen Testbericht dokumentiert und keine Sprachabnahme.
+Erfassung: alle 150 Lektionen / 680 Karten. Eigene sprachliche Durchsicht und Überarbeitung: 55 Lektionen / 259 Karten (Paket 01: 30/138, Paket 02: 25/121). Vollständige fachliche Prüfung aller 150 Lektionen: **nicht abgeschlossen**. Menschliche Sprach- und Anfängerprüfung: **nicht ausgeführt**. Automatische Programmtests sind getrennt im technischen Testbericht dokumentiert und keine Sprachabnahme.
 
-Export: `python tools/audit_course.py --output <Zielordner>`. Fachliche Ausgaben enthalten keine Laufzeitstempel. Gleiche Eingabedateien einschließlich redaktioneller Guides und dieses Skripts ergeben dieselben Berichte. Neue Programmtests und lokale Builds stehen separat in `TESTBERICHT_11.0.3_LOKAL.md`; der Bericht für 11.0.2 bleibt historische Evidenz.
+Export: `python tools/audit_course.py --output <Zielordner>`. Fachliche Ausgaben enthalten keine Laufzeitstempel. Gleiche Eingabedateien einschließlich redaktioneller Guides und dieses Skripts ergeben dieselben Berichte. Aktuelle Programmtests und Builds stehen in `TESTBERICHT_11.0.4.md`, die öffentliche Kontrolle in `VEROEFFENTLICHUNG_11.0.4.md`; Berichte für 11.0.2 und den lokalen Stand 11.0.3 bleiben historische Evidenz.
 
 Die Lehrtexte wurden eigenständig formuliert. Abgleich einzelner Schrift-/Leseregeln mit [Kana-Übersicht der Japan Foundation](https://www.irodori.jpf.go.jp/assets/data/Kana_all.pdf), Vorstellungen mit [Irodori Starter, Lektion 3](https://www.irodori.jpf.go.jp/assets/data/starter/pdf/X_L03.pdf). Diese Stichproben sind keine komplette externe Kursvalidierung.
 
