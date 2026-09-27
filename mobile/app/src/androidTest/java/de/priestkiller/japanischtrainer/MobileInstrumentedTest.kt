@@ -12,12 +12,22 @@ import org.json.JSONArray
 import java.io.File
 import android.graphics.Bitmap
 import android.content.pm.ActivityInfo
+import android.webkit.WebView
 
 @RunWith(AndroidJUnit4::class)
 class MobileInstrumentedTest {
-    private fun screenshot(name:String) {
-        Thread.sleep(500)
+    private fun screenshot(scenario:ActivityScenario<MainActivity>,name:String) {
         val instrumentation=InstrumentationRegistry.getInstrumentation()
+        // JavaScript completion can precede the WebView compositor by several frames.
+        val rendered=CountDownLatch(1)
+        scenario.onActivity { activity ->
+            activity.web.postVisualStateCallback(System.nanoTime(),object:WebView.VisualStateCallback() {
+                override fun onComplete(requestId:Long) { activity.web.invalidate(); rendered.countDown() }
+            })
+        }
+        check(rendered.await(15,TimeUnit.SECONDS)) { "WebView did not finish drawing" }
+        instrumentation.waitForIdleSync()
+        Thread.sleep(2000)
         val folder=File(requireNotNull(InstrumentationRegistry.getArguments().getString("additionalTestOutputDir"))).apply { mkdirs() }
         val bitmap=instrumentation.uiAutomation.takeScreenshot()
         File(folder,"$name.png").outputStream().use { bitmap.compress(Bitmap.CompressFormat.PNG,100,it) }
@@ -37,11 +47,11 @@ class MobileInstrumentedTest {
         ActivityScenario.launch(MainActivity::class.java).use { scenario ->
             waitFor(scenario,"document.documentElement.dataset.ready === 'true'")
             assertEquals("true",eval(scenario,"document.documentElement.scrollWidth <= innerWidth"))
-            screenshot("android-home")
+            screenshot(scenario,"android-home")
             eval(scenario,"document.querySelector('#hero-resume').click()")
             waitFor(scenario,"!!document.querySelector('#record')")
             assertEquals("true",eval(scenario,"document.body.innerText.includes('Aussprachehilfe:')"))
-            screenshot("android-lesson")
+            screenshot(scenario,"android-lesson")
             eval(scenario,"document.querySelector('#advance').click()")
             assertEquals("true",eval(scenario,"!!document.querySelector('[data-choice]')"))
             scenario.recreate()
@@ -55,11 +65,12 @@ class MobileInstrumentedTest {
             scenario.onActivity { it.web.settings.textZoom=150 }
             Thread.sleep(500)
             assertEquals("true",eval(scenario,"document.documentElement.scrollWidth <= innerWidth"))
-            screenshot("android-settings-large-text")
+            screenshot(scenario,"android-settings-large-text")
             scenario.onActivity { it.requestedOrientation=ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE }
-            waitFor(scenario,"document.documentElement.dataset.ready === 'true'")
+            InstrumentationRegistry.getInstrumentation().waitForIdleSync()
+            waitFor(scenario,"innerWidth > innerHeight && document.documentElement.dataset.ready === 'true' && !!document.querySelector('#hero-resume')")
             assertEquals("true",eval(scenario,"document.documentElement.scrollWidth <= innerWidth"))
-            screenshot("android-landscape")
+            screenshot(scenario,"android-landscape")
         }
     }
     @Test fun realAndroidSpeechModelInferenceWithoutMicrophone() {
