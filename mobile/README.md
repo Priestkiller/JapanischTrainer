@@ -63,6 +63,21 @@ Der Build erzeugt zunächst eine **unsignierte** Release-APK. Der private
 Herausgeberschlüssel bleibt ausschließlich lokal und wird nicht in CI hochgeladen.
 Ein Signierschlüssel muss für künftige Updates dauerhaft erhalten bleiben.
 
+Zum Signieren unter Windows dient `tools/Sign-Android.ps1` mit JDK 17 und den
+Android Build-Tools 35. Der lokal erzeugte Schlüssel und seine Passwortdatei liegen
+im ignorierten Verzeichnis `mobile/.keys/`. Beide müssen gemeinsam sicher gesichert
+werden. Nicht veröffentlichen, nicht in CI hochladen und für Updates nicht ersetzen.
+Der öffentliche SHA-256-Zertifikatsfingerabdruck dieser Android-Ausgabe lautet
+`3b1c1e4beade1312d7b593007c6fb59d6ad08e2677e58cbe5e25f821f36f28b9`.
+
+`tools/package_release.py --apk <signierte-APK> --commit <Quellcommit>` erzeugt
+APK-Paket, Git-Quellarchiv, Anleitung, Prüfbericht, Update-Metadaten und Prüfsummen
+unter `mobile/release/`. Für eine neue Version müssen Android-`versionCode`,
+`versionName`, `android-version.json` und die Release-Adresse gemeinsam erhöht
+werden. Android-Releases heißen `android-v…`, bleiben außerhalb von GitHubs
+Windows-`latest` und enthalten `android-update.json`. Das Sprachpaket liegt
+unabhängig davon unter `android-models-v1` und wird bei App-Updates weiterverwendet.
+
 Die Animation nutzt vorhandene geschlossene Mund- und Blinkbilder mit sanfter
 Bewegung. Die aufwendige Windows-Verformung mit OpenCV wird nicht auf dem Handy
 ausgeführt. Android-Schriftgröße, geringe Bewegungspräferenz und Bildschirmausschnitte

@@ -1,7 +1,7 @@
 # JapanischTrainer
 
-Deutschsprachiger Offline-Lerntrainer für Windows 10/11 x64 mit nativer Oberfläche,
-acht Lehrern, 150 Lektionen, 680 Lernkarten und lokalen Sprachmodellen.
+Deutschsprachiger Offline-Lerntrainer für Windows 10/11 x64 und Android,
+mit acht Lehrern, 150 Lektionen, 680 Lernkarten und lokalen Sprachmodellen.
 
 ## Download
 
@@ -15,12 +15,28 @@ Einspielen neu. Unveränderte Sprachmodelle bleiben auf dem Rechner.
 Der Windows-Installer hat kein Authenticode-Zertifikat; die Update-Metadaten
 werden separat mit Ed25519 signiert und in der App geprüft.
 
+### Android
+
+[Android-APK und Installationshilfe](https://github.com/Priestkiller/JapanischTrainer/releases/tag/android-v11.0.1-1)
+für Android 9+ mit ARM64, darunter das Samsung Galaxy S24 Ultra. Die erste
+Android-Version wird als Vorschau veröffentlicht. Sie hat eine eigene
+Handy-Oberfläche mit Navigation am unteren Rand, großen Bedienelementen,
+Hoch-/Querformat und denselben Kursdaten wie Windows.
+
+APK installieren und einmalig in den Einstellungen das Sprachpaket laden
+(ca. 284 MB). Danach sind Lehrer-Stimmen und Spracherkennung offline verfügbar.
+Der Update-Button erhält Lernstände und Sprachpaket. Details:
+[Android-Anleitung](mobile/INSTALLIEREN_ANDROID.md) und
+[Android-Technik und Build](mobile/README.md).
+
 ## Lernen und Datenschutz
 
 Lernen, Sprachausgabe und Erkennung arbeiten lokal. Die manuelle Update-Prüfung
 verbindet sich mit GitHub; Mikrofonaufnahmen werden dabei nicht übertragen.
-Lernstand und Einstellungen liegen unter `%APPDATA%\JapanischTrainer` und bleiben
+Unter Windows liegen Lernstand und Einstellungen unter `%APPDATA%\JapanischTrainer` und bleiben
 bei Updates und Deinstallation erhalten.
+Android speichert sie im privaten App-Speicher; vor einer Android-Deinstallation
+den Lernstand exportieren. Windows-JSON-Exporte lassen sich am Handy importieren.
 
 Die Sprachauswertung vergleicht den erkannten Text mit der Zielaussage. Sie ist
 keine Bewertung einzelner Laute oder des Tonhöhenakzents. Der Kurs ist keine
