@@ -12,11 +12,12 @@ const server=await previewServer();const url=`http://127.0.0.1:${server.address(
 const browser=await chromium.launch({headless:true,channel:process.env.JT_BROWSER_CHANNEL||undefined});
 const report={passed:false,kind:'Browser viewport tests; native Android tests are separate',viewports:[],checks:[]};
 try {
- for(const [width,height] of [[320,640],[360,800],[390,844],[412,915],[844,390],[768,1024]]) {
+ for(const [width,height] of [[320,640],[360,800],[390,844],[412,892],[412,915],[844,390],[768,1024]]) {
   const context=await browser.newContext({viewport:{width,height},deviceScaleFactor:1,isMobile:true,hasTouch:true});
   const page=await context.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));
   await page.goto(url);await page.waitForSelector('html[data-ready=true]');await page.locator('#teacher-canvas').waitFor();
   await page.screenshot({path:path.join(output,`home-${width}x${height}.png`),fullPage:true});
+  if(width===412&&height===892) await page.screenshot({path:path.join(output,'s24-ultra-layout-preview.png')});
   async function noOverflow(label) {
    const dimensions=await page.evaluate(()=>({screen:innerWidth,body:document.documentElement.scrollWidth}));
    assert.ok(dimensions.body<=dimensions.screen+1,`${label}: horizontal overflow at ${width}×${height}: ${JSON.stringify(dimensions)}`);

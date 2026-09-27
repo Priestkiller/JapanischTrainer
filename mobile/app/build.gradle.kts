@@ -9,6 +9,7 @@ android {
         versionCode = 11000101
         versionName = "11.0.1-android.1"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunnerArguments["additionalTestOutputDir"] = "/sdcard/Android/media/de.priestkiller.japanischtrainer.test/test-evidence"
         ndk { abiFilters += listOf("arm64-v8a", "x86_64") }
     }
     buildTypes {

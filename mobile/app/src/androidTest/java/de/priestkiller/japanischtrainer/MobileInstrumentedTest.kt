@@ -18,7 +18,7 @@ class MobileInstrumentedTest {
     private fun screenshot(name:String) {
         Thread.sleep(500)
         val instrumentation=InstrumentationRegistry.getInstrumentation()
-        val folder=File(instrumentation.targetContext.getExternalFilesDir(null),"test-evidence").apply { mkdirs() }
+        val folder=File(requireNotNull(InstrumentationRegistry.getArguments().getString("additionalTestOutputDir"))).apply { mkdirs() }
         val bitmap=instrumentation.uiAutomation.takeScreenshot()
         File(folder,"$name.png").outputStream().use { bitmap.compress(Bitmap.CompressFormat.PNG,100,it) }
         bitmap.recycle()
