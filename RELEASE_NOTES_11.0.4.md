@@ -9,4 +9,4 @@ Diese Ausgabe stellt das zweite Inhaltspaket und einen eigenen Button **Testvers
 
 **Teststand:** Die eigene sprachliche Durchsicht ist keine menschliche Fachabnahme. Mikrofon- und Hörtests auf dem S24 Ultra sowie ein frisches Windows-System bleiben offen. Vollständige Nachweise stehen im Prüfbericht; die früheren Ergebnisse für den lokalen Stand 11.0.3 bleiben als historische Nachweise erhalten.
 
-Die App-Version ist 11.0.4; die unveränderten Kursinhalte dieses Pakets tragen den Inhaltsstand 11.0.3. Künftige Testausgaben erhalten eine höhere Versionsnummer und eigene Tags (`windows-test-v…` beziehungsweise `android-test-v…`). Solange es keine neuere Testausgabe gibt, meldet der Testbutton das ausdrücklich.
+Programm und Kursmetadaten tragen übereinstimmend 11.0.4; die fachlichen Inhalte des zweiten Pakets bleiben gegenüber dem lokalen Teststand 11.0.3 unverändert. Künftige Testausgaben erhalten eine höhere Versionsnummer und eigene Tags (`windows-test-v…` beziehungsweise `android-test-v…`). Solange es keine neuere Testausgabe gibt, meldet der Testbutton das ausdrücklich.

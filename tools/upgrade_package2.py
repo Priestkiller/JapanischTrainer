@@ -285,7 +285,7 @@ def upgrade():
       'v11:read-profile':['v11:jobs','v11:hobbies','v11:languages','v11:work-study'],
       'v11:read-day':['5:0','v11:morning-evening','v11:location-action','v11:work-study']}
     for key,prior in reprises.items():lessons[key]['study_guide']['retrieves']=prior
-    data['content_version']='11.0.3'
+    data['content_version']='11.0.4'
     path.write_text(json.dumps(data,ensure_ascii=False,indent=2)+'\n',encoding='utf8')
     print(json.dumps({'package':2,'lessons':len(GUIDES),'cards':sum(len(lessons[k]['cards']) for k in GUIDES),'ids':list(GUIDES)},ensure_ascii=False,indent=2))
 
