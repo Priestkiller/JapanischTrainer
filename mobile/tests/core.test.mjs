@@ -15,7 +15,7 @@ function pass(s) {
 
 test('All 150 lessons remain solvable with the revised content and help never advances a task',()=>{
  const c=setup();
- assert.equal(c.lessons.filter(l=>l.study_guide&&l.study_guide.package!==2).length,30);
+ assert.equal(c.lessons.filter(l=>l.study_guide&&(l.study_guide.package??1)===1).length,30);
  for(const l of c.lessons){
   const s=new Session(l,c,false);s.hintOpen=true;
   assert.equal(s.advance(),'blocked');assert.equal(c.store.data.completed.includes(l.key),false);

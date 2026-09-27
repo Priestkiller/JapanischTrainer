@@ -36,7 +36,7 @@ class CourseV11Tests(unittest.TestCase):
                 for field,value in prior.items():
                     if field in ('example_romaji','example_de') and l['key']=='14:0' and actual['jp'] in ['が','を','の']:
                         self.assertEqual(actual[field],actual['example'][field.removeprefix('example_')]);continue
-                    if field=='example' and now.get('study_guide',{}).get('package')==2:
+                    if field=='example' and now.get('study_guide',{}).get('package') in (2,3):
                         if l['key']=='14:0' and actual['jp'] in ['が','を','の']:continue
                         self.assertEqual(actual['example']['jp'],value);continue
                     self.assertEqual(actual[field],value,(l['key'],field))

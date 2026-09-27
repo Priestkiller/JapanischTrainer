@@ -1,6 +1,6 @@
 # JapanischTrainer 11.0.4 Prüfbericht
 
-Stand: 27.09.2026. Diese Ausgabe enthält das zweite Inhaltspaket und einen zusätzlichen Button **Testversion suchen** in Windows und Android. Der Nutzer hat die öffentliche Bereitstellung ausdrücklich freigegeben. Die Veröffentlichungsprüfung folgt nach dem Upload; die unten genannten Programmprüfungen sind abgeschlossen.
+Stand: 27.09.2026. Diese Ausgabe enthält das zweite Inhaltspaket und einen zusätzlichen Button **Testversion suchen** in Windows und Android. Der Nutzer hat die öffentliche Bereitstellung ausdrücklich freigegeben. Die nachträgliche öffentliche Prüfung ist abgeschlossen; siehe VEROEFFENTLICHUNG_11.0.4.md. Am 27.09.2026 erneut abgeglichen: alle 20 Assets in Größe/SHA-256 und Zuordnung, gültige Windows-Signatur, Versionsmetadaten und echte reguläre/testweise Suche. Zusätzlich wurde das vollständige öffentliche Setup heruntergeladen und geprüft (846839144 Bytes). Nachweis: validation/public-release-1104-final-audit.json. Die bereits belegten ZIP-/APK-Downloads wurden bei unveränderten Hashes nicht unnötig wiederholt.
 
 ## Änderungen und Erhalt vorhandener Daten
 
@@ -29,7 +29,7 @@ Android zeigt nun den tatsächlichen Kursstand in den Informationen. Die Sichtpr
 | Produktive Windows-Signatur | Update-Metadaten mit bestehendem Projektschlüssel signiert und gegen den bereits ausgelieferten öffentlichen Schlüssel geprüft |
 | Paketinhalt | Alle drei Kursdateien in Windows und APK mit Quelldaten abgeglichen; Android-Webquellen und Versionsdatei stimmen mit dem geprüften Stand überein |
 
-Die vollständige lokale Windows-Updateprüfung nutzt eine eigene Testquelle und Testsignatur. Die produktive Signatur wird getrennt geprüft. Die öffentliche Quelle wird erst nach Freischaltung geprüft. Keine persönliche Installation wurde überschrieben; alle Lernstände in Tests sind separate Vorlagen. Die Modelle laufen tatsächlich, Mikrofonaufnahmen und Lautsprecherabnahme auf einem echten Gerät sind damit nicht belegt.
+Die vollständige lokale Windows-Updateprüfung nutzt eine eigene Testquelle und Testsignatur. Die produktive Signatur wird getrennt geprüft. Die anschließend geprüfte öffentliche Quelle ist im ergänzenden Veröffentlichungsbericht dokumentiert. Keine persönliche Installation wurde überschrieben; alle Lernstände in Tests sind separate Vorlagen. Die Modelle laufen tatsächlich, Mikrofonaufnahmen und Lautsprecherabnahme auf einem echten Gerät sind damit nicht belegt.
 
 ## Korrigierte Prüfprobleme
 

@@ -6,8 +6,12 @@ import tkinter as tk
 ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT))
 from app import TrainerApp
 from ui_renderer import Surface
-from tools.upgrade_package2 import GUIDES
-out=ROOT/'validation/package2-ui';out.mkdir(parents=True,exist_ok=True)
+PACKAGE=int(os.environ.get('JT_CONTENT_PACKAGE','2'))
+if PACKAGE==3:
+ from tools.upgrade_package3 import GUIDES
+else:
+ from tools.upgrade_package2 import GUIDES
+out=ROOT/f'validation/package{PACKAGE}-ui';out.mkdir(parents=True,exist_ok=True)
 checks=[];text=[]
 old_text=Surface.text;old_para=Surface.paragraph
 def text_probe(self,x,y,value,*a,**kw):text.append(str(value));return old_text(self,x,y,value,*a,**kw)
@@ -31,7 +35,7 @@ with tempfile.TemporaryDirectory() as tmp,patch.dict(os.environ,{'JAPANISCHTRAIN
     app.show_explanation();render();assert app.pinned_rect;assert app.flow.metrics()['hints']==before+1
     assert not app.flow.success and app.flow.advance()=='blocked'
     app.show_explanation();render();assert app.pinned_rect is None
-    if key in ['15:0','v11:positions','v11:dialog-directions','v11:read-profile']:
+    if key in ['15:0','v11:positions','v11:dialog-directions','v11:read-profile','6:0','v11:checkout','v11:dialog-cafe']:
      app.actors.composite(app.frame.image).convert('RGB').save(out/(key.replace(':','-')+'.png'))
     checks.append(key)
    app.open_lesson('13:0',0,True);app.flow.phase='listen';app.flow.reset_task();app.flow.audio_seen=True;render()

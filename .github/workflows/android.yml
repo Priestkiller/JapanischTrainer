@@ -22,7 +22,7 @@ jobs:
         with:
           node-version: '22'
       - name: Course and progress tests
-        run: node --test mobile/tests/core.test.mjs mobile/tests/talk.test.mjs mobile/tests/package2.test.mjs
+        run: node --test mobile/tests/core.test.mjs mobile/tests/talk.test.mjs mobile/tests/package2.test.mjs mobile/tests/package3.test.mjs
       - name: Prepare original resources and verified speech library
         run: |
           python -m pip install Pillow==12.3.0
