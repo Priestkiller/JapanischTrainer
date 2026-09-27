@@ -1,0 +1,63 @@
+FACHLICHE ORIENTIERUNG UND TECHNISCHE REFERENZEN
+Abgerufen: 26.09.2026
+===============================================
+
+The Japan Foundation — Irodori, Starter (Themenaufbau und Grundlagen)
+https://www.irodori.jpf.go.jp/en/starter/pdf.html
+
+The Japan Foundation — MARUGOTO Plus, Hiragana (Kana-Lesungen)
+https://a1.marugotoweb.jp/en/hiragana.php
+
+Python-Dokumentation — tkinter; Ereignisschleife und Threading-Modell
+https://docs.python.org/3/library/tkinter.html
+
+Pillow-Dokumentation — Image; resize, rotate und Alpha-Komposition
+https://pillow.readthedocs.io/en/stable/reference/Image.html
+
+Die zusätzlichen deutschen Lehrtexte und Aufgaben wurden eigenständig für diese
+Anwendung formuliert. Es wurden keine Audios, Abbildungen oder umfangreichen
+Lehrbuchpassagen dieser Webseiten kopiert. Die genannten Organisationen haben
+diese Anwendung nicht geprüft, zertifiziert oder empfohlen.
+
+Sprachmodelle und deren ursprüngliche Quellen/Lizenzen: MODEL_ATTRIBUTION.txt.
+
+V9 animation implementation references (26.09.2026):
+Pillow: ImageTransform / MeshTransform
+https://pillow.readthedocs.io/en/stable/reference/ImageTransform.html
+OpenCV: geometric transformations / remap
+https://docs.opencv.org/4.x/da/d54/group__imgproc__transform.html
+Live2D: automatic eye blinking (conceptual reference, SDK NOT used)
+https://docs.live2d.com/en/cubism-sdk-manual/autoeyeblink/
+
+10.1 motion implementation references (implementation only):
+Python tkinter: event-loop/threading model
+https://docs.python.org/3/library/tkinter.html
+OpenCV: geometric transformations and remap
+https://docs.opencv.org/4.x/da/d54/group__imgproc__transform.html
+Pillow: RGBa/premultiplied alpha and image operations
+https://pillow.readthedocs.io/en/latest/handbook/concepts.html
+These projects have not certified this application.
+
+
+V11 – fachliche Orientierung für den neuen Kurs
+================================================
+The Japan Foundation: Irodori Starter – Can-do-Themen
+https://www.irodori.jpf.go.jp/en/starter/pdf.html
+
+The Japan Foundation: Irodori Elementary 1 – Alltag und Gesprächssituationen
+https://www.irodori.jpf.go.jp/en/elementary01/pdf.html
+
+The Japan Foundation: Irodori Elementary 2 – Vertiefung
+https://www.irodori.jpf.go.jp/en/elementary02/pdf.html
+
+The Japan Foundation: MARUGOTO Plus – Hiragana/Katakana
+https://a1.marugotoweb.jp/en/hiragana.php
+
+JLPT: Beschreibung der Teststufen, keine Zertifizierung dieser App
+https://www.jlpt.jp/e/about/levelsummary.html
+
+Zusätzlich Kana-Lesungen: https://a1.marugotoweb.jp/en/katakana.php
+Die neuen Beispiele und deutschen Erklärungen sind eigenständig verfasst.
+Die Referenzen liefern fachliche Orientierung und Themenbereiche; sie sind
+keine Freigabe, Sprachprüfung oder Zertifizierung dieser Anwendung.
+Keine Lektion oder Audioaufnahme dieser Angebote wurde ins Paket kopiert.

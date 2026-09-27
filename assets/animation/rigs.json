@@ -1,0 +1,1421 @@
+{
+  "version": 1,
+  "rigs": {
+    "sakura": {
+      "source_size": [
+        1024,
+        1536
+      ],
+      "role": "teacher",
+      "seed": 49,
+      "blink": {
+        "bbox": [
+          400,
+          246,
+          595,
+          349
+        ],
+        "frames": [
+          "blink_1.png",
+          "blink_2.png",
+          "blink_3.png",
+          "blink_4.png",
+          "blink_5.png"
+        ],
+        "amounts": [
+          0.2,
+          0.4,
+          0.65,
+          0.85,
+          1.0
+        ]
+      },
+      "fields": [
+        {
+          "channel": "head",
+          "center": [
+            515,
+            270
+          ],
+          "radii": [
+            245,
+            325
+          ],
+          "pivot": [
+            540,
+            466
+          ],
+          "angle": 1.2
+        },
+        {
+          "channel": "breath",
+          "center": [
+            540,
+            530
+          ],
+          "radii": [
+            340,
+            340
+          ],
+          "move": [
+            0,
+            -3.1
+          ]
+        },
+        {
+          "channel": "hair_left",
+          "center": [
+            245,
+            682
+          ],
+          "radii": [
+            190,
+            375
+          ],
+          "move": [
+            9.07,
+            1.05
+          ]
+        },
+        {
+          "channel": "hair_right",
+          "center": [
+            839,
+            655
+          ],
+          "radii": [
+            164,
+            331
+          ],
+          "move": [
+            7.92,
+            -0.9
+          ]
+        },
+        {
+          "channel": "cloth",
+          "center": [
+            850,
+            870
+          ],
+          "radii": [
+            157,
+            260
+          ],
+          "move": [
+            3.8,
+            1.05
+          ]
+        },
+        {
+          "channel": "pendant",
+          "center": [
+            666,
+            362
+          ],
+          "radii": [
+            43,
+            112
+          ],
+          "pivot": [
+            666,
+            277
+          ],
+          "angle": 2.1
+        },
+        {
+          "channel": "nod",
+          "center": [
+            515,
+            270
+          ],
+          "radii": [
+            245,
+            325
+          ],
+          "move": [
+            0,
+            5.3
+          ]
+        },
+        {
+          "channel": "head_lift",
+          "center": [
+            515,
+            270
+          ],
+          "radii": [
+            245,
+            325
+          ],
+          "move": [
+            0,
+            -1.45
+          ]
+        },
+        {
+          "channel": "posture",
+          "center": [
+            540,
+            555
+          ],
+          "radii": [
+            465,
+            590
+          ],
+          "pivot": [
+            540,
+            990
+          ],
+          "angle": 0.21
+        }
+      ],
+      "notes": "V10.1: ongoing profile-calibrated idle plus additive, event-bound reactions; closed idle mouth retained. No whole-image bounce or phoneme lip-sync.",
+      "idle_profile": {
+        "tempo": 1.0,
+        "head": 1.0,
+        "breath": 1.0,
+        "hair": 1.0,
+        "cloth": 1.0
+      }
+    },
+    "aiko": {
+      "source_size": [
+        1024,
+        1536
+      ],
+      "role": "teacher",
+      "seed": 66,
+      "blink": {
+        "bbox": [
+          437,
+          161,
+          619,
+          245
+        ],
+        "frames": [
+          "blink_1.png",
+          "blink_2.png",
+          "blink_3.png",
+          "blink_4.png",
+          "blink_5.png"
+        ],
+        "amounts": [
+          0.2,
+          0.4,
+          0.65,
+          0.85,
+          1.0
+        ]
+      },
+      "fields": [
+        {
+          "channel": "head",
+          "center": [
+            527,
+            188
+          ],
+          "radii": [
+            218,
+            268
+          ],
+          "pivot": [
+            506,
+            355
+          ],
+          "angle": 1.18
+        },
+        {
+          "channel": "breath",
+          "center": [
+            506,
+            530
+          ],
+          "radii": [
+            340,
+            340
+          ],
+          "move": [
+            0,
+            -3.1
+          ]
+        },
+        {
+          "channel": "hair_left",
+          "center": [
+            189,
+            655
+          ],
+          "radii": [
+            190,
+            375
+          ],
+          "move": [
+            9.07,
+            1.05
+          ]
+        },
+        {
+          "channel": "hair_right",
+          "center": [
+            846,
+            680
+          ],
+          "radii": [
+            164,
+            331
+          ],
+          "move": [
+            7.92,
+            -0.9
+          ]
+        },
+        {
+          "channel": "cloth",
+          "center": [
+            850,
+            870
+          ],
+          "radii": [
+            157,
+            260
+          ],
+          "move": [
+            3.8,
+            1.05
+          ]
+        },
+        {
+          "channel": "pendant",
+          "center": [
+            635,
+            313
+          ],
+          "radii": [
+            43,
+            112
+          ],
+          "pivot": [
+            635,
+            228
+          ],
+          "angle": 2.1
+        },
+        {
+          "channel": "nod",
+          "center": [
+            527,
+            188
+          ],
+          "radii": [
+            218,
+            268
+          ],
+          "move": [
+            0,
+            5.3
+          ]
+        },
+        {
+          "channel": "head_lift",
+          "center": [
+            527,
+            188
+          ],
+          "radii": [
+            218,
+            268
+          ],
+          "move": [
+            0,
+            -1.45
+          ]
+        },
+        {
+          "channel": "posture",
+          "center": [
+            506,
+            555
+          ],
+          "radii": [
+            465,
+            590
+          ],
+          "pivot": [
+            506,
+            990
+          ],
+          "angle": 0.21
+        }
+      ],
+      "notes": "V10.1: ongoing profile-calibrated idle plus additive, event-bound reactions; closed idle mouth retained. No whole-image bounce or phoneme lip-sync.",
+      "idle_profile": {
+        "tempo": 0.88,
+        "head": 0.92,
+        "breath": 0.98,
+        "hair": 0.96,
+        "cloth": 0.9
+      }
+    },
+    "haruto": {
+      "source_size": [
+        1024,
+        1536
+      ],
+      "role": "teacher",
+      "seed": 83,
+      "blink": {
+        "bbox": [
+          404,
+          153,
+          544,
+          215
+        ],
+        "frames": [
+          "blink_1.png",
+          "blink_2.png",
+          "blink_3.png",
+          "blink_4.png",
+          "blink_5.png"
+        ],
+        "amounts": [
+          0.2,
+          0.4,
+          0.65,
+          0.85,
+          1.0
+        ]
+      },
+      "fields": [
+        {
+          "channel": "head",
+          "center": [
+            494,
+            182
+          ],
+          "radii": [
+            203,
+            235
+          ],
+          "pivot": [
+            530,
+            356
+          ],
+          "angle": 1.35
+        },
+        {
+          "channel": "breath",
+          "center": [
+            530,
+            530
+          ],
+          "radii": [
+            340,
+            340
+          ],
+          "move": [
+            0,
+            -3.1
+          ]
+        },
+        {
+          "channel": "hair_left",
+          "center": [
+            494,
+            52
+          ],
+          "radii": [
+            167,
+            140
+          ],
+          "move": [
+            2.97,
+            0.52
+          ]
+        },
+        {
+          "channel": "cloth",
+          "center": [
+            850,
+            870
+          ],
+          "radii": [
+            157,
+            260
+          ],
+          "move": [
+            3.8,
+            1.05
+          ]
+        },
+        {
+          "channel": "nod",
+          "center": [
+            494,
+            182
+          ],
+          "radii": [
+            203,
+            235
+          ],
+          "move": [
+            0,
+            5.3
+          ]
+        },
+        {
+          "channel": "head_lift",
+          "center": [
+            494,
+            182
+          ],
+          "radii": [
+            203,
+            235
+          ],
+          "move": [
+            0,
+            -1.45
+          ]
+        },
+        {
+          "channel": "posture",
+          "center": [
+            530,
+            555
+          ],
+          "radii": [
+            465,
+            590
+          ],
+          "pivot": [
+            530,
+            990
+          ],
+          "angle": 0.21
+        }
+      ],
+      "notes": "V10.1: ongoing profile-calibrated idle plus additive, event-bound reactions; closed idle mouth retained. No whole-image bounce or phoneme lip-sync.",
+      "idle_profile": {
+        "tempo": 0.92,
+        "head": 0.84,
+        "breath": 0.96,
+        "hair": 0.88,
+        "cloth": 0.9
+      }
+    },
+    "ren": {
+      "source_size": [
+        1024,
+        1536
+      ],
+      "role": "teacher",
+      "seed": 100,
+      "blink": null,
+      "fields": [
+        {
+          "channel": "head",
+          "center": [
+            450,
+            253
+          ],
+          "radii": [
+            237,
+            310
+          ],
+          "pivot": [
+            538,
+            425
+          ],
+          "angle": 1.35
+        },
+        {
+          "channel": "breath",
+          "center": [
+            538,
+            530
+          ],
+          "radii": [
+            340,
+            340
+          ],
+          "move": [
+            0,
+            -3.1
+          ]
+        },
+        {
+          "channel": "hair_left",
+          "center": [
+            450,
+            123
+          ],
+          "radii": [
+            167,
+            140
+          ],
+          "move": [
+            2.97,
+            0.52
+          ]
+        },
+        {
+          "channel": "cloth",
+          "center": [
+            850,
+            870
+          ],
+          "radii": [
+            157,
+            260
+          ],
+          "move": [
+            3.8,
+            1.05
+          ]
+        },
+        {
+          "channel": "nod",
+          "center": [
+            450,
+            253
+          ],
+          "radii": [
+            237,
+            310
+          ],
+          "move": [
+            0,
+            5.3
+          ]
+        },
+        {
+          "channel": "head_lift",
+          "center": [
+            450,
+            253
+          ],
+          "radii": [
+            237,
+            310
+          ],
+          "move": [
+            0,
+            -1.45
+          ]
+        },
+        {
+          "channel": "posture",
+          "center": [
+            538,
+            555
+          ],
+          "radii": [
+            465,
+            590
+          ],
+          "pivot": [
+            538,
+            990
+          ],
+          "angle": 0.21
+        }
+      ],
+      "notes": "V10.1: ongoing profile-calibrated idle plus additive, event-bound reactions; closed idle mouth retained. No whole-image bounce or phoneme lip-sync.",
+      "idle_profile": {
+        "tempo": 1.12,
+        "head": 1.02,
+        "breath": 1.0,
+        "hair": 1.05,
+        "cloth": 1.04
+      }
+    },
+    "miyako": {
+      "source_size": [
+        1024,
+        1536
+      ],
+      "role": "teacher",
+      "seed": 117,
+      "blink": {
+        "bbox": [
+          410,
+          199,
+          575,
+          273
+        ],
+        "frames": [
+          "blink_1.png",
+          "blink_2.png",
+          "blink_3.png",
+          "blink_4.png",
+          "blink_5.png"
+        ],
+        "amounts": [
+          0.2,
+          0.4,
+          0.65,
+          0.85,
+          1.0
+        ]
+      },
+      "fields": [
+        {
+          "channel": "head",
+          "center": [
+            501,
+            219
+          ],
+          "radii": [
+            205,
+            249
+          ],
+          "pivot": [
+            533,
+            362
+          ],
+          "angle": 1.22
+        },
+        {
+          "channel": "breath",
+          "center": [
+            533,
+            530
+          ],
+          "radii": [
+            340,
+            340
+          ],
+          "move": [
+            0,
+            -3.1
+          ]
+        },
+        {
+          "channel": "hair_left",
+          "center": [
+            501,
+            89
+          ],
+          "radii": [
+            167,
+            140
+          ],
+          "move": [
+            2.97,
+            0.52
+          ]
+        },
+        {
+          "channel": "cloth",
+          "center": [
+            850,
+            870
+          ],
+          "radii": [
+            157,
+            260
+          ],
+          "move": [
+            3.8,
+            1.05
+          ]
+        },
+        {
+          "channel": "pendant",
+          "center": [
+            649,
+            302
+          ],
+          "radii": [
+            43,
+            112
+          ],
+          "pivot": [
+            649,
+            217
+          ],
+          "angle": 2.1
+        },
+        {
+          "channel": "nod",
+          "center": [
+            501,
+            219
+          ],
+          "radii": [
+            205,
+            249
+          ],
+          "move": [
+            0,
+            5.3
+          ]
+        },
+        {
+          "channel": "head_lift",
+          "center": [
+            501,
+            219
+          ],
+          "radii": [
+            205,
+            249
+          ],
+          "move": [
+            0,
+            -1.45
+          ]
+        },
+        {
+          "channel": "posture",
+          "center": [
+            533,
+            555
+          ],
+          "radii": [
+            465,
+            590
+          ],
+          "pivot": [
+            533,
+            990
+          ],
+          "angle": 0.21
+        }
+      ],
+      "notes": "V10.1: ongoing profile-calibrated idle plus additive, event-bound reactions; closed idle mouth retained. No whole-image bounce or phoneme lip-sync.",
+      "idle_profile": {
+        "tempo": 0.86,
+        "head": 0.92,
+        "breath": 0.98,
+        "hair": 0.91,
+        "cloth": 0.95
+      }
+    },
+    "emiri": {
+      "source_size": [
+        1024,
+        1536
+      ],
+      "role": "teacher",
+      "seed": 134,
+      "blink": {
+        "bbox": [
+          460,
+          215,
+          551,
+          287
+        ],
+        "frames": [
+          "blink_1.png",
+          "blink_2.png",
+          "blink_3.png",
+          "blink_4.png",
+          "blink_5.png"
+        ],
+        "amounts": [
+          0.2,
+          0.4,
+          0.65,
+          0.85,
+          1.0
+        ]
+      },
+      "fields": [
+        {
+          "channel": "head",
+          "center": [
+            545,
+            244
+          ],
+          "radii": [
+            231,
+            310
+          ],
+          "pivot": [
+            573,
+            415
+          ],
+          "angle": 1.28
+        },
+        {
+          "channel": "breath",
+          "center": [
+            573,
+            530
+          ],
+          "radii": [
+            340,
+            340
+          ],
+          "move": [
+            0,
+            -3.1
+          ]
+        },
+        {
+          "channel": "hair_left",
+          "center": [
+            205,
+            691
+          ],
+          "radii": [
+            190,
+            375
+          ],
+          "move": [
+            9.07,
+            1.05
+          ]
+        },
+        {
+          "channel": "hair_right",
+          "center": [
+            881,
+            600
+          ],
+          "radii": [
+            164,
+            331
+          ],
+          "move": [
+            7.92,
+            -0.9
+          ]
+        },
+        {
+          "channel": "cloth",
+          "center": [
+            850,
+            870
+          ],
+          "radii": [
+            157,
+            260
+          ],
+          "move": [
+            3.8,
+            1.05
+          ]
+        },
+        {
+          "channel": "nod",
+          "center": [
+            545,
+            244
+          ],
+          "radii": [
+            231,
+            310
+          ],
+          "move": [
+            0,
+            5.3
+          ]
+        },
+        {
+          "channel": "head_lift",
+          "center": [
+            545,
+            244
+          ],
+          "radii": [
+            231,
+            310
+          ],
+          "move": [
+            0,
+            -1.45
+          ]
+        },
+        {
+          "channel": "posture",
+          "center": [
+            573,
+            555
+          ],
+          "radii": [
+            465,
+            590
+          ],
+          "pivot": [
+            573,
+            990
+          ],
+          "angle": 0.21
+        }
+      ],
+      "notes": "V10.1: ongoing profile-calibrated idle plus additive, event-bound reactions; closed idle mouth retained. No whole-image bounce or phoneme lip-sync.",
+      "idle_profile": {
+        "tempo": 1.1,
+        "head": 1.02,
+        "breath": 1.01,
+        "hair": 1.08,
+        "cloth": 1.05
+      }
+    },
+    "satoshi": {
+      "source_size": [
+        1024,
+        1536
+      ],
+      "role": "teacher",
+      "seed": 151,
+      "blink": {
+        "bbox": [
+          384,
+          170,
+          514,
+          239
+        ],
+        "frames": [
+          "blink_1.png",
+          "blink_2.png",
+          "blink_3.png",
+          "blink_4.png",
+          "blink_5.png"
+        ],
+        "amounts": [
+          0.2,
+          0.4,
+          0.65,
+          0.85,
+          1.0
+        ]
+      },
+      "fields": [
+        {
+          "channel": "head",
+          "center": [
+            453,
+            200
+          ],
+          "radii": [
+            197,
+            238
+          ],
+          "pivot": [
+            509,
+            367
+          ],
+          "angle": 1.3
+        },
+        {
+          "channel": "breath",
+          "center": [
+            509,
+            530
+          ],
+          "radii": [
+            340,
+            340
+          ],
+          "move": [
+            0,
+            -3.1
+          ]
+        },
+        {
+          "channel": "hair_left",
+          "center": [
+            453,
+            70
+          ],
+          "radii": [
+            167,
+            140
+          ],
+          "move": [
+            2.97,
+            0.52
+          ]
+        },
+        {
+          "channel": "cloth",
+          "center": [
+            850,
+            870
+          ],
+          "radii": [
+            157,
+            260
+          ],
+          "move": [
+            3.8,
+            1.05
+          ]
+        },
+        {
+          "channel": "nod",
+          "center": [
+            453,
+            200
+          ],
+          "radii": [
+            197,
+            238
+          ],
+          "move": [
+            0,
+            5.3
+          ]
+        },
+        {
+          "channel": "head_lift",
+          "center": [
+            453,
+            200
+          ],
+          "radii": [
+            197,
+            238
+          ],
+          "move": [
+            0,
+            -1.45
+          ]
+        },
+        {
+          "channel": "posture",
+          "center": [
+            509,
+            555
+          ],
+          "radii": [
+            465,
+            590
+          ],
+          "pivot": [
+            509,
+            990
+          ],
+          "angle": 0.21
+        }
+      ],
+      "notes": "V10.1: ongoing profile-calibrated idle plus additive, event-bound reactions; closed idle mouth retained. No whole-image bounce or phoneme lip-sync.",
+      "idle_profile": {
+        "tempo": 0.9,
+        "head": 0.86,
+        "breath": 0.95,
+        "hair": 0.89,
+        "cloth": 0.9
+      }
+    },
+    "yuki": {
+      "source_size": [
+        1024,
+        1536
+      ],
+      "role": "teacher",
+      "seed": 168,
+      "blink": {
+        "bbox": [
+          526,
+          180,
+          698,
+          271
+        ],
+        "frames": [
+          "blink_1.png",
+          "blink_2.png",
+          "blink_3.png",
+          "blink_4.png",
+          "blink_5.png"
+        ],
+        "amounts": [
+          0.2,
+          0.4,
+          0.65,
+          0.85,
+          1.0
+        ]
+      },
+      "fields": [
+        {
+          "channel": "head",
+          "center": [
+            564,
+            234
+          ],
+          "radii": [
+            233,
+            265
+          ],
+          "pivot": [
+            543,
+            423
+          ],
+          "angle": 1.22
+        },
+        {
+          "channel": "breath",
+          "center": [
+            543,
+            530
+          ],
+          "radii": [
+            340,
+            340
+          ],
+          "move": [
+            0,
+            -3.1
+          ]
+        },
+        {
+          "channel": "hair_left",
+          "center": [
+            186,
+            801
+          ],
+          "radii": [
+            190,
+            375
+          ],
+          "move": [
+            9.07,
+            1.05
+          ]
+        },
+        {
+          "channel": "hair_right",
+          "center": [
+            864,
+            781
+          ],
+          "radii": [
+            164,
+            331
+          ],
+          "move": [
+            7.92,
+            -0.9
+          ]
+        },
+        {
+          "channel": "cloth",
+          "center": [
+            850,
+            870
+          ],
+          "radii": [
+            157,
+            260
+          ],
+          "move": [
+            3.8,
+            1.05
+          ]
+        },
+        {
+          "channel": "pendant",
+          "center": [
+            433,
+            347
+          ],
+          "radii": [
+            43,
+            112
+          ],
+          "pivot": [
+            433,
+            262
+          ],
+          "angle": 2.1
+        },
+        {
+          "channel": "nod",
+          "center": [
+            564,
+            234
+          ],
+          "radii": [
+            233,
+            265
+          ],
+          "move": [
+            0,
+            5.3
+          ]
+        },
+        {
+          "channel": "head_lift",
+          "center": [
+            564,
+            234
+          ],
+          "radii": [
+            233,
+            265
+          ],
+          "move": [
+            0,
+            -1.45
+          ]
+        },
+        {
+          "channel": "posture",
+          "center": [
+            543,
+            555
+          ],
+          "radii": [
+            465,
+            590
+          ],
+          "pivot": [
+            543,
+            990
+          ],
+          "angle": 0.21
+        }
+      ],
+      "notes": "V10.1: ongoing profile-calibrated idle plus additive, event-bound reactions; closed idle mouth retained. No whole-image bounce or phoneme lip-sync.",
+      "idle_profile": {
+        "tempo": 0.95,
+        "head": 0.94,
+        "breath": 0.97,
+        "hair": 1.03,
+        "cloth": 0.98
+      }
+    },
+    "kiko_idle": {
+      "source_size": [
+        355,
+        440
+      ],
+      "role": "mascot",
+      "seed": 251,
+      "blink": {
+        "bbox": [
+          141,
+          174,
+          308,
+          255
+        ],
+        "frames": [
+          "blink_1.png",
+          "blink_2.png",
+          "blink_3.png",
+          "blink_4.png",
+          "blink_5.png"
+        ],
+        "amounts": [
+          0.2,
+          0.4,
+          0.65,
+          0.85,
+          1.0
+        ]
+      },
+      "fields": [
+        {
+          "channel": "tail",
+          "center": [
+            66,
+            302
+          ],
+          "radii": [
+            88,
+            121
+          ],
+          "pivot": [
+            151,
+            365
+          ],
+          "angle": 7.0
+        },
+        {
+          "channel": "ear_left",
+          "center": [
+            119,
+            111
+          ],
+          "radii": [
+            68,
+            111
+          ],
+          "pivot": [
+            133,
+            193
+          ],
+          "angle": 3.8080000000000003
+        },
+        {
+          "channel": "ear_right",
+          "center": [
+            281,
+            80
+          ],
+          "radii": [
+            59,
+            98
+          ],
+          "pivot": [
+            279,
+            155
+          ],
+          "angle": 4.144000000000001
+        },
+        {
+          "channel": "breath",
+          "center": [
+            218,
+            307
+          ],
+          "radii": [
+            71,
+            75
+          ],
+          "move": [
+            0,
+            -1.05
+          ]
+        },
+        {
+          "channel": "head",
+          "center": [
+            232,
+            215
+          ],
+          "radii": [
+            113,
+            102
+          ],
+          "pivot": [
+            231,
+            289
+          ],
+          "angle": 0.95
+        },
+        {
+          "channel": "nod",
+          "center": [
+            232,
+            215
+          ],
+          "radii": [
+            113,
+            102
+          ],
+          "move": [
+            0,
+            1.6
+          ]
+        }
+      ],
+      "notes": "V10.1: ongoing profile-calibrated idle plus additive, event-bound reactions; closed idle mouth retained. No whole-image bounce or phoneme lip-sync.",
+      "idle_profile": {
+        "tempo": 1.04,
+        "head": 1.0,
+        "breath": 1.0,
+        "hair": 1.0,
+        "cloth": 1.0
+      },
+      "channel_limits": {
+        "tail": 1.05
+      }
+    }
+  }
+}

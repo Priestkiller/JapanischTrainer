@@ -1,0 +1,12 @@
+Pillow>=12.0,<13
+sherpa-onnx>=1.13.8,<1.14
+sounddevice>=0.5,<1
+numpy>=2.0,<3
+pykakasi>=2.3,<3
+pyinstaller>=6.10,<7
+
+# CPU acceleration for the local character meshes; no voice/video model.
+opencv-python-headless>=4.11,<5
+
+# Verifies signed update metadata before downloading/executing a release.
+cryptography==46.0.5

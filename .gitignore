@@ -1,0 +1,16 @@
+.venv/
+__pycache__/
+*.pyc
+*.spec
+.release-keys/
+backups/
+build/
+dist/
+build-release/
+validation/
+release/
+models/*/
+installer_tools/Protokolle/
+installer_tools/build-work/
+*.log
+progress*.json

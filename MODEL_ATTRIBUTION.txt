@@ -1,0 +1,40 @@
+MODELLE / ATTRIBUTION
+=====================
+
+Parakeet Japanese ASR
+- Ursprungsmodell: NVIDIA parakeet-tdt_ctc-0.6b-ja
+- Quantisierte sherpa-onnx-Konvertierung: sherpa-onnx-nemo-parakeet-tdt_ctc-0.6b-ja-35000-int8
+- Training: ReazonSpeech v2.0, 35.000+ Stunden japanische Sprache (laut sherpa-onnx Modelldokumentation)
+- Ursprungsmodell-Lizenz: CC BY 4.0
+- https://huggingface.co/nvidia/parakeet-tdt_ctc-0.6b-ja
+- https://k2-fsa.github.io/sherpa/onnx/pretrained_models/offline-ctc/nemo/japanese.html
+
+SenseVoice ASR
+- sherpa-onnx SenseVoice INT8 Japanisch/Chinesisch/Englisch/Koreanisch/Kantonesisch
+- Wird nur als zweite Meinung genutzt.
+
+SupertonicTTS 3
+- Lokale Sprachsynthese ueber sherpa-onnx.
+
+Ergänzte Modellhinweise für 11.0.1
+--------------------------------
+Supertonic 3: Supertone Inc., https://huggingface.co/Supertone/supertonic-3
+Die MODELLGEWICHTE stehen unter BigScience Open RAIL-M. Die MIT-Lizenz
+im ursprünglichen Archiv betrifft den begleitenden Code und ersetzt nicht
+die Modelllizenz. Volltext: licenses/Supertonic-3-MODEL-LICENSE.txt.
+ONNX/INT8-Konvertierung: sherpa-onnx-supertonic-3-tts-int8-2026-05-11.
+
+SenseVoiceSmall: Alibaba Group / FunAudioLLM,
+https://huggingface.co/FunAudioLLM/SenseVoiceSmall
+FunASR Model Open Source License Agreement, Version 1.1.
+Volltext: licenses/SenseVoice-MODEL-LICENSE.txt.
+ONNX/INT8-Konvertierung: sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17.
+
+Parakeet JA: NVIDIA, CC BY 4.0; Volltext: licenses/Parakeet-CC-BY-4.0.txt.
+Die quantisierten Konvertierungen stammen von k2-fsa/sherpa-onnx und sind
+Änderungen gegenüber den Originalmodellen. Wir haben die Gewichte weder
+nachtrainiert noch inhaltlich verändert. Keine Unterstützung oder Freigabe
+dieser Anwendung durch die Modellautoren wird behauptet.
+
+sherpa-onnx
+- Apache License 2.0

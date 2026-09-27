@@ -1,0 +1,1269 @@
+{
+  "TEACHERS": [
+    {
+      "id": "sakura",
+      "name": "Sakura",
+      "icon": "🌸",
+      "image": "sakura",
+      "style": "Freundlich & motivierend",
+      "voice": "Warm & klar (weiblich)",
+      "focus": "Alltag, Konversation, Kultur",
+      "speaker_id": 2,
+      "speed": 0.95,
+      "jp": "一歩ずつ、きっとできる。",
+      "de": "Schritt für Schritt, du schaffst das.",
+      "detail": "Geduldig, positiv und ideal für einen sanften Einstieg. Sakura erklärt lieber einmal mehr als einmal zu wenig."
+    },
+    {
+      "id": "aiko",
+      "name": "Aiko",
+      "icon": "✿",
+      "image": "aiko",
+      "style": "Ruhig & elegant",
+      "voice": "Weich & ruhig (weiblich)",
+      "focus": "Aussprache, Hören, Höflichkeit",
+      "speaker_id": 0,
+      "speed": 0.9,
+      "jp": "ゆっくりで大丈夫。",
+      "de": "Langsam ist völlig in Ordnung.",
+      "detail": "Aiko spricht bewusst etwas ruhiger und hilft dir, saubere Laute und höfliche Formen aufzubauen."
+    },
+    {
+      "id": "haruto",
+      "name": "Haruto",
+      "icon": "📘",
+      "image": "haruto",
+      "style": "Strukturiert & anspruchsvoll",
+      "voice": "Klar & ruhig (männlich)",
+      "focus": "Grammatik, Lesen, Struktur",
+      "speaker_id": 6,
+      "speed": 0.93,
+      "jp": "基本から確実に。",
+      "de": "Sicher von den Grundlagen aus.",
+      "detail": "Haruto arbeitet systematisch. Gut, wenn du verstehen willst, warum ein Satz genau so gebaut wird."
+    },
+    {
+      "id": "ren",
+      "name": "Ren",
+      "icon": "⚡",
+      "image": "ren",
+      "style": "Locker & unterhaltsam",
+      "voice": "Lebendig & locker (männlich)",
+      "focus": "Konversation, Hören, Alltag",
+      "speaker_id": 9,
+      "speed": 1.03,
+      "jp": "楽しく話そう！",
+      "de": "Lass uns mit Spaß sprechen!",
+      "detail": "Ren ist etwas schneller und lockerer. Gut, wenn du natürlicher und weniger schulbuchhaft sprechen willst."
+    },
+    {
+      "id": "miyako",
+      "name": "Miyako",
+      "icon": "🍁",
+      "image": "miyako",
+      "style": "Erfahren & weise",
+      "voice": "Ruhig & deutlich (weiblich)",
+      "focus": "Kultur, Lesen, Kanji",
+      "speaker_id": 1,
+      "speed": 0.87,
+      "jp": "焦らず、一歩ずつ。",
+      "de": "Ohne Eile, Schritt für Schritt.",
+      "detail": "Miyako verbindet Sprache mit kulturellem Kontext und liest besonders langsam und deutlich vor."
+    },
+    {
+      "id": "emiri",
+      "name": "Emiri",
+      "icon": "♥",
+      "image": "emiri",
+      "style": "Fröhlich & energiegeladen",
+      "voice": "Hell & lebendig (weiblich)",
+      "focus": "Vokabeln, Alltag, Motivation",
+      "speaker_id": 3,
+      "speed": 1.05,
+      "jp": "今日も楽しく！",
+      "de": "Auch heute mit Spaß!",
+      "detail": "Emiri hält die Einheiten kurz, lebendig und motivierend und wiederholt schwierige Wörter gern sofort."
+    },
+    {
+      "id": "satoshi",
+      "name": "Satoshi",
+      "icon": "🎓",
+      "image": "satoshi",
+      "style": "Analytisch & verständlich",
+      "voice": "Sachlich & klar (männlich)",
+      "focus": "Grammatik, Aussprache, Logik",
+      "speaker_id": 7,
+      "speed": 0.94,
+      "jp": "「なぜ」を理解しよう。",
+      "de": "Verstehe auch das Warum.",
+      "detail": "Satoshi zerlegt Sätze logisch und erklärt Unterschiede, die in einfachen Lernapps oft übersprungen werden."
+    },
+    {
+      "id": "yuki",
+      "name": "Yuki",
+      "icon": "☾",
+      "image": "yuki",
+      "style": "Modern & direkt",
+      "voice": "Natürlich & direkt (weiblich)",
+      "focus": "Hören, Konversation, natürliche Sprache",
+      "speaker_id": 4,
+      "speed": 0.99,
+      "jp": "自然な日本語を目指そう。",
+      "de": "Ziel ist natürliches Japanisch.",
+      "detail": "Yuki konzentriert sich auf natürlich klingendes Japanisch und auf Formulierungen, die du wirklich hören wirst."
+    }
+  ],
+  "EXAMPLES": {
+    "こんにちは": [
+      "こんにちは。お元気ですか。",
+      "konnichiwa. ogenki desu ka.",
+      "Hallo. Wie geht es Ihnen?"
+    ],
+    "ありがとう": [
+      "ありがとうございます。",
+      "arigatō gozaimasu.",
+      "Vielen Dank."
+    ],
+    "すみません": [
+      "すみません、駅はどこですか。",
+      "sumimasen, eki wa doko desu ka.",
+      "Entschuldigung, wo ist der Bahnhof?"
+    ],
+    "はい": [
+      "はい、そうです。",
+      "hai, sō desu.",
+      "Ja, das stimmt."
+    ],
+    "いいえ": [
+      "いいえ、ちがいます。",
+      "iie, chigaimasu.",
+      "Nein, das stimmt nicht."
+    ],
+    "おはようございます": [
+      "おはようございます。",
+      "ohayō gozaimasu.",
+      "Guten Morgen."
+    ],
+    "こんばんは": [
+      "こんばんは。",
+      "konbanwa.",
+      "Guten Abend."
+    ],
+    "おやすみなさい": [
+      "おやすみなさい。",
+      "oyasuminasai.",
+      "Gute Nacht."
+    ],
+    "わたし": [
+      "わたしはヴィンセントです。",
+      "watashi wa Vinsento desu.",
+      "Ich bin Vincent."
+    ],
+    "は": [
+      "わたしはがくせいです。",
+      "watashi wa gakusei desu.",
+      "Ich bin Schüler/Student."
+    ],
+    "です": [
+      "これはほんです。",
+      "kore wa hon desu.",
+      "Das hier ist ein Buch."
+    ],
+    "ドイツ": [
+      "ドイツから来ました。",
+      "Doitsu kara kimashita.",
+      "Ich komme aus Deutschland."
+    ],
+    "ドイツじん": [
+      "わたしはドイツじんです。",
+      "watashi wa Doitsu-jin desu.",
+      "Ich bin Deutscher/Deutsche."
+    ],
+    "か": [
+      "がくせいですか。",
+      "gakusei desu ka.",
+      "Bist/Sind du/Sie Student?"
+    ],
+    "これ": [
+      "これはほんです。",
+      "kore wa hon desu.",
+      "Das hier ist ein Buch."
+    ],
+    "それ": [
+      "それはなんですか。",
+      "sore wa nan desu ka.",
+      "Was ist das da?"
+    ],
+    "あれ": [
+      "あれはくるまです。",
+      "are wa kuruma desu.",
+      "Das dort ist ein Auto."
+    ],
+    "を": [
+      "みずをのみます。",
+      "mizu o nomimasu.",
+      "Ich trinke Wasser."
+    ],
+    "みず": [
+      "みずをのみます。",
+      "mizu o nomimasu.",
+      "Ich trinke Wasser."
+    ],
+    "たべます": [
+      "パンをたべます。",
+      "pan o tabemasu.",
+      "Ich esse Brot."
+    ],
+    "のみます": [
+      "みずをのみます。",
+      "mizu o nomimasu.",
+      "Ich trinke Wasser."
+    ]
+  },
+  "GRAMMAR_TOPICS": [
+    [
+      "は – Thema",
+      "わたしはがくせいです。",
+      "watashi wa gakusei desu.",
+      "は markiert das Gesprächsthema oder einen Kontrast. Als Partikel wird es wa gesprochen."
+    ],
+    [
+      "が – Fokus/Subjekt",
+      "だれがきましたか。",
+      "dare ga kimashita ka.",
+      "が markiert häufig neue oder fokussierte Information und in vielen Mustern das grammatische Subjekt."
+    ],
+    [
+      "を – direktes Objekt",
+      "みずをのみます。",
+      "mizu o nomimasu.",
+      "を markiert das direkte Objekt und wird im modernen Japanisch meist o gesprochen."
+    ],
+    [
+      "の – Zugehörigkeit",
+      "これはわたしのほんです。",
+      "kore wa watashi no hon desu.",
+      "A の B bedeutet häufig B von A: わたしのほん = mein Buch."
+    ],
+    [
+      "に – Ziel/Zeitpunkt",
+      "しちじにおきます。",
+      "shichiji ni okimasu.",
+      "に markiert unter anderem ein Ziel, einen Zeitpunkt oder einen Empfänger."
+    ],
+    [
+      "へ – Richtung",
+      "にほんへいきます。",
+      "nihon e ikimasu.",
+      "へ betont eine Richtung und wird als Partikel e gesprochen."
+    ],
+    [
+      "で – Ort/Mittel",
+      "いえでべんきょうします。",
+      "ie de benkyō shimasu.",
+      "で zeigt häufig den Ort einer Handlung oder ein verwendetes Mittel."
+    ],
+    [
+      "です – höfliche Satzendung",
+      "これはほんです。",
+      "kore wa hon desu.",
+      "です macht Nominal- und Adjektivsätze höflich; es ist nicht exakt dasselbe wie deutsches sein."
+    ],
+    [
+      "か – Frage",
+      "がくせいですか。",
+      "gakusei desu ka.",
+      "か am Satzende markiert in höflicher Sprache häufig eine Frage."
+    ],
+    [
+      "て-Form",
+      "ちょっとまってください。",
+      "chotto matte kudasai.",
+      "Die て-Form verbindet Handlungen und ist Basis vieler Muster wie ～てください und ～ています."
+    ],
+    [
+      "～ています",
+      "いまごはんをたべています。",
+      "ima gohan o tabete imasu.",
+      "～ている beschreibt laufende Handlungen oder bei manchen Verben einen resultierenden Zustand."
+    ],
+    [
+      "～てもいい",
+      "はいってもいいですか。",
+      "haitte mo ii desu ka.",
+      "～てもいい bedeutet dürfen/es ist okay; als Frage bittet es höflich um Erlaubnis."
+    ],
+    [
+      "～てはいけない",
+      "ここではしゃしんをとってはいけません。",
+      "koko de wa shashin o totte wa ikemasen.",
+      "Dieses Muster bedeutet nicht dürfen/verboten sein."
+    ],
+    [
+      "～たい",
+      "にほんへいきたいです。",
+      "nihon e ikitai desu.",
+      "ます-Stamm + たい drückt einen eigenen Wunsch aus."
+    ],
+    [
+      "Potentialform",
+      "にほんごがはなせます。",
+      "nihongo ga hanasemasu.",
+      "Die Potentialform drückt Fähigkeit oder Möglichkeit aus: 話す → 話せる."
+    ],
+    [
+      "～たことがある",
+      "にほんへいったことがあります。",
+      "nihon e itta koto ga arimasu.",
+      "た-Form + ことがある bedeutet, etwas schon einmal erlebt/getan zu haben."
+    ],
+    [
+      "～なければならない",
+      "べんきょうしなければなりません。",
+      "benkyō shinakereba narimasen.",
+      "Das Muster bedeutet müssen; in lockerer Sprache hört man oft ～なきゃ."
+    ],
+    [
+      "～ながら",
+      "おんがくをききながらべんきょうします。",
+      "ongaku o kikinagara benkyō shimasu.",
+      "ます-Stamm + ながら bedeutet während und bezieht sich meist auf dieselbe handelnde Person."
+    ],
+    [
+      "～たら / ～なら / ～ば",
+      "じかんがあったらいきます。",
+      "jikan ga attara ikimasu.",
+      "Japanisch hat mehrere Wenn-Formen; die passende Form hängt von Kontext und Nuance ab."
+    ],
+    [
+      "Relativsatz",
+      "きのうかったほん",
+      "kinō katta hon",
+      "Ein japanischer Relativsatz steht direkt vor dem Nomen und braucht kein Relativpronomen wie der/die/das."
+    ],
+    [
+      "～と思う",
+      "いいとおもいます。",
+      "ii to omoimasu.",
+      "Neutrale Aussage + と + 思う bedeutet denken/glauben, dass …"
+    ],
+    [
+      "～そう",
+      "おいしそうです。",
+      "oishisō desu.",
+      "～そう beschreibt je nach Anschluss einen sichtbaren Eindruck oder Hörensagen."
+    ],
+    [
+      "～らしい / ～みたい",
+      "あしたはあついらしいです。",
+      "ashita wa atsui rashii desu.",
+      "Beide können Vermutung/Hörensagen ausdrücken; みたい ist umgangssprachlicher."
+    ],
+    [
+      "～ようになる",
+      "はなせるようになりました。",
+      "hanaseru yō ni narimashita.",
+      "Dieses Muster beschreibt, dass eine Fähigkeit oder Gewohnheit neu entstanden ist."
+    ],
+    [
+      "～ことにする / なる",
+      "まいにちべんきょうすることにします。",
+      "mainichi benkyō suru koto ni shimasu.",
+      "ことにする = selbst entscheiden; ことになる = es wird entschieden/es ergibt sich."
+    ],
+    [
+      "～のに / ～ても",
+      "べんきょうしたのに、わすれました。",
+      "benkyō shita noni, wasuremashita.",
+      "のに betont einen unerwarteten Gegensatz; ても bedeutet selbst wenn/auch wenn."
+    ],
+    [
+      "～ておく",
+      "きっぷをかっておきます。",
+      "kippu o katte okimasu.",
+      "～ておく bedeutet etwas vorbereitend oder im Voraus tun."
+    ],
+    [
+      "～てしまう",
+      "さいふをわすれてしまいました。",
+      "saifu o wasurete shimaimashita.",
+      "～てしまう kann vollständigen Abschluss oder Bedauern ausdrücken; locker oft ～ちゃう."
+    ],
+    [
+      "～わけではない",
+      "きらいなわけではありません。",
+      "kirai na wake dewa arimasen.",
+      "Verneint eine pauschale Schlussfolgerung: nicht unbedingt/es ist nicht so, dass …"
+    ],
+    [
+      "～に違いない",
+      "かれはしっているにちがいない。",
+      "kare wa shitte iru ni chigai nai.",
+      "Drückt eine starke Schlussfolgerung aus: muss wohl … sein."
+    ],
+    [
+      "Keigo",
+      "ヴィンセントともうします。",
+      "Vinsento to mōshimasu.",
+      "Keigo umfasst höfliche, respektvolle und bescheidene Sprache. 申します ist eine bescheidene Form von 言う."
+    ]
+  ],
+  "KANJI": [
+    [
+      "日",
+      "ひ / にち",
+      "Tag, Sonne",
+      "日本・日曜日"
+    ],
+    [
+      "本",
+      "ほん",
+      "Buch, Ursprung",
+      "本・日本"
+    ],
+    [
+      "人",
+      "ひと / じん",
+      "Mensch, Person",
+      "日本人・人"
+    ],
+    [
+      "月",
+      "つき / げつ",
+      "Mond, Monat",
+      "月曜日・一月"
+    ],
+    [
+      "火",
+      "ひ / か",
+      "Feuer",
+      "火曜日"
+    ],
+    [
+      "水",
+      "みず / すい",
+      "Wasser",
+      "水・水曜日"
+    ],
+    [
+      "木",
+      "き / もく",
+      "Baum, Holz",
+      "木・木曜日"
+    ],
+    [
+      "金",
+      "かね / きん",
+      "Geld, Gold",
+      "お金・金曜日"
+    ],
+    [
+      "土",
+      "つち / ど",
+      "Erde, Boden",
+      "土曜日"
+    ],
+    [
+      "山",
+      "やま / さん",
+      "Berg",
+      "山・富士山"
+    ],
+    [
+      "川",
+      "かわ / せん",
+      "Fluss",
+      "川"
+    ],
+    [
+      "田",
+      "た / でん",
+      "Reisfeld",
+      "田中"
+    ],
+    [
+      "大",
+      "おお / だい",
+      "groß",
+      "大きい・大学"
+    ],
+    [
+      "小",
+      "ちい / しょう",
+      "klein",
+      "小さい・小学校"
+    ],
+    [
+      "中",
+      "なか / ちゅう",
+      "Mitte, innen",
+      "中国・中"
+    ],
+    [
+      "上",
+      "うえ / じょう",
+      "oben",
+      "上・上手"
+    ],
+    [
+      "下",
+      "した / か",
+      "unten",
+      "下・地下"
+    ],
+    [
+      "左",
+      "ひだり",
+      "links",
+      "左"
+    ],
+    [
+      "右",
+      "みぎ",
+      "rechts",
+      "右"
+    ],
+    [
+      "前",
+      "まえ / ぜん",
+      "vorne, vorher",
+      "前・午前"
+    ],
+    [
+      "後",
+      "あと / ご",
+      "nach, hinten",
+      "後・午後"
+    ],
+    [
+      "今",
+      "いま / こん",
+      "jetzt",
+      "今・今日"
+    ],
+    [
+      "年",
+      "とし / ねん",
+      "Jahr",
+      "今年・一年"
+    ],
+    [
+      "時",
+      "とき / じ",
+      "Zeit, Uhr",
+      "時間・七時"
+    ],
+    [
+      "分",
+      "ふん / ぶん",
+      "Minute, Teil",
+      "五分・自分"
+    ],
+    [
+      "半",
+      "はん",
+      "Hälfte",
+      "七時半"
+    ],
+    [
+      "一",
+      "いち",
+      "eins",
+      "一人・一月"
+    ],
+    [
+      "二",
+      "に",
+      "zwei",
+      "二人・二月"
+    ],
+    [
+      "三",
+      "さん",
+      "drei",
+      "三人・三月"
+    ],
+    [
+      "四",
+      "よん / し",
+      "vier",
+      "四人・四月"
+    ],
+    [
+      "五",
+      "ご",
+      "fünf",
+      "五月"
+    ],
+    [
+      "六",
+      "ろく",
+      "sechs",
+      "六月"
+    ],
+    [
+      "七",
+      "なな / しち",
+      "sieben",
+      "七月・七時"
+    ],
+    [
+      "八",
+      "はち",
+      "acht",
+      "八月"
+    ],
+    [
+      "九",
+      "きゅう / く",
+      "neun",
+      "九月"
+    ],
+    [
+      "十",
+      "じゅう",
+      "zehn",
+      "十月"
+    ],
+    [
+      "百",
+      "ひゃく",
+      "hundert",
+      "三百"
+    ],
+    [
+      "千",
+      "せん",
+      "tausend",
+      "三千"
+    ],
+    [
+      "万",
+      "まん",
+      "zehntausend",
+      "一万円"
+    ],
+    [
+      "学",
+      "がく / まな",
+      "lernen",
+      "学校・学生"
+    ],
+    [
+      "生",
+      "せい / い",
+      "Leben, geboren",
+      "学生・先生"
+    ],
+    [
+      "先",
+      "せん / さき",
+      "vorher, voraus",
+      "先生・先"
+    ],
+    [
+      "校",
+      "こう",
+      "Schule",
+      "学校"
+    ],
+    [
+      "語",
+      "ご",
+      "Sprache, Wort",
+      "日本語・英語"
+    ],
+    [
+      "話",
+      "はな / わ",
+      "sprechen, Geschichte",
+      "話す・会話"
+    ],
+    [
+      "聞",
+      "き / ぶん",
+      "hören, fragen",
+      "聞く・新聞"
+    ],
+    [
+      "読",
+      "よ / どく",
+      "lesen",
+      "読む・読書"
+    ],
+    [
+      "書",
+      "か / しょ",
+      "schreiben, Schrift",
+      "書く・辞書"
+    ],
+    [
+      "見",
+      "み / けん",
+      "sehen",
+      "見る・意見"
+    ],
+    [
+      "行",
+      "い / こう",
+      "gehen",
+      "行く・銀行"
+    ],
+    [
+      "来",
+      "く / らい",
+      "kommen",
+      "来る・来年"
+    ],
+    [
+      "食",
+      "た / しょく",
+      "essen",
+      "食べる・食事"
+    ],
+    [
+      "飲",
+      "の / いん",
+      "trinken",
+      "飲む・飲料"
+    ],
+    [
+      "買",
+      "か",
+      "kaufen",
+      "買う・買い物"
+    ],
+    [
+      "売",
+      "う / ばい",
+      "verkaufen",
+      "売る・売店"
+    ],
+    [
+      "車",
+      "くるま / しゃ",
+      "Auto, Fahrzeug",
+      "車・電車"
+    ],
+    [
+      "電",
+      "でん",
+      "Elektrizität",
+      "電車・電話"
+    ],
+    [
+      "駅",
+      "えき",
+      "Bahnhof",
+      "東京駅"
+    ],
+    [
+      "道",
+      "みち / どう",
+      "Weg",
+      "道・北海道"
+    ],
+    [
+      "家",
+      "いえ / か",
+      "Haus, Familie",
+      "家・家族"
+    ],
+    [
+      "友",
+      "とも / ゆう",
+      "Freund",
+      "友達"
+    ],
+    [
+      "名",
+      "な / めい",
+      "Name",
+      "名前・有名"
+    ],
+    [
+      "何",
+      "なに / なん",
+      "was",
+      "何時・何"
+    ],
+    [
+      "国",
+      "くに / こく",
+      "Land",
+      "国・外国"
+    ],
+    [
+      "外",
+      "そと / がい",
+      "außen",
+      "外国・外"
+    ],
+    [
+      "私",
+      "わたし / し",
+      "ich, privat",
+      "私"
+    ],
+    [
+      "男",
+      "おとこ / だん",
+      "Mann",
+      "男の人"
+    ],
+    [
+      "女",
+      "おんな / じょ",
+      "Frau",
+      "女の人"
+    ],
+    [
+      "子",
+      "こ / し",
+      "Kind",
+      "子ども"
+    ],
+    [
+      "父",
+      "ちち / ふ",
+      "Vater",
+      "父"
+    ],
+    [
+      "母",
+      "はは / ぼ",
+      "Mutter",
+      "母"
+    ],
+    [
+      "好",
+      "す / こう",
+      "mögen",
+      "好き"
+    ],
+    [
+      "新",
+      "あたら / しん",
+      "neu",
+      "新しい・新聞"
+    ],
+    [
+      "古",
+      "ふる / こ",
+      "alt",
+      "古い"
+    ],
+    [
+      "高",
+      "たか / こう",
+      "hoch, teuer",
+      "高い・高校"
+    ],
+    [
+      "安",
+      "やす / あん",
+      "billig, sicher",
+      "安い・安心"
+    ],
+    [
+      "長",
+      "なが / ちょう",
+      "lang, Leiter",
+      "長い・社長"
+    ],
+    [
+      "白",
+      "しろ / はく",
+      "weiß",
+      "白い"
+    ],
+    [
+      "黒",
+      "くろ / こく",
+      "schwarz",
+      "黒い"
+    ],
+    [
+      "赤",
+      "あか / せき",
+      "rot",
+      "赤い"
+    ],
+    [
+      "青",
+      "あお / せい",
+      "blau",
+      "青い"
+    ]
+  ],
+  "KANA": [
+    [
+      "あ",
+      "a"
+    ],
+    [
+      "い",
+      "i"
+    ],
+    [
+      "う",
+      "u"
+    ],
+    [
+      "え",
+      "e"
+    ],
+    [
+      "お",
+      "o"
+    ],
+    [
+      "か",
+      "ka"
+    ],
+    [
+      "き",
+      "ki"
+    ],
+    [
+      "く",
+      "ku"
+    ],
+    [
+      "け",
+      "ke"
+    ],
+    [
+      "こ",
+      "ko"
+    ],
+    [
+      "さ",
+      "sa"
+    ],
+    [
+      "し",
+      "shi"
+    ],
+    [
+      "す",
+      "su"
+    ],
+    [
+      "せ",
+      "se"
+    ],
+    [
+      "そ",
+      "so"
+    ],
+    [
+      "た",
+      "ta"
+    ],
+    [
+      "ち",
+      "chi"
+    ],
+    [
+      "つ",
+      "tsu"
+    ],
+    [
+      "て",
+      "te"
+    ],
+    [
+      "と",
+      "to"
+    ],
+    [
+      "な",
+      "na"
+    ],
+    [
+      "に",
+      "ni"
+    ],
+    [
+      "ぬ",
+      "nu"
+    ],
+    [
+      "ね",
+      "ne"
+    ],
+    [
+      "の",
+      "no"
+    ],
+    [
+      "は",
+      "ha"
+    ],
+    [
+      "ひ",
+      "hi"
+    ],
+    [
+      "ふ",
+      "fu"
+    ],
+    [
+      "へ",
+      "he"
+    ],
+    [
+      "ほ",
+      "ho"
+    ],
+    [
+      "ま",
+      "ma"
+    ],
+    [
+      "み",
+      "mi"
+    ],
+    [
+      "む",
+      "mu"
+    ],
+    [
+      "め",
+      "me"
+    ],
+    [
+      "も",
+      "mo"
+    ],
+    [
+      "や",
+      "ya"
+    ],
+    [
+      "ゆ",
+      "yu"
+    ],
+    [
+      "よ",
+      "yo"
+    ],
+    [
+      "ら",
+      "ra"
+    ],
+    [
+      "り",
+      "ri"
+    ],
+    [
+      "る",
+      "ru"
+    ],
+    [
+      "れ",
+      "re"
+    ],
+    [
+      "ろ",
+      "ro"
+    ],
+    [
+      "わ",
+      "wa"
+    ],
+    [
+      "を",
+      "o"
+    ],
+    [
+      "ん",
+      "n"
+    ],
+    [
+      "が",
+      "ga"
+    ],
+    [
+      "ぎ",
+      "gi"
+    ],
+    [
+      "ぐ",
+      "gu"
+    ],
+    [
+      "げ",
+      "ge"
+    ],
+    [
+      "ご",
+      "go"
+    ],
+    [
+      "ざ",
+      "za"
+    ],
+    [
+      "じ",
+      "ji"
+    ],
+    [
+      "ず",
+      "zu"
+    ],
+    [
+      "ぜ",
+      "ze"
+    ],
+    [
+      "ぞ",
+      "zo"
+    ],
+    [
+      "だ",
+      "da"
+    ],
+    [
+      "ぢ",
+      "ji"
+    ],
+    [
+      "づ",
+      "zu"
+    ],
+    [
+      "で",
+      "de"
+    ],
+    [
+      "ど",
+      "do"
+    ],
+    [
+      "ば",
+      "ba"
+    ],
+    [
+      "び",
+      "bi"
+    ],
+    [
+      "ぶ",
+      "bu"
+    ],
+    [
+      "べ",
+      "be"
+    ],
+    [
+      "ぼ",
+      "bo"
+    ],
+    [
+      "ぱ",
+      "pa"
+    ],
+    [
+      "ぴ",
+      "pi"
+    ],
+    [
+      "ぷ",
+      "pu"
+    ],
+    [
+      "ぺ",
+      "pe"
+    ],
+    [
+      "ぽ",
+      "po"
+    ],
+    [
+      "きゃ",
+      "kya"
+    ],
+    [
+      "きゅ",
+      "kyu"
+    ],
+    [
+      "きょ",
+      "kyo"
+    ],
+    [
+      "しゃ",
+      "sha"
+    ],
+    [
+      "しゅ",
+      "shu"
+    ],
+    [
+      "しょ",
+      "sho"
+    ],
+    [
+      "ちゃ",
+      "cha"
+    ],
+    [
+      "ちゅ",
+      "chu"
+    ],
+    [
+      "ちょ",
+      "cho"
+    ],
+    [
+      "にゃ",
+      "nya"
+    ],
+    [
+      "にゅ",
+      "nyu"
+    ],
+    [
+      "にょ",
+      "nyo"
+    ],
+    [
+      "ひゃ",
+      "hya"
+    ],
+    [
+      "ひゅ",
+      "hyu"
+    ],
+    [
+      "ひょ",
+      "hyo"
+    ],
+    [
+      "みゃ",
+      "mya"
+    ],
+    [
+      "みゅ",
+      "myu"
+    ],
+    [
+      "みょ",
+      "myo"
+    ],
+    [
+      "りゃ",
+      "rya"
+    ],
+    [
+      "りゅ",
+      "ryu"
+    ],
+    [
+      "りょ",
+      "ryo"
+    ]
+  ]
+}

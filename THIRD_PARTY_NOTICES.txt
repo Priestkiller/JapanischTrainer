@@ -1,0 +1,46 @@
+Abhängigkeiten und Herkunft
+==========================
+
+Der Programmquellcode des JapanischTrainers wird ab 11.0.1 unter
+GPL-3.0-or-later bereitgestellt (LICENSE.txt). Pykakasi ist GPL-3.0-or-later.
+Passender Quellcode und Build-Anleitung werden zusammen mit den Releases
+unter https://github.com/Priestkiller/JapanischTrainer bereitgestellt.
+Grafiken und Sprachmodelle sind separate Ressourcen; insbesondere gelten
+für Modelle die in MODEL_LICENSES.txt wiedergegebenen Originalbedingungen.
+Original-Lizenztexte der tatsächlich eingebundenen Python-Pakete befinden
+sich im Unterordner licenses/python-packages.
+cryptography 46.0.5 (Apache-2.0 OR BSD-3-Clause) prüft Ed25519-Updatesignaturen.
+
+Der neue UI-Code verwendet Python/Tkinter, Pillow und NumPy. Der bestehende
+Sprachcode verwendet sherpa-onnx, sounddevice und pykakasi. Die Windows-EXE
+wird auf dem Ziel-PC mit PyInstaller gebaut. Konkrete Versionsgrenzen stehen
+in requirements.txt. Die Original-Lizenztexte und Metadaten sind Bestandteil
+der jeweiligen Python-Pakete und ihrer Quellprojekte.
+
+Projektquellen:
+Python / Tkinter: https://www.python.org/ und https://www.tcl.tk/
+Pillow: https://github.com/python-pillow/Pillow
+NumPy: https://github.com/numpy/numpy
+sherpa-onnx: https://github.com/k2-fsa/sherpa-onnx
+sounddevice: https://github.com/spatialaudio/python-sounddevice
+pykakasi: https://github.com/miurahr/pykakasi
+PyInstaller: https://github.com/pyinstaller/pyinstaller
+
+Sprachmodelle: siehe MODEL_ATTRIBUTION.txt und download_models.ps1.
+Es werden die bereits in V6 referenzierten Modell-Releases übernommen,
+keine Stimmaufnahmen realer Personen aus diesem Chat geklont.
+
+Lehrerbilder, Kiko und Hintergrund stammen aus den in dieser Unterhaltung
+bereitgestellten bzw. zuvor erzeugten Grafiken. Karten und Avatare wurden
+aus den einzelnen transparenten Lehrermotiven abgeleitet; nicht aus einem
+UI-Screenshot. Die UI-Icons werden im Programm geometrisch gezeichnet.
+
+Es werden keine Schriftdateien mitgeliefert. Die Anwendung lädt geeignete
+vorhandene Betriebssystemschriften. Die Bilder unter docs enthalten nur
+gerenderte Pixel der Testoberfläche, keine eingebetteten Fontdateien.
+
+OpenCV headless: https://pypi.org/project/opencv-python-headless/
+OpenCV source: https://github.com/opencv/opencv
+OpenCV is used only for local image deformation; no webcam is accessed.
+The Python package supplies its own original licences/third-party notices.
+The animation rigs and lid-patch construction code are specific to this project.

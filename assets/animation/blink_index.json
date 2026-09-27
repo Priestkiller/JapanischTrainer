@@ -1,0 +1,178 @@
+{
+  "sakura": {
+    "bbox": [
+      400,
+      246,
+      595,
+      349
+    ],
+    "frames": [
+      "blink_1.png",
+      "blink_2.png",
+      "blink_3.png",
+      "blink_4.png",
+      "blink_5.png"
+    ],
+    "amounts": [
+      0.2,
+      0.4,
+      0.65,
+      0.85,
+      1.0
+    ]
+  },
+  "aiko": {
+    "bbox": [
+      437,
+      161,
+      619,
+      245
+    ],
+    "frames": [
+      "blink_1.png",
+      "blink_2.png",
+      "blink_3.png",
+      "blink_4.png",
+      "blink_5.png"
+    ],
+    "amounts": [
+      0.2,
+      0.4,
+      0.65,
+      0.85,
+      1.0
+    ]
+  },
+  "haruto": {
+    "bbox": [
+      404,
+      153,
+      544,
+      215
+    ],
+    "frames": [
+      "blink_1.png",
+      "blink_2.png",
+      "blink_3.png",
+      "blink_4.png",
+      "blink_5.png"
+    ],
+    "amounts": [
+      0.2,
+      0.4,
+      0.65,
+      0.85,
+      1.0
+    ]
+  },
+  "miyako": {
+    "bbox": [
+      410,
+      199,
+      575,
+      273
+    ],
+    "frames": [
+      "blink_1.png",
+      "blink_2.png",
+      "blink_3.png",
+      "blink_4.png",
+      "blink_5.png"
+    ],
+    "amounts": [
+      0.2,
+      0.4,
+      0.65,
+      0.85,
+      1.0
+    ]
+  },
+  "emiri": {
+    "bbox": [
+      460,
+      215,
+      551,
+      287
+    ],
+    "frames": [
+      "blink_1.png",
+      "blink_2.png",
+      "blink_3.png",
+      "blink_4.png",
+      "blink_5.png"
+    ],
+    "amounts": [
+      0.2,
+      0.4,
+      0.65,
+      0.85,
+      1.0
+    ]
+  },
+  "satoshi": {
+    "bbox": [
+      384,
+      170,
+      514,
+      239
+    ],
+    "frames": [
+      "blink_1.png",
+      "blink_2.png",
+      "blink_3.png",
+      "blink_4.png",
+      "blink_5.png"
+    ],
+    "amounts": [
+      0.2,
+      0.4,
+      0.65,
+      0.85,
+      1.0
+    ]
+  },
+  "yuki": {
+    "bbox": [
+      526,
+      180,
+      698,
+      271
+    ],
+    "frames": [
+      "blink_1.png",
+      "blink_2.png",
+      "blink_3.png",
+      "blink_4.png",
+      "blink_5.png"
+    ],
+    "amounts": [
+      0.2,
+      0.4,
+      0.65,
+      0.85,
+      1.0
+    ]
+  },
+  "kiko_idle": {
+    "bbox": [
+      141,
+      174,
+      308,
+      255
+    ],
+    "frames": [
+      "blink_1.png",
+      "blink_2.png",
+      "blink_3.png",
+      "blink_4.png",
+      "blink_5.png"
+    ],
+    "amounts": [
+      0.2,
+      0.4,
+      0.65,
+      0.85,
+      1.0
+    ]
+  }
+}

@@ -1,0 +1,79 @@
+﻿{
+  "name": "JapanischTrainer",
+  "minimum_version": "11.0.0",
+  "minimum_lessons": 150,
+  "minimum_cards": 680,
+  "allowed_directories": [
+    "_internal",
+    "assets",
+    "data",
+    "models",
+    "licenses"
+  ],
+  "allowed_root_files": [
+    "JapanischTrainer.exe",
+    "README.txt",
+    "KURSUEBERSICHT_V11.txt",
+    "RELEASE_NOTES_V11.txt",
+    "MODEL_ATTRIBUTION.txt",
+    "THIRD_PARTY_NOTICES.txt",
+    "JapanischTrainerUpdater.exe",
+    "release.json",
+    "update-source.json",
+    "MODEL_LICENSES.txt"
+  ],
+  "required_files": [
+    "JapanischTrainer.exe",
+    "assets/icon.ico",
+    "assets/backgrounds/main.jpg",
+    "assets/animation/rigs.json",
+    "assets/animation/expressions.json",
+    "assets/animation/blink_index.json",
+    "assets/mascot/kiko_idle.png",
+    "data/course.json",
+    "data/catalog.json",
+    "data/deep_lessons.json",
+    "MODEL_ATTRIBUTION.txt",
+    "THIRD_PARTY_NOTICES.txt",
+    "JapanischTrainerUpdater.exe",
+    "release.json",
+    "update-source.json",
+    "MODEL_LICENSES.txt"
+  ],
+  "teachers": [
+    "sakura",
+    "aiko",
+    "haruto",
+    "ren",
+    "miyako",
+    "emiri",
+    "satoshi",
+    "yuki"
+  ],
+  "model_files": {
+    "supertonic": [
+      "duration_predictor.int8.onnx",
+      "text_encoder.int8.onnx",
+      "vector_estimator.int8.onnx",
+      "vocoder.int8.onnx",
+      "tts.json",
+      "unicode_indexer.bin",
+      "voice.bin"
+    ],
+    "parakeet-ja": [
+      "model.int8.onnx",
+      "tokens.txt"
+    ],
+    "sensevoice": [
+      "model.int8.onnx",
+      "tokens.txt"
+    ]
+  },
+  "compiler": {
+    "version": "6.7.3",
+    "url": "https://github.com/jrsoftware/issrc/releases/download/is-6_7_3/innosetup-6.7.3.exe",
+    "sha256": "9c73c3bae7ed48d44112a0f48e66742c00090bdb5bef71d9d3c056c66e97b732",
+    "publisher": "Pyrsys B.V.",
+    "hash_source": "https://github.com/microsoft/winget-pkgs/blob/master/manifests/j/JRSoftware/InnoSetup/6.7.3/JRSoftware.InnoSetup.installer.yaml"
+  }
+}

@@ -1,0 +1,32 @@
+﻿JapanischTrainer - Offline-Installation
+======================================
+
+Dieses Setup enthält die bereits gebaute Windows-Anwendung mit Kursdaten,
+Figuren, Animationen, Programmlaufzeit und lokalen Sprachmodellen.
+Es lädt bei der Installation keine Python-Pakete und keine Modelle nach.
+
+Voraussetzung: Windows 10 ab Version 1809 oder Windows 11, jeweils x64
+auf einem Intel-/AMD-PC. Windows on ARM ist in dieser Vorlage nicht freigegeben.
+Die Hardware muss die vorhandene V11-Anwendung und ihre Modelle ausführen können.
+
+Installiert wird standardmäßig nur für dein Windows-Benutzerkonto unter:
+%LOCALAPPDATA%\Programs\JapanischTrainer
+
+Lernfortschritt und Einstellungen bleiben getrennt unter:
+%APPDATA%\JapanischTrainer
+Vor einem Update wird progress.json zusätzlich im Unterordner Backups gesichert.
+Die Deinstallation löscht den Lernfortschritt und diese Sicherungen nicht.
+
+Aufnahmen und persönliche Lerndaten des Erstellers sind nicht Teil des Setups.
+Der Mikrofonzugriff und das Audiogerät müssen auf dem Zielcomputer funktionieren.
+Die Spracherkennung vergleicht erkannten Text und ersetzt keine phonetische
+Bewertung einzelner Laute oder des japanischen Tonhöhenakzents.
+
+Diese Version des Setups ist nicht mit einem Herausgeberzertifikat signiert.
+Das kann Windows-Warnungen auslösen. Sicherheitsfunktionen nicht deaktivieren.
+Datei nur aus einer vertrauten Quelle beziehen; die mitgelieferte SHA-256-Datei
+kann Übertragungsfehler erkennen, ist aber kein Ersatz für eine digitale Signatur.
+
+Für die enthaltenen Fremdkomponenten und Modelle gelten deren eigene Lizenzen.
+Herkunftshinweise stehen in MODEL_ATTRIBUTION.txt und THIRD_PARTY_NOTICES.txt
+im Programmordner. Dieses Dokument erteilt keine zusätzlichen Modellrechte.

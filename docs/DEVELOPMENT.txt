@@ -1,0 +1,54 @@
+11.0.0 development notes
+========================
+Native Tk/Pillow application. V11 expands course data and preserves the V10.1
+actor artwork, rigs, movement engine, reactions, voices and speech engine.
+No QML, browser, Live2D SDK, new cloud service, or additional runtime dependency.
+
+Curriculum / stable progress
+----------------------------
+data/course.json includes explicit lesson IDs, sections and learning_order.
+Legacy IDs stay 0:0 ... 43:0. New IDs are v11:<slug>. Never replace these with
+course display positions. Existing cards also retain their per-lesson order.
+CourseAdapter in learning.py handles lookup, ordering, search and stage filters.
+Its one-time revision migration backs up the prior profile before updating it,
+keeps all existing completions/settings/sessions, and records legacy_unlocked.
+Unblocked new basics are NOT automatically marked studied or added to hearing
+libraries. docs/LEGACY_COURSE_V101.json is the old-card regression baseline.
+
+Each new card has its own detail profile: explanation, usage/register note,
+scenario and example. Readings use content-comprehension scenarios. study.py
+prefers this profile before the old generic fallbacks. Only explicitly supplied
+Romaji alternatives are accepted in addition to existing normalization.
+
+UI
+--
+app.py supplies the curriculum search and section/new filters. Native Entry
+widgets survive actor animation ticks. lesson_ui.py measures the pinned card,
+keeps the existing inline microphone controls, and wraps long sentence targets.
+Library/standalone-speaking views also wrap longer new sentence targets.
+
+Unchanged animation/audio
+-------------------------
+motion.py / rigging.py / actors.py / reactions.py: byte-identical to V10.1.
+speech_engine.py and requirements.txt: byte-identical to V10.1.
+assets/ contents: all 109 files are byte-identical to V10.1.
+See UNCHANGED_COMPONENTS_V11.json for hashes.
+
+Tests
+-----
+python selftest.py
+python tests/ui_smoke.py OUTPUT_DIRECTORY
+python tests/ui_course.py OUTPUT_DIRECTORY
+Native UI tests need a display (Xvfb under Linux); they create separate temporary
+profiles, not the user's learning data. The course UI suite renders all 100 new
+lessons, tests all voice-profile dispatches using an explicit probe, and checks
+idle, praise, inline microphone controls and longer sentences at four sizes.
+Audio probes are NOT real recognition, synthesis, pronunciation or mic tests.
+
+Current reports are in docs/TESTBERICHT_V11.json. Earlier evidence is explicitly
+archived in docs/history_v10_1/ and must not be presented as current V11 results.
+
+Historical tools/build_rigs.py rebuilds an old initial rig table. Do NOT use it
+to overwrite the current manually tuned V10.1 rigs. Authoring tools are not used
+by the runtime or installer. No font files, model weights, learning profiles or
+compiled Windows binaries are included.

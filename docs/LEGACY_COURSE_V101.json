@@ -1,0 +1,2553 @@
+{
+  "lesson_count": 50,
+  "card_count": 178,
+  "lessons": [
+    {
+      "key": "0:0",
+      "title": "A, I, U, E, O",
+      "cards": [
+        {
+          "jp": "あ",
+          "romaji": "a",
+          "de": "Laut a",
+          "approx": "wie a in Mann",
+          "note": "Kurz und klar. Japanische Vokale bleiben relativ stabil."
+        },
+        {
+          "jp": "い",
+          "romaji": "i",
+          "de": "Laut i",
+          "approx": "wie i in Liebe",
+          "note": "Nicht unnötig zu einem langen deutschen ie ziehen."
+        },
+        {
+          "jp": "う",
+          "romaji": "u",
+          "de": "Laut u",
+          "approx": "kurzes, eher schwaches u",
+          "note": "Die Lippen werden meist weniger stark gerundet als im Deutschen."
+        },
+        {
+          "jp": "え",
+          "romaji": "e",
+          "de": "Laut e",
+          "approx": "wie e in Bett",
+          "note": "Ein klares e, nicht ei."
+        },
+        {
+          "jp": "お",
+          "romaji": "o",
+          "de": "Laut o",
+          "approx": "klares o",
+          "note": "Nicht zu ou verändern."
+        }
+      ],
+      "speech": [
+        {
+          "target": "あ",
+          "romaji": "a",
+          "meaning": "Laut a",
+          "accept": [
+            "あ"
+          ]
+        },
+        {
+          "target": "い",
+          "romaji": "i",
+          "meaning": "Laut i",
+          "accept": [
+            "い"
+          ]
+        }
+      ],
+      "xp": 20
+    },
+    {
+      "key": "0:1",
+      "title": "Erste kurze Wörter",
+      "cards": [
+        {
+          "jp": "あさ",
+          "romaji": "asa",
+          "de": "Morgen",
+          "approx": "a-sa",
+          "note": "Zwei gleichmäßige Sprechtakte: a-sa."
+        },
+        {
+          "jp": "いえ",
+          "romaji": "ie",
+          "de": "Haus / Zuhause",
+          "approx": "i-e",
+          "note": "Die beiden Vokale getrennt sprechen."
+        },
+        {
+          "jp": "うえ",
+          "romaji": "ue",
+          "de": "oben / auf",
+          "approx": "u-e",
+          "note": "Auch hier zwei klare Takte."
+        }
+      ],
+      "speech": [
+        {
+          "target": "あさ",
+          "romaji": "asa",
+          "meaning": "Morgen",
+          "accept": [
+            "あさ",
+            "朝"
+          ]
+        },
+        {
+          "target": "いえ",
+          "romaji": "ie",
+          "meaning": "Haus / Zuhause",
+          "accept": [
+            "いえ",
+            "家"
+          ]
+        }
+      ],
+      "xp": 25
+    },
+    {
+      "key": "1:0",
+      "title": "Hallo, Danke, Entschuldigung",
+      "cards": [
+        {
+          "jp": "こんにちは",
+          "romaji": "konnichiwa",
+          "de": "Guten Tag / Hallo",
+          "approx": "kon-ni-tschi-wa",
+          "note": "Das letzte は wird hier wa gesprochen."
+        },
+        {
+          "jp": "ありがとう",
+          "romaji": "arigatō",
+          "de": "Danke",
+          "approx": "a-ri-ga-too",
+          "note": "Das ō ist lang. Den letzten o-Laut länger halten."
+        },
+        {
+          "jp": "すみません",
+          "romaji": "sumimasen",
+          "de": "Entschuldigung / Verzeihung / danke für die Umstände",
+          "approx": "su-mi-ma-sen",
+          "note": "Sehr vielseitig: entschuldigen, jemanden ansprechen oder höflich danken."
+        },
+        {
+          "jp": "はい",
+          "romaji": "hai",
+          "de": "Ja",
+          "approx": "hai",
+          "note": "Kurz und klar."
+        },
+        {
+          "jp": "いいえ",
+          "romaji": "iie",
+          "de": "Nein",
+          "approx": "ii-e",
+          "note": "Die ersten beiden i bilden einen langen i-Laut."
+        }
+      ],
+      "speech": [
+        {
+          "target": "こんにちは",
+          "romaji": "konnichiwa",
+          "meaning": "Guten Tag / Hallo",
+          "accept": [
+            "こんにちは",
+            "今日は"
+          ]
+        },
+        {
+          "target": "ありがとう",
+          "romaji": "arigatō",
+          "meaning": "Danke",
+          "accept": [
+            "ありがとう",
+            "有難う"
+          ]
+        },
+        {
+          "target": "すみません",
+          "romaji": "sumimasen",
+          "meaning": "Entschuldigung",
+          "accept": [
+            "すみません"
+          ]
+        }
+      ],
+      "xp": 30
+    },
+    {
+      "key": "1:1",
+      "title": "Tageszeiten",
+      "cards": [
+        {
+          "jp": "おはようございます",
+          "romaji": "ohayō gozaimasu",
+          "de": "Guten Morgen, höflich",
+          "approx": "o-ha-joo go-sai-ma-su",
+          "note": "おはよう allein ist lockerer; ございます macht es höflicher."
+        },
+        {
+          "jp": "こんばんは",
+          "romaji": "konbanwa",
+          "de": "Guten Abend",
+          "approx": "kon-ban-wa",
+          "note": "Auch hier wird は am Ende wa gesprochen."
+        },
+        {
+          "jp": "おやすみなさい",
+          "romaji": "oyasuminasai",
+          "de": "Gute Nacht",
+          "approx": "o-ja-su-mi-na-sai",
+          "note": "Höfliche Standardform vor dem Schlafengehen."
+        }
+      ],
+      "speech": [
+        {
+          "target": "こんばんは",
+          "romaji": "konbanwa",
+          "meaning": "Guten Abend",
+          "accept": [
+            "こんばんは",
+            "今晩は"
+          ]
+        },
+        {
+          "target": "おやすみなさい",
+          "romaji": "oyasuminasai",
+          "meaning": "Gute Nacht",
+          "accept": [
+            "おやすみなさい",
+            "お休みなさい"
+          ]
+        }
+      ],
+      "xp": 25
+    },
+    {
+      "key": "2:0",
+      "title": "わたしは～です",
+      "cards": [
+        {
+          "jp": "わたし",
+          "romaji": "watashi",
+          "de": "ich",
+          "approx": "wa-ta-schi",
+          "note": "Neutrales, höfliches ich. Oft kann es später weggelassen werden."
+        },
+        {
+          "jp": "は",
+          "romaji": "wa",
+          "de": "Themenpartikel: was … betrifft",
+          "approx": "wa",
+          "note": "Das Zeichen heißt normalerweise ha, als Themenpartikel wird es wa gesprochen."
+        },
+        {
+          "jp": "です",
+          "romaji": "desu",
+          "de": "höfliche Satzendung, ungefähr bin / ist / sind",
+          "approx": "de-su, das u oft sehr schwach",
+          "note": "Nicht exakt mit dem deutschen Verb sein gleichsetzen."
+        },
+        {
+          "jp": "わたしはがくせいです。",
+          "romaji": "watashi wa gakusei desu",
+          "de": "Ich bin Schüler / Student.",
+          "approx": "wa-ta-schi wa ga-ku-see de-su",
+          "note": "Thema + Information + höfliche Satzendung."
+        }
+      ],
+      "speech": [
+        {
+          "target": "わたしはがくせいです",
+          "romaji": "watashi wa gakusei desu",
+          "meaning": "Ich bin Schüler / Student.",
+          "accept": [
+            "わたしはがくせいです",
+            "私は学生です",
+            "私学生です"
+          ]
+        }
+      ],
+      "xp": 35
+    },
+    {
+      "key": "2:1",
+      "title": "Nationalität",
+      "cards": [
+        {
+          "jp": "ドイツ",
+          "romaji": "doitsu",
+          "de": "Deutschland",
+          "approx": "do-i-tsu",
+          "note": "Katakana wird häufig für ausländische Namen verwendet."
+        },
+        {
+          "jp": "ドイツじん",
+          "romaji": "doitsu-jin",
+          "de": "Deutscher / Deutsche",
+          "approx": "do-i-tsu-dschin",
+          "note": "～じん nach einem Land bezeichnet die Nationalität."
+        },
+        {
+          "jp": "わたしはドイツじんです。",
+          "romaji": "watashi wa doitsu-jin desu",
+          "de": "Ich bin Deutscher / Deutsche.",
+          "approx": "wa-ta-schi wa do-i-tsu-dschin de-su",
+          "note": "Ein nützliches Vorstellungsmuster."
+        }
+      ],
+      "speech": [
+        {
+          "target": "わたしはドイツじんです",
+          "romaji": "watashi wa doitsu-jin desu",
+          "meaning": "Ich bin Deutscher / Deutsche.",
+          "accept": [
+            "わたしはドイツじんです",
+            "私はドイツ人です",
+            "私ドイツ人です"
+          ]
+        }
+      ],
+      "xp": 30
+    },
+    {
+      "key": "3:0",
+      "title": "～ですか",
+      "cards": [
+        {
+          "jp": "か",
+          "romaji": "ka",
+          "de": "Fragepartikel am Satzende",
+          "approx": "ka",
+          "note": "In höflicher Sprache macht か einen Satz häufig zur Frage."
+        },
+        {
+          "jp": "がくせいですか。",
+          "romaji": "gakusei desu ka",
+          "de": "Bist du / Sind Sie Schüler oder Student?",
+          "approx": "ga-ku-see de-su ka",
+          "note": "Das Pronomen du/Sie kann fehlen, wenn es aus der Situation klar ist."
+        },
+        {
+          "jp": "はい、そうです。",
+          "romaji": "hai, sō desu",
+          "de": "Ja, das stimmt / Ja, so ist es.",
+          "approx": "hai, soo de-su",
+          "note": "Natürliche kurze Bestätigung."
+        }
+      ],
+      "speech": [
+        {
+          "target": "がくせいですか",
+          "romaji": "gakusei desu ka",
+          "meaning": "Bist/Sind du/Sie Student?",
+          "accept": [
+            "がくせいですか",
+            "学生ですか"
+          ]
+        },
+        {
+          "target": "はい、そうです",
+          "romaji": "hai, sō desu",
+          "meaning": "Ja, das stimmt.",
+          "accept": [
+            "はいそうです",
+            "はい、そうです"
+          ]
+        }
+      ],
+      "xp": 35
+    },
+    {
+      "key": "4:0",
+      "title": "Vokal-, K- und S-Reihe",
+      "cards": [
+        {
+          "jp": "あ い う え お",
+          "romaji": "a i u e o",
+          "de": "Vokalreihe",
+          "approx": "a i u e o",
+          "note": "Grundlage der Silbenschrift."
+        },
+        {
+          "jp": "か き く け こ",
+          "romaji": "ka ki ku ke ko",
+          "de": "K-Reihe",
+          "approx": "ka ki ku ke ko",
+          "note": "Regelmäßige Kombination mit k."
+        },
+        {
+          "jp": "さ し す せ そ",
+          "romaji": "sa shi su se so",
+          "de": "S-Reihe",
+          "approx": "sa schi su se so",
+          "note": "Wichtig: し = shi, nicht si."
+        },
+        {
+          "jp": "すし",
+          "romaji": "sushi",
+          "de": "Sushi",
+          "approx": "su-schi",
+          "note": "Zwei gleichmäßige Takte."
+        }
+      ],
+      "speech": [
+        {
+          "target": "すし",
+          "romaji": "sushi",
+          "meaning": "Sushi",
+          "accept": [
+            "すし",
+            "寿司",
+            "鮨"
+          ]
+        }
+      ],
+      "xp": 40
+    },
+    {
+      "key": "4:1",
+      "title": "T- und N-Reihe",
+      "cards": [
+        {
+          "jp": "た ち つ て と",
+          "romaji": "ta chi tsu te to",
+          "de": "T-Reihe",
+          "approx": "ta tschi tsu te to",
+          "note": "Zwei wichtige Ausnahmen: ち = chi und つ = tsu."
+        },
+        {
+          "jp": "な に ぬ ね の",
+          "romaji": "na ni nu ne no",
+          "de": "N-Reihe",
+          "approx": "na ni nu ne no",
+          "note": "Diese Reihe ist regelmäßig."
+        },
+        {
+          "jp": "なつ",
+          "romaji": "natsu",
+          "de": "Sommer",
+          "approx": "na-tsu",
+          "note": "Zwei klare Takte."
+        }
+      ],
+      "speech": [
+        {
+          "target": "なつ",
+          "romaji": "natsu",
+          "meaning": "Sommer",
+          "accept": [
+            "なつ",
+            "夏"
+          ]
+        }
+      ],
+      "xp": 40
+    },
+    {
+      "key": "5:0",
+      "title": "を + Verb",
+      "cards": [
+        {
+          "jp": "たべます",
+          "romaji": "tabemasu",
+          "de": "esse / werde essen, höflich",
+          "approx": "ta-be-ma-su",
+          "note": "Gegenwart und nahe Zukunft werden hier nicht streng getrennt."
+        },
+        {
+          "jp": "のみます",
+          "romaji": "nomimasu",
+          "de": "trinke / werde trinken, höflich",
+          "approx": "no-mi-ma-su",
+          "note": "Höfliche ます-Form."
+        },
+        {
+          "jp": "を",
+          "romaji": "o",
+          "de": "markiert das direkte Objekt",
+          "approx": "o",
+          "note": "Geschrieben を, heute normalerweise o gesprochen."
+        },
+        {
+          "jp": "みずをのみます。",
+          "romaji": "mizu o nomimasu",
+          "de": "Ich trinke Wasser.",
+          "approx": "mi-su o no-mi-ma-su",
+          "note": "Objekt + を + Verb. Das Verb steht am Ende."
+        }
+      ],
+      "speech": [
+        {
+          "target": "みずをのみます",
+          "romaji": "mizu o nomimasu",
+          "meaning": "Ich trinke Wasser.",
+          "accept": [
+            "みずをのみます",
+            "水を飲みます"
+          ]
+        }
+      ],
+      "xp": 45
+    },
+    {
+      "key": "6:0",
+      "title": "Im Café",
+      "cards": [
+        {
+          "jp": "コーヒーをください。",
+          "romaji": "kōhī o kudasai",
+          "de": "Einen Kaffee, bitte.",
+          "approx": "koo-hii o ku-da-sai",
+          "note": "～をください ist eine sehr praktische höfliche Bitte."
+        },
+        {
+          "jp": "これはいくらですか。",
+          "romaji": "kore wa ikura desu ka",
+          "de": "Wie viel kostet das hier?",
+          "approx": "ko-re wa i-ku-ra de-su ka",
+          "note": "いくら bedeutet wie viel / welcher Preis."
+        },
+        {
+          "jp": "ありがとうございます。",
+          "romaji": "arigatō gozaimasu",
+          "de": "Vielen Dank, höflich.",
+          "approx": "a-ri-ga-too go-sai-ma-su",
+          "note": "Höflicher als ありがとう allein."
+        }
+      ],
+      "speech": [
+        {
+          "target": "コーヒーをください",
+          "romaji": "kōhī o kudasai",
+          "meaning": "Einen Kaffee, bitte.",
+          "accept": [
+            "コーヒーをください"
+          ]
+        },
+        {
+          "target": "これはいくらですか",
+          "romaji": "kore wa ikura desu ka",
+          "meaning": "Wie viel kostet das?",
+          "accept": [
+            "これはいくらですか"
+          ]
+        }
+      ],
+      "xp": 50
+    },
+    {
+      "key": "7:0",
+      "title": "ます・ません・ました",
+      "cards": [
+        {
+          "jp": "たべます",
+          "romaji": "tabemasu",
+          "de": "esse / werde essen",
+          "approx": "ta-be-ma-su",
+          "note": "Höfliche positive Form."
+        },
+        {
+          "jp": "たべません",
+          "romaji": "tabemasen",
+          "de": "esse nicht / werde nicht essen",
+          "approx": "ta-be-ma-sen",
+          "note": "Höfliche Verneinung."
+        },
+        {
+          "jp": "たべました",
+          "romaji": "tabemashita",
+          "de": "aß / habe gegessen",
+          "approx": "ta-be-ma-schi-ta",
+          "note": "Höfliche Vergangenheit."
+        },
+        {
+          "jp": "たべて",
+          "romaji": "tabete",
+          "de": "て-Form von essen",
+          "approx": "ta-be-te",
+          "note": "Grundlage für sehr viele weitere Grammatikmuster."
+        }
+      ],
+      "speech": [
+        {
+          "target": "たべました",
+          "romaji": "tabemashita",
+          "meaning": "Ich habe gegessen.",
+          "accept": [
+            "たべました",
+            "食べました"
+          ]
+        }
+      ],
+      "xp": 60
+    },
+    {
+      "key": "8:0",
+      "title": "～たい / können",
+      "cards": [
+        {
+          "jp": "にほんへいきたいです。",
+          "romaji": "nihon e ikitai desu",
+          "de": "Ich möchte nach Japan.",
+          "approx": "ni-hon e i-ki-tai de-su",
+          "note": "へ wird als Partikel e gesprochen."
+        },
+        {
+          "jp": "にほんごがはなせます。",
+          "romaji": "nihongo ga hanasemasu",
+          "de": "Ich kann Japanisch sprechen.",
+          "approx": "ni-hon-go ga ha-na-se-ma-su",
+          "note": "Die Potentialform drückt Fähigkeit oder Möglichkeit aus."
+        }
+      ],
+      "speech": [
+        {
+          "target": "にほんへいきたいです",
+          "romaji": "nihon e ikitai desu",
+          "meaning": "Ich möchte nach Japan.",
+          "accept": [
+            "にほんへいきたいです",
+            "日本へ行きたいです"
+          ]
+        },
+        {
+          "target": "にほんごがはなせます",
+          "romaji": "nihongo ga hanasemasu",
+          "meaning": "Ich kann Japanisch sprechen.",
+          "accept": [
+            "にほんごがはなせます",
+            "日本語が話せます"
+          ]
+        }
+      ],
+      "xp": 65
+    },
+    {
+      "key": "9:0",
+      "title": "Locker und höflich",
+      "cards": [
+        {
+          "jp": "なにしてる？",
+          "romaji": "nani shiteru?",
+          "de": "Was machst du gerade? locker",
+          "approx": "na-ni schi-te-ru",
+          "note": "Verkürzt aus なにをしている？. Solche Verkürzungen sind im Alltag sehr häufig."
+        },
+        {
+          "jp": "なにをしていますか。",
+          "romaji": "nani o shite imasu ka",
+          "de": "Was machen Sie gerade? höflich",
+          "approx": "na-ni o schi-te i-ma-su ka",
+          "note": "Höfliche Variante desselben Grundgedankens."
+        },
+        {
+          "jp": "いかなきゃ。",
+          "romaji": "ikanakya",
+          "de": "Ich muss gehen, sehr locker",
+          "approx": "i-ka-na-kja",
+          "note": "Umgangssprachliche Kurzform einer Muss-Konstruktion."
+        }
+      ],
+      "speech": [
+        {
+          "target": "なにしてる",
+          "romaji": "nani shiteru",
+          "meaning": "Was machst du gerade? locker",
+          "accept": [
+            "なにしてる",
+            "何してる"
+          ]
+        }
+      ],
+      "xp": 90
+    },
+    {
+      "key": "10:0",
+      "title": "H-, M-, Y-, R- und W-Reihe",
+      "cards": [
+        {
+          "jp": "は ひ ふ へ ほ",
+          "romaji": "ha hi fu he ho",
+          "de": "H-Reihe",
+          "approx": "ha hi fu he ho",
+          "note": "ふ wird fu gesprochen; へ wird als Partikel später oft e gesprochen."
+        },
+        {
+          "jp": "ま み む め も",
+          "romaji": "ma mi mu me mo",
+          "de": "M-Reihe",
+          "approx": "ma mi mu me mo",
+          "note": "Regelmäßige M-Reihe."
+        },
+        {
+          "jp": "や ゆ よ",
+          "romaji": "ya yu yo",
+          "de": "Y-Reihe",
+          "approx": "ja ju jo",
+          "note": "Nur ya, yu und yo; yi/ye gibt es in der Grundreihe nicht."
+        },
+        {
+          "jp": "ら り る れ ろ",
+          "romaji": "ra ri ru re ro",
+          "de": "R-Reihe",
+          "approx": "ra ri ru re ro",
+          "note": "Das japanische r liegt klanglich zwischen deutschem r und l; die Zungenspitze tippt kurz an."
+        },
+        {
+          "jp": "わ を ん",
+          "romaji": "wa o n",
+          "de": "W-Reihe und n",
+          "approx": "wa o n",
+          "note": "を wird als Partikel meist o gesprochen; ん ist ein eigener Sprechtakt."
+        }
+      ],
+      "speech": [
+        {
+          "target": "ふ",
+          "romaji": "fu",
+          "meaning": "Laut fu",
+          "accept": [
+            "ふ"
+          ]
+        },
+        {
+          "target": "らりるれろ",
+          "romaji": "ra ri ru re ro",
+          "meaning": "R-Reihe",
+          "accept": [
+            "らりるれろ"
+          ]
+        }
+      ],
+      "xp": 35
+    },
+    {
+      "key": "10:1",
+      "title": "Dakuten, kleine や/ゆ/よ und っ",
+      "cards": [
+        {
+          "jp": "が ぎ ぐ げ ご",
+          "romaji": "ga gi gu ge go",
+          "de": "G-Reihe",
+          "approx": "ga gi gu ge go",
+          "note": "Dakuten ゛ macht aus k häufig g."
+        },
+        {
+          "jp": "ざ じ ず ぜ ぞ",
+          "romaji": "za ji zu ze zo",
+          "de": "Z-Reihe",
+          "approx": "sa dschi su se so",
+          "note": "じ wird ji gesprochen; ず = zu."
+        },
+        {
+          "jp": "ぱ ぴ ぷ ぺ ぽ",
+          "romaji": "pa pi pu pe po",
+          "de": "P-Reihe",
+          "approx": "pa pi pu pe po",
+          "note": "Handakuten ゜ macht aus h die P-Reihe."
+        },
+        {
+          "jp": "きゃ きゅ きょ",
+          "romaji": "kya kyu kyo",
+          "de": "kombinierte Laute",
+          "approx": "kja kju kjo",
+          "note": "Kleine や/ゆ/よ verbinden sich mit der vorherigen i-Silbe."
+        },
+        {
+          "jp": "がっこう",
+          "romaji": "gakkō",
+          "de": "Schule",
+          "approx": "gak-koo",
+          "note": "Das kleine っ verdoppelt den folgenden Konsonanten: gak-kō.",
+          "example": "がっこうへいきます。",
+          "example_romaji": "gakkō e ikimasu.",
+          "example_de": "Ich gehe zur Schule."
+        }
+      ],
+      "speech": [
+        {
+          "target": "きょう",
+          "romaji": "kyō",
+          "meaning": "heute",
+          "accept": [
+            "きょう",
+            "今日"
+          ]
+        },
+        {
+          "target": "がっこう",
+          "romaji": "gakkō",
+          "meaning": "Schule",
+          "accept": [
+            "がっこう",
+            "学校"
+          ]
+        }
+      ],
+      "xp": 40
+    },
+    {
+      "key": "11:0",
+      "title": "Katakana-Grundreihen",
+      "cards": [
+        {
+          "jp": "ア イ ウ エ オ",
+          "romaji": "a i u e o",
+          "de": "Katakana-Vokale",
+          "approx": "a i u e o",
+          "note": "Gleiche Laute wie Hiragana, andere Schriftform."
+        },
+        {
+          "jp": "カ キ ク ケ コ",
+          "romaji": "ka ki ku ke ko",
+          "de": "Katakana K-Reihe",
+          "approx": "ka ki ku ke ko",
+          "note": "Katakana wird oft für Fremdwörter verwendet."
+        },
+        {
+          "jp": "ゲーム",
+          "romaji": "gēmu",
+          "de": "Spiel / Game",
+          "approx": "gee-mu",
+          "note": "ー verlängert den vorherigen Vokal.",
+          "example": "ゲームをします。",
+          "example_romaji": "gēmu o shimasu.",
+          "example_de": "Ich spiele ein Spiel."
+        },
+        {
+          "jp": "コーヒー",
+          "romaji": "kōhī",
+          "de": "Kaffee",
+          "approx": "koo-hii",
+          "note": "Beide langen Striche verlängern den Vokal.",
+          "example": "コーヒーをください。",
+          "example_romaji": "kōhī o kudasai.",
+          "example_de": "Einen Kaffee, bitte."
+        },
+        {
+          "jp": "ドイツ",
+          "romaji": "Doitsu",
+          "de": "Deutschland",
+          "approx": "do-i-tsu",
+          "note": "Ausländische Ländernamen werden häufig in Katakana geschrieben."
+        }
+      ],
+      "speech": [
+        {
+          "target": "ゲーム",
+          "romaji": "gēmu",
+          "meaning": "Spiel / Game",
+          "accept": [
+            "ゲーム"
+          ]
+        },
+        {
+          "target": "コーヒー",
+          "romaji": "kōhī",
+          "meaning": "Kaffee",
+          "accept": [
+            "コーヒー",
+            "珈琲"
+          ]
+        }
+      ],
+      "xp": 40
+    },
+    {
+      "key": "12:0",
+      "title": "Zahlen 1–10",
+      "cards": [
+        {
+          "jp": "いち",
+          "romaji": "ichi",
+          "de": "eins",
+          "approx": "i-tschi",
+          "note": "1 = いち."
+        },
+        {
+          "jp": "に",
+          "romaji": "ni",
+          "de": "zwei",
+          "approx": "ni",
+          "note": "2 = に."
+        },
+        {
+          "jp": "さん",
+          "romaji": "san",
+          "de": "drei",
+          "approx": "san",
+          "note": "3 = さん."
+        },
+        {
+          "jp": "よん",
+          "romaji": "yon",
+          "de": "vier",
+          "approx": "jon",
+          "note": "4 hat auch die Lesung shi; yon ist für Anfänger oft einfacher."
+        },
+        {
+          "jp": "ご・ろく・なな・はち・きゅう・じゅう",
+          "romaji": "go, roku, nana, hachi, kyū, jū",
+          "de": "fünf bis zehn",
+          "approx": "go / ro-ku / na-na / ha-tschi / kjū / dschū",
+          "note": "Mehrere Zahlen haben alternative Lesungen; hier lernst du zunächst die alltagstauglichen Varianten."
+        }
+      ],
+      "speech": [
+        {
+          "target": "いち に さん よん ご",
+          "romaji": "ichi ni san yon go",
+          "meaning": "eins bis fünf",
+          "accept": [
+            "いちにさんよんご",
+            "一二三四五"
+          ]
+        }
+      ],
+      "xp": 35
+    },
+    {
+      "key": "12:1",
+      "title": "Uhrzeit und Alter",
+      "cards": [
+        {
+          "jp": "いまなんじですか。",
+          "romaji": "ima nanji desu ka",
+          "de": "Wie spät ist es jetzt?",
+          "approx": "i-ma nan-dschi de-su ka",
+          "note": "なんじ bedeutet „welche Uhrzeit“.",
+          "example": "いまさんじです。",
+          "example_romaji": "ima sanji desu.",
+          "example_de": "Es ist jetzt drei Uhr."
+        },
+        {
+          "jp": "しちじ",
+          "romaji": "shichiji",
+          "de": "sieben Uhr",
+          "approx": "schi-tschi-dschi",
+          "note": "7 Uhr wird gewöhnlich しちじ gelesen."
+        },
+        {
+          "jp": "なんさいですか。",
+          "romaji": "nan-sai desu ka",
+          "de": "Wie alt bist/sind du/Sie?",
+          "approx": "nan-sai de-su ka",
+          "note": "さい ist ein Alterszähler.",
+          "example": "わたしはさんじゅっさいです。",
+          "example_romaji": "watashi wa sanjussai desu.",
+          "example_de": "Ich bin 30 Jahre alt."
+        }
+      ],
+      "speech": [
+        {
+          "target": "いまなんじですか",
+          "romaji": "ima nanji desu ka",
+          "meaning": "Wie spät ist es?",
+          "accept": [
+            "いまなんじですか",
+            "今何時ですか"
+          ]
+        }
+      ],
+      "xp": 40
+    },
+    {
+      "key": "13:0",
+      "title": "Was, wer, wo?",
+      "cards": [
+        {
+          "jp": "なに / なん",
+          "romaji": "nani / nan",
+          "de": "was",
+          "approx": "na-ni / nan",
+          "note": "Die Form hängt vom folgenden Laut und Ausdruck ab.",
+          "example": "これはなんですか。",
+          "example_romaji": "kore wa nan desu ka.",
+          "example_de": "Was ist das hier?"
+        },
+        {
+          "jp": "だれ",
+          "romaji": "dare",
+          "de": "wer",
+          "approx": "da-re",
+          "note": "Höflicher ist どなた.",
+          "example": "あのひとはだれですか。",
+          "example_romaji": "ano hito wa dare desu ka.",
+          "example_de": "Wer ist diese Person?"
+        },
+        {
+          "jp": "どこ",
+          "romaji": "doko",
+          "de": "wo",
+          "approx": "do-ko",
+          "note": "Fragewort für einen Ort.",
+          "example": "トイレはどこですか。",
+          "example_romaji": "toire wa doko desu ka.",
+          "example_de": "Wo ist die Toilette?"
+        },
+        {
+          "jp": "いつ",
+          "romaji": "itsu",
+          "de": "wann",
+          "approx": "i-tsu",
+          "note": "Für Zeitpunkt/Termin.",
+          "example": "いついきますか。",
+          "example_romaji": "itsu ikimasu ka.",
+          "example_de": "Wann gehst du?"
+        },
+        {
+          "jp": "どうして",
+          "romaji": "dōshite",
+          "de": "warum",
+          "approx": "doo-schi-te",
+          "note": "Alltägliches „warum“; なぜ klingt neutraler/formeller.",
+          "example": "どうしてですか。",
+          "example_romaji": "dōshite desu ka.",
+          "example_de": "Warum?"
+        }
+      ],
+      "speech": [
+        {
+          "target": "トイレはどこですか",
+          "romaji": "toire wa doko desu ka",
+          "meaning": "Wo ist die Toilette?",
+          "accept": [
+            "トイレはどこですか"
+          ]
+        }
+      ],
+      "xp": 40
+    },
+    {
+      "key": "14:0",
+      "title": "は・が・を・の",
+      "cards": [
+        {
+          "jp": "は",
+          "romaji": "wa",
+          "de": "Themenpartikel",
+          "approx": "wa",
+          "note": "は setzt das Thema oder einen Kontrast. Als Partikel wird es wa gesprochen.",
+          "example": "わたしはドイツじんです。",
+          "example_romaji": "watashi wa Doitsu-jin desu.",
+          "example_de": "Ich bin Deutscher/Deutsche."
+        },
+        {
+          "jp": "が",
+          "romaji": "ga",
+          "de": "Subjekt-/Fokuspartikel",
+          "approx": "ga",
+          "note": "が markiert häufig neue oder fokussierte Information.",
+          "example": "だれがきましたか。",
+          "example_romaji": "dare ga kimashita ka.",
+          "example_de": "Wer ist gekommen?"
+        },
+        {
+          "jp": "を",
+          "romaji": "o",
+          "de": "direktes Objekt",
+          "approx": "o",
+          "note": "を wird meist o gesprochen und markiert das direkte Objekt.",
+          "example": "パンをたべます。",
+          "example_romaji": "pan o tabemasu.",
+          "example_de": "Ich esse Brot."
+        },
+        {
+          "jp": "の",
+          "romaji": "no",
+          "de": "Zugehörigkeit / Verbindung",
+          "approx": "no",
+          "note": "A の B = B von A.",
+          "example": "これはわたしのほんです。",
+          "example_romaji": "kore wa watashi no hon desu.",
+          "example_de": "Das ist mein Buch."
+        }
+      ],
+      "speech": [
+        {
+          "target": "これはわたしのほんです",
+          "romaji": "kore wa watashi no hon desu",
+          "meaning": "Das ist mein Buch.",
+          "accept": [
+            "これはわたしのほんです",
+            "これは私の本です"
+          ]
+        }
+      ],
+      "xp": 45
+    },
+    {
+      "key": "15:0",
+      "title": "に・へ・で・と・も",
+      "cards": [
+        {
+          "jp": "に",
+          "romaji": "ni",
+          "de": "Ziel / Zeitpunkt",
+          "approx": "ni",
+          "note": "に markiert u. a. Ziel, Zeitpunkt oder Empfänger.",
+          "example": "しちじにおきます。",
+          "example_romaji": "shichiji ni okimasu.",
+          "example_de": "Ich stehe um sieben Uhr auf."
+        },
+        {
+          "jp": "へ",
+          "romaji": "e",
+          "de": "Richtung",
+          "approx": "e",
+          "note": "へ wird als Partikel e gesprochen und betont die Richtung.",
+          "example": "にほんへいきます。",
+          "example_romaji": "nihon e ikimasu.",
+          "example_de": "Ich fahre/gehe nach Japan."
+        },
+        {
+          "jp": "で",
+          "romaji": "de",
+          "de": "Ort einer Handlung / Mittel",
+          "approx": "de",
+          "note": "で zeigt häufig, wo oder womit etwas passiert.",
+          "example": "いえでべんきょうします。",
+          "example_romaji": "ie de benkyō shimasu.",
+          "example_de": "Ich lerne zu Hause."
+        },
+        {
+          "jp": "と",
+          "romaji": "to",
+          "de": "mit / und / Zitat",
+          "approx": "to",
+          "note": "と verbindet Nomen oder markiert später auch Zitate.",
+          "example": "ともだちとはなします。",
+          "example_romaji": "tomodachi to hanashimasu.",
+          "example_de": "Ich spreche mit einem Freund."
+        },
+        {
+          "jp": "も",
+          "romaji": "mo",
+          "de": "auch",
+          "approx": "mo",
+          "note": "も ersetzt oft は/が/を in der Bedeutung „auch“.",
+          "example": "わたしもいきます。",
+          "example_romaji": "watashi mo ikimasu.",
+          "example_de": "Ich gehe auch."
+        }
+      ],
+      "speech": [
+        {
+          "target": "にほんへいきます",
+          "romaji": "nihon e ikimasu",
+          "meaning": "Ich fahre/gehe nach Japan.",
+          "accept": [
+            "にほんへいきます",
+            "日本へ行きます"
+          ]
+        }
+      ],
+      "xp": 45
+    },
+    {
+      "key": "16:0",
+      "title": "あります・います",
+      "cards": [
+        {
+          "jp": "あります",
+          "romaji": "arimasu",
+          "de": "es gibt / befindet sich (unbelebt)",
+          "approx": "a-ri-ma-su",
+          "note": "Für Dinge und meist Pflanzen.",
+          "example": "つくえのうえにほんがあります。",
+          "example_romaji": "tsukue no ue ni hon ga arimasu.",
+          "example_de": "Auf dem Tisch liegt ein Buch."
+        },
+        {
+          "jp": "います",
+          "romaji": "imasu",
+          "de": "es gibt / befindet sich (belebt)",
+          "approx": "i-ma-su",
+          "note": "Für Menschen und Tiere.",
+          "example": "へやにねこがいます。",
+          "example_romaji": "heya ni neko ga imasu.",
+          "example_de": "Im Zimmer ist eine Katze."
+        },
+        {
+          "jp": "どこにありますか。",
+          "romaji": "doko ni arimasu ka",
+          "de": "Wo befindet es sich?",
+          "approx": "do-ko ni a-ri-ma-su ka",
+          "note": "に markiert den Ort der Existenz.",
+          "example": "えきはどこにありますか。",
+          "example_romaji": "eki wa doko ni arimasu ka.",
+          "example_de": "Wo ist der Bahnhof?"
+        }
+      ],
+      "speech": [
+        {
+          "target": "へやにねこがいます",
+          "romaji": "heya ni neko ga imasu",
+          "meaning": "Im Zimmer ist eine Katze.",
+          "accept": [
+            "へやにねこがいます",
+            "部屋に猫がいます"
+          ]
+        }
+      ],
+      "xp": 40
+    },
+    {
+      "key": "17:0",
+      "title": "い- und な-Adjektive",
+      "cards": [
+        {
+          "jp": "おおきい",
+          "romaji": "ōkii",
+          "de": "groß",
+          "approx": "oo-kii",
+          "note": "い-Adjektive stehen direkt vor dem Nomen.",
+          "example": "おおきいいぬです。",
+          "example_romaji": "ōkii inu desu.",
+          "example_de": "Es ist ein großer Hund."
+        },
+        {
+          "jp": "おいしい",
+          "romaji": "oishii",
+          "de": "lecker",
+          "approx": "o-i-schii",
+          "note": "Ein häufiges い-Adjektiv.",
+          "example": "このラーメンはおいしいです。",
+          "example_romaji": "kono rāmen wa oishii desu.",
+          "example_de": "Diese Ramen sind lecker."
+        },
+        {
+          "jp": "しずか",
+          "romaji": "shizuka",
+          "de": "ruhig",
+          "approx": "schi-su-ka",
+          "note": "な-Adjektive brauchen vor einem Nomen な.",
+          "example": "しずかなまちです。",
+          "example_romaji": "shizuka na machi desu.",
+          "example_de": "Es ist eine ruhige Stadt."
+        },
+        {
+          "jp": "たかくないです",
+          "romaji": "takakunai desu",
+          "de": "ist nicht teuer",
+          "approx": "ta-ka-ku-nai de-su",
+          "note": "い-Adjektiv negativ: い → くない.",
+          "example": "これはたかくないです。",
+          "example_romaji": "kore wa takakunai desu.",
+          "example_de": "Das ist nicht teuer."
+        }
+      ],
+      "speech": [
+        {
+          "target": "このラーメンはおいしいです",
+          "romaji": "kono rāmen wa oishii desu",
+          "meaning": "Diese Ramen sind lecker.",
+          "accept": [
+            "このラーメンはおいしいです"
+          ]
+        }
+      ],
+      "xp": 45
+    },
+    {
+      "key": "18:0",
+      "title": "て-Form bilden",
+      "cards": [
+        {
+          "jp": "たべて",
+          "romaji": "tabete",
+          "de": "て-Form von たべる",
+          "approx": "ta-be-te",
+          "note": "Verben auf -る der Ichidan-Gruppe: る → て.",
+          "example": "ごはんをたべて、ねます。",
+          "example_romaji": "gohan o tabete, nemasu.",
+          "example_de": "Ich esse und gehe dann schlafen."
+        },
+        {
+          "jp": "いって",
+          "romaji": "itte",
+          "de": "て-Form von いく",
+          "approx": "it-te",
+          "note": "行く ist unregelmäßig: いって.",
+          "example": "がっこうへいって、べんきょうします。",
+          "example_romaji": "gakkō e itte, benkyō shimasu.",
+          "example_de": "Ich gehe zur Schule und lerne."
+        },
+        {
+          "jp": "のんで",
+          "romaji": "nonde",
+          "de": "て-Form von のむ",
+          "approx": "non-de",
+          "note": "む/ぶ/ぬ → んで.",
+          "example": "みずをのんでください。",
+          "example_romaji": "mizu o nonde kudasai.",
+          "example_de": "Bitte trink Wasser."
+        },
+        {
+          "jp": "して",
+          "romaji": "shite",
+          "de": "て-Form von する",
+          "approx": "schi-te",
+          "note": "する → して.",
+          "example": "ちょっとまってください。",
+          "example_romaji": "chotto matte kudasai.",
+          "example_de": "Bitte warte kurz."
+        }
+      ],
+      "speech": [
+        {
+          "target": "ちょっとまってください",
+          "romaji": "chotto matte kudasai",
+          "meaning": "Bitte warte kurz.",
+          "accept": [
+            "ちょっとまってください",
+            "ちょっと待ってください"
+          ]
+        }
+      ],
+      "xp": 50
+    },
+    {
+      "key": "19:0",
+      "title": "～てください / ～てもいい",
+      "cards": [
+        {
+          "jp": "みてください",
+          "romaji": "mite kudasai",
+          "de": "Bitte schauen Sie / schau",
+          "approx": "mi-te ku-da-sai",
+          "note": "て-Form + ください ist eine höfliche Bitte.",
+          "example": "これをみてください。",
+          "example_romaji": "kore o mite kudasai.",
+          "example_de": "Bitte schauen Sie sich das an."
+        },
+        {
+          "jp": "はいってもいいですか。",
+          "romaji": "haitte mo ii desu ka",
+          "de": "Darf ich hereinkommen?",
+          "approx": "hai-tte mo ii de-su ka",
+          "note": "～てもいいですか fragt nach Erlaubnis."
+        },
+        {
+          "jp": "ここでしゃしんをとってはいけません。",
+          "romaji": "koko de shashin o totte wa ikemasen",
+          "de": "Hier darf man keine Fotos machen.",
+          "approx": "ko-ko de scha-schin o tot-te wa i-ke-ma-sen",
+          "note": "～てはいけません bedeutet „man darf nicht“."
+        }
+      ],
+      "speech": [
+        {
+          "target": "はいってもいいですか",
+          "romaji": "haitte mo ii desu ka",
+          "meaning": "Darf ich hereinkommen?",
+          "accept": [
+            "はいってもいいですか",
+            "入ってもいいですか"
+          ]
+        }
+      ],
+      "xp": 50
+    },
+    {
+      "key": "20:0",
+      "title": "～ています",
+      "cards": [
+        {
+          "jp": "たべています",
+          "romaji": "tabete imasu",
+          "de": "isst gerade",
+          "approx": "ta-be-te i-ma-su",
+          "note": "て-Form + いる beschreibt oft eine laufende Handlung.",
+          "example": "いまごはんをたべています。",
+          "example_romaji": "ima gohan o tabete imasu.",
+          "example_de": "Ich esse gerade."
+        },
+        {
+          "jp": "すんでいます",
+          "romaji": "sunde imasu",
+          "de": "wohnt / lebt",
+          "approx": "sun-de i-ma-su",
+          "note": "Bei bestimmten Verben beschreibt ～ている einen Zustand.",
+          "example": "ベルリンにすんでいます。",
+          "example_romaji": "Berurin ni sunde imasu.",
+          "example_de": "Ich wohne in Berlin."
+        },
+        {
+          "jp": "しっています",
+          "romaji": "shitte imasu",
+          "de": "weiß / kennt",
+          "approx": "schit-te i-ma-su",
+          "note": "知る wird im positiven Zustand meist als 知っています verwendet.",
+          "example": "そのひとをしっています。",
+          "example_romaji": "sono hito o shitte imasu.",
+          "example_de": "Ich kenne diese Person."
+        }
+      ],
+      "speech": [
+        {
+          "target": "いまごはんをたべています",
+          "romaji": "ima gohan o tabete imasu",
+          "meaning": "Ich esse gerade.",
+          "accept": [
+            "いまごはんをたべています",
+            "今ご飯を食べています"
+          ]
+        }
+      ],
+      "xp": 45
+    },
+    {
+      "key": "21:0",
+      "title": "好き・より・ほうが",
+      "cards": [
+        {
+          "jp": "すきです",
+          "romaji": "suki desu",
+          "de": "mag / gefällt",
+          "approx": "su-ki de-su",
+          "note": "好き ist grammatisch ein な-Adjektiv.",
+          "example": "ねこがすきです。",
+          "example_romaji": "neko ga suki desu.",
+          "example_de": "Ich mag Katzen."
+        },
+        {
+          "jp": "AよりBのほうが",
+          "romaji": "A yori B no hō ga",
+          "de": "B ist eher/mehr als A",
+          "approx": "A jo-ri B no hoo ga",
+          "note": "Standardmuster für Vergleiche.",
+          "example": "コーヒーよりおちゃのほうがすきです。",
+          "example_romaji": "kōhī yori ocha no hō ga suki desu.",
+          "example_de": "Ich mag Tee lieber als Kaffee."
+        },
+        {
+          "jp": "いちばん",
+          "romaji": "ichiban",
+          "de": "am meisten / Nummer eins",
+          "approx": "i-tschi-ban",
+          "note": "Mit einer Gruppe: ～のなかで…がいちばん.",
+          "example": "にほんりょうりのなかですしがいちばんすきです。",
+          "example_romaji": "nihon ryōri no naka de sushi ga ichiban suki desu.",
+          "example_de": "Von japanischem Essen mag ich Sushi am liebsten."
+        }
+      ],
+      "speech": [
+        {
+          "target": "ねこがすきです",
+          "romaji": "neko ga suki desu",
+          "meaning": "Ich mag Katzen.",
+          "accept": [
+            "ねこがすきです",
+            "猫が好きです"
+          ]
+        }
+      ],
+      "xp": 50
+    },
+    {
+      "key": "22:0",
+      "title": "～から / ～ので",
+      "cards": [
+        {
+          "jp": "～から",
+          "romaji": "kara",
+          "de": "weil / denn",
+          "approx": "ka-ra",
+          "note": "Direkter Grund; häufig in Alltagssprache.",
+          "example": "つかれたから、ねます。",
+          "example_romaji": "tsukareta kara, nemasu.",
+          "example_de": "Weil ich müde bin, gehe ich schlafen."
+        },
+        {
+          "jp": "～ので",
+          "romaji": "node",
+          "de": "weil / da",
+          "approx": "no-de",
+          "note": "Klingt oft etwas weicher und erklärender als から.",
+          "example": "あめなので、いきません。",
+          "example_romaji": "ame na node, ikimasen.",
+          "example_de": "Weil es regnet, gehe ich nicht."
+        },
+        {
+          "jp": "どうして",
+          "romaji": "dōshite",
+          "de": "warum",
+          "approx": "doo-schi-te",
+          "note": "Frage nach einem Grund.",
+          "example": "どうしてにほんごをべんきょうしますか。",
+          "example_romaji": "dōshite nihongo o benkyō shimasu ka.",
+          "example_de": "Warum lernst du Japanisch?"
+        }
+      ],
+      "speech": [
+        {
+          "target": "つかれたからねます",
+          "romaji": "tsukareta kara nemasu",
+          "meaning": "Weil ich müde bin, gehe ich schlafen.",
+          "accept": [
+            "つかれたからねます",
+            "疲れたから寝ます"
+          ]
+        }
+      ],
+      "xp": 50
+    },
+    {
+      "key": "23:0",
+      "title": "辞書形 – Grundform",
+      "cards": [
+        {
+          "jp": "たべる",
+          "romaji": "taberu",
+          "de": "essen (Grundform)",
+          "approx": "ta-be-ru",
+          "note": "Die Wörterbuchform ist die neutrale Grundform.",
+          "example": "すしをたべる。",
+          "example_romaji": "sushi o taberu.",
+          "example_de": "Ich esse Sushi. (locker)"
+        },
+        {
+          "jp": "いく",
+          "romaji": "iku",
+          "de": "gehen (Grundform)",
+          "approx": "i-ku",
+          "note": "ます-Form: いきます.",
+          "example": "あしたとうきょうへいく。",
+          "example_romaji": "ashita Tōkyō e iku.",
+          "example_de": "Morgen fahre/gehe ich nach Tokio."
+        },
+        {
+          "jp": "する",
+          "romaji": "suru",
+          "de": "machen (Grundform)",
+          "approx": "su-ru",
+          "note": "Unregelmäßiges Verb.",
+          "example": "しゅくだいをする。",
+          "example_romaji": "shukudai o suru.",
+          "example_de": "Ich mache Hausaufgaben."
+        },
+        {
+          "jp": "くる",
+          "romaji": "kuru",
+          "de": "kommen (Grundform)",
+          "approx": "ku-ru",
+          "note": "Unregelmäßiges Verb.",
+          "example": "ともだちがくる。",
+          "example_romaji": "tomodachi ga kuru.",
+          "example_de": "Ein Freund kommt."
+        }
+      ],
+      "speech": [
+        {
+          "target": "あしたとうきょうへいく",
+          "romaji": "ashita Tōkyō e iku",
+          "meaning": "Morgen gehe/fahre ich nach Tokio.",
+          "accept": [
+            "あしたとうきょうへいく",
+            "明日東京へ行く"
+          ]
+        }
+      ],
+      "xp": 50
+    },
+    {
+      "key": "24:0",
+      "title": "ない / た",
+      "cards": [
+        {
+          "jp": "たべない",
+          "romaji": "tabenai",
+          "de": "esse nicht / nicht essen",
+          "approx": "ta-be-nai",
+          "note": "Ichidan: る → ない.",
+          "example": "きょうはにくをたべない。",
+          "example_romaji": "kyō wa niku o tabenai.",
+          "example_de": "Heute esse ich kein Fleisch."
+        },
+        {
+          "jp": "いかない",
+          "romaji": "ikanai",
+          "de": "gehe nicht",
+          "approx": "i-ka-nai",
+          "note": "Godan: letzte u-Silbe → a-Reihe + ない.",
+          "example": "きょうはいかない。",
+          "example_romaji": "kyō wa ikanai.",
+          "example_de": "Heute gehe ich nicht."
+        },
+        {
+          "jp": "たべた",
+          "romaji": "tabeta",
+          "de": "aß / habe gegessen",
+          "approx": "ta-be-ta",
+          "note": "た-Form ist die lockere Vergangenheit.",
+          "example": "もうたべた。",
+          "example_romaji": "mō tabeta.",
+          "example_de": "Ich habe schon gegessen."
+        },
+        {
+          "jp": "いった",
+          "romaji": "itta",
+          "de": "ging / bin gegangen",
+          "approx": "it-ta",
+          "note": "行く → 行った.",
+          "example": "きのうきょうとへいった。",
+          "example_romaji": "kinō Kyōto e itta.",
+          "example_de": "Gestern bin ich nach Kyoto gefahren."
+        }
+      ],
+      "speech": [
+        {
+          "target": "もうたべた",
+          "romaji": "mō tabeta",
+          "meaning": "Ich habe schon gegessen.",
+          "accept": [
+            "もうたべた",
+            "もう食べた"
+          ]
+        }
+      ],
+      "xp": 55
+    },
+    {
+      "key": "25:0",
+      "title": "Potentialform",
+      "cards": [
+        {
+          "jp": "たべられる",
+          "romaji": "taberareru",
+          "de": "essen können",
+          "approx": "ta-be-ra-re-ru",
+          "note": "Bei Ichidan-Verben: る → られる.",
+          "example": "さしみがたべられます。",
+          "example_romaji": "sashimi ga taberaremasu.",
+          "example_de": "Ich kann Sashimi essen."
+        },
+        {
+          "jp": "はなせる",
+          "romaji": "hanaseru",
+          "de": "sprechen können",
+          "approx": "ha-na-se-ru",
+          "note": "Godan: u-Reihe → e-Reihe + る.",
+          "example": "にほんごがはなせます。",
+          "example_romaji": "nihongo ga hanasemasu.",
+          "example_de": "Ich kann Japanisch sprechen."
+        },
+        {
+          "jp": "できる",
+          "romaji": "dekiru",
+          "de": "machen können",
+          "approx": "de-ki-ru",
+          "note": "Potentialform von する.",
+          "example": "ひとりでできます。",
+          "example_romaji": "hitori de dekimasu.",
+          "example_de": "Ich kann es allein machen."
+        }
+      ],
+      "speech": [
+        {
+          "target": "にほんごがはなせます",
+          "romaji": "nihongo ga hanasemasu",
+          "meaning": "Ich kann Japanisch sprechen.",
+          "accept": [
+            "にほんごがはなせます",
+            "日本語が話せます"
+          ]
+        }
+      ],
+      "xp": 55
+    },
+    {
+      "key": "26:0",
+      "title": "～たい / ～つもり",
+      "cards": [
+        {
+          "jp": "いきたいです",
+          "romaji": "ikitai desu",
+          "de": "möchte gehen",
+          "approx": "i-ki-tai de-su",
+          "note": "ます-Stamm + たい.",
+          "example": "にほんへいきたいです。",
+          "example_romaji": "nihon e ikitai desu.",
+          "example_de": "Ich möchte nach Japan."
+        },
+        {
+          "jp": "たべたくないです",
+          "romaji": "tabetakunai desu",
+          "de": "möchte nicht essen",
+          "approx": "ta-be-ta-ku-nai de-su",
+          "note": "たい verhält sich wie ein い-Adjektiv.",
+          "example": "きょうはあまいものをたべたくないです。",
+          "example_romaji": "kyō wa amai mono o tabetakunai desu.",
+          "example_de": "Heute möchte ich nichts Süßes essen."
+        },
+        {
+          "jp": "～つもりです",
+          "romaji": "tsumori desu",
+          "de": "habe vor zu …",
+          "approx": "tsu-mo-ri de-su",
+          "note": "Grundform + つもり für eine Absicht.",
+          "example": "らいねんにほんへいくつもりです。",
+          "example_romaji": "rainen nihon e iku tsumori desu.",
+          "example_de": "Ich habe vor, nächstes Jahr nach Japan zu fahren."
+        }
+      ],
+      "speech": [
+        {
+          "target": "にほんへいきたいです",
+          "romaji": "nihon e ikitai desu",
+          "meaning": "Ich möchte nach Japan.",
+          "accept": [
+            "にほんへいきたいです",
+            "日本へ行きたいです"
+          ]
+        }
+      ],
+      "xp": 55
+    },
+    {
+      "key": "27:0",
+      "title": "～たことがある",
+      "cards": [
+        {
+          "jp": "～たことがあります",
+          "romaji": "ta koto ga arimasu",
+          "de": "schon einmal getan haben",
+          "approx": "ta ko-to ga a-ri-ma-su",
+          "note": "た-Form + ことがある = Erfahrung.",
+          "example": "にほんへいったことがあります。",
+          "example_romaji": "nihon e itta koto ga arimasu.",
+          "example_de": "Ich war schon einmal in Japan."
+        },
+        {
+          "jp": "～たことがありません",
+          "romaji": "ta koto ga arimasen",
+          "de": "noch nie getan haben",
+          "approx": "ta ko-to ga a-ri-ma-sen",
+          "note": "Negative Erfahrung.",
+          "example": "なっとうをたべたことがありません。",
+          "example_romaji": "nattō o tabeta koto ga arimasen.",
+          "example_de": "Ich habe noch nie Natto gegessen."
+        },
+        {
+          "jp": "いちど",
+          "romaji": "ichido",
+          "de": "einmal",
+          "approx": "i-tschi-do",
+          "note": "Häufig zusammen mit Erfahrungen.",
+          "example": "いちどみてみたいです。",
+          "example_romaji": "ichido mite mitai desu.",
+          "example_de": "Ich möchte es einmal ausprobieren/sehen."
+        }
+      ],
+      "speech": [
+        {
+          "target": "にほんへいったことがあります",
+          "romaji": "nihon e itta koto ga arimasu",
+          "meaning": "Ich war schon einmal in Japan.",
+          "accept": [
+            "にほんへいったことがあります",
+            "日本へ行ったことがあります"
+          ]
+        }
+      ],
+      "xp": 55
+    },
+    {
+      "key": "28:0",
+      "title": "～なければならない",
+      "cards": [
+        {
+          "jp": "べんきょうしなければなりません",
+          "romaji": "benkyō shinakereba narimasen",
+          "de": "ich muss lernen",
+          "approx": "ben-kjoo schi-na-ke-re-ba na-ri-ma-sen",
+          "note": "Negative Bedingungsform + ならない = müssen.",
+          "example": "まいにちべんきょうしなければなりません。",
+          "example_romaji": "mainichi benkyō shinakereba narimasen.",
+          "example_de": "Ich muss jeden Tag lernen."
+        },
+        {
+          "jp": "いかなきゃ",
+          "romaji": "ikanakya",
+          "de": "ich muss gehen (locker)",
+          "approx": "i-ka-na-kja",
+          "note": "Umgangssprachliche Kurzform von ～なければ.",
+          "example": "もういかなきゃ。",
+          "example_romaji": "mō ikanakya.",
+          "example_de": "Ich muss jetzt los."
+        },
+        {
+          "jp": "～なくてもいい",
+          "romaji": "nakute mo ii",
+          "de": "muss nicht",
+          "approx": "na-ku-te mo ii",
+          "note": "„Auch wenn nicht …, ist es okay.“",
+          "example": "きょうはこなくてもいいです。",
+          "example_romaji": "kyō wa konakute mo ii desu.",
+          "example_de": "Du musst heute nicht kommen."
+        }
+      ],
+      "speech": [
+        {
+          "target": "もういかなきゃ",
+          "romaji": "mō ikanakya",
+          "meaning": "Ich muss jetzt los.",
+          "accept": [
+            "もういかなきゃ",
+            "もう行かなきゃ"
+          ]
+        }
+      ],
+      "xp": 60
+    },
+    {
+      "key": "29:0",
+      "title": "あげる / くれる / もらう",
+      "cards": [
+        {
+          "jp": "あげる",
+          "romaji": "ageru",
+          "de": "jemandem geben",
+          "approx": "a-ge-ru",
+          "note": "Der Sprecher/sein Umfeld gibt jemand anderem etwas.",
+          "example": "ともだちにほんをあげました。",
+          "example_romaji": "tomodachi ni hon o agemashita.",
+          "example_de": "Ich gab einem Freund ein Buch."
+        },
+        {
+          "jp": "くれる",
+          "romaji": "kureru",
+          "de": "mir/uns geben",
+          "approx": "ku-re-ru",
+          "note": "Jemand gibt dem Sprecher oder dessen Umfeld etwas.",
+          "example": "ともだちがプレゼントをくれました。",
+          "example_romaji": "tomodachi ga purezento o kuremashita.",
+          "example_de": "Ein Freund gab mir ein Geschenk."
+        },
+        {
+          "jp": "もらう",
+          "romaji": "morau",
+          "de": "bekommen",
+          "approx": "mo-ra-u",
+          "note": "Der Empfänger steht im Mittelpunkt.",
+          "example": "せんせいにじしょをもらいました。",
+          "example_romaji": "sensei ni jisho o moraimashita.",
+          "example_de": "Ich bekam vom Lehrer ein Wörterbuch."
+        }
+      ],
+      "speech": [
+        {
+          "target": "ともだちがプレゼントをくれました",
+          "romaji": "tomodachi ga purezento o kuremashita",
+          "meaning": "Ein Freund gab mir ein Geschenk.",
+          "accept": [
+            "ともだちがプレゼントをくれました",
+            "友達がプレゼントをくれました"
+          ]
+        }
+      ],
+      "xp": 60
+    },
+    {
+      "key": "30:0",
+      "title": "前に・後で・ながら",
+      "cards": [
+        {
+          "jp": "～まえに",
+          "romaji": "mae ni",
+          "de": "bevor …",
+          "approx": "ma-e ni",
+          "note": "Grundform + 前に.",
+          "example": "ねるまえにはをみがきます。",
+          "example_romaji": "neru mae ni ha o migakimasu.",
+          "example_de": "Vor dem Schlafen putze ich die Zähne."
+        },
+        {
+          "jp": "～あとで",
+          "romaji": "ato de",
+          "de": "nachdem / später",
+          "approx": "a-to de",
+          "note": "た-Form + 後で für „nachdem“.",
+          "example": "ごはんをたべたあとでべんきょうします。",
+          "example_romaji": "gohan o tabeta ato de benkyō shimasu.",
+          "example_de": "Nach dem Essen lerne ich."
+        },
+        {
+          "jp": "～ながら",
+          "romaji": "nagara",
+          "de": "während …",
+          "approx": "na-ga-ra",
+          "note": "ます-Stamm + ながら; gleiche handelnde Person.",
+          "example": "おんがくをききながらべんきょうします。",
+          "example_romaji": "ongaku o kikinagara benkyō shimasu.",
+          "example_de": "Ich lerne, während ich Musik höre."
+        }
+      ],
+      "speech": [
+        {
+          "target": "おんがくをききながらべんきょうします",
+          "romaji": "ongaku o kikinagara benkyō shimasu",
+          "meaning": "Ich lerne, während ich Musik höre.",
+          "accept": [
+            "おんがくをききながらべんきょうします",
+            "音楽を聞きながら勉強します"
+          ]
+        }
+      ],
+      "xp": 55
+    },
+    {
+      "key": "31:0",
+      "title": "～たら / ～なら / ～ば",
+      "cards": [
+        {
+          "jp": "～たら",
+          "romaji": "tara",
+          "de": "wenn / falls / nachdem",
+          "approx": "ta-ra",
+          "note": "た-Form + ら; sehr vielseitig.",
+          "example": "じかんがあったら、いきます。",
+          "example_romaji": "jikan ga attara, ikimasu.",
+          "example_de": "Wenn ich Zeit habe, gehe ich."
+        },
+        {
+          "jp": "～なら",
+          "romaji": "nara",
+          "de": "wenn es um … geht / falls",
+          "approx": "na-ra",
+          "note": "Reagiert oft auf eine genannte Voraussetzung.",
+          "example": "にほんへいくなら、きょうともおすすめです。",
+          "example_romaji": "nihon e iku nara, Kyōto mo osusume desu.",
+          "example_de": "Wenn du nach Japan gehst, empfehle ich auch Kyoto."
+        },
+        {
+          "jp": "～ば",
+          "romaji": "ba",
+          "de": "wenn",
+          "approx": "ba",
+          "note": "Logische/allgemeine Bedingung.",
+          "example": "やすければかいます。",
+          "example_romaji": "yasukereba kaimasu.",
+          "example_de": "Wenn es billig ist, kaufe ich es."
+        }
+      ],
+      "speech": [
+        {
+          "target": "じかんがあったらいきます",
+          "romaji": "jikan ga attara ikimasu",
+          "meaning": "Wenn ich Zeit habe, gehe ich.",
+          "accept": [
+            "じかんがあったらいきます",
+            "時間があったら行きます"
+          ]
+        }
+      ],
+      "xp": 60
+    },
+    {
+      "key": "32:0",
+      "title": "Sätze vor Nomen",
+      "cards": [
+        {
+          "jp": "きのうかったほん",
+          "romaji": "kinō katta hon",
+          "de": "das Buch, das ich gestern kaufte",
+          "approx": "ki-noo kat-ta hon",
+          "note": "Der beschreibende Satz steht ohne Relativpronomen direkt vor dem Nomen.",
+          "example": "きのうかったほんをよんでいます。",
+          "example_romaji": "kinō katta hon o yonde imasu.",
+          "example_de": "Ich lese das Buch, das ich gestern gekauft habe."
+        },
+        {
+          "jp": "にほんにすんでいるともだち",
+          "romaji": "nihon ni sunde iru tomodachi",
+          "de": "ein Freund, der in Japan lebt",
+          "approx": "ni-hon ni sun-de i-ru to-mo-da-tschi",
+          "note": "Der ganze Satz にほんにすんでいる beschreibt ともだち."
+        },
+        {
+          "jp": "わたしがすきなえいが",
+          "romaji": "watashi ga suki na eiga",
+          "de": "ein Film, den ich mag",
+          "approx": "wa-ta-schi ga su-ki na ee-ga",
+          "note": "Im Relativsatz steht oft が statt は."
+        }
+      ],
+      "speech": [
+        {
+          "target": "きのうかったほんをよんでいます",
+          "romaji": "kinō katta hon o yonde imasu",
+          "meaning": "Ich lese das Buch, das ich gestern gekauft habe.",
+          "accept": [
+            "きのうかったほんをよんでいます",
+            "昨日買った本を読んでいます"
+          ]
+        }
+      ],
+      "xp": 60
+    },
+    {
+      "key": "33:0",
+      "title": "～と思う / ～と言う",
+      "cards": [
+        {
+          "jp": "～とおもいます",
+          "romaji": "to omoimasu",
+          "de": "ich denke, dass …",
+          "approx": "to o-mo-i-ma-su",
+          "note": "Neutrale Aussage + と + 思う.",
+          "example": "あしたはあめだとおもいます。",
+          "example_romaji": "ashita wa ame da to omoimasu.",
+          "example_de": "Ich denke, morgen regnet es."
+        },
+        {
+          "jp": "～といいました",
+          "romaji": "to iimashita",
+          "de": "sagte, dass …",
+          "approx": "to ii-ma-schi-ta",
+          "note": "Zitat + と + 言う.",
+          "example": "せんせいは「だいじょうぶ」といいました。",
+          "example_romaji": "sensei wa “daijōbu” to iimashita.",
+          "example_de": "Der Lehrer sagte: „Alles okay.“"
+        },
+        {
+          "jp": "～って",
+          "romaji": "tte",
+          "de": "Zitat/Thema (locker)",
+          "approx": "t-te",
+          "note": "Umgangssprachliche Form von と oder は/という.",
+          "example": "あしたやすみだって。",
+          "example_romaji": "ashita yasumi datte.",
+          "example_de": "Angeblich ist morgen frei."
+        }
+      ],
+      "speech": [
+        {
+          "target": "いいとおもいます",
+          "romaji": "ii to omoimasu",
+          "meaning": "Ich denke, dass es gut ist.",
+          "accept": [
+            "いいとおもいます",
+            "いいと思います"
+          ]
+        }
+      ],
+      "xp": 60
+    },
+    {
+      "key": "34:0",
+      "title": "そう・らしい・みたい",
+      "cards": [
+        {
+          "jp": "おいしそう",
+          "romaji": "oishisō",
+          "de": "sieht lecker aus",
+          "approx": "o-i-schi-soo",
+          "note": "～そう beschreibt hier einen sichtbaren Eindruck.",
+          "example": "このケーキはおいしそうです。",
+          "example_romaji": "kono kēki wa oishisō desu.",
+          "example_de": "Dieser Kuchen sieht lecker aus."
+        },
+        {
+          "jp": "～らしい",
+          "romaji": "rashii",
+          "de": "offenbar / typisch",
+          "approx": "ra-schii",
+          "note": "Kann Hörensagen/Schlussfolgerung oder „typisch“ ausdrücken.",
+          "example": "あしたはあついらしいです。",
+          "example_romaji": "ashita wa atsui rashii desu.",
+          "example_de": "Morgen soll es wohl heiß sein."
+        },
+        {
+          "jp": "～みたい",
+          "romaji": "mitai",
+          "de": "scheint / wie",
+          "approx": "mi-tai",
+          "note": "Umgangssprachlicher als ようだ.",
+          "example": "かれはつかれているみたいです。",
+          "example_romaji": "kare wa tsukarete iru mitai desu.",
+          "example_de": "Er scheint müde zu sein."
+        }
+      ],
+      "speech": [
+        {
+          "target": "このケーキはおいしそうです",
+          "romaji": "kono kēki wa oishisō desu",
+          "meaning": "Dieser Kuchen sieht lecker aus.",
+          "accept": [
+            "このケーキはおいしそうです"
+          ]
+        }
+      ],
+      "xp": 65
+    },
+    {
+      "key": "35:0",
+      "title": "～ようになる / ～ことにする",
+      "cards": [
+        {
+          "jp": "～ようになりました",
+          "romaji": "yō ni narimashita",
+          "de": "ist dazu gekommen, … zu können/tun",
+          "approx": "joo ni na-ri-ma-schi-ta",
+          "note": "Beschreibt eine Veränderung von Fähigkeit oder Gewohnheit.",
+          "example": "にほんごがすこしはなせるようになりました。",
+          "example_romaji": "nihongo ga sukoshi hanaseru yō ni narimashita.",
+          "example_de": "Ich kann inzwischen ein wenig Japanisch sprechen."
+        },
+        {
+          "jp": "～ことにします",
+          "romaji": "koto ni shimasu",
+          "de": "ich entscheide, …",
+          "approx": "ko-to ni schi-ma-su",
+          "note": "Eigene bewusste Entscheidung.",
+          "example": "まいにちべんきょうすることにします。",
+          "example_romaji": "mainichi benkyō suru koto ni shimasu.",
+          "example_de": "Ich beschließe, jeden Tag zu lernen."
+        },
+        {
+          "jp": "～ことになりました",
+          "romaji": "koto ni narimashita",
+          "de": "es wurde entschieden / es ergibt sich",
+          "approx": "ko-to ni na-ri-ma-schi-ta",
+          "note": "Entscheidung oder Entwicklung, die nicht nur vom Sprecher abhängt.",
+          "example": "らいげつとうきょうへいくことになりました。",
+          "example_romaji": "raigetsu Tōkyō e iku koto ni narimashita.",
+          "example_de": "Es wurde entschieden, dass ich nächsten Monat nach Tokio gehe."
+        }
+      ],
+      "speech": [
+        {
+          "target": "まいにちべんきょうすることにします",
+          "romaji": "mainichi benkyō suru koto ni shimasu",
+          "meaning": "Ich beschließe, jeden Tag zu lernen.",
+          "accept": [
+            "まいにちべんきょうすることにします",
+            "毎日勉強することにします"
+          ]
+        }
+      ],
+      "xp": 65
+    },
+    {
+      "key": "36:0",
+      "title": "～のに / ～ても",
+      "cards": [
+        {
+          "jp": "～のに",
+          "romaji": "noni",
+          "de": "obwohl",
+          "approx": "no-ni",
+          "note": "Drückt Gegensatz oder enttäuschte Erwartung aus.",
+          "example": "べんきょうしたのに、わすれました。",
+          "example_romaji": "benkyō shita noni, wasuremashita.",
+          "example_de": "Obwohl ich gelernt habe, habe ich es vergessen."
+        },
+        {
+          "jp": "～ても",
+          "romaji": "temo",
+          "de": "selbst wenn / auch wenn",
+          "approx": "te-mo",
+          "note": "て-Form + も.",
+          "example": "あめがふってもいきます。",
+          "example_romaji": "ame ga futte mo ikimasu.",
+          "example_de": "Auch wenn es regnet, gehe ich."
+        },
+        {
+          "jp": "それでも",
+          "romaji": "soredemo",
+          "de": "trotzdem",
+          "approx": "so-re-de-mo",
+          "note": "Verbindet zwei Aussagen mit starkem Kontrast.",
+          "example": "むずかしいです。それでも、つづけます。",
+          "example_romaji": "muzukashii desu. soredemo, tsuzukemasu.",
+          "example_de": "Es ist schwierig. Trotzdem mache ich weiter."
+        }
+      ],
+      "speech": [
+        {
+          "target": "あめがふってもいきます",
+          "romaji": "ame ga futte mo ikimasu",
+          "meaning": "Auch wenn es regnet, gehe ich.",
+          "accept": [
+            "あめがふってもいきます",
+            "雨が降っても行きます"
+          ]
+        }
+      ],
+      "xp": 65
+    },
+    {
+      "key": "37:0",
+      "title": "～ておく / ～てしまう",
+      "cards": [
+        {
+          "jp": "～ておきます",
+          "romaji": "te okimasu",
+          "de": "im Voraus tun",
+          "approx": "te o-ki-ma-su",
+          "note": "Etwas vorbereitend tun.",
+          "example": "きっぷをかっておきます。",
+          "example_romaji": "kippu o katte okimasu.",
+          "example_de": "Ich kaufe die Fahrkarte im Voraus."
+        },
+        {
+          "jp": "～てしまいました",
+          "romaji": "te shimaimashita",
+          "de": "leider / vollständig getan",
+          "approx": "te schi-ma-i-ma-schi-ta",
+          "note": "Kann vollständigen Abschluss oder Bedauern ausdrücken.",
+          "example": "さいふをわすれてしまいました。",
+          "example_romaji": "saifu o wasurete shimaimashita.",
+          "example_de": "Ich habe leider mein Portemonnaie vergessen."
+        },
+        {
+          "jp": "～ちゃった",
+          "romaji": "chatta",
+          "de": "habe leider/komplett … (locker)",
+          "approx": "tschat-ta",
+          "note": "Umgangssprachliche Verkürzung von ～てしまった.",
+          "example": "ねちゃった。",
+          "example_romaji": "nechatta.",
+          "example_de": "Ich bin (leider) eingeschlafen."
+        }
+      ],
+      "speech": [
+        {
+          "target": "さいふをわすれてしまいました",
+          "romaji": "saifu o wasurete shimaimashita",
+          "meaning": "Ich habe leider mein Portemonnaie vergessen.",
+          "accept": [
+            "さいふをわすれてしまいました",
+            "財布を忘れてしまいました"
+          ]
+        }
+      ],
+      "xp": 65
+    },
+    {
+      "key": "38:0",
+      "title": "わけ・に違いない",
+      "cards": [
+        {
+          "jp": "～わけではない",
+          "romaji": "wake dewa nai",
+          "de": "es ist nicht so, dass … / nicht unbedingt",
+          "approx": "wa-ke de-wa nai",
+          "note": "Verneint eine pauschale Schlussfolgerung.",
+          "example": "きらいなわけではありません。",
+          "example_romaji": "kirai na wake dewa arimasen.",
+          "example_de": "Es ist nicht so, dass ich es nicht mag."
+        },
+        {
+          "jp": "～わけがない",
+          "romaji": "wake ga nai",
+          "de": "unmöglich / ausgeschlossen",
+          "approx": "wa-ke ga nai",
+          "note": "Etwas erscheint logisch unmöglich.",
+          "example": "そんなわけがない。",
+          "example_romaji": "sonna wake ga nai.",
+          "example_de": "Das kann unmöglich sein."
+        },
+        {
+          "jp": "～にちがいない",
+          "romaji": "ni chigai nai",
+          "de": "muss wohl … sein",
+          "approx": "ni tschi-gai nai",
+          "note": "Starke Schlussfolgerung.",
+          "example": "かれはしっているにちがいない。",
+          "example_romaji": "kare wa shitte iru ni chigai nai.",
+          "example_de": "Er muss es wissen."
+        }
+      ],
+      "speech": [
+        {
+          "target": "そんなわけがない",
+          "romaji": "sonna wake ga nai",
+          "meaning": "Das kann unmöglich sein.",
+          "accept": [
+            "そんなわけがない"
+          ]
+        }
+      ],
+      "xp": 70
+    },
+    {
+      "key": "39:0",
+      "title": "ものの・に対して・について",
+      "cards": [
+        {
+          "jp": "～ものの",
+          "romaji": "mono no",
+          "de": "obwohl / zwar … aber",
+          "approx": "mo-no no",
+          "note": "Schriftlicher/formeller als のに.",
+          "example": "かったものの、まだつかっていません。",
+          "example_romaji": "katta mono no, mada tsukatte imasen.",
+          "example_de": "Ich habe es zwar gekauft, benutze es aber noch nicht."
+        },
+        {
+          "jp": "～にたいして",
+          "romaji": "ni taishite",
+          "de": "gegenüber / im Gegensatz zu",
+          "approx": "ni tai-schi-te",
+          "note": "Bezug auf Person/Sache oder Kontrast.",
+          "example": "おきゃくさまにたいしてていねいにはなします。",
+          "example_romaji": "okyakusama ni taishite teinei ni hanashimasu.",
+          "example_de": "Mit Kunden spreche ich höflich."
+        },
+        {
+          "jp": "～について",
+          "romaji": "ni tsuite",
+          "de": "über / bezüglich",
+          "approx": "ni tsu-i-te",
+          "note": "Thema eines Gesprächs, Textes oder Gedankens.",
+          "example": "にほんのぶんかについてべんきょうします。",
+          "example_romaji": "nihon no bunka ni tsuite benkyō shimasu.",
+          "example_de": "Ich lerne über japanische Kultur."
+        }
+      ],
+      "speech": [
+        {
+          "target": "にほんのぶんかについてべんきょうします",
+          "romaji": "nihon no bunka ni tsuite benkyō shimasu",
+          "meaning": "Ich lerne über japanische Kultur.",
+          "accept": [
+            "にほんのぶんかについてべんきょうします",
+            "日本の文化について勉強します"
+          ]
+        }
+      ],
+      "xp": 70
+    },
+    {
+      "key": "40:0",
+      "title": "丁寧語・尊敬語・謙譲語",
+      "cards": [
+        {
+          "jp": "です・ます",
+          "romaji": "desu / masu",
+          "de": "höfliche Sprache (丁寧語)",
+          "approx": "de-su / ma-su",
+          "note": "Die höfliche Standardebene, die du von Anfang an lernst."
+        },
+        {
+          "jp": "いらっしゃいます",
+          "romaji": "irasshaimasu",
+          "de": "sein/kommen/gehen (respektvoll)",
+          "approx": "i-ras-schai-ma-su",
+          "note": "尊敬語 für いる・来る・行く je nach Kontext.",
+          "example": "せんせいはいらっしゃいますか。",
+          "example_romaji": "sensei wa irasshaimasu ka.",
+          "example_de": "Ist der Lehrer da?"
+        },
+        {
+          "jp": "まいります",
+          "romaji": "mairimasu",
+          "de": "gehen/kommen (bescheiden)",
+          "approx": "mai-ri-ma-su",
+          "note": "謙譲語 für die eigene Handlung.",
+          "example": "すぐまいります。",
+          "example_romaji": "sugu mairimasu.",
+          "example_de": "Ich komme sofort."
+        },
+        {
+          "jp": "もうします",
+          "romaji": "mōshimasu",
+          "de": "heißen/sagen (bescheiden)",
+          "approx": "moo-schi-ma-su",
+          "note": "Bescheidene Form von 言う; häufig bei Vorstellung.",
+          "example": "ヴィンセントともうします。",
+          "example_romaji": "Vinsento to mōshimasu.",
+          "example_de": "Ich heiße Vincent. (bescheiden/formell)"
+        }
+      ],
+      "speech": [
+        {
+          "target": "ヴィンセントともうします",
+          "romaji": "Vinsento to mōshimasu",
+          "meaning": "Ich heiße Vincent. (formell)",
+          "accept": [
+            "ヴィンセントともうします",
+            "ヴィンセントと申します"
+          ]
+        }
+      ],
+      "xp": 75
+    },
+    {
+      "key": "41:0",
+      "title": "Kurzformen verstehen",
+      "cards": [
+        {
+          "jp": "なにしてる？",
+          "romaji": "nani shiteru?",
+          "de": "Was machst du gerade?",
+          "approx": "na-ni schi-te-ru",
+          "note": "Verkürzt aus なにをしていますか / 何している？.",
+          "example": "いまなにしてる？",
+          "example_romaji": "ima nani shiteru?",
+          "example_de": "Was machst du gerade?"
+        },
+        {
+          "jp": "わかんない",
+          "romaji": "wakannai",
+          "de": "weiß/verstehe ich nicht",
+          "approx": "wa-kan-nai",
+          "note": "Sehr alltägliche Verkürzung von わからない.",
+          "example": "ごめん、わかんない。",
+          "example_romaji": "gomen, wakannai.",
+          "example_de": "Sorry, ich weiß/verstehe es nicht."
+        },
+        {
+          "jp": "いかなきゃ",
+          "romaji": "ikanakya",
+          "de": "muss gehen",
+          "approx": "i-ka-na-kja",
+          "note": "Kurzform von 行かなければならない.",
+          "example": "もういかなきゃ。",
+          "example_romaji": "mō ikanakya.",
+          "example_de": "Ich muss jetzt los."
+        },
+        {
+          "jp": "たべちゃった",
+          "romaji": "tabechatta",
+          "de": "hab es (leider/komplett) gegessen",
+          "approx": "ta-be-tschat-ta",
+          "note": "食べてしまった → 食べちゃった.",
+          "example": "ぜんぶたべちゃった。",
+          "example_romaji": "zenbu tabechatta.",
+          "example_de": "Ich habe alles aufgegessen."
+        }
+      ],
+      "speech": [
+        {
+          "target": "いまなにしてる",
+          "romaji": "ima nani shiteru",
+          "meaning": "Was machst du gerade?",
+          "accept": [
+            "いまなにしてる",
+            "今何してる"
+          ]
+        },
+        {
+          "target": "ごめんわかんない",
+          "romaji": "gomen wakannai",
+          "meaning": "Sorry, ich verstehe es nicht.",
+          "accept": [
+            "ごめんわかんない"
+          ]
+        }
+      ],
+      "xp": 70
+    },
+    {
+      "key": "42:0",
+      "title": "Aizuchi und Füllwörter",
+      "cards": [
+        {
+          "jp": "そうですね",
+          "romaji": "sō desu ne",
+          "de": "ja, stimmt / mal sehen",
+          "approx": "soo de-su ne",
+          "note": "Je nach Ton Zustimmung oder Denkpause.",
+          "example": "そうですね。たしかに。",
+          "example_romaji": "sō desu ne. tashika ni.",
+          "example_de": "Ja, stimmt. Tatsächlich."
+        },
+        {
+          "jp": "なるほど",
+          "romaji": "naruhodo",
+          "de": "ach so / verstehe",
+          "approx": "na-ru-ho-do",
+          "note": "Zeigt, dass du eine Erklärung nachvollziehst.",
+          "example": "なるほど、わかりました。",
+          "example_romaji": "naruhodo, wakarimashita.",
+          "example_de": "Ach so, verstanden."
+        },
+        {
+          "jp": "えっと",
+          "romaji": "etto",
+          "de": "ähm …",
+          "approx": "et-to",
+          "note": "Natürliches Füllwort beim Nachdenken.",
+          "example": "えっと、なんでしたっけ。",
+          "example_romaji": "etto, nan deshita kke.",
+          "example_de": "Ähm, wie war das noch mal?"
+        },
+        {
+          "jp": "たしかに",
+          "romaji": "tashika ni",
+          "de": "stimmt / tatsächlich",
+          "approx": "ta-schi-ka ni",
+          "note": "Starke Zustimmung zu einem Punkt."
+        }
+      ],
+      "speech": [
+        {
+          "target": "なるほどわかりました",
+          "romaji": "naruhodo wakarimashita",
+          "meaning": "Ach so, verstanden.",
+          "accept": [
+            "なるほどわかりました",
+            "なるほど、わかりました"
+          ]
+        }
+      ],
+      "xp": 65
+    },
+    {
+      "key": "43:0",
+      "title": "Lesestrategie",
+      "cards": [
+        {
+          "jp": "まず、ぶんのおわりをみる。",
+          "romaji": "mazu, bun no owari o miru",
+          "de": "Zuerst das Satzende ansehen.",
+          "approx": "ma-su bun no o-wa-ri o mi-ru",
+          "note": "Im Japanischen steht das Prädikat sehr oft am Ende."
+        },
+        {
+          "jp": "じょしをさがす。",
+          "romaji": "joshi o sagasu",
+          "de": "Partikeln suchen.",
+          "approx": "dschoschi o sa-ga-su",
+          "note": "は・が・を・に・で zeigen die Beziehungen im Satz."
+        },
+        {
+          "jp": "めいしのまえをまとめる。",
+          "romaji": "meishi no mae o matomeru",
+          "de": "Den Teil vor einem Nomen zusammenfassen.",
+          "approx": "mee-schi no ma-e o ma-to-me-ru",
+          "note": "Relativsätze und Beschreibungen stehen direkt vor dem Nomen."
+        },
+        {
+          "jp": "ぜんぶをすぐにやくさない。",
+          "romaji": "zenbu o sugu ni yakusanai",
+          "de": "Nicht sofort alles übersetzen.",
+          "approx": "sen-bu o su-gu ni ja-ku-sa-nai",
+          "note": "Erst die Satzstruktur verstehen, dann unbekannte Wörter priorisieren."
+        }
+      ],
+      "speech": [
+        {
+          "target": "じょしをさがす",
+          "romaji": "joshi o sagasu",
+          "meaning": "Partikeln suchen.",
+          "accept": [
+            "じょしをさがす",
+            "助詞を探す"
+          ]
+        }
+      ],
+      "xp": 70
+    }
+  ]
+}

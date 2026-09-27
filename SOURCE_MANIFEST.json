@@ -1,0 +1,730 @@
+[
+  {
+    "path": ".gitignore",
+    "sha256": "c5c5a1bb17a73df7a70cc69dbc90b5da6ab2e44cfa1f8afc0e2a0d35be75a835"
+  },
+  {
+    "path": "actors.py",
+    "sha256": "42337489a436b07d5d19a990cc67cb48b147f3b2db5944409d25a972c20c352c"
+  },
+  {
+    "path": "app.py",
+    "sha256": "ba830f48d9a04217badb7f6bd782d5ceba7c177055e36161e6c64ac55ed8563c"
+  },
+  {
+    "path": "assets/animation/aiko/blink_1.png",
+    "sha256": "d58f696bc4d373b3c4cf0e776ecf3e126d0f017581763d35222bfb7200f156a3"
+  },
+  {
+    "path": "assets/animation/aiko/blink_2.png",
+    "sha256": "05bc7d1479b3f07fa25ba3a324533dfbfbd6ec3f22e03db73ec4b7168fa8fd76"
+  },
+  {
+    "path": "assets/animation/aiko/blink_3.png",
+    "sha256": "f426a1771a0c333ec3b996d3abcc86ab45e868fecc096947fa7b1679d73fc04f"
+  },
+  {
+    "path": "assets/animation/aiko/blink_4.png",
+    "sha256": "512cbe97089ea6add4ba877b3524c91d8f8d1aa14089d306d1c25a4c5ba44ede"
+  },
+  {
+    "path": "assets/animation/aiko/blink_5.png",
+    "sha256": "30c80fa6a58f769a885ae5071d3caf401a2efdaa0377c1ac76b160cb64bee52e"
+  },
+  {
+    "path": "assets/animation/aiko/mouth_encourage.png",
+    "sha256": "3a2de46331d800116d4252a2d1627df9263aab9a2f1b7717d483d309bac1481a"
+  },
+  {
+    "path": "assets/animation/aiko/mouth_idle.png",
+    "sha256": "c29291914d1e4b27a7f824ee058255f9bd2275c121fbce0618034e8a55605fee"
+  },
+  {
+    "path": "assets/animation/aiko/mouth_praise.png",
+    "sha256": "3a7768180a4b95dd08df52b43096a6ae572a871fc3594695511af3274ae91d27"
+  },
+  {
+    "path": "assets/animation/aiko/praise_cheeks.png",
+    "sha256": "c788c1e9725fc7e86e4978681d2fadbed2c4ac7e6cbd913a913f2b206126954e"
+  },
+  {
+    "path": "assets/animation/blink_index.json",
+    "sha256": "0ef1e5f9a979ae347f7587b090e46d4b2216b456b641cba5186f7c992758a492"
+  },
+  {
+    "path": "assets/animation/emiri/blink_1.png",
+    "sha256": "d383026e58a9a0af7d2f5211f098e7075e61e8b92942a5b6c8c6ceff1094a50d"
+  },
+  {
+    "path": "assets/animation/emiri/blink_2.png",
+    "sha256": "782324b543abadc8820c1607a5f0c60ac396befe1ccbc1db3f2ff2f592cdfac8"
+  },
+  {
+    "path": "assets/animation/emiri/blink_3.png",
+    "sha256": "95818000d22af6307fa2b4d34ea2aff86090a0812dc42ff0701ce46ac7bf7e56"
+  },
+  {
+    "path": "assets/animation/emiri/blink_4.png",
+    "sha256": "011e799bc72228f9252be3d4982b0628fb37ab5339eb9ab868dbb7ff97a16e04"
+  },
+  {
+    "path": "assets/animation/emiri/blink_5.png",
+    "sha256": "8090e9f56a80ae4ca4136ef3484953aad15db1dec876d58ecbd1639b74578c2d"
+  },
+  {
+    "path": "assets/animation/emiri/mouth_encourage.png",
+    "sha256": "bfc2c00f5735f2f1e6444bd85b299aa0e38f3a2af8ceea5dbb5a0fb00ca0fbfa"
+  },
+  {
+    "path": "assets/animation/emiri/mouth_idle.png",
+    "sha256": "874566b7a4c36410fa14216c3c970bd69f7630721c1b8a6525a928dba9eece4d"
+  },
+  {
+    "path": "assets/animation/emiri/mouth_praise.png",
+    "sha256": "44c3c26ee490b99ab5641b702393d66a8e2098cf92ad92e7175de47cf6467e6f"
+  },
+  {
+    "path": "assets/animation/emiri/praise_cheeks.png",
+    "sha256": "c65b87a5638a972f892e9f1714d96a0508e5048bc1a8380c86e02b5a81c00cd8"
+  },
+  {
+    "path": "assets/animation/expressions.json",
+    "sha256": "eb780ca59406d9dc50c2bfec25e87165394cb65af6bca19d92e55678a892c3df"
+  },
+  {
+    "path": "assets/animation/haruto/blink_1.png",
+    "sha256": "0ac0f1912724116fc4dbb807ca8498d8d911c36ac1221b256082a0ae03ece334"
+  },
+  {
+    "path": "assets/animation/haruto/blink_2.png",
+    "sha256": "b977b6f0c2ae73910b4f922cb1f0a40f17baf2c24123524a7206b497015548d0"
+  },
+  {
+    "path": "assets/animation/haruto/blink_3.png",
+    "sha256": "114b56936cdf8e7927e14f014f950cada5131f71c0e044a7d8cc4090cceb9c4d"
+  },
+  {
+    "path": "assets/animation/haruto/blink_4.png",
+    "sha256": "ffb595e3d5ed7c4dfe0992eb4fc1374c1a3721c05675e931091d08a5ad35a146"
+  },
+  {
+    "path": "assets/animation/haruto/blink_5.png",
+    "sha256": "154b24fae49a6f7fc26f0b9bfee73d24f73135f9fc3cf5a7414511d1ffb9deed"
+  },
+  {
+    "path": "assets/animation/haruto/mouth_encourage.png",
+    "sha256": "45307bf4fd8aeee64e669b97cb7467927aa98574e5b3b2f1dbbc0409ce3250c8"
+  },
+  {
+    "path": "assets/animation/haruto/mouth_idle.png",
+    "sha256": "c2153f77e11087fcb078ae38527fa83bef29791e3700e30cc87fec4405a66d0f"
+  },
+  {
+    "path": "assets/animation/haruto/mouth_praise.png",
+    "sha256": "3c9538e4a046297bab211481322b4d8f3f1ff30c1fe651154826511c57cf1db2"
+  },
+  {
+    "path": "assets/animation/haruto/praise_cheeks.png",
+    "sha256": "364b9df8f3347b4b86c2017b72a76f75ca0dcddba13ccdcd1ef4b4a69e012e77"
+  },
+  {
+    "path": "assets/animation/kiko_idle/blink_1.png",
+    "sha256": "96a39447e6be2baf71ca9e07e8fbb3d1550c14fa9bab0ce6a5bd91fdb2ad8a72"
+  },
+  {
+    "path": "assets/animation/kiko_idle/blink_2.png",
+    "sha256": "aa4a5360e6e51bd5c4bfd8b0988512226863a27b88d9d28535bb0ebd7bd5a4d6"
+  },
+  {
+    "path": "assets/animation/kiko_idle/blink_3.png",
+    "sha256": "d80e6d267a78b47259cd12258c70a0f454813aa1ccc5a36e11ce3928d57dd03b"
+  },
+  {
+    "path": "assets/animation/kiko_idle/blink_4.png",
+    "sha256": "380687556db9631d338f285d475b17d6f6673c907099b45be0d66afbc1c425b5"
+  },
+  {
+    "path": "assets/animation/kiko_idle/blink_5.png",
+    "sha256": "ccb9efcae94f08af650631b2c6bf2a81cd8d78925f7f61253cd914a4026ddfbb"
+  },
+  {
+    "path": "assets/animation/kiko_idle/face_praise.png",
+    "sha256": "ffdde96ef9dbd1723ac1cb68f9e3a6f4622f5d39cc6b8b2f539b46af0f9ddfaa"
+  },
+  {
+    "path": "assets/animation/miyako/blink_1.png",
+    "sha256": "70dc0aa7654e9310ce3e46d6716b3cda9ec6b5b1af1f370c23a505fd67f495d6"
+  },
+  {
+    "path": "assets/animation/miyako/blink_2.png",
+    "sha256": "b50024984d95b1c2fd49181af6b11413e5819aea236b229b52462cc527f6a4d4"
+  },
+  {
+    "path": "assets/animation/miyako/blink_3.png",
+    "sha256": "1ba05c239c2071b20165d3ac9ced74a27dd74284b29476b3e4e8493488d567f8"
+  },
+  {
+    "path": "assets/animation/miyako/blink_4.png",
+    "sha256": "5ce8ded8260d5215288ef051eac8b71eb9818de5cb3c5c578f412eb86ff05047"
+  },
+  {
+    "path": "assets/animation/miyako/blink_5.png",
+    "sha256": "f2b37f012dac68d38916c3b6230c349c97c65971db319f19927b79f6c2c5c272"
+  },
+  {
+    "path": "assets/animation/miyako/mouth_encourage.png",
+    "sha256": "cf9bdb3bc7b55267437b132cf8a5177f32412062975e67c124e076801a6569e0"
+  },
+  {
+    "path": "assets/animation/miyako/mouth_idle.png",
+    "sha256": "be3b5a9fabbf4a47b9c2616ec1e75c8b62c36b7f771ffb81eb85579500afe39c"
+  },
+  {
+    "path": "assets/animation/miyako/mouth_praise.png",
+    "sha256": "c0f023d2ae02ba8ac88eb2545acd5e0b2bb927f4491bc566a1f4b8160ab8c2c9"
+  },
+  {
+    "path": "assets/animation/miyako/praise_cheeks.png",
+    "sha256": "cb82b324e3647306fd049e63eade8dda49ce76e76be06f82fb0ea17993589af5"
+  },
+  {
+    "path": "assets/animation/ren/mouth_encourage.png",
+    "sha256": "140bd2a5ee9668a49a07935b06722b95917089c135f2285ee932209a88a126c9"
+  },
+  {
+    "path": "assets/animation/ren/mouth_idle.png",
+    "sha256": "c71cc40d2072a1abeec5e481ec22adc947480179f6f405bd9cadb29c792324b1"
+  },
+  {
+    "path": "assets/animation/ren/mouth_praise.png",
+    "sha256": "6e13ae2271f88befaf892a7cfb0e7be4bde3fc4c99d7cae5225997e1aeb369bb"
+  },
+  {
+    "path": "assets/animation/ren/praise_cheeks.png",
+    "sha256": "e07f23c515bd4e15e80752b56e12819ef45a7e2704179efaff5a4994980457df"
+  },
+  {
+    "path": "assets/animation/rigs.json",
+    "sha256": "713fab633200a80397c347a2d867792caffcd22e10265a597e2448652d2e935b"
+  },
+  {
+    "path": "assets/animation/sakura/blink_1.png",
+    "sha256": "711f8ad33a9bfc7fc2bcc27f9f9ba1a333fceab272d0e456dfca245e4dd5ac74"
+  },
+  {
+    "path": "assets/animation/sakura/blink_2.png",
+    "sha256": "cd3d3d4b965ead43497df60fc413f7d6c277f1b6ceeddd1239edd697d18c7570"
+  },
+  {
+    "path": "assets/animation/sakura/blink_3.png",
+    "sha256": "655d472bcd362215963f73a8017b98832e94cc5d4b78850048a3ea24b431e1c2"
+  },
+  {
+    "path": "assets/animation/sakura/blink_4.png",
+    "sha256": "2b1004265ac47485e649343dfbabcaead78be740b02368c6bcf52faea64d7802"
+  },
+  {
+    "path": "assets/animation/sakura/blink_5.png",
+    "sha256": "6cb423ed02c2be9e4798eaeac9a4f9d143f68c2c9c35e97421debe27cf2c35ba"
+  },
+  {
+    "path": "assets/animation/sakura/mouth_encourage.png",
+    "sha256": "a8d532810860b7742cbbb56957141012c22bae516074641ddb925604e3e77c0d"
+  },
+  {
+    "path": "assets/animation/sakura/mouth_idle.png",
+    "sha256": "c441474fdb09401c801d81cbd3febdaee450a543d4d3f15d9043d81537f77b50"
+  },
+  {
+    "path": "assets/animation/sakura/mouth_praise.png",
+    "sha256": "416baa05dfe5a900542361c33f724ad7b78e2e6e0a1716c66d73f3e124dfd1de"
+  },
+  {
+    "path": "assets/animation/sakura/praise_cheeks.png",
+    "sha256": "230667f8bd83b5a1ba9176f5c4d46a0a2e8eeac714228de50cb2353f8d4506f2"
+  },
+  {
+    "path": "assets/animation/satoshi/blink_1.png",
+    "sha256": "5ff73ff6ac6ae27ac7793979b8e77a026c05ad06ed3ff73840a46dd88b7e067c"
+  },
+  {
+    "path": "assets/animation/satoshi/blink_2.png",
+    "sha256": "5b49951f31b52de0a3a25c4d8a2e2063906395e8dbb8efc7ee40406706812fb7"
+  },
+  {
+    "path": "assets/animation/satoshi/blink_3.png",
+    "sha256": "3b4c7e5ce8142434c07e846fb8ecaf998fa2c3f85e311c550353ba850a495064"
+  },
+  {
+    "path": "assets/animation/satoshi/blink_4.png",
+    "sha256": "8196b64c58259ad2ac9a6c5f25b607ace5e5b0046b97d54d216722028a3a02ce"
+  },
+  {
+    "path": "assets/animation/satoshi/blink_5.png",
+    "sha256": "348a86cf703a219e08d2cdf534dbccc2156586980113cd11018ff0da6ec79445"
+  },
+  {
+    "path": "assets/animation/satoshi/mouth_encourage.png",
+    "sha256": "d9339f3e8abbf6a896523fae1ed1bb4e2a543e74855263fef8e54d3b6303ba5f"
+  },
+  {
+    "path": "assets/animation/satoshi/mouth_idle.png",
+    "sha256": "c2153f77e11087fcb078ae38527fa83bef29791e3700e30cc87fec4405a66d0f"
+  },
+  {
+    "path": "assets/animation/satoshi/mouth_praise.png",
+    "sha256": "1ffd98ed4dd08249aec9a8e951939689fb83876cee602efd50f89876452dca6c"
+  },
+  {
+    "path": "assets/animation/satoshi/praise_cheeks.png",
+    "sha256": "cbac6d156985d4e998f03c78924afe6893c41284f45eeedd1957a036d2a8fce3"
+  },
+  {
+    "path": "assets/animation/yuki/blink_1.png",
+    "sha256": "9a730800a37d4b2a1b094730e4aee67b5395eaa876c8176ba22a4cc6fd389af8"
+  },
+  {
+    "path": "assets/animation/yuki/blink_2.png",
+    "sha256": "fe7c87b453438b761f5b4ab4204b5354ecf173ff892f37406c74ca43243f42f9"
+  },
+  {
+    "path": "assets/animation/yuki/blink_3.png",
+    "sha256": "ad2966bf105872ab26f89e45f77ff2f972107cf3872273335716b8e2049a93b0"
+  },
+  {
+    "path": "assets/animation/yuki/blink_4.png",
+    "sha256": "1c286f1771d650e016ec472aced555f75d918dfef04a3c000ce5ec3413994703"
+  },
+  {
+    "path": "assets/animation/yuki/blink_5.png",
+    "sha256": "445ac8db8ea3c207d401bafd1546c9793df3172f39e13d1c79e1bc838a6c6523"
+  },
+  {
+    "path": "assets/animation/yuki/mouth_encourage.png",
+    "sha256": "9bc450814c13b71936415a2840e219bc41a7c2788667d4652a4f8a34e93d720a"
+  },
+  {
+    "path": "assets/animation/yuki/mouth_idle.png",
+    "sha256": "3cd19859b0933c7c37c6569a171fa5bf8e671670fffd4d337add7e3d4602f244"
+  },
+  {
+    "path": "assets/animation/yuki/mouth_praise.png",
+    "sha256": "eb6dd9363061ea33c472bf154daf3cfb11f21448e3f5753f194239fa5bf8d8eb"
+  },
+  {
+    "path": "assets/animation/yuki/praise_cheeks.png",
+    "sha256": "57d37978154043e6ee7c15fc3f0ecd7f02d3a41c7f5f90c6c1f02a79e5e7f034"
+  },
+  {
+    "path": "assets/backgrounds/main.jpg",
+    "sha256": "eedde5ee8b27cf99c8bb41a0bbc862700f896b115ffee4fdbaa463c4b50fd5e5"
+  },
+  {
+    "path": "assets/icon.ico",
+    "sha256": "7d784f434d33c840f47f8c462a6ea8789bc209e97140a31142f1a9016f96322d"
+  },
+  {
+    "path": "assets/mascot/kiko.png",
+    "sha256": "93020d35abb61975b86682bff9e6850aecbfd99d3f2638a61895d349ac09963d"
+  },
+  {
+    "path": "assets/mascot/kiko_cheer.png",
+    "sha256": "868e86d18a2d9a1320daa5484df7d5a1a6def1d38e92753672e5721d4aed8b88"
+  },
+  {
+    "path": "assets/mascot/kiko_idle.png",
+    "sha256": "01b0c1c7e4ec843343cb8bd3e4843797ad2bb299066a685b2a1f02949a635600"
+  },
+  {
+    "path": "assets/mascot/kiko_listen.png",
+    "sha256": "5d066274aec2bb4983a3627a405918bcaa7add04067fbe197a70442a0e4aa90e"
+  },
+  {
+    "path": "assets/mascot/kiko_love.png",
+    "sha256": "120b1791cb14acccff1d55582dbbe56b687689b15c108d853d4d4edd8de31c37"
+  },
+  {
+    "path": "assets/mascot/kiko_study.png",
+    "sha256": "a6355726c7137620e8ed763d59f1e253703ad155159021bca86c6cb410fa9fe6"
+  },
+  {
+    "path": "assets/mascot/kiko_think.png",
+    "sha256": "d47552a143d0b4a5074cf570dd84777770c44f33b1709eebcfbe5a3bfe4229b1"
+  },
+  {
+    "path": "assets/teachers/aiko/avatar.png",
+    "sha256": "4c37153ba98b3c90ebf879eb8eb55763b236defddd14cc92fb606a520a8326d0"
+  },
+  {
+    "path": "assets/teachers/aiko/card.png",
+    "sha256": "df6a219b01d42c54f83f6a21287c336fe65cd8d158d1d8e2a3d075b8d6564a4f"
+  },
+  {
+    "path": "assets/teachers/aiko/full.png",
+    "sha256": "4f103a7e67fafe690be435f1f96c5911921430ad10f01f33ceedcd9984caa83e"
+  },
+  {
+    "path": "assets/teachers/emiri/avatar.png",
+    "sha256": "8240488e14d96b7c2c692eb47804a0e1803b0d6c7596c19986461d8289b425e6"
+  },
+  {
+    "path": "assets/teachers/emiri/card.png",
+    "sha256": "205514f0a9c4a01a4fdff74bba5298431b8dffe65bdaeaff9017726f71485b61"
+  },
+  {
+    "path": "assets/teachers/emiri/full.png",
+    "sha256": "2b11c8ecb81ae14fc4f1c9ce15b79c867b1c1619f06ef83dd49ae2c8185ffd69"
+  },
+  {
+    "path": "assets/teachers/haruto/avatar.png",
+    "sha256": "2f0b55887ef3e5a24c70e2613859313dfb332dddccfeff570e2c6e33c1c3d013"
+  },
+  {
+    "path": "assets/teachers/haruto/card.png",
+    "sha256": "05654404384839ba02a4f4d55c776c2fa57864e5578128e5bd1aebf700f42571"
+  },
+  {
+    "path": "assets/teachers/haruto/full.png",
+    "sha256": "6d63524640e72a7e31fb8b14dc6a0502f5c3124917ee45eb21e76e053e620ea6"
+  },
+  {
+    "path": "assets/teachers/miyako/avatar.png",
+    "sha256": "b412f8726322688724c0a2d7e625e2bf850e68dac2cb771e1f937a83c1e7799b"
+  },
+  {
+    "path": "assets/teachers/miyako/card.png",
+    "sha256": "bd9018e66ab348a7dd7ab31c366b266e34374e27721ce50b17ecf946db7f7037"
+  },
+  {
+    "path": "assets/teachers/miyako/full.png",
+    "sha256": "6677c15571488281d7803287e76888ae162299a949f2c426dc162f5a3bf02284"
+  },
+  {
+    "path": "assets/teachers/ren/avatar.png",
+    "sha256": "cbf6d412763c5db23a46f7302a1b1f6ab28cbb2032502256f7bbc6f1dd64b847"
+  },
+  {
+    "path": "assets/teachers/ren/card.png",
+    "sha256": "2e4f566f508c602e083d0976163263e72215b36147751d8e9b7cc6e1cb94b588"
+  },
+  {
+    "path": "assets/teachers/ren/full.png",
+    "sha256": "c8fe9404d32c432b7b0440dfd66872d8f487c7dd6ca3370271f730d5b6443d9a"
+  },
+  {
+    "path": "assets/teachers/sakura/avatar.png",
+    "sha256": "13a59dbcec3ea7adf03ad6e3a3441a47514745d7a70eeb33acaf1ebf934ad183"
+  },
+  {
+    "path": "assets/teachers/sakura/card.png",
+    "sha256": "cd70c89d8f8c9f708c2fa530fe4d52aed62aedde20524a778d649a402f7d064d"
+  },
+  {
+    "path": "assets/teachers/sakura/full.png",
+    "sha256": "8f50cca29662a5882f130e7ea1916d7a04f10d7facb8089b3794355bd3b58338"
+  },
+  {
+    "path": "assets/teachers/satoshi/avatar.png",
+    "sha256": "c509e40c0891be4c033831a1b90e9250f9fa30769bc9c2c7d6098077a4d6f09a"
+  },
+  {
+    "path": "assets/teachers/satoshi/card.png",
+    "sha256": "acbc376fe8faf82c42825f54c8a8a362e401aef5ef84d6decd796066bc433a47"
+  },
+  {
+    "path": "assets/teachers/satoshi/full.png",
+    "sha256": "d3a55b9dc5e3948dcc47ab12df3cd53aafc7d8db4b02f88af9a8e85b6b55f31f"
+  },
+  {
+    "path": "assets/teachers/yuki/avatar.png",
+    "sha256": "cfcd53ee15c35999f368f6e5ceab5ee81dadc601869a412c6139e5b4145be8e2"
+  },
+  {
+    "path": "assets/teachers/yuki/card.png",
+    "sha256": "604b03fe88d8ff4d8d3668d31599069aae6f7f82ec3179075ef8a4b2814d3fc6"
+  },
+  {
+    "path": "assets/teachers/yuki/full.png",
+    "sha256": "4cbc89c8d6dd8797ba32660216b6ab8e89b4d3a65c3bb23a4755ff69aec054f1"
+  },
+  {
+    "path": "Build-Release.ps1",
+    "sha256": "73d29b83f7393c562a4afdbe5413f073766eaefab79dcaa0f279e503e9ff6a43"
+  },
+  {
+    "path": "BUILD_ANLEITUNG.md",
+    "sha256": "a18ba5a30173a392e2c91c6c092fd855bc860d3e2af79663b21e549ac8669221"
+  },
+  {
+    "path": "data/catalog.json",
+    "sha256": "84d3a118d6b1d210db5922266befbd27cad64cbe00e422a3fd0bf97b3aeaf438"
+  },
+  {
+    "path": "data/course.json",
+    "sha256": "c1e2cda6ea2e906be4db73976a7ab2f7bc01e7288fc98b7a24940fee9535e8c2"
+  },
+  {
+    "path": "data/deep_lessons.json",
+    "sha256": "84e44b9bf4cba65ab8deeacfbfb55cb4c4e7dfe59f62993cf197b8a7480740b8"
+  },
+  {
+    "path": "diagnostics.py",
+    "sha256": "47c289c64ea2acf72a09d3dc0f596407d68ca54d5febdd1702bbd630a123b41f"
+  },
+  {
+    "path": "docs/DEVELOPMENT.txt",
+    "sha256": "946c9389f969e16f5ca8dcd48b477281ce06e9976cfa8c9339e43deed335d201"
+  },
+  {
+    "path": "docs/LEGACY_COURSE_V101.json",
+    "sha256": "8dedb207aa4caa071a8231b9fd3b8c80425df3db2bc59a83f0eafc72c465bf3b"
+  },
+  {
+    "path": "docs/SOURCES.txt",
+    "sha256": "1edf98a71db948eca5abd1e2b709250ee8e53e71b6e8064706cde5d5644bea56"
+  },
+  {
+    "path": "download_models.ps1",
+    "sha256": "f8d08123a157768273ba7ab7950847a85d8fb7b9379d44b8b66bfd8cc29ea630"
+  },
+  {
+    "path": "installer_tools/installer/Build-Installer.ps1",
+    "sha256": "f3eabae3398418f522e5b433fbf944a5ff653a94758535199daa840c7cdda2ab"
+  },
+  {
+    "path": "installer_tools/installer/config.json",
+    "sha256": "3509333c0226e74a86395aa8fccabf7484e37bd76f467ac05b0f818d46cdcb80"
+  },
+  {
+    "path": "installer_tools/installer/Installation_Hinweise.txt",
+    "sha256": "c69f9f84443bd907d2836167273aaea587170134120fa29c111cd2b5e3009fe5"
+  },
+  {
+    "path": "installer_tools/installer/JapanischTrainer.iss",
+    "sha256": "759ed5b0a4a518f6669b85e6ff85b2cde6e97c8cd2c07fe3192a9625f17109c9"
+  },
+  {
+    "path": "installer_tools/SETUP_ERSTELLEN.bat",
+    "sha256": "1f108aa674e1e778b69dfc9caa43618076eb5baf2aa587b05c37f6962e377377"
+  },
+  {
+    "path": "installer_tools/tests/test_contract.py",
+    "sha256": "8709a9a10f60a41ae50bc00ed9f2dad0bc9aaac249318564ba49b2571580973e"
+  },
+  {
+    "path": "KURSUEBERSICHT_V11.txt",
+    "sha256": "eeb146dcd126916ca8417bca9657feb4a35a4f4383be40ff771a02ee38810364"
+  },
+  {
+    "path": "learning.py",
+    "sha256": "2616f8c07c3d0b6fd6cfbae0efe3f20e4932d33623de08bd2e2b194203a33c81"
+  },
+  {
+    "path": "lesson_ui.py",
+    "sha256": "bcea238105ffe22d2c772751bab87a6d5f4ee4afdee02827363705fc19f547f0"
+  },
+  {
+    "path": "LICENSE.txt",
+    "sha256": "8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903"
+  },
+  {
+    "path": "licenses/GPL-3.0.txt",
+    "sha256": "8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903"
+  },
+  {
+    "path": "licenses/Parakeet-CC-BY-4.0.txt",
+    "sha256": "9ba9550ad48438d0836ddab3da480b3b69ffa0aac7b7878b5a0039e7ab429411"
+  },
+  {
+    "path": "licenses/SenseVoice-MODEL-LICENSE.txt",
+    "sha256": "7dba975a2069691db4992b0592d70828b330d2f8a30a71450f4e152a554e84f8"
+  },
+  {
+    "path": "licenses/Supertonic-3-MODEL-LICENSE.txt",
+    "sha256": "0d944a9110fed9a9602d60e0423a272903e7bd21ab060490774efc77c2275e9f"
+  },
+  {
+    "path": "MODEL_ATTRIBUTION.txt",
+    "sha256": "7fcc4c13045a7adb8a530ea96bf91428e1fe50ac8916de784facc5acf48697a0"
+  },
+  {
+    "path": "MODEL_LICENSES.txt",
+    "sha256": "1811e941af070c14bfcf569d572fa029765de3f7ca447bb386deeadb02c9e7af"
+  },
+  {
+    "path": "models/README.txt",
+    "sha256": "ad55224c76f75a316e7eea1ea18b505ad7a1016633737fd3901c60f585670465"
+  },
+  {
+    "path": "motion.py",
+    "sha256": "9182cad69ce02eeeb18e36063509356deceac841aeb6a704016e64cd0419ea8c"
+  },
+  {
+    "path": "reactions.py",
+    "sha256": "796666ffd1abecece22867de59c0bb59094f20e9207e3b47fa4207a4c98fead5"
+  },
+  {
+    "path": "README.md",
+    "sha256": "6ac0727eb2bbe679e7c212b69bf9bd569c7f394be8c12d68568943300f5575bc"
+  },
+  {
+    "path": "README.txt",
+    "sha256": "cfe225b43bfbd85b067b3bf21bbb0ca524492f76fdfd833057f5194c8a2b91a7"
+  },
+  {
+    "path": "release.json",
+    "sha256": "ac1e0c40b755e9332983c86e5e9a6db095c489726ee9039a662352266ca91f7f"
+  },
+  {
+    "path": "RELEASE_NOTES_11.0.1.md",
+    "sha256": "1be80918ad8babc8ec0a0ce2fb012b4f7d93887a63661ed96c1a27e2bc43b28f"
+  },
+  {
+    "path": "RELEASE_NOTES_V11.txt",
+    "sha256": "33f6c0d70dda511914bdc0f7b32343d35186c613b315491de0a10864db8eb6ed"
+  },
+  {
+    "path": "requirements-lock.txt",
+    "sha256": "676f876473702234e839697509bc39b72852ac1cc30e6f4cf02a7608f84d47ff"
+  },
+  {
+    "path": "requirements.txt",
+    "sha256": "445e9a43ba072f29ea6c6cf4fa3bc3f6acc1e219af594bf32a574272ba0bfd26"
+  },
+  {
+    "path": "rigging.py",
+    "sha256": "a29b25f2fe2a2229c09573e7b195a47ddc8160a932bec670adef6083aa6bb940"
+  },
+  {
+    "path": "selftest.py",
+    "sha256": "d4b670ae099ba22495583a64ec95779a269bcdb1c73d8630cf5a761f1a6e280a"
+  },
+  {
+    "path": "speech_engine.py",
+    "sha256": "bb3a6e8ba1a3cc4b7faa579868c03c89ffbcd770d341936c0b0d285cb01695e3"
+  },
+  {
+    "path": "storage.py",
+    "sha256": "bf08c080d361cd3f29139ee5fb39791899296d8d86578fb60597932fe0f6aa4f"
+  },
+  {
+    "path": "study.py",
+    "sha256": "8524e7ad3a96c5e82af5bc26328eb5075ee31fefa744017126b039c332cbc9e7"
+  },
+  {
+    "path": "TESTBERICHT.md",
+    "sha256": "763ac6a942a405ae71897730256be3d7bd098108585d0db4561479b5e1cb084d"
+  },
+  {
+    "path": "tests/test_core.py",
+    "sha256": "dc5400b1ef319ece4a6fb051db34686944a37bf6b78cdaaacb353e02ee81b35c"
+  },
+  {
+    "path": "tests/test_updates.py",
+    "sha256": "9ce23d12c97614bb56a7a9bd21efd484967b2af1bdeee104fa9219b7a28e2723"
+  },
+  {
+    "path": "tests/test_v10.py",
+    "sha256": "da029f087be37bf0fb1f59e1f052c998284167860396a5e4bc9d5a1e8f883a18"
+  },
+  {
+    "path": "tests/test_v101.py",
+    "sha256": "91fabccd84582ad8deb38734d9f87a40e1cc952efcb2d293ec52db66039423fb"
+  },
+  {
+    "path": "tests/test_v11.py",
+    "sha256": "3f3d1203f3da554d936e703de257967376b7af9dd4dc4d35ddba7dbe9179085e"
+  },
+  {
+    "path": "tests/test_v8.py",
+    "sha256": "5891f43e321a4e4c2d3411453942b7fbaee1cd6eeba19b625ef54bde1a82d4b4"
+  },
+  {
+    "path": "tests/test_v9.py",
+    "sha256": "4dc92018ba66a16561c8102d1336e55325f0a2c0665759030c2cc6fc74fd6595"
+  },
+  {
+    "path": "tests/ui_course.py",
+    "sha256": "6a0ff0829df66b2cefb5511e1a9d3d356cd8358bded4f6f0391dcbdf18bd6967"
+  },
+  {
+    "path": "tests/ui_idle.py",
+    "sha256": "477576dcfe39f532c19507fa10a563713ce8e9abb53c3abfd41876e14d00d8d6"
+  },
+  {
+    "path": "tests/ui_reactions.py",
+    "sha256": "9287d728fbe26c3f7dbddd734ebe3e02178e8b63e5e5ece73828962dbe1af221"
+  },
+  {
+    "path": "tests/ui_smoke.py",
+    "sha256": "324126799a4804b48f3bd728d3e5fedc9989a500574252bf7475ad5eff490e34"
+  },
+  {
+    "path": "tests/ui_updates.py",
+    "sha256": "dbbb85b7cb19b44f24b64ee7b0fbeecf894e774db83135ee8f414aa1265541ef"
+  },
+  {
+    "path": "tests/windows_installer.ps1",
+    "sha256": "cf200a01a84d6b1245231160d0452b91c7e4055bea0a1935d127c6c593779bb3"
+  },
+  {
+    "path": "tests/windows_update_e2e.py",
+    "sha256": "dc53292849c00846958c1ae2aba16e2f0920c4a2cb7a32a3cbbffd5317b4a4ce"
+  },
+  {
+    "path": "THIRD_PARTY_NOTICES.txt",
+    "sha256": "b436071bdc8f7871d9138712b514e713c4b25239c82547e5a156f357f011db91"
+  },
+  {
+    "path": "tools/init_update_key.py",
+    "sha256": "d6b14baeea21068774a0f730b4fcd7d439ef7ca4938878d61e4d0a8f078d4197"
+  },
+  {
+    "path": "tools/package_update.py",
+    "sha256": "7d092e5b3282f6b24268449ef67f301d31d5916e18f4742d8eac64b6ba05b9df"
+  },
+  {
+    "path": "tools/prepare_public_source.py",
+    "sha256": "6de6dcc16e8276ef91be193f037b7ee5f6454947b066271c833b717975a2e2a2"
+  },
+  {
+    "path": "tools/stage_release.py",
+    "sha256": "ee0bfdae95580f3392b9657b37ac378e524a8b76efad582c467b4fd726e037c8"
+  },
+  {
+    "path": "tools/write_release_report.py",
+    "sha256": "f6dda5d387868de0d1deeb4f3ddce7d022d625c8ebf8b3134370a8ced13bddd7"
+  },
+  {
+    "path": "ui_renderer.py",
+    "sha256": "c96387fa99520925a0213d70df9fc15afc4ac5587f465093c4dab693bcae2e64"
+  },
+  {
+    "path": "update-source.json",
+    "sha256": "e9361b5d5d76f26d2e70ca32ffa755de73bc070fc343c560419330e76b96fee4"
+  },
+  {
+    "path": "update_ui.py",
+    "sha256": "f19356284a2ba6b6567c66b86e7d5e40e6fd8e0ffb8a214a3d74589744988443"
+  },
+  {
+    "path": "update_worker.py",
+    "sha256": "b800d6a108f1c8a3b840eb22959fa7267423b6b4a5eadbffbef5acf4c18c9cb6"
+  },
+  {
+    "path": "updater.py",
+    "sha256": "fa764bb92863171c358315b15e273123024b87c9403de919345800547f48ada4"
+  },
+  {
+    "path": "vendor-sources/pykakasi-2.3.0.tar.gz",
+    "sha256": "fa052a8e63f59fb8d6569abbe719a8c9f9daf15ed27a67a56ab1705f0f67b0a1"
+  },
+  {
+    "path": "vendor-sources/SOURCES.json",
+    "sha256": "02c98c171703a212725790c41c5bbc003d9e76b44e76042fb6f46718f367746a"
+  },
+  {
+    "path": "version_info.txt",
+    "sha256": "823ca437c9fac1eeaf0cf569ebbfa19820c3702aaa25d25b1780919295f4909c"
+  }
+]

@@ -1,0 +1,1018 @@
+{
+  "version": 1,
+  "profiles": {
+    "あ": {
+      "kind": "Hiragana · einzelner Vokal",
+      "usage": "Ein Schriftzeichen für den Laut a, noch kein Wort mit einer eigenen Bedeutung.",
+      "explain": "Öffne den Mund entspannt und sprich ein kurzes, klares a. Das Zeichen あ steht für einen Sprechtakt. In der ersten Runde darfst du die Form und die Lesung immer ablesen.",
+      "pitfall": "Ein einzelnes a lässt sich von Spracherkennung oft schlecht zuordnen. Ein leeres oder falsches Transkript ist hier kein Beweis für eine falsche Aussprache.",
+      "parts": [
+        [
+          "あ",
+          "a · ein Sprechtakt"
+        ]
+      ],
+      "scenario": {
+        "question": "Was lernst du mit あ gerade?",
+        "correct": "Ein Zeichen für den Laut a.",
+        "wrong": [
+          "Das Wort für Deutschland.",
+          "Einen ganzen Fragesatz."
+        ]
+      },
+      "extra": [],
+      "register": ""
+    },
+    "い": {
+      "kind": "Hiragana · einzelner Vokal",
+      "usage": "Ein Schriftzeichen für den Laut i.",
+      "explain": "Die Zunge liegt relativ weit vorn; der Klang ist ungefähr der klare i-Laut in „Liebe“, hier aber kurz. Später unterscheidest du ein kurzes い von einem langen いい.",
+      "pitfall": "Die deutschen Vergleichswörter helfen beim Klang, nicht bei der Dauer. Ein kurzes i nicht automatisch lang ziehen.",
+      "parts": [
+        [
+          "い",
+          "i · ein Sprechtakt"
+        ]
+      ],
+      "scenario": {
+        "question": "Worauf achtest du bei einem einzelnen い?",
+        "correct": "Ein klares, kurzes i.",
+        "wrong": [
+          "Den Laut wie ei sprechen.",
+          "Immer ein langes ii sprechen."
+        ]
+      },
+      "extra": [],
+      "register": ""
+    },
+    "う": {
+      "kind": "Hiragana · einzelner Vokal",
+      "usage": "Ein Schriftzeichen für den japanischen u-Laut.",
+      "explain": "Sprich ein kurzes u mit entspannten Lippen. Sie werden weniger stark nach vorn gerundet als beim deutschen u. Die Umschrift u ist eine Annäherung und keine perfekte Lautschrift.",
+      "pitfall": "Den Mund nicht übertrieben spitzen. Höre zuerst die Vorlage; ein isolierter Vokal ist für das Erkennungsmodell besonders schwierig.",
+      "parts": [
+        [
+          "う",
+          "u · ein Sprechtakt"
+        ]
+      ],
+      "scenario": {
+        "question": "Welche Mundhaltung ist eine hilfreiche Annäherung?",
+        "correct": "Weniger stark gerundete Lippen als beim deutschen u.",
+        "wrong": [
+          "Die Lippen besonders stark spitzen.",
+          "Ein deutsches ü erzwingen."
+        ]
+      },
+      "extra": [],
+      "register": ""
+    },
+    "え": {
+      "kind": "Hiragana · einzelner Vokal",
+      "usage": "Ein Schriftzeichen für einen kurzen e-Laut.",
+      "explain": "Sprich einen gleichbleibenden e-Laut, ungefähr wie in „Bett“. Lass ihn nicht zu einem ei gleiten. Klangvergleiche mit Deutsch sind nur eine Starthilfe.",
+      "pitfall": "Nicht wie englisches „ay“ mit einem zusätzlichen i am Ende aussprechen.",
+      "parts": [
+        [
+          "え",
+          "e · ein Sprechtakt"
+        ]
+      ],
+      "scenario": {
+        "question": "Welche Veränderung solltest du vermeiden?",
+        "correct": "Aus e einen Doppellaut ei machen.",
+        "wrong": [
+          "Den Vokal kurz sprechen.",
+          "Den Klang gleichmäßig halten."
+        ]
+      },
+      "extra": [],
+      "register": ""
+    },
+    "お": {
+      "kind": "Hiragana · einzelner Vokal",
+      "usage": "Ein Schriftzeichen für einen kurzen o-Laut.",
+      "explain": "Sprich o mit gleichbleibender Mundstellung. Ein einzelnes お dauert einen Sprechtakt. Später kommen lange o-Laute hinzu; die Länge kann Wörter unterscheiden.",
+      "pitfall": "Ein einzelnes お nicht von selbst zu einem langen oo oder zu ou verändern.",
+      "parts": [
+        [
+          "お",
+          "o · ein Sprechtakt"
+        ]
+      ],
+      "scenario": {
+        "question": "Wie lange ist ein einzelnes お in dieser Übung?",
+        "correct": "Ein Sprechtakt.",
+        "wrong": [
+          "Immer zwei Sprechtakte.",
+          "Es ist eine stumme Schreibweise."
+        ]
+      },
+      "extra": [],
+      "register": ""
+    },
+    "あさ": {
+      "kind": "Nomen · Zeitangabe",
+      "usage": "Bezeichnet den Morgen als Tageszeit. Nicht das deutsche „morgen“ im Sinn von „am nächsten Tag“.",
+      "explain": "Das Wort hat zwei gleichmäßige Takte: a-sa. Das s ist stimmlos, etwa wie in „Wasser“. Die Kanji-Schreibweise 朝 kann im erkannten Text auftauchen; sie bezeichnet dasselbe Wort.",
+      "pitfall": "あさ allein ist keine normale Morgengrüßung. Es benennt die Tageszeit.",
+      "parts": [
+        [
+          "あ",
+          "a"
+        ],
+        [
+          "さ",
+          "sa"
+        ]
+      ],
+      "scenario": {
+        "question": "Welche deutsche Bedeutung ist hier gemeint?",
+        "correct": "Der Morgen als Tageszeit.",
+        "wrong": [
+          "Am nächsten Tag.",
+          "Die Begrüßung Guten Abend."
+        ]
+      },
+      "extra": [],
+      "register": ""
+    },
+    "いえ": {
+      "kind": "Nomen",
+      "usage": "Bezeichnet ein Haus oder Zuhause.",
+      "explain": "Sprich i-e: zwei getrennte Vokale, nicht das deutsche lange ie. 家 ist eine häufige Schreibweise dieses Wortes. Zum Lernen genügt erst einmal いえ.",
+      "pitfall": "いえ (Haus) und いいえ (nein) unterscheiden sich in der Länge des i. Lass das zusätzliche i nicht weg, wenn du später nein sagst.",
+      "parts": [
+        [
+          "い",
+          "i"
+        ],
+        [
+          "え",
+          "e"
+        ]
+      ],
+      "scenario": {
+        "question": "Wie gliederst du いえ?",
+        "correct": "i-e, zwei getrennte Vokale.",
+        "wrong": [
+          "Ein einziger langer i-Laut.",
+          "ai als deutscher Doppellaut."
+        ]
+      },
+      "extra": [],
+      "register": ""
+    },
+    "うえ": {
+      "kind": "Nomen · Ortsbezeichnung",
+      "usage": "Bezeichnet oben, die Oberseite oder eine Position über bzw. auf etwas; der Satz bestimmt die passende Übersetzung.",
+      "explain": "Sprich u-e in zwei Takten. In längeren Ausdrücken kann dieses Wort eine Position beschreiben. Du musst die dafür nötigen Partikeln jetzt noch nicht kennen.",
+      "pitfall": "Die Vokale nicht zu einem einzigen Laut verschmelzen. „Auf“ ist nur eine mögliche Übersetzung im passenden Zusammenhang.",
+      "parts": [
+        [
+          "う",
+          "u"
+        ],
+        [
+          "え",
+          "e"
+        ]
+      ],
+      "scenario": {
+        "question": "Welche Art Information gibt うえ häufig an?",
+        "correct": "Eine Position oben oder auf etwas.",
+        "wrong": [
+          "Eine Bitte um Entschuldigung.",
+          "Eine Nationalität."
+        ]
+      },
+      "extra": [],
+      "register": ""
+    },
+    "こんにちは": {
+      "kind": "Feste Grußformel",
+      "usage": "Eine übliche Begrüßung am Tag: Guten Tag oder Hallo.",
+      "explain": "Lerne die ganze Wendung zunächst als Einheit. Die Umschrift lautet konnichiwa. Das letzte Zeichen は wird in dieser festen Grußformel wa gesprochen. Das n vor ni bekommt Zeit: ko-n-ni-chi-wa.",
+      "pitfall": "Nicht konichiha lesen. Die deutsche Hilfe „tschi“ nähert sich chi an, ist aber keine genaue Lautschrift.",
+      "parts": [
+        [
+          "こ",
+          "ko"
+        ],
+        [
+          "ん",
+          "n · eigener Takt"
+        ],
+        [
+          "に",
+          "ni"
+        ],
+        [
+          "ち",
+          "chi"
+        ],
+        [
+          "は",
+          "hier: wa"
+        ]
+      ],
+      "scenario": {
+        "question": "Du begrüßt am Nachmittag eine Bekannte. Was passt?",
+        "correct": "こんにちは",
+        "wrong": [
+          "こんばんは",
+          "おやすみなさい"
+        ]
+      },
+      "extra": [
+        [
+          "こんにちは。",
+          "konnichiwa.",
+          "Guten Tag."
+        ]
+      ],
+      "register": "Übliche Tagesbegrüßung, auch in höflichen Alltagssituationen."
+    },
+    "ありがとう": {
+      "kind": "Feste Dankesformel",
+      "usage": "Du bedankst dich, beispielsweise bei einer vertrauten Person, die dir hilft.",
+      "explain": "Die kurze Form bedeutet Danke. Mit ございます wird die Wendung höflicher: ありがとうございます. Du brauchst die Bestandteile dafür noch nicht einzeln bilden zu können. Höre beide Formen und vergleiche sie.",
+      "pitfall": "Am Ende steht ein langes o: arigatō. Halte es länger, ohne ein neues betontes Wort daraus zu machen. In normaler Romaji-Tastatureingabe sind arigatou und arigatoo hier erlaubt, arigato nicht.",
+      "parts": [
+        [
+          "あ",
+          "a"
+        ],
+        [
+          "り",
+          "ri"
+        ],
+        [
+          "が",
+          "ga"
+        ],
+        [
+          "とう",
+          "tō · langes o, zwei Takte"
+        ]
+      ],
+      "scenario": {
+        "question": "Du möchtest die kurze Dankesform höflicher machen. Was kommt dazu?",
+        "correct": "ございます",
+        "wrong": [
+          "か",
+          "いいえ"
+        ]
+      },
+      "extra": [
+        [
+          "ありがとう！",
+          "arigatō!",
+          "Danke!"
+        ],
+        [
+          "ありがとうございます。",
+          "arigatō gozaimasu.",
+          "Danke. (höflich)"
+        ]
+      ],
+      "register": "Kurz und vertraut. Gegenüber Fremden ist ありがとうございます oft die passendere Wahl."
+    },
+    "すみません": {
+      "kind": "Höfliche Alltagsformel",
+      "usage": "Zum Entschuldigen und um jemanden höflich anzusprechen; auch als Dank für verursachte Mühe möglich.",
+      "explain": "Derselbe Ausdruck wird je nach Situation verschieden übersetzt. Du kannst damit die Aufmerksamkeit einer Person bekommen oder dich für ein Missgeschick entschuldigen. Nicht jede Verwendung lässt sich mit einem einzigen deutschen Wort wiedergeben.",
+      "pitfall": "Das s ist stimmlos, wie in „Wasser“. Ein japanisches n am Wortende bleibt hörbar. Nicht jedes すみません bedeutet automatisch, dass jemand etwas Schlimmes getan hat.",
+      "parts": [
+        [
+          "す",
+          "su"
+        ],
+        [
+          "み",
+          "mi"
+        ],
+        [
+          "ま",
+          "ma"
+        ],
+        [
+          "せ",
+          "se"
+        ],
+        [
+          "ん",
+          "n · eigener Takt"
+        ]
+      ],
+      "scenario": {
+        "question": "Du möchtest eine fremde Person höflich ansprechen. Welche Wendung eignet sich?",
+        "correct": "すみません",
+        "wrong": [
+          "いいえ",
+          "おやすみなさい"
+        ]
+      },
+      "extra": [],
+      "register": "Höflich und sehr vielseitig."
+    },
+    "はい": {
+      "kind": "Antwort / Rückmeldung",
+      "usage": "Kann Ja heißen, aber auch zeigen: Ich habe dich gehört oder verstanden.",
+      "explain": "Sprich ha-i. In einem Gespräch kann はい eine kurze Rückmeldung sein und muss nicht jede Aussage inhaltlich bestätigen. Bei negativen Fragen unterscheiden sich die Antwortgewohnheiten vom Deutschen; das üben wir später getrennt.",
+      "pitfall": "Ein hörbares はい bedeutet nicht in jedem Gespräch „Ich stimme allem zu“. Achte auch auf die Frage und die Situation.",
+      "parts": [
+        [
+          "は",
+          "ha"
+        ],
+        [
+          "い",
+          "i"
+        ]
+      ],
+      "scenario": {
+        "question": "Was kann はい außer Ja ausdrücken?",
+        "correct": "Ich habe dich gehört / verstanden.",
+        "wrong": [
+          "Immer eine Ablehnung.",
+          "Die Bedeutung Danke."
+        ]
+      },
+      "extra": [],
+      "register": ""
+    },
+    "いいえ": {
+      "kind": "Antwort · Verneinung",
+      "usage": "Eine klare verneinende Antwort: Nein.",
+      "explain": "Sprich ii-e: Das i ist lang, danach folgt e. Vergleiche mit いえ für Haus. Im Alltag kann ein direktes Nein unpassend schroff wirken; hier lernst du zunächst die Grundbedeutung.",
+      "pitfall": "Das lange ii nicht zu einem einzigen kurzen i kürzen. Die Schreibübung erwartet iie, nicht ie.",
+      "parts": [
+        [
+          "いい",
+          "ii · lang"
+        ],
+        [
+          "え",
+          "e"
+        ]
+      ],
+      "scenario": {
+        "question": "Was unterscheidet いいえ von いえ?",
+        "correct": "Das zusätzliche i macht den Anfang länger.",
+        "wrong": [
+          "Beide Wörter sind immer bedeutungsgleich.",
+          "Nur das Satzzeichen ist anders."
+        ]
+      },
+      "extra": [],
+      "register": ""
+    },
+    "おはようございます": {
+      "kind": "Höfliche Grußformel",
+      "usage": "Du begrüßt jemanden am Morgen.",
+      "explain": "おはよう ist die vertrautere Kurzform. Mit ございます wird der Gruß höflicher. Das y in ohayō klingt ungefähr wie ein deutsches j. Das ō wird lang gesprochen.",
+      "pitfall": "Die Buchstabenfolge gozaimasu enthält ein stimmhaftes z, ungefähr wie deutsches s in „Sonne“, nicht deutsches z wie in „Zeit“.",
+      "parts": [
+        [
+          "おはよう",
+          "Guten Morgen · kürzer/vertrauter"
+        ],
+        [
+          "ございます",
+          "macht die Grußformel höflicher"
+        ]
+      ],
+      "scenario": {
+        "question": "Welche Form wirkt höflicher?",
+        "correct": "おはようございます",
+        "wrong": [
+          "おはよう",
+          "なにしてる？"
+        ]
+      },
+      "extra": [
+        [
+          "おはよう。",
+          "ohayō.",
+          "Guten Morgen. (vertraut)"
+        ]
+      ],
+      "register": "Höflich; geeignet für viele Alltagssituationen."
+    },
+    "こんばんは": {
+      "kind": "Feste Grußformel",
+      "usage": "Eine Begrüßung am Abend.",
+      "explain": "Sprich ko-n-ba-n-wa. Das letzte は wird in dieser Grußformel wa gesprochen. Mit こんばんは begrüßt du jemanden; zum Schlafengehen gibt es eine andere Wendung.",
+      "pitfall": "Guten Abend ist nicht gleich Gute Nacht. Verwechsle Begrüßung und Verabschiedung vor dem Schlafen nicht.",
+      "parts": [
+        [
+          "こん",
+          "kon"
+        ],
+        [
+          "ばん",
+          "ban"
+        ],
+        [
+          "は",
+          "hier: wa"
+        ]
+      ],
+      "scenario": {
+        "question": "Du triffst abends eine Person und begrüßt sie. Was passt?",
+        "correct": "こんばんは",
+        "wrong": [
+          "おやすみなさい",
+          "おはようございます"
+        ]
+      },
+      "extra": [],
+      "register": "Übliche Abendbegrüßung."
+    },
+    "おやすみなさい": {
+      "kind": "Wendung vor dem Schlafen",
+      "usage": "Du wünschst jemandem eine gute Nacht, besonders beim Schlafengehen.",
+      "explain": "おやすみ ist die kürzere, vertrautere Form. Mit なさい lautet die übliche längere Wendung おやすみなさい. Lerne sie als zusammengehörigen Ausdruck, nicht als selbst gebildeten Befehl.",
+      "pitfall": "Verwende diese Wendung nicht einfach als Ersatz für jede Abendbegrüßung.",
+      "parts": [
+        [
+          "おやすみ",
+          "Gute Nacht · vertraut"
+        ],
+        [
+          "なさい",
+          "Teil der längeren Standardform"
+        ]
+      ],
+      "scenario": {
+        "question": "Welche Situation passt am besten?",
+        "correct": "Jemand geht schlafen.",
+        "wrong": [
+          "Du begrüßt jemanden morgens.",
+          "Du nennst deine Nationalität."
+        ]
+      },
+      "extra": [],
+      "register": "Längere Standardform; おやすみ ist vertrauter."
+    },
+    "わたし": {
+      "kind": "Pronomen",
+      "usage": "Eine Möglichkeit, ich zu sagen; gut für höfliche Vorstellungen.",
+      "explain": "Sprich wa-ta-shi. Das w ähnelt eher dem englischen w als dem deutschen w. Japanisch lässt ein bereits klares Ich oft weg. Wiederhole わたし daher nicht mechanisch in jedem Satz.",
+      "pitfall": "Die deutsche Hilfe „wa“ ist keine Aufforderung, ein deutsches v/w zu sprechen. Hör auf die gerundete Anlautbewegung.",
+      "parts": [
+        [
+          "わ",
+          "wa"
+        ],
+        [
+          "た",
+          "ta"
+        ],
+        [
+          "し",
+          "shi"
+        ]
+      ],
+      "scenario": {
+        "question": "Muss わたし in jedem japanischen Satz stehen?",
+        "correct": "Nein, ein aus dem Zusammenhang klares Ich kann fehlen.",
+        "wrong": [
+          "Ja, immer am Satzanfang.",
+          "Es bedeutet grundsätzlich du."
+        ]
+      },
+      "extra": [],
+      "register": ""
+    },
+    "は": {
+      "kind": "Partikel · Themenmarkierung",
+      "usage": "Markiert in dieser Lektion, worüber etwas gesagt wird.",
+      "explain": "Als einzelnes Hiragana heißt は ha. In der Funktion als Themenpartikel liest du es wa. Zum Beispiel: わたしは … = Was mich betrifft … . Die Partikel steht nach dem Thema.",
+      "pitfall": "Das Wort vor は nicht mit der Partikel verwechseln. は bedeutet nicht einfach „bin“ und wird als Themenpartikel nicht ha gesprochen.",
+      "parts": [
+        [
+          "は",
+          "geschrieben ha · als Themenpartikel wa"
+        ]
+      ],
+      "scenario": {
+        "question": "Wie wird die Themenpartikel は gelesen?",
+        "correct": "wa",
+        "wrong": [
+          "ha",
+          "ba"
+        ]
+      },
+      "extra": [],
+      "register": ""
+    },
+    "です": {
+      "kind": "Höfliche Satzendung",
+      "usage": "Steht beispielsweise nach einem Nomen und macht die Aussage höflich.",
+      "explain": "Bei わたしはがくせいです übersetzen wir sinngemäß: Ich bin Schüler oder Student. です ist aber nicht in jedem Satz ein deutsches sein. Verben bekommen ihre eigene höfliche Form.",
+      "pitfall": "Das u am Ende kann in natürlicher Aussprache sehr schwach oder stimmlos werden. Erzwinge weder ein stark betontes su noch eine starre „dess“-Regel.",
+      "parts": [
+        [
+          "で",
+          "de"
+        ],
+        [
+          "す",
+          "su · u oft schwach"
+        ]
+      ],
+      "scenario": {
+        "question": "Welche Beschreibung passt zu です?",
+        "correct": "Eine höfliche Endung in passenden Nominal- und Adjektivsätzen.",
+        "wrong": [
+          "Eine Endung, die an jedes deutsche Verb gehört.",
+          "Immer ein direktes Wort für ich."
+        ]
+      },
+      "extra": [],
+      "register": ""
+    },
+    "わたしはがくせいです。": {
+      "kind": "Höflicher Aussagesatz",
+      "usage": "Eine einfache Vorstellung: Ich bin Schüler oder Student.",
+      "explain": "Zuerst kommt das Thema わたし, danach は. がくせい benennt Schüler oder Student, です schließt höflich ab. Das Wort Student allein sagt hier nichts über Geschlecht oder Alter aus.",
+      "pitfall": "は ist hier wa. Bei gakusei kann ei in der natürlichen Aussprache wie ein langes e klingen; die Umschrift bleibt gakusei.",
+      "parts": [
+        [
+          "わたし",
+          "ich"
+        ],
+        [
+          "は",
+          "Thema · wa"
+        ],
+        [
+          "がくせい",
+          "Schüler / Student"
+        ],
+        [
+          "です",
+          "höflicher Abschluss"
+        ]
+      ],
+      "scenario": {
+        "question": "Welcher Bestandteil benennt Schüler oder Student?",
+        "correct": "がくせい",
+        "wrong": [
+          "は",
+          "です"
+        ]
+      },
+      "extra": [],
+      "register": ""
+    },
+    "ドイツ": {
+      "kind": "Ländername · Katakana",
+      "usage": "Der japanische Name für Deutschland.",
+      "explain": "Sprich do-i-tsu in drei Takten. Ausländische Namen werden oft mit Katakana geschrieben. Katakana ist kein zusätzlicher Satz aus anderen Lauten, sondern eine andere Schrift für weitgehend dieselben Lautkombinationen.",
+      "pitfall": "Das Wort nicht wie das deutsche „Deutsch“ zusammenziehen. ツ steht hier für tsu.",
+      "parts": [
+        [
+          "ド",
+          "do"
+        ],
+        [
+          "イ",
+          "i"
+        ],
+        [
+          "ツ",
+          "tsu"
+        ]
+      ],
+      "scenario": {
+        "question": "Was bezeichnet ドイツ?",
+        "correct": "Deutschland.",
+        "wrong": [
+          "Die deutsche Sprache in jedem Zusammenhang.",
+          "Die Zahl drei."
+        ]
+      },
+      "extra": [],
+      "register": ""
+    },
+    "ドイツじん": {
+      "kind": "Nationalitätsbezeichnung",
+      "usage": "Eine Person deutscher Nationalität: Deutscher oder Deutsche.",
+      "explain": "An den Ländernamen ドイツ wird じん angehängt. Dieses jin bedeutet hier eine Person dieser Nationalität. Für die deutsche Sprache wird eine andere Endung verwendet; das ist nicht dieselbe Sache.",
+      "pitfall": "じん (Person/Nationalität) nicht mit einer Sprachbezeichnung gleichsetzen.",
+      "parts": [
+        [
+          "ドイツ",
+          "Deutschland"
+        ],
+        [
+          "じん",
+          "Person dieser Nationalität"
+        ]
+      ],
+      "scenario": {
+        "question": "Was fügt じん an einen Ländernamen an?",
+        "correct": "Eine Bezeichnung für eine Person dieser Nationalität.",
+        "wrong": [
+          "Die Zahl der Städte.",
+          "Eine Vergangenheitsform."
+        ]
+      },
+      "extra": [],
+      "register": ""
+    },
+    "わたしはドイツじんです。": {
+      "kind": "Höflicher Aussagesatz",
+      "usage": "Du nennst deine Nationalität.",
+      "explain": "Das Satzmuster ist dasselbe wie bei Ich bin Student: Thema + は + Information + です. Es gibt hier keine eigene weibliche oder männliche Verbform.",
+      "pitfall": "Nicht jedes deutsche Wort eins zu eins einsetzen. Die Information ドイツじん bleibt vor です.",
+      "parts": [
+        [
+          "わたし",
+          "ich"
+        ],
+        [
+          "は",
+          "Thema"
+        ],
+        [
+          "ドイツじん",
+          "Deutscher / Deutsche"
+        ],
+        [
+          "です",
+          "höflich"
+        ]
+      ],
+      "scenario": {
+        "question": "Welche Information nennt der Satz?",
+        "correct": "Die Nationalität der sprechenden Person.",
+        "wrong": [
+          "Den Wohnort des Lehrers.",
+          "Eine Bestellung im Café."
+        ]
+      },
+      "extra": [],
+      "register": ""
+    },
+    "か": {
+      "kind": "Partikel · Frage am Satzende",
+      "usage": "In dieser Lektion kennzeichnet か eine höfliche Frage.",
+      "explain": "Die Frage entsteht oft aus derselben Wortfolge wie die Aussage, ergänzt um か am Ende. In lockeren Gesprächen gibt es weitere Arten zu fragen; hier beginnen wir mit dem höflichen Grundmuster.",
+      "pitfall": "か nicht an den Satzanfang verschieben. Es ersetzt auch kein deutsches Fragewort wie wo.",
+      "parts": [
+        [
+          "か",
+          "ka · Fragepartikel"
+        ]
+      ],
+      "scenario": {
+        "question": "Wo steht das Frage-か im gelernten Muster?",
+        "correct": "Am Satzende.",
+        "wrong": [
+          "Vor dem ersten Wort.",
+          "Nur mitten im Ländernamen."
+        ]
+      },
+      "extra": [],
+      "register": ""
+    },
+    "がくせいですか。": {
+      "kind": "Höfliche Ja-/Nein-Frage",
+      "usage": "Du fragst, ob die angesprochene Person Schüler oder Student ist.",
+      "explain": "がくせいです ist eine Aussage. Mit か wird daraus eine Frage. Du oder Sie muss nicht ausdrücklich stehen, wenn aus dem Gespräch klar ist, wer gefragt wird.",
+      "pitfall": "ですか ist nicht die Vergangenheitsform. Es macht diese Aussage zur höflichen Frage.",
+      "parts": [
+        [
+          "がくせい",
+          "Schüler / Student"
+        ],
+        [
+          "です",
+          "höflich"
+        ],
+        [
+          "か",
+          "Frage"
+        ]
+      ],
+      "scenario": {
+        "question": "Wodurch unterscheidet sich die Frage von der Aussage?",
+        "correct": "Durch か am Ende.",
+        "wrong": [
+          "Durch eine andere Reihenfolge aller Wörter.",
+          "Durch eine besondere Form von ich."
+        ]
+      },
+      "extra": [],
+      "register": ""
+    },
+    "はい、そうです。": {
+      "kind": "Kurze Bestätigung",
+      "usage": "Eine bejahende Bestätigung: Ja, so ist es / das stimmt.",
+      "explain": "はい ist die Rückmeldung Ja. そう bedeutet hier so, und です beendet den Satz höflich. Das ō in sō ist lang.",
+      "pitfall": "そう nicht mit einem kurzen so abkürzen. Eine passende Übersetzung richtet sich nach der Frage davor.",
+      "parts": [
+        [
+          "はい",
+          "ja"
+        ],
+        [
+          "そう",
+          "so"
+        ],
+        [
+          "です",
+          "höflich"
+        ]
+      ],
+      "scenario": {
+        "question": "Wie reagiert diese Wendung auf eine passende Aussage oder Frage?",
+        "correct": "Sie bestätigt sie.",
+        "wrong": [
+          "Sie fragt nach dem Preis.",
+          "Sie bedeutet grundsätzlich nein."
+        ]
+      },
+      "extra": [],
+      "register": ""
+    },
+    "すし": {
+      "kind": "Nomen · Speise",
+      "usage": "Sushi, eine Speisebezeichnung.",
+      "explain": "Die Zeichen aus der S-Reihe werden zu einem Wort verbunden: su-shi. Die Umschrift shi steht nicht für si. Die Schreibweise 寿司 kann von der Spracherkennung zurückkommen.",
+      "pitfall": "Das u kann in natürlicher Rede schwach sein. Der Test ist kein verlässlicher Richter über diese feinen Lautunterschiede.",
+      "parts": [
+        [
+          "す",
+          "su"
+        ],
+        [
+          "し",
+          "shi"
+        ]
+      ],
+      "scenario": {
+        "question": "Wie wird し in すし gelesen?",
+        "correct": "shi",
+        "wrong": [
+          "chi",
+          "ki"
+        ]
+      },
+      "extra": [],
+      "register": ""
+    },
+    "なつ": {
+      "kind": "Nomen · Jahreszeit",
+      "usage": "Sommer als Jahreszeit.",
+      "explain": "Verbinde na und tsu. Beim tsu beginnt der Laut mit einem kurzen t-Verschluss und geht in s über. Danach folgt der u-Laut. Übe erst ruhig, dann in normalem Rhythmus.",
+      "pitfall": "つ nicht einfach wie deutsches zu oder wie su lesen.",
+      "parts": [
+        [
+          "な",
+          "na"
+        ],
+        [
+          "つ",
+          "tsu"
+        ]
+      ],
+      "scenario": {
+        "question": "Welche Lesung hat つ?",
+        "correct": "tsu",
+        "wrong": [
+          "chi",
+          "shi"
+        ]
+      },
+      "extra": [],
+      "register": ""
+    },
+    "たべます": {
+      "kind": "Verb · höflich",
+      "usage": "Ich esse / werde essen; wer isst, bestimmt der Zusammenhang.",
+      "explain": "たべます ist die höfliche Nichtvergangenheitsform von essen. Sie kann eine Gewohnheit, eine gegenwärtige Handlung im passenden Zusammenhang oder Zukünftiges beschreiben. Für „gerade dabei“ gibt es später ein eigenes Muster.",
+      "pitfall": "～ます bedeutet nicht automatisch Zukunft und ist kein eigenständiges Wort für ich.",
+      "parts": [
+        [
+          "たべ",
+          "Stamm von essen"
+        ],
+        [
+          "ます",
+          "höfliche Verbendung"
+        ]
+      ],
+      "scenario": {
+        "question": "Welche Zeitbedeutung kann たべます haben?",
+        "correct": "Nichtvergangenheit, etwa esse oder werde essen.",
+        "wrong": [
+          "Ausschließlich gestern gegessen.",
+          "Eine feste Verneinung."
+        ]
+      },
+      "extra": [],
+      "register": ""
+    },
+    "のみます": {
+      "kind": "Verb · höflich",
+      "usage": "Ich trinke / werde trinken; die Person ergibt sich aus dem Zusammenhang.",
+      "explain": "Die höfliche Form endet auf ます. Das, was getrunken wird, kann davor mit der Objektpartikel を stehen. Du lernst das gleich am Satz mit Wasser.",
+      "pitfall": "Die deutsche Übersetzung enthält oft ich, obwohl im japanischen Verb kein ich steckt.",
+      "parts": [
+        [
+          "のみ",
+          "Stamm von trinken"
+        ],
+        [
+          "ます",
+          "höfliche Verbendung"
+        ]
+      ],
+      "scenario": {
+        "question": "Welche Handlung bezeichnet のみます?",
+        "correct": "Trinken.",
+        "wrong": [
+          "Lesen.",
+          "Schlafen."
+        ]
+      },
+      "extra": [],
+      "register": ""
+    },
+    "を": {
+      "kind": "Partikel · direktes Objekt",
+      "usage": "Markiert in einfachen Handlungssätzen das direkte Objekt, zum Beispiel das Wasser beim Trinken.",
+      "explain": "Die Partikel wird o gesprochen und nach das Objekt gesetzt: みずを … . Die Umschrift wo wird teilweise für die Tastatureingabe benutzt; im Satz sprichst du normalerweise o.",
+      "pitfall": "を nicht mit der Fragepartikel か oder der Themenpartikel は austauschen.",
+      "parts": [
+        [
+          "を",
+          "o · markiert das Objekt"
+        ]
+      ],
+      "scenario": {
+        "question": "In みずをのみます markiert を …",
+        "correct": "das Wasser als Objekt der Handlung.",
+        "wrong": [
+          "eine Ja-/Nein-Frage.",
+          "eine Nationalität."
+        ]
+      },
+      "extra": [],
+      "register": ""
+    },
+    "みずをのみます。": {
+      "kind": "Höflicher Handlungssatz",
+      "usage": "Ich trinke Wasser.",
+      "explain": "みず heißt Wasser. を markiert, was getrunken wird. のみます steht als Verb am Ende. Das z in mizu ist stimmhaft; ein deutsches z wie ts wäre keine gute Annäherung.",
+      "pitfall": "Die Partikel を wird o gesprochen. Die Wortfolge nicht nach dem deutschen Ich-trinke-Wasser-Muster umstellen.",
+      "parts": [
+        [
+          "みず",
+          "Wasser"
+        ],
+        [
+          "を",
+          "Objektpartikel · o"
+        ],
+        [
+          "のみます",
+          "trinke / trinken (höflich)"
+        ]
+      ],
+      "scenario": {
+        "question": "Was wird in diesem Satz getrunken?",
+        "correct": "Wasser.",
+        "wrong": [
+          "Kaffee.",
+          "Der Satz nennt kein Getränk."
+        ]
+      },
+      "extra": [],
+      "register": ""
+    },
+    "コーヒーをください。": {
+      "kind": "Höfliche Bitte",
+      "usage": "Eine einfache Bestellung: Einen Kaffee, bitte.",
+      "explain": "コーヒー heißt Kaffee. Der Strich ー verlängert den Vokal davor: kō-hī. を markiert das gewünschte Objekt; ください drückt die Bitte aus, es zu geben.",
+      "pitfall": "Beide Vokale in kōhī sind lang. Die Striche ー sind keine Pausen und keine Minuszeichen.",
+      "parts": [
+        [
+          "コーヒー",
+          "Kaffee"
+        ],
+        [
+          "を",
+          "Objekt"
+        ],
+        [
+          "ください",
+          "bitte geben Sie mir"
+        ]
+      ],
+      "scenario": {
+        "question": "Was tut die sprechende Person?",
+        "correct": "Sie bittet um einen Kaffee.",
+        "wrong": [
+          "Sie nennt den Kaffeepreis.",
+          "Sie sagt, dass sie keinen Kaffee trinkt."
+        ]
+      },
+      "extra": [],
+      "register": ""
+    },
+    "これはいくらですか。": {
+      "kind": "Höfliche Preisfrage",
+      "usage": "Du fragst nach dem Preis von etwas in deiner Nähe.",
+      "explain": "これ bezeichnet dieses hier, は setzt es als Thema. いくら fragt hier nach dem Preis, ですか bildet den höflichen Frageabschluss. Du brauchst dafür kein eigenes Wort für kostet.",
+      "pitfall": "これ steht allein für dieses Ding. Direkt vor einem Nomen wäre eine andere Form nötig; diese Frage funktioniert ohne ein genanntes Nomen.",
+      "parts": [
+        [
+          "これ",
+          "dieses hier"
+        ],
+        [
+          "は",
+          "Thema · wa"
+        ],
+        [
+          "いくら",
+          "wie viel"
+        ],
+        [
+          "ですか",
+          "höfliche Frage"
+        ]
+      ],
+      "scenario": {
+        "question": "Welche Antwort erwartet diese Frage?",
+        "correct": "Einen Preis.",
+        "wrong": [
+          "Die Nationalität.",
+          "Eine Begrüßung."
+        ]
+      },
+      "extra": [],
+      "register": ""
+    },
+    "ありがとうございます。": {
+      "kind": "Höfliche Dankesformel",
+      "usage": "Du bedankst dich höflich, etwa gegenüber einer fremden Person oder bei einer Dienstleistung.",
+      "explain": "Du kennst ありがとう bereits. Mit ございます wird daraus eine höflichere feste Wendung. In natürlicher Rede wird das u am Ende von masu oft schwach; die Vorlesefunktion dient als Vorlage.",
+      "pitfall": "Die ganze Wendung ist nicht wörtlich „Danke existiert“. Lerne sie als gebräuchliche höfliche Dankesform.",
+      "parts": [
+        [
+          "ありがとう",
+          "Danke"
+        ],
+        [
+          "ございます",
+          "höflicher Bestandteil dieser Wendung"
+        ]
+      ],
+      "scenario": {
+        "question": "Wie unterscheidet sich diese Wendung von ありがとう?",
+        "correct": "Sie ist höflicher.",
+        "wrong": [
+          "Sie bedeutet das Gegenteil.",
+          "Sie wird nur als Frage benutzt."
+        ]
+      },
+      "extra": [],
+      "register": ""
+    }
+  },
+  "lesson_notes": {
+    "0:0": "Hier lernst du Laute und Zeichen, keine fünf Vokabeln. Erst ansehen und hören, dann wiedererkennen, lesen und selbst tippen. Die Schreibweise auf der Karte bleibt als Hilfe sichtbar. Einzelne Vokale sind für Spracherkennung schwieriger als ganze Wörter; die Sprechprüfung ist deshalb freiwillig.",
+    "0:1": "Jetzt verbindest du bekannte Vokale mit neuen Lauten. Trenne benachbarte Vokale deutlich und halte den Rhythmus ruhig. あさ meint den Morgen als Tageszeit, nicht morgen im Sinn von nächster Tag. Jede neue Bedeutung wird erklärt, bevor du sie übst.",
+    "1:0": "Diese Wendungen lernst du zuerst als ganze Einheiten. Du brauchst noch keine Grammatik dafür. Wichtig sind die Situation, die passende Höflichkeit und die Lautlänge. Nach jeder Karte folgen Bedeutung, Lesen, Schreiben und ein kleiner Anwendungscheck; am Ende mischen wir die Wörter noch einmal.",
+    "1:1": "Achte nicht nur auf die Übersetzung, sondern auf den Anlass: Guten Morgen, Guten Abend und Gute Nacht erfüllen verschiedene Aufgaben. Du vergleichst außerdem eine kurze vertraute Form mit einer längeren höflichen Wendung.",
+    "2:0": "Ein einfacher höflicher Satz hat hier das Muster Thema + は + Information + です. Das Thema steht vor は, und diese Partikel klingt wa. Die Wort-für-Wort-Erklärung zeigt dir, warum die deutsche Übersetzung anders aufgebaut ist.",
+    "2:1": "Das Satzmuster bleibt gleich; nur die Information wird ausgetauscht. Der Ländername ドイツ wird durch じん zu einer Nationalitätsbezeichnung. Es werden keine weiteren Länder als Vorwissen vorausgesetzt.",
+    "3:0": "Mit か am Satzende machst du aus der höflichen Aussage häufig eine Frage. Die Wortstellung musst du dafür nicht umdrehen. Lerne anschließend eine kurze Bestätigung und höre auf das lange ō in そう.",
+    "4:0": "Jede Reihe kombiniert einen Anlaut mit Vokalen. し wird shi gelesen, nicht si. Die Reihe ist eine Lesehilfe, kein Satz, den du übersetzen musst. Danach wendest du die Zeichen in すし an.",
+    "4:1": "In der T-Reihe sind chi und tsu besonders wichtig. Eine kleine Form von っ hat später eine andere Funktion als das große つ. Hier übst du zunächst die großen Zeichen und das Wort なつ.",
+    "5:0": "Das Objekt steht vor を und das Verb danach: Wasser + Objektpartikel + trinken. Japanische Verben tragen nicht dieselben Personenendungen wie deutsche Verben. Die Person ergibt sich oft aus dem Zusammenhang.",
+    "6:0": "In einer Bestellung kannst du ein gewünschtes Objekt mit をください nennen. Für die Preisfrage nutzt du いくら. Beide Wendungen werden als vollständige, höfliche Alltagsmuster eingeführt.",
+    "7:0": "Vergleiche die Endungen genau: ます ist höflich und nichtvergangen, ません verneint, ました ist vergangen. Die て-Form verbindet oder leitet andere Muster ein; sie ist nicht einfach eine Vergangenheitsform.",
+    "8:0": "Ein Wunsch und eine Fähigkeit sind nicht dasselbe. ～たい drückt einen Wunsch aus, eine Potentialform wie はなせます eine Fähigkeit. Lerne die vorhandenen Beispielsätze zuerst, bevor du weitere Verben selbst umbaust.",
+    "9:0": "Dies ist eine frühe Vorschau auf lockere Gesprächsformen, kein Nachweis eines fortgeschrittenen Sprachniveaus. Die höfliche vollständige Form erklärt, was in der kurzen Alltagsform zusammengezogen wurde."
+  },
+  "sources": [
+    {
+      "name": "The Japan Foundation · Irodori Starter",
+      "url": "https://www.irodori.jpf.go.jp/en/starter/pdf.html",
+      "scope": "Fachliche Orientierung für Grundlagen; keine kopierten Lektionen oder Audiodateien."
+    },
+    {
+      "name": "The Japan Foundation · MARUGOTO Plus Hiragana",
+      "url": "https://a1.marugotoweb.jp/en/hiragana.php",
+      "scope": "Kana-Lesungen und Reihen."
+    }
+  ]
+}

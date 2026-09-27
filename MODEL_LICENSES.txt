@@ -1,0 +1,737 @@
+﻿JapanischTrainer – Hinweise zu Programm- und Modelllizenzen
+
+Der Programmquellcode wird unter GPL-3.0-or-later bereitgestellt.
+Die mitgelieferten Modelle unterliegen eigenen Lizenzen:
+
+Supertonic 3 von Supertone: BigScience Open RAIL-M. Für die Nutzung und
+Weitergabe des Modells gelten insbesondere Abschnitt 5 und Anhang A.
+Die dortigen Nutzungsbeschränkungen sind verbindlicher Bestandteil der
+Bedingungen für die Nutzung dieses mitgelieferten Modells. Sie gelten
+nicht als zusätzliche Einschränkung des separat lizenzierten GPL-Codes.
+
+Parakeet JA von NVIDIA: CC BY 4.0. SenseVoiceSmall von Alibaba Group:
+FunASR Model Open Source License Agreement. Die Modelle wurden von
+sherpa-onnx nach ONNX konvertiert/INT8 quantisiert, nicht von uns trainiert.
+
+Die vollständigen Modelltexte folgen. Weitere Original-Lizenzen liegen
+im Programmordner unter licenses. Quellen und Modellnamen stehen in
+MODEL_ATTRIBUTION.txt. Private Lerndaten werden nicht mitgeliefert.
+
+
+BigScience Open RAIL-M License
+dated August 18, 2022
+
+Section I: PREAMBLE
+
+This Open RAIL-M License was created by BigScience, a collaborative open innovation project aimed at
+the responsible development and use of large multilingual datasets and Large Language Models
+(“LLMs”). While a similar license was originally designed for the BLOOM model, we decided to adapt it
+and create this license in order to propose a general open and responsible license applicable to other
+machine learning based AI models (e.g. multimodal generative models).
+In short, this license strives for both the open and responsible downstream use of the accompanying
+model. When it comes to the open character, we took inspiration from open source permissive licenses
+regarding the grant of IP rights. Referring to the downstream responsible use, we added use-based
+restrictions not permitting the use of the Model in very specific scenarios, in order for the licensor to be
+able to enforce the license in case potential misuses of the Model may occur. Even though downstream
+derivative versions of the model could be released under different licensing terms, the latter will always
+have to include - at minimum - the same use-based restrictions as the ones in the original license (this
+license).
+The development and use of artificial intelligence (“AI”), does not come without concerns. The world has
+witnessed how AI techniques may, in some instances, become risky for the public in general. These risks
+come in many forms, from racial discrimination to the misuse of sensitive information.
+BigScience believes in the intersection between open and responsible AI development; thus, this License
+aims to strike a balance between both in order to enable responsible open-science in the field of AI.
+This License governs the use of the model (and its derivatives) and is informed by the model card
+associated with the model.
+
+NOW THEREFORE, You and Licensor agree as follows:
+
+1. Definitions
+(a) "License" means the terms and conditions for use, reproduction, and Distribution as defined in
+this document.
+(b) “Data” means a collection of information and/or content extracted from the dataset used with the
+Model, including to train, pretrain, or otherwise evaluate the Model. The Data is not licensed under
+this License.
+(c)“Output” means the results of operating a Model as embodied in informational content resulting
+therefrom.
+(d)“Model” means any accompanying machine-learning based assemblies (including checkpoints),
+consisting of learnt weights, parameters (including optimizer states), corresponding to the model
+architecture as embodied in the Complementary Material, that have been trained or tuned, in whole or
+in part on the Data, using the Complementary Material.
+(e) “Derivatives of the Model” means all modifications to the Model, works based on the Model, or any
+other model which is created or initialized by transfer of patterns of the weights, parameters,
+activations or output of the Model, to the other model, in order to cause the other model to perform
+similarly to the Model, including - but not limited to - distillation methods entailing the use of
+intermediate data representations or methods based on the generation of synthetic data by the Model
+for training the other model.
+(f)“Complementary Material” means the accompanying source code and scripts used to define,
+run, load, benchmark or evaluate the Model, and used to prepare data for training or evaluation, if
+any. This includes any accompanying documentation, tutorials, examples, etc, if any.
+(g) “Distribution” means any transmission, reproduction, publication or other sharing of the Model or
+Derivatives of the Model to a third party, including providing the Model as a hosted service made
+available by electronic or other remote means - e.g. API-based or web access.
+(h) “Licensor” means the copyright owner or entity authorized by the copyright owner that is
+granting the License, including the persons or entities that may have rights in the Model and/or
+distributing the Model.
+(i) "You" (or "Your") means an individual or Legal Entity exercising permissions granted by this
+License and/or making use of the Model for whichever purpose and in any field of use, including
+usage of the Model in an end-use application - e.g. chatbot, translator, image generator.
+(j) “Third Parties” means individuals or legal entities that are not under common control with
+Licensor or You.
+(k) "Contribution" means any work of authorship, including the original version of the Model and
+any modifications or additions to that Model or Derivatives of the Model thereof, that is
+intentionally submitted to Licensor for inclusion in the Model by the copyright owner or by an
+individual or Legal Entity authorized to submit on behalf of the copyright owner. For the
+purposes of this definition,
+“submitted” means any form of electronic, verbal, or written
+communication sent to the Licensor or its representatives, including but not limited to
+communication on electronic mailing lists, source code control systems, and issue tracking
+systems that are managed by, or on behalf of, the Licensor for the purpose of discussing and
+improving the Model, but excluding communication that is conspicuously marked or otherwise
+designated in writing by the copyright owner as "Not a Contribution."
+(l) "Contributor" means Licensor and any individual or Legal Entity on behalf of whom a
+Contribution has been received by Licensor and subsequently incorporated within the Model.
+
+
+Section II: INTELLECTUAL PROPERTY RIGHTS
+
+Both copyright and patent grants apply to the Model, Derivatives of the Model and Complementary
+Material. The Model and Derivatives of the Model are subject to additional terms as described in Section III.
+
+2. Grant of Copyright License. Subject to the terms and conditions of this License, each Contributor
+hereby grants to You a perpetual, worldwide, non-exclusive, no-charge, royalty-free, irrevocable copyright license to reproduce, prepare, publicly display, publicly perform, sublicense, and distribute the
+Complementary Material, the Model, and Derivatives of the Model.
+
+3. Grant of Patent License. Subject to the terms and conditions of this License and where and as
+applicable, each Contributor hereby grants to You a perpetual, worldwide, non-exclusive, no-charge,
+royalty-free, irrevocable (except as stated in this paragraph) patent license to make, have made, use, offer
+to sell, sell, import, and otherwise transfer the Model and the Complementary Material, where such
+license applies only to those patent claims licensable by such Contributor that are necessarily infringed by
+their Contribution(s) alone or by combination of their Contribution(s) with the Model to which such
+Contribution(s) was submitted. If You institute patent litigation against any entity (including a cross-claim
+or counterclaim in a lawsuit) alleging that the Model and/or Complementary Material or a Contribution
+incorporated within the Model and/or Complementary Material constitutes direct or contributory patent
+infringement, then any patent licenses granted to You under this License for the Model and/or Work shall
+terminate as of the date such litigation is asserted or filed.
+Section III: CONDITIONS OF USAGE, DISTRIBUTION AND REDISTRIBUTION
+
+4. Distribution and Redistribution. You may host for Third Party remote access purposes (e.g.
+software-as-a-service), reproduce and distribute copies of the Model or Derivatives of the Model thereof
+in any medium, with or without modifications, provided that You meet the following conditions:
+
+a. Use-based restrictions as referenced in paragraph 5 MUST be included as an enforceable provision
+by You in any type of legal agreement (e.g. a license) governing the use and/or distribution of the
+Model or Derivatives of the Model, and You shall give notice to subsequent users You Distribute to,
+that the Model or Derivatives of the Model are subject to paragraph 5. This provision does not apply
+to the use of Complementary Material.
+
+b. You must give any Third Party recipients of the Model or Derivatives of the Model a copy of this
+License;
+
+c. You must cause any modified files to carry prominent notices stating that You changed the files;
+
+d. You must retain all copyright, patent, trademark, and attribution notices excluding those notices
+that do not pertain to any part of the Model, Derivatives of the Model.
+You may add Your own copyright statement to Your modifications and may provide additional or
+different license terms and conditions - respecting paragraph 4.a.
+- for use, reproduction, or Distribution
+of Your modifications, or for any such Derivatives of the Model as a whole, provided Your use,
+reproduction, and Distribution of the Model otherwise complies with the conditions stated in this License.
+
+5. Use-based restrictions. The restrictions set forth in Attachment A are considered Use-based restrictions.
+Therefore You cannot use the Model and the Derivatives of the Model for the specified restricted uses. You
+may use the Model subject to this License, including only for lawful purposes and in accordance with the
+License. Use may include creating any content with, finetuning, updating, running, training, evaluating and/or
+reparametrizing the Model. You shall require all of Your users who use the Model or a Derivative of the Model
+to comply with the terms of this paragraph (paragraph 5).
+
+6. The Output You Generate. Except as set forth herein, Licensor claims no rights in the Output You
+generate using the Model. You are accountable for the Output you generate and its subsequent uses. No
+use of the output can contravene any provision as stated in the License.
+
+Section IV: OTHER PROVISIONS
+
+7. Updates and Runtime Restrictions. To the maximum extent permitted by law, Licensor reserves the
+right to restrict (remotely or otherwise) usage of the Model in violation of this License, update the Model
+through electronic means, or modify the Output of the Model based on updates. You shall undertake
+reasonable efforts to use the latest version of the Model.
+
+8. Trademarks and related. Nothing in this License permits You to make use of Licensors’ trademarks,
+trade names, logos or to otherwise suggest endorsement or misrepresent the relationship between the
+parties; and any rights not expressly granted herein are reserved by the Licensors.
+
+9. Disclaimer of Warranty. Unless required by applicable law or agreed to in writing, Licensor provides
+the Model and the Complementary Material (and each Contributor provides its Contributions) on an "AS
+IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied,
+including, without limitation, any warranties or conditions of TITLE, NON-INFRINGEMENT,
+MERCHANTABILITY , or FITNESS FOR A PARTICULAR PURPOSE. You are solely responsible for
+determining the appropriateness of using or redistributing the Model, Derivatives of the Model, and the
+Complementary Material and assume any risks associated with Your exercise of permissions under this
+License.
+
+10. Limitation of Liability. In no event and under no legal theory, whether in tort (including negligence),
+contract, or otherwise, unless required by applicable law (such as deliberate and grossly negligent acts) or
+agreed to in writing, shall any Contributor be liable to You for damages, including any direct, indirect,
+special, incidental, or consequential damages of any character arising as a result of this License or out of
+the use or inability to use the Model and the Complementary Material (including but not limited to
+damages for loss of goodwill, work stoppage, computer failure or malfunction, or any and all other
+commercial damages or losses), even if such Contributor has been advised of the possibility of such
+damages.
+
+11. Accepting Warranty or Additional Liability. While redistributing the Model, Derivatives of the
+Model and the Complementary Material thereof, You may choose to offer, and charge a fee for, acceptance
+of support, warranty, indemnity, or other liability obligations and/or rights consistent with this License.
+However, in accepting such obligations, You may act only on Your own behalf and on Your sole
+responsibility, not on behalf of any other Contributor, and only if You agree to indemnify, defend, and
+hold each Contributor harmless for any liability incurred by, or claims asserted against, such Contributor
+by reason of your accepting any such warranty or additional liability.
+
+12. If any provision of this License is held to be invalid, illegal or unenforceable, the remaining
+provisions shall be unaffected thereby and remain valid as if such provision had not been set forth herein.
+
+END OF TERMS AND CONDITIONS
+
+Attachment A
+
+Use Restrictions
+
+You agree not to use the Model or Derivatives of the Model:
+(a) In any way that violates any applicable national, federal, state, local or international law
+or regulation;
+(b) For the purpose of exploiting, harming or attempting to exploit or harm minors in any
+way;
+(c) To generate or disseminate verifiably false information and/or content with the purpose of
+harming others;
+(d) To generate or disseminate personal identifiable information that can be used to harm an
+individual;
+(e) To generate or disseminate information and/or content (e.g. images, code, posts, articles),
+and place the information and/or content in any context (e.g. bot generating tweets)
+without expressly and intelligibly disclaiming that the information and/or content is
+machine generated;
+(f) To defame, disparage or otherwise harass others;
+(g) To impersonate or attempt to impersonate (e.g. deepfakes) others without their consent;
+(h) For fully automated decision making that adversely impacts an individual’s legal rights or
+otherwise creates or modifies a binding, enforceable obligation;
+(i) For any use intended to or which has the effect of discriminating against or harming
+individuals or groups based on online or offline social behavior or known or predicted
+personal or personality characteristics;
+(j) To exploit any of the vulnerabilities of a specific group of persons based on their age,
+social, physical or mental characteristics, in order to materially distort the behavior of a
+person pertaining to that group in a manner that causes or is likely to cause that person or
+another person physical or psychological harm;
+(k) For any use intended to or which has the effect of discriminating against individuals or
+groups based on legally protected characteristics or categories;
+(l) To provide medical advice and medical results interpretation;
+(m) To generate or disseminate information for the purpose to be used for administration of
+justice, law enforcement, immigration or asylum processes, such as predicting an
+individual will commit fraud/crime commitment (e.g. by text profiling, drawing causal
+relationships between assertions made in documents, indiscriminate and
+arbitrarily-targeted use).
+
+
+Attribution 4.0 International
+
+=======================================================================
+
+Creative Commons Corporation ("Creative Commons") is not a law firm and
+does not provide legal services or legal advice. Distribution of
+Creative Commons public licenses does not create a lawyer-client or
+other relationship. Creative Commons makes its licenses and related
+information available on an "as-is" basis. Creative Commons gives no
+warranties regarding its licenses, any material licensed under their
+terms and conditions, or any related information. Creative Commons
+disclaims all liability for damages resulting from their use to the
+fullest extent possible.
+
+Using Creative Commons Public Licenses
+
+Creative Commons public licenses provide a standard set of terms and
+conditions that creators and other rights holders may use to share
+original works of authorship and other material subject to copyright
+and certain other rights specified in the public license below. The
+following considerations are for informational purposes only, are not
+exhaustive, and do not form part of our licenses.
+
+     Considerations for licensors: Our public licenses are
+     intended for use by those authorized to give the public
+     permission to use material in ways otherwise restricted by
+     copyright and certain other rights. Our licenses are
+     irrevocable. Licensors should read and understand the terms
+     and conditions of the license they choose before applying it.
+     Licensors should also secure all rights necessary before
+     applying our licenses so that the public can reuse the
+     material as expected. Licensors should clearly mark any
+     material not subject to the license. This includes other CC-
+     licensed material, or material used under an exception or
+     limitation to copyright. More considerations for licensors:
+    wiki.creativecommons.org/Considerations_for_licensors
+
+     Considerations for the public: By using one of our public
+     licenses, a licensor grants the public permission to use the
+     licensed material under specified terms and conditions. If
+     the licensor's permission is not necessary for any reason--for
+     example, because of any applicable exception or limitation to
+     copyright--then that use is not regulated by the license. Our
+     licenses grant only permissions under copyright and certain
+     other rights that a licensor has authority to grant. Use of
+     the licensed material may still be restricted for other
+     reasons, including because others have copyright or other
+     rights in the material. A licensor may make special requests,
+     such as asking that all changes be marked or described.
+     Although not required by our licenses, you are encouraged to
+     respect those requests where reasonable. More considerations
+     for the public:
+    wiki.creativecommons.org/Considerations_for_licensees
+
+=======================================================================
+
+Creative Commons Attribution 4.0 International Public License
+
+By exercising the Licensed Rights (defined below), You accept and agree
+to be bound by the terms and conditions of this Creative Commons
+Attribution 4.0 International Public License ("Public License"). To the
+extent this Public License may be interpreted as a contract, You are
+granted the Licensed Rights in consideration of Your acceptance of
+these terms and conditions, and the Licensor grants You such rights in
+consideration of benefits the Licensor receives from making the
+Licensed Material available under these terms and conditions.
+
+
+Section 1 -- Definitions.
+
+  a. Adapted Material means material subject to Copyright and Similar
+     Rights that is derived from or based upon the Licensed Material
+     and in which the Licensed Material is translated, altered,
+     arranged, transformed, or otherwise modified in a manner requiring
+     permission under the Copyright and Similar Rights held by the
+     Licensor. For purposes of this Public License, where the Licensed
+     Material is a musical work, performance, or sound recording,
+     Adapted Material is always produced where the Licensed Material is
+     synched in timed relation with a moving image.
+
+  b. Adapter's License means the license You apply to Your Copyright
+     and Similar Rights in Your contributions to Adapted Material in
+     accordance with the terms and conditions of this Public License.
+
+  c. Copyright and Similar Rights means copyright and/or similar rights
+     closely related to copyright including, without limitation,
+     performance, broadcast, sound recording, and Sui Generis Database
+     Rights, without regard to how the rights are labeled or
+     categorized. For purposes of this Public License, the rights
+     specified in Section 2(b)(1)-(2) are not Copyright and Similar
+     Rights.
+
+  d. Effective Technological Measures means those measures that, in the
+     absence of proper authority, may not be circumvented under laws
+     fulfilling obligations under Article 11 of the WIPO Copyright
+     Treaty adopted on December 20, 1996, and/or similar international
+     agreements.
+
+  e. Exceptions and Limitations means fair use, fair dealing, and/or
+     any other exception or limitation to Copyright and Similar Rights
+     that applies to Your use of the Licensed Material.
+
+  f. Licensed Material means the artistic or literary work, database,
+     or other material to which the Licensor applied this Public
+     License.
+
+  g. Licensed Rights means the rights granted to You subject to the
+     terms and conditions of this Public License, which are limited to
+     all Copyright and Similar Rights that apply to Your use of the
+     Licensed Material and that the Licensor has authority to license.
+
+  h. Licensor means the individual(s) or entity(ies) granting rights
+     under this Public License.
+
+  i. Share means to provide material to the public by any means or
+     process that requires permission under the Licensed Rights, such
+     as reproduction, public display, public performance, distribution,
+     dissemination, communication, or importation, and to make material
+     available to the public including in ways that members of the
+     public may access the material from a place and at a time
+     individually chosen by them.
+
+  j. Sui Generis Database Rights means rights other than copyright
+     resulting from Directive 96/9/EC of the European Parliament and of
+     the Council of 11 March 1996 on the legal protection of databases,
+     as amended and/or succeeded, as well as other essentially
+     equivalent rights anywhere in the world.
+
+  k. You means the individual or entity exercising the Licensed Rights
+     under this Public License. Your has a corresponding meaning.
+
+
+Section 2 -- Scope.
+
+  a. License grant.
+
+       1. Subject to the terms and conditions of this Public License,
+          the Licensor hereby grants You a worldwide, royalty-free,
+          non-sublicensable, non-exclusive, irrevocable license to
+          exercise the Licensed Rights in the Licensed Material to:
+
+            a. reproduce and Share the Licensed Material, in whole or
+               in part; and
+
+            b. produce, reproduce, and Share Adapted Material.
+
+       2. Exceptions and Limitations. For the avoidance of doubt, where
+          Exceptions and Limitations apply to Your use, this Public
+          License does not apply, and You do not need to comply with
+          its terms and conditions.
+
+       3. Term. The term of this Public License is specified in Section
+          6(a).
+
+       4. Media and formats; technical modifications allowed. The
+          Licensor authorizes You to exercise the Licensed Rights in
+          all media and formats whether now known or hereafter created,
+          and to make technical modifications necessary to do so. The
+          Licensor waives and/or agrees not to assert any right or
+          authority to forbid You from making technical modifications
+          necessary to exercise the Licensed Rights, including
+          technical modifications necessary to circumvent Effective
+          Technological Measures. For purposes of this Public License,
+          simply making modifications authorized by this Section 2(a)
+          (4) never produces Adapted Material.
+
+       5. Downstream recipients.
+
+            a. Offer from the Licensor -- Licensed Material. Every
+               recipient of the Licensed Material automatically
+               receives an offer from the Licensor to exercise the
+               Licensed Rights under the terms and conditions of this
+               Public License.
+
+            b. No downstream restrictions. You may not offer or impose
+               any additional or different terms or conditions on, or
+               apply any Effective Technological Measures to, the
+               Licensed Material if doing so restricts exercise of the
+               Licensed Rights by any recipient of the Licensed
+               Material.
+
+       6. No endorsement. Nothing in this Public License constitutes or
+          may be construed as permission to assert or imply that You
+          are, or that Your use of the Licensed Material is, connected
+          with, or sponsored, endorsed, or granted official status by,
+          the Licensor or others designated to receive attribution as
+          provided in Section 3(a)(1)(A)(i).
+
+  b. Other rights.
+
+       1. Moral rights, such as the right of integrity, are not
+          licensed under this Public License, nor are publicity,
+          privacy, and/or other similar personality rights; however, to
+          the extent possible, the Licensor waives and/or agrees not to
+          assert any such rights held by the Licensor to the limited
+          extent necessary to allow You to exercise the Licensed
+          Rights, but not otherwise.
+
+       2. Patent and trademark rights are not licensed under this
+          Public License.
+
+       3. To the extent possible, the Licensor waives any right to
+          collect royalties from You for the exercise of the Licensed
+          Rights, whether directly or through a collecting society
+          under any voluntary or waivable statutory or compulsory
+          licensing scheme. In all other cases the Licensor expressly
+          reserves any right to collect such royalties.
+
+
+Section 3 -- License Conditions.
+
+Your exercise of the Licensed Rights is expressly made subject to the
+following conditions.
+
+  a. Attribution.
+
+       1. If You Share the Licensed Material (including in modified
+          form), You must:
+
+            a. retain the following if it is supplied by the Licensor
+               with the Licensed Material:
+
+                 i. identification of the creator(s) of the Licensed
+                    Material and any others designated to receive
+                    attribution, in any reasonable manner requested by
+                    the Licensor (including by pseudonym if
+                    designated);
+
+                ii. a copyright notice;
+
+               iii. a notice that refers to this Public License;
+
+                iv. a notice that refers to the disclaimer of
+                    warranties;
+
+                 v. a URI or hyperlink to the Licensed Material to the
+                    extent reasonably practicable;
+
+            b. indicate if You modified the Licensed Material and
+               retain an indication of any previous modifications; and
+
+            c. indicate the Licensed Material is licensed under this
+               Public License, and include the text of, or the URI or
+               hyperlink to, this Public License.
+
+       2. You may satisfy the conditions in Section 3(a)(1) in any
+          reasonable manner based on the medium, means, and context in
+          which You Share the Licensed Material. For example, it may be
+          reasonable to satisfy the conditions by providing a URI or
+          hyperlink to a resource that includes the required
+          information.
+
+       3. If requested by the Licensor, You must remove any of the
+          information required by Section 3(a)(1)(A) to the extent
+          reasonably practicable.
+
+       4. If You Share Adapted Material You produce, the Adapter's
+          License You apply must not prevent recipients of the Adapted
+          Material from complying with this Public License.
+
+
+Section 4 -- Sui Generis Database Rights.
+
+Where the Licensed Rights include Sui Generis Database Rights that
+apply to Your use of the Licensed Material:
+
+  a. for the avoidance of doubt, Section 2(a)(1) grants You the right
+     to extract, reuse, reproduce, and Share all or a substantial
+     portion of the contents of the database;
+
+  b. if You include all or a substantial portion of the database
+     contents in a database in which You have Sui Generis Database
+     Rights, then the database in which You have Sui Generis Database
+     Rights (but not its individual contents) is Adapted Material; and
+
+  c. You must comply with the conditions in Section 3(a) if You Share
+     all or a substantial portion of the contents of the database.
+
+For the avoidance of doubt, this Section 4 supplements and does not
+replace Your obligations under this Public License where the Licensed
+Rights include other Copyright and Similar Rights.
+
+
+Section 5 -- Disclaimer of Warranties and Limitation of Liability.
+
+  a. UNLESS OTHERWISE SEPARATELY UNDERTAKEN BY THE LICENSOR, TO THE
+     EXTENT POSSIBLE, THE LICENSOR OFFERS THE LICENSED MATERIAL AS-IS
+     AND AS-AVAILABLE, AND MAKES NO REPRESENTATIONS OR WARRANTIES OF
+     ANY KIND CONCERNING THE LICENSED MATERIAL, WHETHER EXPRESS,
+     IMPLIED, STATUTORY, OR OTHER. THIS INCLUDES, WITHOUT LIMITATION,
+     WARRANTIES OF TITLE, MERCHANTABILITY, FITNESS FOR A PARTICULAR
+     PURPOSE, NON-INFRINGEMENT, ABSENCE OF LATENT OR OTHER DEFECTS,
+     ACCURACY, OR THE PRESENCE OR ABSENCE OF ERRORS, WHETHER OR NOT
+     KNOWN OR DISCOVERABLE. WHERE DISCLAIMERS OF WARRANTIES ARE NOT
+     ALLOWED IN FULL OR IN PART, THIS DISCLAIMER MAY NOT APPLY TO YOU.
+
+  b. TO THE EXTENT POSSIBLE, IN NO EVENT WILL THE LICENSOR BE LIABLE
+     TO YOU ON ANY LEGAL THEORY (INCLUDING, WITHOUT LIMITATION,
+     NEGLIGENCE) OR OTHERWISE FOR ANY DIRECT, SPECIAL, INDIRECT,
+     INCIDENTAL, CONSEQUENTIAL, PUNITIVE, EXEMPLARY, OR OTHER LOSSES,
+     COSTS, EXPENSES, OR DAMAGES ARISING OUT OF THIS PUBLIC LICENSE OR
+     USE OF THE LICENSED MATERIAL, EVEN IF THE LICENSOR HAS BEEN
+     ADVISED OF THE POSSIBILITY OF SUCH LOSSES, COSTS, EXPENSES, OR
+     DAMAGES. WHERE A LIMITATION OF LIABILITY IS NOT ALLOWED IN FULL OR
+     IN PART, THIS LIMITATION MAY NOT APPLY TO YOU.
+
+  c. The disclaimer of warranties and limitation of liability provided
+     above shall be interpreted in a manner that, to the extent
+     possible, most closely approximates an absolute disclaimer and
+     waiver of all liability.
+
+
+Section 6 -- Term and Termination.
+
+  a. This Public License applies for the term of the Copyright and
+     Similar Rights licensed here. However, if You fail to comply with
+     this Public License, then Your rights under this Public License
+     terminate automatically.
+
+  b. Where Your right to use the Licensed Material has terminated under
+     Section 6(a), it reinstates:
+
+       1. automatically as of the date the violation is cured, provided
+          it is cured within 30 days of Your discovery of the
+          violation; or
+
+       2. upon express reinstatement by the Licensor.
+
+     For the avoidance of doubt, this Section 6(b) does not affect any
+     right the Licensor may have to seek remedies for Your violations
+     of this Public License.
+
+  c. For the avoidance of doubt, the Licensor may also offer the
+     Licensed Material under separate terms or conditions or stop
+     distributing the Licensed Material at any time; however, doing so
+     will not terminate this Public License.
+
+  d. Sections 1, 5, 6, 7, and 8 survive termination of this Public
+     License.
+
+
+Section 7 -- Other Terms and Conditions.
+
+  a. The Licensor shall not be bound by any additional or different
+     terms or conditions communicated by You unless expressly agreed.
+
+  b. Any arrangements, understandings, or agreements regarding the
+     Licensed Material not stated herein are separate from and
+     independent of the terms and conditions of this Public License.
+
+
+Section 8 -- Interpretation.
+
+  a. For the avoidance of doubt, this Public License does not, and
+     shall not be interpreted to, reduce, limit, restrict, or impose
+     conditions on any use of the Licensed Material that could lawfully
+     be made without permission under this Public License.
+
+  b. To the extent possible, if any provision of this Public License is
+     deemed unenforceable, it shall be automatically reformed to the
+     minimum extent necessary to make it enforceable. If the provision
+     cannot be reformed, it shall be severed from this Public License
+     without affecting the enforceability of the remaining terms and
+     conditions.
+
+  c. No term or condition of this Public License will be waived and no
+     failure to comply consented to unless expressly agreed to by the
+     Licensor.
+
+  d. Nothing in this Public License constitutes or may be interpreted
+     as a limitation upon, or waiver of, any privileges and immunities
+     that apply to the Licensor or You, including from the legal
+     processes of any jurisdiction or authority.
+
+
+=======================================================================
+
+Creative Commons is not a party to its public
+licenses. Notwithstanding, Creative Commons may elect to apply one of
+its public licenses to material it publishes and in those instances
+will be considered the “Licensor.” The text of the Creative Commons
+public licenses is dedicated to the public domain under the CC0 Public
+Domain Dedication. Except for the limited purpose of indicating that
+material is shared under a Creative Commons public license or as
+otherwise permitted by the Creative Commons policies published at
+creativecommons.org/policies, Creative Commons does not authorize the
+use of the trademark "Creative Commons" or any other trademark or logo
+of Creative Commons without its prior written consent including,
+without limitation, in connection with any unauthorized modifications
+to any of its public licenses or any other arrangements,
+understandings, or agreements concerning use of licensed material. For
+the avoidance of doubt, this paragraph does not form part of the
+public licenses.
+
+Creative Commons may be contacted at creativecommons.org.
+
+
+
+FunASR Model Open Source License Agreement
+
+Version: 1.1
+
+Copyright (C) [2023-2028] [Alibaba Group]. All rights reserved.
+
+Thank you for choosing the FunASR open-source model. The FunASR open-source model includes a range of free and open industrial models for you to use, modify, share, and learn from.
+
+To ensure better community collaboration, we have established the following agreement, and we hope you will read and comply with its terms.
+Definitions
+
+In this agreement, [FunASR Software] refers to FunASR open-source model weights and their derivatives, including finetuned models; [You] refers to individuals or organizations using, modifying, sharing, and learning from [FunASR Software].
+
+2 License and Restrictions
+
+2.1 License
+
+You are free to use, copy, modify, and share [FunASR Software] under the terms of this agreement.
+
+2.2 Restrictions
+
+When using, copying, modifying, and sharing [FunASR Software], you must attribute the source and author information and retain relevant model names in [FunASR Software].
+
+3 Responsibility and Risk
+
+[FunASR Software] is provided for reference and learning purposes only, and Alibaba Group assumes no responsibility for any direct or indirect losses resulting from your use or modification of [FunASR Software]. You should assume all risks associated with using and modifying [FunASR Software].
+
+4 Community Conduct Guidelines
+
+4.1 Encouraged Behavior
+
+The community welcomes developers and users to engage in discussions about [FunASR Software]. Participants are encouraged to interact in a friendly, polite, and respectful manner to foster constructive discussion and collaboration.
+
+4.2 Prohibited Behavior
+
+Individual or organizational users shall not engage in unjustified denigration, malicious smearing, or baseless insults against [FunASR Software]. Such behavior is considered a violation of the spirit of community cooperation. If a user is found to be engaging in the prohibited behavior mentioned above, it will be considered an automatic forfeiture of all licenses under this agreement.
+
+5 Termination
+
+If you violate any terms of this agreement, your license will automatically terminate, and you must cease using, copying, modifying, and sharing [FunASR Software].
+
+6 Revisions
+
+This agreement may be updated and revised occasionally. The revised agreement will be published in the official repository of [FunASR Software] and will take effect automatically. Continuing to use, copy, modify, and share [FunASR Software] indicates your acceptance of the revised agreement.
+
+7 Miscellaneous
+
+This agreement is governed by the laws of [Country/Region]. If any provision is deemed illegal, invalid, or unenforceable, that provision shall be considered severed from this agreement, and the remaining provisions shall continue to be valid and binding.
+
+If you have any questions or comments regarding this agreement, please contact us.
+
+Copyright © [2023-2028] [Alibaba Group]. All rights reserved.
+
+
+FunASR 模型开源协议
+
+版本号：1.1
+
+版权所有 (C) [2023-2028] [阿里巴巴集团]。保留所有权利。
+
+感谢您选择 FunASR 开源模型。FunASR 开源模型包含一系列免费且开源的工业模型，让大家可以使用、修改、分享和学习该模型。
+
+为了保证更好的社区合作，我们制定了以下协议，希望您仔细阅读并遵守本协议。
+
+1 定义
+
+本协议中，[FunASR 软件]指 FunASR 开源模型权重及其衍生品，包括 Finetune 后的模型；[您]指使用、修改、分享和学习[FunASR 软件]的个人或组织。
+
+2 许可和限制
+
+2.1 许可
+
+您可以在遵守本协议的前提下，自由地使用、复制、修改和分享[FunASR 软件]。
+
+2.2 限制
+
+您在使用、复制、修改和分享[FunASR 软件]时，必须注明出处以及作者信息，并保留[FunASR 软件]中相关模型名称。
+
+3 责任和风险承担
+
+[FunASR 软件]仅作为参考和学习使用，不对您使用或修改[FunASR 软件]造成的任何直接或间接损失承担任何责任。您对[FunASR 软件]的使用和修改应该自行承担风险。
+
+4 社区行为准则
+
+4.1 欢迎交流
+
+社区欢迎开发者与用户对[FunASR 软件]进行交流讨论。交流中请注意保持友好、礼貌和文明，以促进建设性的讨论和合作。
+
+4.2 禁止行为
+
+个人或组织用户不得对[FunASR 软件]进行无端诋毁、恶意抹黑或凭空谩骂。此类行为被视为违反社区合作精神。如被认定从事上述禁止行为，将视为自动放弃本协议下的所有许可。
+
+5 终止
+
+如果您违反本协议的任何条款，您的许可将自动终止，您必须停止使用、复制、修改和分享[FunASR 软件]。
+
+6 修订
+
+本协议可能会不时更新和修订。修订后的协议将在[FunASR 软件]官方仓库发布，并自动生效。如果您继续使用、复制、修改和分享[FunASR 软件]，即表示您同意修订后的协议。
+
+7 其他规定
+
+本协议受到[国家/地区] 的法律管辖。如果任何条款被裁定为不合法、无效或无法执行，则该条款应被视为从本协议中删除，而其余条款应继续有效并具有约束力。
+
+如果您对本协议有任何问题或意见，请联系我们。
+
+版权所有© [2023-2028] [阿里巴巴集团]。保留所有权利。
+

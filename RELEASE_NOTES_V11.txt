@@ -1,0 +1,33 @@
+V11.0.0 – Kursausbau auf Basis von V10.1
+======================================
+
++ 100 zusätzliche Lektionen / 502 zusätzliche Lernkarten.
+  Gesamt: 150 Lektionen, 680 Karten, 564 explizite Sprechziele.
++ 20 neue thematische Module, in acht verständliche Kursabschnitte eingeordnet.
++ Neue alltagsbezogene Erklärungen, Lesungen, Wortbausteine und Beispiele.
++ Fünf angeleitete Mini-Dialoge und fünf kurze Lesetexte.
++ 25 eigene Inhaltsfragen zu den fünf Lesetexten.
++ Sechs Übungsschritte je Karte plus Abschlussrunde weiterhin nutzbar.
++ Suche und Filter „Abschnitt“ / „Nur neue“ im nativen Lernpfad.
++ Lange neue Sätze werden in Lernkarte, Vokabelansicht und Sprechziel umbrochen.
++ Eigene Erklärungen/Beispiele je Karte statt globaler Überschreibung bei
+  einem erneut in anderem Zusammenhang verwendeten Wort.
++ Explizite äquivalente Schreibvarianten für jippun/juppun und
+  sanjissai/sanjussai, wie in den jeweiligen Lektionen erklärt.
++ Nicht eingeführte Romaji werden nicht als Baustein-Ersatzantwort angeboten.
++ Stabile IDs: ursprüngliche 50 Lektionen / 178 Karten unverändert erhalten.
++ Einmalige Kursmigration mit Backup und Erhalt vorheriger Freischaltungen.
+
+Unverändert übernommen:
+– lokale TTS-/ASR-Engine und Modellkonfiguration;
+– acht Lehrer mit je eigenem Sprecherprofil;
+– Charaktergrafiken, geschlossene Münder, Idle- und Lobanimationen;
+– Inline-Sprechen, Mikrofon-/Audioablauf, Fortschritt und Einstellungen.
+
+Nicht enthalten:
+– kein freies KI-Gespräch, keine neue Phonem-/Akzentbewertung;
+– keine neuen Animationsmodelle;
+– kein vollständiges oder zertifiziertes N1-/GER-Lernprogramm;
+– keine fertig auf einem Windows-PC geprüfte EXE in der ZIP.
+
+Detaillierte Prüfergebnisse: docs/TESTBERICHT_V11.json.

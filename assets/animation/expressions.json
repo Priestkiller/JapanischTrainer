@@ -1,0 +1,382 @@
+{
+  "version": 1,
+  "expressions": {
+    "sakura": {
+      "idle": {
+        "file": "mouth_idle.png",
+        "bbox": [
+          490,
+          341,
+          553,
+          392
+        ]
+      },
+      "praise": {
+        "file": "mouth_praise.png",
+        "bbox": [
+          490,
+          341,
+          553,
+          392
+        ]
+      },
+      "encourage": {
+        "file": "mouth_encourage.png",
+        "bbox": [
+          501,
+          354,
+          542,
+          379
+        ]
+      },
+      "cheeks": {
+        "file": "praise_cheeks.png",
+        "bbox": [
+          416,
+          300,
+          590,
+          368
+        ]
+      },
+      "head": [
+        515,
+        320
+      ],
+      "closed_idle": true,
+      "praise_mouth": "brief joyful smile",
+      "note": "Local mouth overlay on original art; no phoneme/lip-sync model."
+    },
+    "aiko": {
+      "idle": {
+        "file": "mouth_idle.png",
+        "bbox": [
+          478,
+          243,
+          539,
+          285
+        ]
+      },
+      "praise": {
+        "file": "mouth_praise.png",
+        "bbox": [
+          478,
+          243,
+          539,
+          285
+        ]
+      },
+      "encourage": {
+        "file": "mouth_encourage.png",
+        "bbox": [
+          487,
+          253,
+          528,
+          276
+        ]
+      },
+      "cheeks": {
+        "file": "praise_cheeks.png",
+        "bbox": [
+          434,
+          206,
+          615,
+          268
+        ]
+      },
+      "head": [
+        528,
+        207
+      ],
+      "closed_idle": true,
+      "praise_mouth": "brief joyful smile",
+      "note": "Local mouth overlay on original art; no phoneme/lip-sync model."
+    },
+    "haruto": {
+      "idle": {
+        "file": "mouth_idle.png",
+        "bbox": [
+          0,
+          0,
+          1,
+          1
+        ]
+      },
+      "praise": {
+        "file": "mouth_praise.png",
+        "bbox": [
+          460,
+          234,
+          518,
+          261
+        ]
+      },
+      "encourage": {
+        "file": "mouth_encourage.png",
+        "bbox": [
+          460,
+          235,
+          518,
+          261
+        ]
+      },
+      "cheeks": {
+        "file": "praise_cheeks.png",
+        "bbox": [
+          400,
+          179,
+          552,
+          239
+        ]
+      },
+      "head": [
+        475,
+        206
+      ],
+      "closed_idle": true,
+      "praise_mouth": "closed smile",
+      "note": "Local mouth overlay on original art; no phoneme/lip-sync model."
+    },
+    "ren": {
+      "idle": {
+        "file": "mouth_idle.png",
+        "bbox": [
+          415,
+          252,
+          500,
+          320
+        ]
+      },
+      "praise": {
+        "file": "mouth_praise.png",
+        "bbox": [
+          415,
+          252,
+          500,
+          320
+        ]
+      },
+      "encourage": {
+        "file": "mouth_encourage.png",
+        "bbox": [
+          433,
+          274,
+          484,
+          303
+        ]
+      },
+      "cheeks": {
+        "file": "praise_cheeks.png",
+        "bbox": [
+          353,
+          203,
+          535,
+          289
+        ]
+      },
+      "head": [
+        439,
+        246
+      ],
+      "closed_idle": true,
+      "praise_mouth": "brief joyful smile",
+      "note": "Local mouth overlay on original art; no phoneme/lip-sync model."
+    },
+    "miyako": {
+      "idle": {
+        "file": "mouth_idle.png",
+        "bbox": [
+          475,
+          279,
+          537,
+          318
+        ]
+      },
+      "praise": {
+        "file": "mouth_praise.png",
+        "bbox": [
+          475,
+          279,
+          537,
+          318
+        ]
+      },
+      "encourage": {
+        "file": "mouth_encourage.png",
+        "bbox": [
+          486,
+          289,
+          525,
+          312
+        ]
+      },
+      "cheeks": {
+        "file": "praise_cheeks.png",
+        "bbox": [
+          403,
+          232,
+          575,
+          290
+        ]
+      },
+      "head": [
+        491,
+        234
+      ],
+      "closed_idle": true,
+      "praise_mouth": "brief joyful smile",
+      "note": "Local mouth overlay on original art; no phoneme/lip-sync model."
+    },
+    "emiri": {
+      "idle": {
+        "file": "mouth_idle.png",
+        "bbox": [
+          507,
+          317,
+          587,
+          387
+        ]
+      },
+      "praise": {
+        "file": "mouth_praise.png",
+        "bbox": [
+          507,
+          317,
+          587,
+          387
+        ]
+      },
+      "encourage": {
+        "file": "mouth_encourage.png",
+        "bbox": [
+          522,
+          338,
+          567,
+          361
+        ]
+      },
+      "cheeks": {
+        "file": "praise_cheeks.png",
+        "bbox": [
+          463,
+          273,
+          670,
+          350
+        ]
+      },
+      "head": [
+        558,
+        273
+      ],
+      "closed_idle": true,
+      "praise_mouth": "brief joyful smile",
+      "note": "Local mouth overlay on original art; no phoneme/lip-sync model."
+    },
+    "satoshi": {
+      "idle": {
+        "file": "mouth_idle.png",
+        "bbox": [
+          0,
+          0,
+          1,
+          1
+        ]
+      },
+      "praise": {
+        "file": "mouth_praise.png",
+        "bbox": [
+          443,
+          260,
+          498,
+          286
+        ]
+      },
+      "encourage": {
+        "file": "mouth_encourage.png",
+        "bbox": [
+          443,
+          260,
+          498,
+          286
+        ]
+      },
+      "cheeks": {
+        "file": "praise_cheeks.png",
+        "bbox": [
+          385,
+          202,
+          526,
+          259
+        ]
+      },
+      "head": [
+        456,
+        225
+      ],
+      "closed_idle": true,
+      "praise_mouth": "closed smile",
+      "note": "Local mouth overlay on original art; no phoneme/lip-sync model."
+    },
+    "yuki": {
+      "idle": {
+        "file": "mouth_idle.png",
+        "bbox": [
+          563,
+          271,
+          617,
+          307
+        ]
+      },
+      "praise": {
+        "file": "mouth_praise.png",
+        "bbox": [
+          569,
+          277,
+          612,
+          302
+        ]
+      },
+      "encourage": {
+        "file": "mouth_encourage.png",
+        "bbox": [
+          572,
+          279,
+          609,
+          301
+        ]
+      },
+      "cheeks": {
+        "file": "praise_cheeks.png",
+        "bbox": [
+          519,
+          230,
+          695,
+          294
+        ]
+      },
+      "head": [
+        586,
+        234
+      ],
+      "closed_idle": true,
+      "praise_mouth": "closed smile",
+      "note": "Local mouth overlay on original art; no phoneme/lip-sync model."
+    },
+    "kiko_idle": {
+      "praise_face": {
+        "file": "face_praise.png",
+        "bbox": [
+          141,
+          174,
+          307,
+          270
+        ]
+      },
+      "head": [
+        223,
+        215
+      ],
+      "closed_idle": true,
+      "note": "Happy eyes/mouth on same seated Kiko. Paws remain anchored."
+    }
+  }
+}
