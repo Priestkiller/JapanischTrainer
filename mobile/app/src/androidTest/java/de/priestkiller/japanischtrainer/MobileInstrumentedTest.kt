@@ -63,6 +63,9 @@ class MobileInstrumentedTest {
         check(rendered.await(15,TimeUnit.SECONDS)) { "WebView did not finish drawing" }
         instrumentation.waitForIdleSync()
         Thread.sleep(2000)
+        var focused=false
+        scenario.onActivity { focused=it.hasWindowFocus() }
+        assertTrue("A system dialog must not cover the app screenshot",focused)
         val folder=File(requireNotNull(InstrumentationRegistry.getArguments().getString("additionalTestOutputDir"))).apply { mkdirs() }
         val bitmap=instrumentation.uiAutomation.takeScreenshot()
         File(folder,"$name.png").outputStream().use { bitmap.compress(Bitmap.CompressFormat.PNG,100,it) }

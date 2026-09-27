@@ -45,7 +45,11 @@ jobs:
           ram-size: 4096M
           disk-size: 6000M
           disable-animations: true
-          script: cd mobile && gradle --no-daemon :app:connectedDebugAndroidTest
+          # The disposable emulator's Pixel Launcher can ANR over an otherwise
+          # responsive app. Instrumentation starts our activity directly.
+          script: |
+            adb shell pm disable-user --user 0 com.google.android.apps.nexuslauncher
+            cd mobile && gradle --no-daemon :app:connectedDebugAndroidTest
       - name: Upload APKs and actual test evidence
         if: always()
         uses: actions/upload-artifact@v4
