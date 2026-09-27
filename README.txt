@@ -2,7 +2,7 @@ TESTVERSION – Inhaltspaket 3. Menschliche Sprach-, Anfänger- und Geräteprüf
 
 JapanischTrainer 11.0.5
 ======================
-Lokaler Teststand, noch nicht veröffentlicht. Paket 02: 25 Lektionen / 121 Karten.
+Testkanal: Inhaltspaket 03 mit 25 weiteren Lektionen / 119 Karten.
 Deutschsprachiger Offline-Lerntrainer für Windows 10/11 x64.
 150 Lektionen, 680 Lernkarten und 565 Sprechziele; acht Lehrer.
 
@@ -10,7 +10,8 @@ Installation: JapanischTrainer-11.0.5-Setup-x64.exe öffnen.
 Python, Codex oder Entwicklungswerkzeuge sind nicht erforderlich.
 Der Installer bringt Bilder, Kurs, Laufzeit und Sprachmodelle mit.
 
-Updates: Einstellungen > Programm-Updates > Nach Updates suchen.
+Testupdates: Einstellungen > Programm-Updates > Testversion suchen.
+Die reguläre Suche bleibt beim stabilen Kanal.
 Update herunterladen, einspielen und neu starten. Der Lernstand bleibt
 bestehen und wird gesichert. Bei einem fehlgeschlagenen Starttest werden
 bisherige Programmdateien wiederhergestellt. Unveränderte Sprachmodelle
