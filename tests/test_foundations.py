@@ -27,6 +27,10 @@ class FoundationTests(unittest.TestCase):
         release=json.loads((ROOT/'release.json').read_text('utf-8'))
         android=json.loads((ROOT/'mobile/android-version.json').read_text('utf-8'))
         self.assertEqual(course['content_version'],release['version'])
+        import ast
+        tree=ast.parse((ROOT/'app.py').read_text('utf-8'))
+        installed=next(n.value.value for n in tree.body if isinstance(n,ast.Assign) and any(isinstance(t,ast.Name) and t.id=='VERSION' for t in n.targets))
+        self.assertEqual(installed,release['version'])
         self.assertEqual(android['course'],release['version'])
         gradle=(ROOT/'mobile/app/build.gradle.kts').read_text('utf-8')
         self.assertIn(f'versionCode = {android["code"]}',gradle)

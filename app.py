@@ -17,7 +17,7 @@ from learning import Learning
 from lesson_ui import LessonMixin
 from study import matches_romaji
 from motion import PRESETS,preset_name
-ROOT=app_root();VERSION='11.0.4'
+ROOT=app_root();VERSION='11.0.5'
 NAV=[('home','home','Startseite'),('path','book','Lernen'),('speaking','mic','Sprechen'),('listening','headphones','Hören'),('writing','pencil','Schreiben'),('vocab','cards','Vokabeln'),('grammar','layers','Grammatik'),('kanji','kanji','Kanji'),('review','repeat','Wiederholen'),('progress','chart','Fortschritt'),('teachers','teachers','Lehrer'),('settings','settings','Einstellungen')]
 
 class TrainerApp(LessonMixin):
@@ -227,7 +227,7 @@ class TrainerApp(LessonMixin):
             self.add_actor(s,ROOT/'assets/mascot/kiko_idle.png',(16,y+49,118,144),'mascot','kiko');s.panel((129,y+74,108,87),'bubble',16,False);s.paragraph(140,y+86,'Juhu!\nGut gemacht!' if self.actor_mood()=='praise' else 'Noch einmal.\nWir üben!' if self.actor_mood()=='encourage' else 'Gemeinsam\nschaffen\nwir das!',87,12,INK)
         else:
             s.panel((16,self.H-124,232,74),'soft',13,False);t=self.learning.teacher();s.image_at(self.learning.asset(t,'avatar'),(26,self.H-115,52,54),radius=10);s.text(90,self.H-106,t['name'],17,WHITE,True);s.text(90,self.H-80,'Deine Lehrkraft',12,MUTED)
-        s.text(24,self.H-32,'V'+VERSION+' · Offline-Lerntrainer',11,'#8ba6c1')
+        s.text(24,self.H-32,'V'+VERSION+' · Testversion',11,'#8ba6c1')
     def draw_topbar(self,s):
         s.panel((280,14,self.W-294,72),'dark',20,False);s.text(302,40,'日本語',20,WHITE,True,jp=True);s.text(379,43,'·  Schritt für Schritt',15,WHITE,True,width=max(130,self.W-840))
         x=self.W-350
