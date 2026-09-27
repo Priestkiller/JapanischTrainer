@@ -10,6 +10,10 @@ nicht auf seinem physischen Gerät getestet.
 - [Erfolgreicher Build und Android-Emulatorlauf](https://github.com/Priestkiller/JapanischTrainer/actions/runs/36324820475).
 - Release-/Debug-APK, Android-Lint, 25 Verhaltenstests und alle drei Android-
   Instrumentierungstests erfolgreich.
+- Finale Nachweise stammen aus Versuch 2 desselben Builds. Im ersten Versuch
+  verdeckte ein Pixel-Launcher-Fehler des Emulators die Screenshots. Der frische
+  Wiederholungslauf zeigt die App ohne diesen Dialog; die APK beider Läufe ist
+  bytegleich. Die verdeckten Bilder werden nicht als Release-Nachweise verwendet.
 
 - JDK 17, Gradle 8.11.1, Android Gradle Plugin 8.9.3, Kotlin 2.1.20,
   compile/target SDK 35; Minimum Android 9/API 28.
