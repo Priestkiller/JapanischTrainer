@@ -24,7 +24,7 @@ Unter **Lehrer** kannst du die Stimme anhören und den Lehrer wechseln.
 Jede Karte beginnt mit **Schritt 1/6: Hören & Sprechen**. Höre die Vorlage zuerst
 vollständig an und tippe anschließend auf **Jetzt nachsprechen**. Erlaube den
 Mikrofonzugriff, sprich die sichtbare Vorlage und tippe auf **Aufnahme beenden**.
-Erst ein passender erkannter Text gibt **Weiter zu 2/6** frei. Nach spätestens
+Ein passender erkannter Text gibt **Weiter zu 2/6** frei. Nach spätestens
 15 Sekunden endet die Aufnahme automatisch. Sie bleibt im Arbeitsspeicher des
 Handys. Die Rückmeldung vergleicht den erkannten Text; sie ist keine phonetische
 Aussprache-Note. Bei sehr kurzen Kana ist die Spracherkennung weniger zuverlässig.

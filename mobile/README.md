@@ -20,9 +20,10 @@ Arbeitsspeicher und werden nicht hochgeladen oder als Audiodateien gespeichert.
 Das Paket wird über HTTPS geladen und mit den in der APK festgelegten SHA-256-
 Prüfsummen kontrolliert. Modellbedingungen sind vor dem Download in der App lesbar.
 
-Der Lektionsablauf beginnt mit **1/6 Hören & Sprechen**. Erst eine vollständig
-abgespielte Vorlage und ein passender erkannter Text schalten **2/6 Bedeutung**
-frei. Danach folgen **3/6 Hörverstehen**, **4/6 Bausteine**, **5/6 Schreiben** und
+Der Lektionsablauf beginnt mit **1/6 Hören & Sprechen**. Nach einer vollständig
+abgespielten Vorlage und erfolgreicher Sprechübung wird **2/6 Bedeutung** frei.
+Normalerweise erfordert das einen passenden erkannten Text; für kurze Kana gilt
+die unten beschriebene Selbstprüfung. Danach folgen **3/6 Hörverstehen**, **4/6 Bausteine**, **5/6 Schreiben** und
 **6/6 Anwenden**. Die vollständige Vorlage und das Mikrofon erscheinen nur im
 ersten Schritt. Spätere Aufgaben zeigen nur die nötige Frage; Erklärungen mit
 Lösungen werden dort erst nach einer richtigen Antwort angeboten.
