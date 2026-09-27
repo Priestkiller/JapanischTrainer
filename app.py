@@ -17,7 +17,7 @@ from learning import Learning
 from lesson_ui import LessonMixin
 from study import matches_romaji
 from motion import PRESETS,preset_name
-ROOT=app_root();VERSION='11.0.1'
+ROOT=app_root();VERSION='11.0.2'
 NAV=[('home','home','Startseite'),('path','book','Lernen'),('speaking','mic','Sprechen'),('listening','headphones','Hören'),('writing','pencil','Schreiben'),('vocab','cards','Vokabeln'),('grammar','layers','Grammatik'),('kanji','kanji','Kanji'),('review','repeat','Wiederholen'),('progress','chart','Fortschritt'),('teachers','teachers','Lehrer'),('settings','settings','Einstellungen')]
 
 class TrainerApp(LessonMixin):

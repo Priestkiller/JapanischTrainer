@@ -26,7 +26,11 @@ class CourseV11Tests(unittest.TestCase):
         self.assertEqual(len(old['lessons']),50)
         for l in old['lessons']:
             now=self.learning.by_key[l['key']]
-            for field in ('title','cards','speech','xp'):self.assertEqual(now[field],l[field],(l['key'],field))
+            for field in ('title','speech','xp'):self.assertEqual(now[field],l[field],(l['key'],field))
+            self.assertEqual(len(now['cards']),len(l['cards']))
+            for actual,prior in zip(now['cards'],l['cards']):
+                # 11.0.2 adds explanations; every original card field and index stays intact.
+                for field,value in prior.items():self.assertEqual(actual[field],value,(l['key'],field))
     def test_learning_order_is_a_permutation(self):
         keys=[l['key'] for l in self.learning.lessons]
         self.assertEqual(len(keys),len(set(keys)))

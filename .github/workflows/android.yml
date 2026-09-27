@@ -2,7 +2,7 @@ name: Android
 on:
   workflow_dispatch:
   push:
-    paths: ['mobile/**', '.github/workflows/android.yml']
+    paths: ['mobile/**', 'data/**', 'assets/**', 'licenses/**', '.github/workflows/android.yml']
 permissions:
   contents: read
 jobs:

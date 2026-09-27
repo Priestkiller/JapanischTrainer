@@ -129,7 +129,22 @@ class LessonMixin:
         before=self.flow.metrics()['attempts'];self.flow.check_build()
         self._react_to_step(before,'build');self.request_draw()
     def show_explanation(self):
-        self.detail_open=not self.detail_open;self.flow.hint_used=True;self.scroll=0;self.request_draw()
+        self.detail_open=not self.detail_open;self.flow.hint_used=True
+        if self.detail_open:
+            m=self.flow.metrics();m['hints']=m.get('hints',0)+1;self.flow.snapshot()
+        self.inline_speech=False;self.scroll=0;self.request_draw()
+    def draw_exercise_prompt(self,s,x,y,w,c):
+        """Only the information needed to solve the active task; no answer template."""
+        f=self.flow;parts,_=self.book.blocks(c,self.lesson)
+        reading=f.phase=='apply' and self.book.profile(c,self.lesson).get('kind')=='Leseverständnis'
+        prompt=(c['jp'] if reading or f.mode=='recap' or f.phase in ('meaning','write') or (f.phase=='build' and not parts)
+                else c['de'] if f.phase=='build' else 'Höre genau hin.' if f.phase=='listen' else 'Übertrage das Gelernte auf die Situation.')
+        size=24 if f.phase in ('meaning','write') or f.mode=='recap' else 17
+        h=max(98,48+len(s.wrap(prompt,w-68,size,True))*size*1.4)
+        s.panel((x,y,w-10,h));s.text(x+22,y+16,'Deine Aufgabe · mit Erklärung bei Bedarf',11,MUTED)
+        s.paragraph(x+22,y+44,prompt,w-60,size,WHITE,True,lineheight=size*1.4,jp=True)
+        self.pinned_rect=None
+        return h
     def pinned_text_layout(self,s,w,c):
         """Measure full lesson text; never cut a new sentence to an ellipsis."""
         left_w=w-max(221,w*.365)-74;right_w=max(221,w*.365)-30
@@ -196,8 +211,12 @@ class LessonMixin:
         x=294;y=193;lw=min(682,(self.W-x-36)*.615);rx=x+lw+22
         value=(f.recap_passed/max(1,f.recap_total)) if f.mode=='recap' else (self.card_index+(step-1)/6)/len(self.lesson['cards'])
         s.progress((x,175,lw-12,7),value)
-        word_h=max(304 if self.H>=960 else 280,108+self.pinned_text_layout(s,lw,c)['white_h'])
-        self.draw_pinned_word(s,x,y,lw,word_h,c);by=y+word_h+12;self.inline_rect=None
+        if (f.phase=='understand' and f.mode=='learn') or self.detail_open:
+            word_h=max(304 if self.H>=960 else 280,108+self.pinned_text_layout(s,lw,c)['white_h'])
+            self.draw_pinned_word(s,x,y,lw,word_h,c)
+        else:
+            word_h=self.draw_exercise_prompt(s,x,y,lw,c)
+        by=y+word_h+12;self.inline_rect=None
         if self.inline_speech:
             ih=209 if self.H>=930 else 197
             self.draw_inline_recording(s,x,by,lw,ih);by+=ih+12
@@ -212,7 +231,7 @@ class LessonMixin:
             by+=40
         vh=max(0,fy-by-12);self.exercise_rect=(x,by,lw,vh)
         if vh>=72:
-            p=self.make_pane(lw,max(vh,1800));o=-self.scroll
+            p=self.make_pane(lw,max(vh,6000));o=-self.scroll
             total=self.draw_study_content(p,o,lw)
             self.scroll_pane(s,p,x,by,vh,total+self.scroll+14)
             if self.entry_target and self.entry_target[0]=='study-local':
@@ -253,7 +272,14 @@ class LessonMixin:
         return o+h+15
     def draw_explanation(self,p,o,w):
         f=self.flow;c=f.card;profile=self.book.profile(c,self.lesson)
-        if f.index==0:o=self.text_block(p,o,w,'Ziel dieser Lektion',self.book.intro(self.lesson))
+        guide=self.lesson.get('study_guide')
+        if guide:
+            o=self.text_block(p,o,w,'Dein Lernziel',self.lesson.get('goal',''))
+            before=[self.learning.by_key[k]['title'] for k in guide['prerequisites'] if k in self.learning.by_key]
+            if before:o=self.text_block(p,o,w,'Das greifst du wieder auf',' · '.join(before))
+            for i,point in enumerate(guide['points'],1):o=self.text_block(p,o,w,f'Lernhilfe {i}',point)
+            o=self.text_block(p,o,w,'Zum selbst Ausprobieren',guide['recall'])
+        elif f.index==0:o=self.text_block(p,o,w,'Ziel dieser Lektion',self.book.intro(self.lesson))
         o=self.text_block(p,o,w,'Wann benutzt du das? · '+profile['kind'],profile['usage'])
         o=self.text_block(p,o,w,'So funktioniert es',profile['explain'])
         if profile['register']:o=self.text_block(p,o,w,'Höflichkeit & Situation',profile['register'])
@@ -297,10 +323,10 @@ class LessonMixin:
         p.panel((2,o+2,w-12,55));p.icon('chat',23,o+17,24);p.text(59,o+20,title,17,WHITE,True,width=w-85);o+=70
         if f.mode=='recap' or f.phase=='meaning':
             o=self.draw_options(p,o,w,False)
-            if f.mode!='recap':
+            if f.mode!='recap' and f.success:
                 ex=self.learning.examples(c);o=self.example_block(p,o+7,w,[ex['jp'],ex['romaji'],ex['de']])
         elif f.phase=='listen':
-            text='Höre eines der bisher eingeführten Wörter aus dieser Lektion. Die Lernhilfe oben darf sichtbar bleiben. Das Hörwort kann ein früheres Wort sein.'
+            text='Höre eines der bisher eingeführten Wörter aus dieser Lektion. Das Hörwort kann ein früheres Wort sein. Über Erklärung kannst du bewusst nachsehen.'
             o+=p.paragraph(23,o,text,w-54,14,MUTED,lineheight=21)+15
             bw=(w-52)*.65;p.button('exercise-audio',(18,o,bw,43),'Hörbeispiel abspielen',self.listen_exercise,'blue','speaker',13,enabled=not self.job and not self.recording)
             p.button('exercise-skip',(28+bw,o,w-53-bw,43),'Ohne Ton',self.skip_listening,size=12,enabled=not self.job);o+=60
@@ -310,7 +336,7 @@ class LessonMixin:
         elif f.phase=='build':
             parts,kind=self.book.blocks(c,self.lesson)
             if parts:
-                o+=p.paragraph(23,o,'Klicke die Bausteine in der richtigen Reihenfolge an. Die Lernkarte oben zeigt dir die Vorlage. Das ist eine Schreibübung, keine Lautanalyse.',w-57,14,MUTED,lineheight=21)+16
+                o+=p.paragraph(23,o,'Setze die Bausteine passend zur Bedeutung in die richtige Reihenfolge. Wenn du nicht weiterweißt, öffne die Erklärung.',w-57,14,MUTED,lineheight=21)+16
                 chosen='  ·  '.join(parts[i] for i in f.tokens) or 'Deine Reihenfolge …'
                 sh=max(59,len(p.wrap(chosen,w-72,20,True))*29+23);p.panel((17,o,w-42,sh),'white',12,False);p.paragraph(29,o+13,chosen,w-71,20,INK,True,lineheight=29);o+=sh+14
                 import random
@@ -326,12 +352,15 @@ class LessonMixin:
                 o+=p.paragraph(23,o,'Dieses Zeichen / Muster braucht keine künstliche Zerlegung. Wähle stattdessen seine Lesung.',w-53,14,MUTED,lineheight=21)+14
                 o=self.draw_options(p,o,w,False)
         elif f.phase=='write':
-            o+=p.paragraph(23,o,'Schreibe die Romaji-Lesung mit deiner normalen Tastatur. Anfangs darfst du oben ablesen; später kannst du es aus dem Gedächtnis versuchen.',w-56,14,MUTED,lineheight=21)+13
+            o+=p.paragraph(23,o,'Schreibe die Romaji-Lesung aus dem Gedächtnis mit deiner normalen Tastatur. Über Erklärung kannst du bei Bedarf nachsehen.',w-56,14,MUTED,lineheight=21)+13
             o=self.study_input(p,o,w,'Deine Romaji-Antwort')
             o+=p.paragraph(23,o,'Tastaturhilfe: ō = ou oder oo, ū = uu, ā = aa. Leerzeichen, Bindestriche und Satzzeichen sind nicht entscheidend. Vokallänge bleibt wichtig.',w-56,12,MUTED,lineheight=19)+18
         elif f.phase=='apply':
-            o+=p.paragraph(23,o,profile['scenario']['question'],w-58,17,WHITE,True,lineheight=25)+19
-            o=self.draw_options(p,o,w,True)
+            question=profile['scenario']['question']
+            if 'dieser Karte' in question or 'dieser Lernkarte' in question:
+                question+=' '+c['jp']+' ('+c['romaji']+')'
+            o+=p.paragraph(23,o,question,w-58,17,WHITE,True,lineheight=25)+19
+            o=self.draw_options(p,o,w,self.detail_open)
         if f.feedback:
             col='#96edbd' if f.success else '#ffd6a3';o=self.text_block(p,o+5,w,'Gut gemacht' if f.success and not f.skipped else 'Hinweis',f.feedback)
         if f.success:

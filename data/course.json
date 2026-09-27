@@ -1,7 +1,7 @@
 {
   "title": "Japanisch Schritt für Schritt",
   "revision": 11,
-  "content_version": "11.0.1",
+  "content_version": "11.0.2",
   "description": "Ein ausführlicher deutschsprachiger Lernweg vom Einstieg bis zu Alltagssituationen, Satzbau und ersten zusammenhängenden Texten.",
   "scope_note": "Die Abschnittsnamen sind interne Lernabschnitte, keine JLPT- oder GER-Zertifizierung. Der Ausblick ist eine Einführung in weitere Themen, kein vollständiger Fortgeschrittenenkurs.",
   "pronunciation_note": "Die deutsche Aussprachehilfe ist eine Annäherung: s in der Umschrift ist scharf, z entspricht ungefähr stimmhaftem deutschem s; y klingt wie j, j wie dsch. Die deutsche Hilfe ersetzt das Hören nicht. Vokallängen beachten; ei wird häufig wie langes e gesprochen.",
@@ -424,35 +424,145 @@
               "romaji": "a",
               "de": "Laut a",
               "approx": "wie a in Mann",
-              "note": "Kurz und klar. Japanische Vokale bleiben relativ stabil."
+              "note": "Kurz und klar. Japanische Vokale bleiben relativ stabil.",
+              "detail": {
+                "kind": "Hiragana · einzelner Vokal",
+                "usage": "Ein Schriftzeichen für den Laut a, noch kein Wort mit einer eigenen Bedeutung.",
+                "explain": "Öffne den Mund entspannt und sprich ein kurzes, klares a. Das Zeichen あ steht für einen Sprechtakt. In der ersten Runde darfst du die Form und die Lesung immer ablesen.",
+                "pitfall": "Ein einzelnes a lässt sich von Spracherkennung oft schlecht zuordnen. Ein leeres oder falsches Transkript ist hier kein Beweis für eine falsche Aussprache.",
+                "parts": [
+                  [
+                    "あ",
+                    "a · ein Sprechtakt"
+                  ]
+                ],
+                "scenario": {
+                  "question": "Was lernst du mit あ gerade?",
+                  "correct": "Ein Zeichen für den Laut a.",
+                  "wrong": [
+                    "Das Wort für Deutschland.",
+                    "Einen ganzen Fragesatz."
+                  ]
+                },
+                "extra": [],
+                "register": ""
+              }
             },
             {
               "jp": "い",
               "romaji": "i",
               "de": "Laut i",
               "approx": "wie i in Liebe",
-              "note": "Nicht unnötig zu einem langen deutschen ie ziehen."
+              "note": "Nicht unnötig zu einem langen deutschen ie ziehen.",
+              "detail": {
+                "kind": "Hiragana · einzelner Vokal",
+                "usage": "Ein Schriftzeichen für den Laut i.",
+                "explain": "Die Zunge liegt relativ weit vorn; der Klang ist ungefähr der klare i-Laut in „Liebe“, hier aber kurz. Später unterscheidest du ein kurzes い von einem langen いい.",
+                "pitfall": "Die deutschen Vergleichswörter helfen beim Klang, nicht bei der Dauer. Ein kurzes i nicht automatisch lang ziehen.",
+                "parts": [
+                  [
+                    "い",
+                    "i · ein Sprechtakt"
+                  ]
+                ],
+                "scenario": {
+                  "question": "Worauf achtest du bei einem einzelnen い?",
+                  "correct": "Ein klares, kurzes i.",
+                  "wrong": [
+                    "Den Laut wie ei sprechen.",
+                    "Immer ein langes ii sprechen."
+                  ]
+                },
+                "extra": [],
+                "register": ""
+              }
             },
             {
               "jp": "う",
               "romaji": "u",
               "de": "Laut u",
               "approx": "kurzes, eher schwaches u",
-              "note": "Die Lippen werden meist weniger stark gerundet als im Deutschen."
+              "note": "Die Lippen werden meist weniger stark gerundet als im Deutschen.",
+              "detail": {
+                "kind": "Hiragana · einzelner Vokal",
+                "usage": "Ein Schriftzeichen für den japanischen u-Laut.",
+                "explain": "Sprich ein kurzes u mit entspannten Lippen. Sie werden weniger stark nach vorn gerundet als beim deutschen u. Die Umschrift u ist eine Annäherung und keine perfekte Lautschrift.",
+                "pitfall": "Den Mund nicht übertrieben spitzen. Höre zuerst die Vorlage; ein isolierter Vokal ist für das Erkennungsmodell besonders schwierig.",
+                "parts": [
+                  [
+                    "う",
+                    "u · ein Sprechtakt"
+                  ]
+                ],
+                "scenario": {
+                  "question": "Welche Mundhaltung ist eine hilfreiche Annäherung?",
+                  "correct": "Weniger stark gerundete Lippen als beim deutschen u.",
+                  "wrong": [
+                    "Die Lippen besonders stark spitzen.",
+                    "Ein deutsches ü erzwingen."
+                  ]
+                },
+                "extra": [],
+                "register": ""
+              }
             },
             {
               "jp": "え",
               "romaji": "e",
               "de": "Laut e",
               "approx": "wie e in Bett",
-              "note": "Ein klares e, nicht ei."
+              "note": "Ein klares e, nicht ei.",
+              "detail": {
+                "kind": "Hiragana · einzelner Vokal",
+                "usage": "Ein Schriftzeichen für einen kurzen e-Laut.",
+                "explain": "Sprich einen gleichbleibenden e-Laut, ungefähr wie in „Bett“. Lass ihn nicht zu einem ei gleiten. Klangvergleiche mit Deutsch sind nur eine Starthilfe.",
+                "pitfall": "Nicht wie englisches „ay“ mit einem zusätzlichen i am Ende aussprechen.",
+                "parts": [
+                  [
+                    "え",
+                    "e · ein Sprechtakt"
+                  ]
+                ],
+                "scenario": {
+                  "question": "Welche Veränderung solltest du vermeiden?",
+                  "correct": "Aus e einen Doppellaut ei machen.",
+                  "wrong": [
+                    "Den Vokal kurz sprechen.",
+                    "Den Klang gleichmäßig halten."
+                  ]
+                },
+                "extra": [],
+                "register": ""
+              }
             },
             {
               "jp": "お",
               "romaji": "o",
               "de": "Laut o",
               "approx": "klares o",
-              "note": "Nicht zu ou verändern."
+              "note": "Nicht zu ou verändern.",
+              "detail": {
+                "kind": "Hiragana · einzelner Vokal",
+                "usage": "Ein Schriftzeichen für einen kurzen o-Laut.",
+                "explain": "Sprich o mit gleichbleibender Mundstellung. Ein einzelnes お dauert einen Sprechtakt. Später kommen lange o-Laute hinzu; die Länge kann Wörter unterscheiden.",
+                "pitfall": "Ein einzelnes お nicht von selbst zu einem langen oo oder zu ou verändern.",
+                "parts": [
+                  [
+                    "お",
+                    "o · ein Sprechtakt"
+                  ]
+                ],
+                "scenario": {
+                  "question": "Wie lange ist ein einzelnes お in dieser Übung?",
+                  "correct": "Ein Sprechtakt.",
+                  "wrong": [
+                    "Immer zwei Sprechtakte.",
+                    "Es ist eine stumme Schreibweise."
+                  ]
+                },
+                "extra": [],
+                "register": ""
+              }
             }
           ],
           "speech": [
@@ -475,7 +585,18 @@
           ],
           "id": "0:0",
           "origin": "legacy",
-          "stage": "Einstieg"
+          "stage": "Einstieg",
+          "goal": "Die fünf Vokale erkennen und mit je einem Takt nachsprechen.",
+          "study_guide": {
+            "revision": 1,
+            "prerequisites": [],
+            "points": [
+              "Hiragana sind japanische Lautzeichen. あ = a, い = i, う = u, え = e, お = o. Romaji schreibt die Lesung mit lateinischen Buchstaben.",
+              "Sprich jeden Vokal kurz und gleichmäßig. Mache aus e kein ei und aus o kein ou. Die Aufnahme vergleicht erkannten Text; sie bewertet deinen Akzent nicht.",
+              "Lerne zuerst mit der sichtbaren Vorlage. Ab Schritt 2 rufst du Bedeutung oder Lesung selbst ab. Über die Hilfe kannst du gezielt nachsehen."
+            ],
+            "recall": "Decke die Lesung ab: Welcher Laut gehört zu い, welcher zu え?"
+          }
         },
         {
           "title": "Erste kurze Wörter",
@@ -486,21 +607,99 @@
               "romaji": "asa",
               "de": "Morgen",
               "approx": "a-sa",
-              "note": "Zwei gleichmäßige Sprechtakte: a-sa."
+              "note": "Zwei gleichmäßige Sprechtakte: a-sa.",
+              "detail": {
+                "kind": "Nomen · Zeitangabe",
+                "usage": "Bezeichnet den Morgen als Tageszeit. Nicht das deutsche „morgen“ im Sinn von „am nächsten Tag“.",
+                "explain": "Das Wort hat zwei gleichmäßige Takte: a-sa. Das s ist stimmlos, etwa wie in „Wasser“. Die Kanji-Schreibweise 朝 kann im erkannten Text auftauchen; sie bezeichnet dasselbe Wort.",
+                "pitfall": "あさ allein ist keine normale Morgengrüßung. Es benennt die Tageszeit.",
+                "parts": [
+                  [
+                    "あ",
+                    "a"
+                  ],
+                  [
+                    "さ",
+                    "sa"
+                  ]
+                ],
+                "scenario": {
+                  "question": "Welche deutsche Bedeutung ist hier gemeint?",
+                  "correct": "Der Morgen als Tageszeit.",
+                  "wrong": [
+                    "Am nächsten Tag.",
+                    "Die Begrüßung Guten Abend."
+                  ]
+                },
+                "extra": [],
+                "register": ""
+              }
             },
             {
               "jp": "いえ",
               "romaji": "ie",
               "de": "Haus / Zuhause",
               "approx": "i-e",
-              "note": "Die beiden Vokale getrennt sprechen."
+              "note": "Die beiden Vokale getrennt sprechen.",
+              "detail": {
+                "kind": "Nomen",
+                "usage": "Bezeichnet ein Haus oder Zuhause.",
+                "explain": "Sprich i-e: zwei getrennte Vokale, nicht das deutsche lange ie. 家 ist eine häufige Schreibweise dieses Wortes. Zum Lernen genügt erst einmal いえ.",
+                "pitfall": "いえ (Haus) und いいえ (nein) unterscheiden sich in der Länge des i. Lass das zusätzliche i nicht weg, wenn du später nein sagst.",
+                "parts": [
+                  [
+                    "い",
+                    "i"
+                  ],
+                  [
+                    "え",
+                    "e"
+                  ]
+                ],
+                "scenario": {
+                  "question": "Wie gliederst du いえ?",
+                  "correct": "i-e, zwei getrennte Vokale.",
+                  "wrong": [
+                    "Ein einziger langer i-Laut.",
+                    "ai als deutscher Doppellaut."
+                  ]
+                },
+                "extra": [],
+                "register": ""
+              }
             },
             {
               "jp": "うえ",
               "romaji": "ue",
               "de": "oben / auf",
               "approx": "u-e",
-              "note": "Auch hier zwei klare Takte."
+              "note": "Auch hier zwei klare Takte.",
+              "detail": {
+                "kind": "Nomen · Ortsbezeichnung",
+                "usage": "Bezeichnet oben, die Oberseite oder eine Position über bzw. auf etwas; der Satz bestimmt die passende Übersetzung.",
+                "explain": "Sprich u-e in zwei Takten. In längeren Ausdrücken kann dieses Wort eine Position beschreiben. Du musst die dafür nötigen Partikeln jetzt noch nicht kennen.",
+                "pitfall": "Die Vokale nicht zu einem einzigen Laut verschmelzen. „Auf“ ist nur eine mögliche Übersetzung im passenden Zusammenhang.",
+                "parts": [
+                  [
+                    "う",
+                    "u"
+                  ],
+                  [
+                    "え",
+                    "e"
+                  ]
+                ],
+                "scenario": {
+                  "question": "Welche Art Information gibt うえ häufig an?",
+                  "correct": "Eine Position oben oder auf etwas.",
+                  "wrong": [
+                    "Eine Bitte um Entschuldigung.",
+                    "Eine Nationalität."
+                  ]
+                },
+                "extra": [],
+                "register": ""
+              }
             }
           ],
           "speech": [
@@ -525,7 +724,20 @@
           ],
           "id": "0:1",
           "origin": "legacy",
-          "stage": "Einstieg"
+          "stage": "Einstieg",
+          "goal": "Kurze Wörter aus bekannten Vokalen und dem neuen Zeichen さ lesen.",
+          "study_guide": {
+            "revision": 1,
+            "prerequisites": [
+              "0:0"
+            ],
+            "points": [
+              "Neu ist さ = sa. Zusammen mit あ entsteht あさ (asa), der Morgen. Du musst die übrigen Hiragana dafür noch nicht kennen.",
+              "いえ (ie, Haus) besteht aus i und e; うえ (ue, oben) aus u und e. Beide haben zwei Takte. Sprich die Vokale einzeln, ohne daraus einen deutschen Doppellaut zu machen.",
+              "Einzelne Wörter sind noch keine vollständigen Sätze. Lerne hier die Bedeutung und die Reihenfolge der Zeichen."
+            ],
+            "recall": "Lies いえ und うえ. Welches Wort nennt ein Haus, welches eine Position?"
+          }
         }
       ]
     },
@@ -543,35 +755,214 @@
               "romaji": "konnichiwa",
               "de": "Guten Tag / Hallo",
               "approx": "kon-ni-tschi-wa",
-              "note": "Das letzte は wird hier wa gesprochen."
+              "note": "Das letzte は wird hier wa gesprochen.",
+              "detail": {
+                "kind": "Feste Grußformel",
+                "usage": "Eine übliche Begrüßung am Tag: Guten Tag oder Hallo.",
+                "explain": "Lerne die ganze Wendung zunächst als Einheit. Die Umschrift lautet konnichiwa. Das letzte Zeichen は wird in dieser festen Grußformel wa gesprochen. Das n vor ni bekommt Zeit: ko-n-ni-chi-wa.",
+                "pitfall": "Nicht konichiha lesen. Die deutsche Hilfe „tschi“ nähert sich chi an, ist aber keine genaue Lautschrift.",
+                "parts": [
+                  [
+                    "こ",
+                    "ko"
+                  ],
+                  [
+                    "ん",
+                    "n · eigener Takt"
+                  ],
+                  [
+                    "に",
+                    "ni"
+                  ],
+                  [
+                    "ち",
+                    "chi"
+                  ],
+                  [
+                    "は",
+                    "hier: wa"
+                  ]
+                ],
+                "scenario": {
+                  "question": "Du begrüßt am Nachmittag eine Bekannte. Was passt?",
+                  "correct": "こんにちは",
+                  "wrong": [
+                    "こんばんは",
+                    "おやすみなさい"
+                  ]
+                },
+                "extra": [
+                  [
+                    "こんにちは。",
+                    "konnichiwa.",
+                    "Guten Tag."
+                  ]
+                ],
+                "register": "Übliche Tagesbegrüßung, auch in höflichen Alltagssituationen."
+              }
             },
             {
               "jp": "ありがとう",
               "romaji": "arigatō",
               "de": "Danke",
               "approx": "a-ri-ga-too",
-              "note": "Das ō ist lang. Den letzten o-Laut länger halten."
+              "note": "Das ō ist lang. Den letzten o-Laut länger halten.",
+              "detail": {
+                "kind": "Feste Dankesformel",
+                "usage": "Du bedankst dich, beispielsweise bei einer vertrauten Person, die dir hilft.",
+                "explain": "Die kurze Form bedeutet Danke. Mit ございます wird die Wendung höflicher: ありがとうございます. Du brauchst die Bestandteile dafür noch nicht einzeln bilden zu können. Höre beide Formen und vergleiche sie.",
+                "pitfall": "Am Ende steht ein langes o: arigatō. Halte es länger, ohne ein neues betontes Wort daraus zu machen. In normaler Romaji-Tastatureingabe sind arigatou und arigatoo hier erlaubt, arigato nicht.",
+                "parts": [
+                  [
+                    "あ",
+                    "a"
+                  ],
+                  [
+                    "り",
+                    "ri"
+                  ],
+                  [
+                    "が",
+                    "ga"
+                  ],
+                  [
+                    "とう",
+                    "tō · langes o, zwei Takte"
+                  ]
+                ],
+                "scenario": {
+                  "question": "Du möchtest die kurze Dankesform höflicher machen. Was kommt dazu?",
+                  "correct": "ございます",
+                  "wrong": [
+                    "か",
+                    "いいえ"
+                  ]
+                },
+                "extra": [
+                  [
+                    "ありがとう！",
+                    "arigatō!",
+                    "Danke!"
+                  ],
+                  [
+                    "ありがとうございます。",
+                    "arigatō gozaimasu.",
+                    "Danke. (höflich)"
+                  ]
+                ],
+                "register": "Kurz und vertraut. Gegenüber Fremden ist ありがとうございます oft die passendere Wahl."
+              }
             },
             {
               "jp": "すみません",
               "romaji": "sumimasen",
               "de": "Entschuldigung / Verzeihung / danke für die Umstände",
               "approx": "su-mi-ma-sen",
-              "note": "Sehr vielseitig: entschuldigen, jemanden ansprechen oder höflich danken."
+              "note": "Sehr vielseitig: entschuldigen, jemanden ansprechen oder höflich danken.",
+              "detail": {
+                "kind": "Höfliche Alltagsformel",
+                "usage": "Zum Entschuldigen und um jemanden höflich anzusprechen; auch als Dank für verursachte Mühe möglich.",
+                "explain": "Derselbe Ausdruck wird je nach Situation verschieden übersetzt. Du kannst damit die Aufmerksamkeit einer Person bekommen oder dich für ein Missgeschick entschuldigen. Nicht jede Verwendung lässt sich mit einem einzigen deutschen Wort wiedergeben.",
+                "pitfall": "Das s ist stimmlos, wie in „Wasser“. Ein japanisches n am Wortende bleibt hörbar. Nicht jedes すみません bedeutet automatisch, dass jemand etwas Schlimmes getan hat.",
+                "parts": [
+                  [
+                    "す",
+                    "su"
+                  ],
+                  [
+                    "み",
+                    "mi"
+                  ],
+                  [
+                    "ま",
+                    "ma"
+                  ],
+                  [
+                    "せ",
+                    "se"
+                  ],
+                  [
+                    "ん",
+                    "n · eigener Takt"
+                  ]
+                ],
+                "scenario": {
+                  "question": "Du möchtest eine fremde Person höflich ansprechen. Welche Wendung eignet sich?",
+                  "correct": "すみません",
+                  "wrong": [
+                    "いいえ",
+                    "おやすみなさい"
+                  ]
+                },
+                "extra": [],
+                "register": "Höflich und sehr vielseitig."
+              }
             },
             {
               "jp": "はい",
               "romaji": "hai",
               "de": "Ja",
               "approx": "hai",
-              "note": "Kurz und klar."
+              "note": "Kurz und klar.",
+              "detail": {
+                "kind": "Antwort / Rückmeldung",
+                "usage": "Kann Ja heißen, aber auch zeigen: Ich habe dich gehört oder verstanden.",
+                "explain": "Sprich ha-i. In einem Gespräch kann はい eine kurze Rückmeldung sein und muss nicht jede Aussage inhaltlich bestätigen. Bei negativen Fragen unterscheiden sich die Antwortgewohnheiten vom Deutschen; das üben wir später getrennt.",
+                "pitfall": "Ein hörbares はい bedeutet nicht in jedem Gespräch „Ich stimme allem zu“. Achte auch auf die Frage und die Situation.",
+                "parts": [
+                  [
+                    "は",
+                    "ha"
+                  ],
+                  [
+                    "い",
+                    "i"
+                  ]
+                ],
+                "scenario": {
+                  "question": "Was kann はい außer Ja ausdrücken?",
+                  "correct": "Ich habe dich gehört / verstanden.",
+                  "wrong": [
+                    "Immer eine Ablehnung.",
+                    "Die Bedeutung Danke."
+                  ]
+                },
+                "extra": [],
+                "register": ""
+              }
             },
             {
               "jp": "いいえ",
               "romaji": "iie",
               "de": "Nein",
               "approx": "ii-e",
-              "note": "Die ersten beiden i bilden einen langen i-Laut."
+              "note": "Die ersten beiden i bilden einen langen i-Laut.",
+              "detail": {
+                "kind": "Antwort · Verneinung",
+                "usage": "Eine klare verneinende Antwort: Nein.",
+                "explain": "Sprich ii-e: Das i ist lang, danach folgt e. Vergleiche mit いえ für Haus. Im Alltag kann ein direktes Nein unpassend schroff wirken; hier lernst du zunächst die Grundbedeutung.",
+                "pitfall": "Das lange ii nicht zu einem einzigen kurzen i kürzen. Die Schreibübung erwartet iie, nicht ie.",
+                "parts": [
+                  [
+                    "いい",
+                    "ii · lang"
+                  ],
+                  [
+                    "え",
+                    "e"
+                  ]
+                ],
+                "scenario": {
+                  "question": "Was unterscheidet いいえ von いえ?",
+                  "correct": "Das zusätzliche i macht den Anfang länger.",
+                  "wrong": [
+                    "Beide Wörter sind immer bedeutungsgleich.",
+                    "Nur das Satzzeichen ist anders."
+                  ]
+                },
+                "extra": [],
+                "register": ""
+              }
             }
           ],
           "speech": [
@@ -604,7 +995,20 @@
           ],
           "id": "1:0",
           "origin": "legacy",
-          "stage": "Einstieg"
+          "stage": "Einstieg",
+          "goal": "Begrüßen, danken und höflich Kontakt aufnehmen.",
+          "study_guide": {
+            "revision": 1,
+            "prerequisites": [
+              "v11:mora-n"
+            ],
+            "points": [
+              "Lerne diese Begrüßungen zunächst als ganze Wendungen. こんにちは (konnichiwa) heißt tagsüber Hallo. Das letzte は wird hier wa gelesen.",
+              "ありがとう (arigatō) ist ein kurzer Dank. ありがとうございます (arigatō gozaimasu) ist höflicher. すみません (sumimasen) kann entschuldigen oder eine fremde Person ansprechen.",
+              "はい (hai) kann Ja, aber auch Ich höre zu bedeuten. いいえ (iie, nein) beginnt mit langem ii; いえ (ie) bedeutet Haus."
+            ],
+            "recall": "Du möchtest eine fremde Person ansprechen: Welche der gelernten Wendungen passt?"
+          }
         },
         {
           "title": "Tageszeiten",
@@ -615,21 +1019,109 @@
               "romaji": "ohayō gozaimasu",
               "de": "Guten Morgen, höflich",
               "approx": "o-ha-joo go-sai-ma-su",
-              "note": "おはよう allein ist lockerer; ございます macht es höflicher."
+              "note": "おはよう allein ist lockerer; ございます macht es höflicher.",
+              "detail": {
+                "kind": "Höfliche Grußformel",
+                "usage": "Du begrüßt jemanden am Morgen.",
+                "explain": "おはよう ist die vertrautere Kurzform. Mit ございます wird der Gruß höflicher. Das y in ohayō klingt ungefähr wie ein deutsches j. Das ō wird lang gesprochen.",
+                "pitfall": "Die Buchstabenfolge gozaimasu enthält ein stimmhaftes z, ungefähr wie deutsches s in „Sonne“, nicht deutsches z wie in „Zeit“.",
+                "parts": [
+                  [
+                    "おはよう",
+                    "Guten Morgen · kürzer/vertrauter"
+                  ],
+                  [
+                    "ございます",
+                    "macht die Grußformel höflicher"
+                  ]
+                ],
+                "scenario": {
+                  "question": "Welche Form wirkt höflicher?",
+                  "correct": "おはようございます",
+                  "wrong": [
+                    "おはよう",
+                    "なにしてる？"
+                  ]
+                },
+                "extra": [
+                  [
+                    "おはよう。",
+                    "ohayō.",
+                    "Guten Morgen. (vertraut)"
+                  ]
+                ],
+                "register": "Höflich; geeignet für viele Alltagssituationen."
+              }
             },
             {
               "jp": "こんばんは",
               "romaji": "konbanwa",
               "de": "Guten Abend",
               "approx": "kon-ban-wa",
-              "note": "Auch hier wird は am Ende wa gesprochen."
+              "note": "Auch hier wird は am Ende wa gesprochen.",
+              "detail": {
+                "kind": "Feste Grußformel",
+                "usage": "Eine Begrüßung am Abend.",
+                "explain": "Sprich ko-n-ba-n-wa. Das letzte は wird in dieser Grußformel wa gesprochen. Mit こんばんは begrüßt du jemanden; zum Schlafengehen gibt es eine andere Wendung.",
+                "pitfall": "Guten Abend ist nicht gleich Gute Nacht. Verwechsle Begrüßung und Verabschiedung vor dem Schlafen nicht.",
+                "parts": [
+                  [
+                    "こん",
+                    "kon"
+                  ],
+                  [
+                    "ばん",
+                    "ban"
+                  ],
+                  [
+                    "は",
+                    "hier: wa"
+                  ]
+                ],
+                "scenario": {
+                  "question": "Du triffst abends eine Person und begrüßt sie. Was passt?",
+                  "correct": "こんばんは",
+                  "wrong": [
+                    "おやすみなさい",
+                    "おはようございます"
+                  ]
+                },
+                "extra": [],
+                "register": "Übliche Abendbegrüßung."
+              }
             },
             {
               "jp": "おやすみなさい",
               "romaji": "oyasuminasai",
               "de": "Gute Nacht",
               "approx": "o-ja-su-mi-na-sai",
-              "note": "Höfliche Standardform vor dem Schlafengehen."
+              "note": "Höfliche Standardform vor dem Schlafengehen.",
+              "detail": {
+                "kind": "Wendung vor dem Schlafen",
+                "usage": "Du wünschst jemandem eine gute Nacht, besonders beim Schlafengehen.",
+                "explain": "おやすみ ist die kürzere, vertrautere Form. Mit なさい lautet die übliche längere Wendung おやすみなさい. Lerne sie als zusammengehörigen Ausdruck, nicht als selbst gebildeten Befehl.",
+                "pitfall": "Verwende diese Wendung nicht einfach als Ersatz für jede Abendbegrüßung.",
+                "parts": [
+                  [
+                    "おやすみ",
+                    "Gute Nacht · vertraut"
+                  ],
+                  [
+                    "なさい",
+                    "Teil der längeren Standardform"
+                  ]
+                ],
+                "scenario": {
+                  "question": "Welche Situation passt am besten?",
+                  "correct": "Jemand geht schlafen.",
+                  "wrong": [
+                    "Du begrüßt jemanden morgens.",
+                    "Du nennst deine Nationalität."
+                  ]
+                },
+                "extra": [],
+                "register": "Längere Standardform; おやすみ ist vertrauter."
+              }
             }
           ],
           "speech": [
@@ -654,7 +1146,20 @@
           ],
           "id": "1:1",
           "origin": "legacy",
-          "stage": "Einstieg"
+          "stage": "Einstieg",
+          "goal": "Begrüßungen nach Tageszeit und Situation auswählen.",
+          "study_guide": {
+            "revision": 1,
+            "prerequisites": [
+              "1:0"
+            ],
+            "points": [
+              "おはようございます (ohayō gozaimasu) ist der höfliche Morgengruß. Unter Freunden reicht oft おはよう (ohayō).",
+              "こんばんは (konbanwa) begrüßt am Abend. Wie bei konnichiwa wird das letzte は wa gelesen.",
+              "おやすみなさい (oyasuminasai) wünscht Gute Nacht, etwa vor dem Schlafengehen. Es ersetzt nicht automatisch den Gruß beim Ankommen am Abend."
+            ],
+            "recall": "Du kommst abends an, statt schlafen zu gehen. Welcher Gruß passt?"
+          }
         }
       ]
     },
@@ -672,28 +1177,140 @@
               "romaji": "watashi",
               "de": "ich",
               "approx": "wa-ta-schi",
-              "note": "Neutrales, höfliches ich. Oft kann es später weggelassen werden."
+              "note": "Neutrales, höfliches ich. Oft kann es später weggelassen werden.",
+              "detail": {
+                "kind": "Pronomen",
+                "usage": "Eine Möglichkeit, ich zu sagen; gut für höfliche Vorstellungen.",
+                "explain": "Sprich wa-ta-shi. Das w ähnelt eher dem englischen w als dem deutschen w. Japanisch lässt ein bereits klares Ich oft weg. Wiederhole わたし daher nicht mechanisch in jedem Satz.",
+                "pitfall": "Die deutsche Hilfe „wa“ ist keine Aufforderung, ein deutsches v/w zu sprechen. Hör auf die gerundete Anlautbewegung.",
+                "parts": [
+                  [
+                    "わ",
+                    "wa"
+                  ],
+                  [
+                    "た",
+                    "ta"
+                  ],
+                  [
+                    "し",
+                    "shi"
+                  ]
+                ],
+                "scenario": {
+                  "question": "Muss わたし in jedem japanischen Satz stehen?",
+                  "correct": "Nein, ein aus dem Zusammenhang klares Ich kann fehlen.",
+                  "wrong": [
+                    "Ja, immer am Satzanfang.",
+                    "Es bedeutet grundsätzlich du."
+                  ]
+                },
+                "extra": [],
+                "register": ""
+              }
             },
             {
               "jp": "は",
               "romaji": "wa",
               "de": "Themenpartikel: was … betrifft",
               "approx": "wa",
-              "note": "Das Zeichen heißt normalerweise ha, als Themenpartikel wird es wa gesprochen."
+              "note": "Das Zeichen heißt normalerweise ha, als Themenpartikel wird es wa gesprochen.",
+              "detail": {
+                "kind": "Partikel · Themenmarkierung",
+                "usage": "Markiert in dieser Lektion, worüber etwas gesagt wird.",
+                "explain": "Als einzelnes Hiragana heißt は ha. In der Funktion als Themenpartikel liest du es wa. Zum Beispiel: わたしは … = Was mich betrifft … . Die Partikel steht nach dem Thema.",
+                "pitfall": "Das Wort vor は nicht mit der Partikel verwechseln. は bedeutet nicht einfach „bin“ und wird als Themenpartikel nicht ha gesprochen.",
+                "parts": [
+                  [
+                    "は",
+                    "geschrieben ha · als Themenpartikel wa"
+                  ]
+                ],
+                "scenario": {
+                  "question": "Wie wird die Themenpartikel は gelesen?",
+                  "correct": "wa",
+                  "wrong": [
+                    "ha",
+                    "ba"
+                  ]
+                },
+                "extra": [],
+                "register": ""
+              }
             },
             {
               "jp": "です",
               "romaji": "desu",
               "de": "höfliche Satzendung, ungefähr bin / ist / sind",
               "approx": "de-su, das u oft sehr schwach",
-              "note": "Nicht exakt mit dem deutschen Verb sein gleichsetzen."
+              "note": "Nicht exakt mit dem deutschen Verb sein gleichsetzen.",
+              "detail": {
+                "kind": "Höfliche Satzendung",
+                "usage": "Steht beispielsweise nach einem Nomen und macht die Aussage höflich.",
+                "explain": "Bei わたしはがくせいです übersetzen wir sinngemäß: Ich bin Schüler oder Student. です ist aber nicht in jedem Satz ein deutsches sein. Verben bekommen ihre eigene höfliche Form.",
+                "pitfall": "Das u am Ende kann in natürlicher Aussprache sehr schwach oder stimmlos werden. Erzwinge weder ein stark betontes su noch eine starre „dess“-Regel.",
+                "parts": [
+                  [
+                    "で",
+                    "de"
+                  ],
+                  [
+                    "す",
+                    "su · u oft schwach"
+                  ]
+                ],
+                "scenario": {
+                  "question": "Welche Beschreibung passt zu です?",
+                  "correct": "Eine höfliche Endung in passenden Nominal- und Adjektivsätzen.",
+                  "wrong": [
+                    "Eine Endung, die an jedes deutsche Verb gehört.",
+                    "Immer ein direktes Wort für ich."
+                  ]
+                },
+                "extra": [],
+                "register": ""
+              }
             },
             {
               "jp": "わたしはがくせいです。",
               "romaji": "watashi wa gakusei desu",
               "de": "Ich bin Schüler / Student.",
               "approx": "wa-ta-schi wa ga-ku-see de-su",
-              "note": "Thema + Information + höfliche Satzendung."
+              "note": "Thema + Information + höfliche Satzendung.",
+              "detail": {
+                "kind": "Höflicher Aussagesatz",
+                "usage": "Eine einfache Vorstellung: Ich bin Schüler oder Student.",
+                "explain": "Zuerst kommt das Thema わたし, danach は. がくせい benennt Schüler oder Student, です schließt höflich ab. Das Wort Student allein sagt hier nichts über Geschlecht oder Alter aus.",
+                "pitfall": "は ist hier wa. Bei gakusei kann ei in der natürlichen Aussprache wie ein langes e klingen; die Umschrift bleibt gakusei.",
+                "parts": [
+                  [
+                    "わたし",
+                    "ich"
+                  ],
+                  [
+                    "は",
+                    "Thema · wa"
+                  ],
+                  [
+                    "がくせい",
+                    "Schüler / Student"
+                  ],
+                  [
+                    "です",
+                    "höflicher Abschluss"
+                  ]
+                ],
+                "scenario": {
+                  "question": "Welcher Bestandteil benennt Schüler oder Student?",
+                  "correct": "がくせい",
+                  "wrong": [
+                    "は",
+                    "です"
+                  ]
+                },
+                "extra": [],
+                "register": ""
+              }
             }
           ],
           "speech": [
@@ -710,7 +1327,21 @@
           ],
           "id": "2:0",
           "origin": "legacy",
-          "stage": "Erste Sätze"
+          "stage": "Erste Sätze",
+          "goal": "Mit Thema + Aussage + です einen einfachen höflichen Satz bilden.",
+          "study_guide": {
+            "revision": 1,
+            "prerequisites": [
+              "1:0",
+              "v11:kana-k"
+            ],
+            "points": [
+              "わたし (watashi) heißt ich. がくせい (gakusei) bedeutet Schüler oder Student. In わたしはがくせいです (watashi wa gakusei desu) ist watashi das Thema und gakusei die Aussage dazu.",
+              "Die Themenpartikel は wird wa gelesen. Sie steht nach dem Thema. です (desu) beendet diese Art Aussage höflich; es ist nicht ein beliebig einsetzbares Wort für sein.",
+              "Wenn aus der Situation klar ist, um wen es geht, kann わたしは fehlen. Lerne zunächst das vollständige Muster und danach die kurze Form がくせいです (gakusei desu)."
+            ],
+            "recall": "Ordne watashi, wa, gakusei und desu zu einer höflichen Aussage."
+          }
         },
         {
           "title": "Nationalität",
@@ -721,21 +1352,111 @@
               "romaji": "doitsu",
               "de": "Deutschland",
               "approx": "do-i-tsu",
-              "note": "Katakana wird häufig für ausländische Namen verwendet."
+              "note": "Katakana wird häufig für ausländische Namen verwendet.",
+              "detail": {
+                "kind": "Ländername · Katakana",
+                "usage": "Der japanische Name für Deutschland.",
+                "explain": "Sprich do-i-tsu in drei Takten. Ausländische Namen werden oft mit Katakana geschrieben. Katakana ist kein zusätzlicher Satz aus anderen Lauten, sondern eine andere Schrift für weitgehend dieselben Lautkombinationen.",
+                "pitfall": "Das Wort nicht wie das deutsche „Deutsch“ zusammenziehen. ツ steht hier für tsu.",
+                "parts": [
+                  [
+                    "ド",
+                    "do"
+                  ],
+                  [
+                    "イ",
+                    "i"
+                  ],
+                  [
+                    "ツ",
+                    "tsu"
+                  ]
+                ],
+                "scenario": {
+                  "question": "Was bezeichnet ドイツ?",
+                  "correct": "Deutschland.",
+                  "wrong": [
+                    "Die deutsche Sprache in jedem Zusammenhang.",
+                    "Die Zahl drei."
+                  ]
+                },
+                "extra": [],
+                "register": ""
+              }
             },
             {
               "jp": "ドイツじん",
               "romaji": "doitsu-jin",
               "de": "Deutscher / Deutsche",
               "approx": "do-i-tsu-dschin",
-              "note": "～じん nach einem Land bezeichnet die Nationalität."
+              "note": "～じん nach einem Land bezeichnet die Nationalität.",
+              "detail": {
+                "kind": "Nationalitätsbezeichnung",
+                "usage": "Eine Person deutscher Nationalität: Deutscher oder Deutsche.",
+                "explain": "An den Ländernamen ドイツ wird じん angehängt. Dieses jin bedeutet hier eine Person dieser Nationalität. Für die deutsche Sprache wird eine andere Endung verwendet; das ist nicht dieselbe Sache.",
+                "pitfall": "じん (Person/Nationalität) nicht mit einer Sprachbezeichnung gleichsetzen.",
+                "parts": [
+                  [
+                    "ドイツ",
+                    "Deutschland"
+                  ],
+                  [
+                    "じん",
+                    "Person dieser Nationalität"
+                  ]
+                ],
+                "scenario": {
+                  "question": "Was fügt じん an einen Ländernamen an?",
+                  "correct": "Eine Bezeichnung für eine Person dieser Nationalität.",
+                  "wrong": [
+                    "Die Zahl der Städte.",
+                    "Eine Vergangenheitsform."
+                  ]
+                },
+                "extra": [],
+                "register": ""
+              }
             },
             {
               "jp": "わたしはドイツじんです。",
               "romaji": "watashi wa doitsu-jin desu",
               "de": "Ich bin Deutscher / Deutsche.",
               "approx": "wa-ta-schi wa do-i-tsu-dschin de-su",
-              "note": "Ein nützliches Vorstellungsmuster."
+              "note": "Ein nützliches Vorstellungsmuster.",
+              "detail": {
+                "kind": "Höflicher Aussagesatz",
+                "usage": "Du nennst deine Nationalität.",
+                "explain": "Das Satzmuster ist dasselbe wie bei Ich bin Student: Thema + は + Information + です. Es gibt hier keine eigene weibliche oder männliche Verbform.",
+                "pitfall": "Nicht jedes deutsche Wort eins zu eins einsetzen. Die Information ドイツじん bleibt vor です.",
+                "parts": [
+                  [
+                    "わたし",
+                    "ich"
+                  ],
+                  [
+                    "は",
+                    "Thema"
+                  ],
+                  [
+                    "ドイツじん",
+                    "Deutscher / Deutsche"
+                  ],
+                  [
+                    "です",
+                    "höflich"
+                  ]
+                ],
+                "scenario": {
+                  "question": "Welche Information nennt der Satz?",
+                  "correct": "Die Nationalität der sprechenden Person.",
+                  "wrong": [
+                    "Den Wohnort des Lehrers.",
+                    "Eine Bestellung im Café."
+                  ]
+                },
+                "extra": [],
+                "register": ""
+              }
             }
           ],
           "speech": [
@@ -752,7 +1473,21 @@
           ],
           "id": "2:1",
           "origin": "legacy",
-          "stage": "Erste Sätze"
+          "stage": "Erste Sätze",
+          "goal": "Ein Land und die Nationalität einer Person unterscheiden.",
+          "study_guide": {
+            "revision": 1,
+            "prerequisites": [
+              "2:0",
+              "11:0"
+            ],
+            "points": [
+              "ドイツ (Doitsu) ist das Land Deutschland. ドイツじん (Doitsu-jin) bezeichnet eine deutsche Person. じん (jin) wird hier an den Ländernamen angehängt.",
+              "わたしはドイツじんです (watashi wa Doitsu-jin desu) heißt Ich bin deutsch. Das Muster aus der vorherigen Lektion bleibt gleich; du tauschst nur die Aussage aus.",
+              "Nicht jede Information über eine Person ist ihre Nationalität. Mit diesem Satz sagst du noch nicht, wo sie gerade wohnt oder welche Sprache sie spricht."
+            ],
+            "recall": "Welche Form brauchst du für die Person: Doitsu oder Doitsu-jin?"
+          }
         }
       ]
     },
@@ -770,21 +1505,103 @@
               "romaji": "ka",
               "de": "Fragepartikel am Satzende",
               "approx": "ka",
-              "note": "In höflicher Sprache macht か einen Satz häufig zur Frage."
+              "note": "In höflicher Sprache macht か einen Satz häufig zur Frage.",
+              "detail": {
+                "kind": "Partikel · Frage am Satzende",
+                "usage": "In dieser Lektion kennzeichnet か eine höfliche Frage.",
+                "explain": "Die Frage entsteht oft aus derselben Wortfolge wie die Aussage, ergänzt um か am Ende. In lockeren Gesprächen gibt es weitere Arten zu fragen; hier beginnen wir mit dem höflichen Grundmuster.",
+                "pitfall": "か nicht an den Satzanfang verschieben. Es ersetzt auch kein deutsches Fragewort wie wo.",
+                "parts": [
+                  [
+                    "か",
+                    "ka · Fragepartikel"
+                  ]
+                ],
+                "scenario": {
+                  "question": "Wo steht das Frage-か im gelernten Muster?",
+                  "correct": "Am Satzende.",
+                  "wrong": [
+                    "Vor dem ersten Wort.",
+                    "Nur mitten im Ländernamen."
+                  ]
+                },
+                "extra": [],
+                "register": ""
+              }
             },
             {
               "jp": "がくせいですか。",
               "romaji": "gakusei desu ka",
               "de": "Bist du / Sind Sie Schüler oder Student?",
               "approx": "ga-ku-see de-su ka",
-              "note": "Das Pronomen du/Sie kann fehlen, wenn es aus der Situation klar ist."
+              "note": "Das Pronomen du/Sie kann fehlen, wenn es aus der Situation klar ist.",
+              "detail": {
+                "kind": "Höfliche Ja-/Nein-Frage",
+                "usage": "Du fragst, ob die angesprochene Person Schüler oder Student ist.",
+                "explain": "がくせいです ist eine Aussage. Mit か wird daraus eine Frage. Du oder Sie muss nicht ausdrücklich stehen, wenn aus dem Gespräch klar ist, wer gefragt wird.",
+                "pitfall": "ですか ist nicht die Vergangenheitsform. Es macht diese Aussage zur höflichen Frage.",
+                "parts": [
+                  [
+                    "がくせい",
+                    "Schüler / Student"
+                  ],
+                  [
+                    "です",
+                    "höflich"
+                  ],
+                  [
+                    "か",
+                    "Frage"
+                  ]
+                ],
+                "scenario": {
+                  "question": "Wodurch unterscheidet sich die Frage von der Aussage?",
+                  "correct": "Durch か am Ende.",
+                  "wrong": [
+                    "Durch eine andere Reihenfolge aller Wörter.",
+                    "Durch eine besondere Form von ich."
+                  ]
+                },
+                "extra": [],
+                "register": ""
+              }
             },
             {
               "jp": "はい、そうです。",
               "romaji": "hai, sō desu",
               "de": "Ja, das stimmt / Ja, so ist es.",
               "approx": "hai, soo de-su",
-              "note": "Natürliche kurze Bestätigung."
+              "note": "Natürliche kurze Bestätigung.",
+              "detail": {
+                "kind": "Kurze Bestätigung",
+                "usage": "Eine bejahende Bestätigung: Ja, so ist es / das stimmt.",
+                "explain": "はい ist die Rückmeldung Ja. そう bedeutet hier so, und です beendet den Satz höflich. Das ō in sō ist lang.",
+                "pitfall": "そう nicht mit einem kurzen so abkürzen. Eine passende Übersetzung richtet sich nach der Frage davor.",
+                "parts": [
+                  [
+                    "はい",
+                    "ja"
+                  ],
+                  [
+                    "そう",
+                    "so"
+                  ],
+                  [
+                    "です",
+                    "höflich"
+                  ]
+                ],
+                "scenario": {
+                  "question": "Wie reagiert diese Wendung auf eine passende Aussage oder Frage?",
+                  "correct": "Sie bestätigt sie.",
+                  "wrong": [
+                    "Sie fragt nach dem Preis.",
+                    "Sie bedeutet grundsätzlich nein."
+                  ]
+                },
+                "extra": [],
+                "register": ""
+              }
             }
           ],
           "speech": [
@@ -809,7 +1626,21 @@
           ],
           "id": "3:0",
           "origin": "legacy",
-          "stage": "Erste Sätze"
+          "stage": "Erste Sätze",
+          "goal": "Aus einer höflichen Aussage eine Ja-/Nein-Frage bilden und bestätigen.",
+          "study_guide": {
+            "revision": 1,
+            "prerequisites": [
+              "2:0",
+              "2:1"
+            ],
+            "points": [
+              "がくせいです (gakusei desu) ist eine Aussage. Mit か (ka) am Ende entsteht がくせいですか (gakusei desu ka), Bist du Schüler oder Student? Die Wortreihenfolge bleibt gleich.",
+              "はい、そうです (hai, sō desu) bestätigt: Ja, das stimmt. そう (sō) bedeutet hier so / so ist es und hat einen langen o-Laut.",
+              "Das Thema kann fehlen, wenn klar ist, wen du fragst. Verwechsle diese Fragepartikel か nicht mit は (wa), das vorher das Thema markiert."
+            ],
+            "recall": "Mache aus ドイツじんです eine Frage und antworte bestätigend."
+          }
         }
       ]
     },
@@ -827,28 +1658,108 @@
               "romaji": "a i u e o",
               "de": "Vokalreihe",
               "approx": "a i u e o",
-              "note": "Grundlage der Silbenschrift."
+              "note": "Grundlage der Silbenschrift.",
+              "detail": {
+                "kind": "Zeichen lesen",
+                "usage": "Diese Zeichenfolge lesen und den Lauten zuordnen.",
+                "explain": "Die Spalten folgen immer a, i, u, e, o. K-Reihe: か ka, き ki, く ku, け ke, こ ko. S-Reihe: さ sa, し shi, す su, せ se, そ so. Merke besonders し = shi, nicht si in der hier verwendeten Romaji-Schreibweise. Die Leerzeichen trennen in den Reihen einzelne Zeichen als Lernhilfe. Im Wort すし (sushi) stehen す und し direkt nebeneinander.",
+                "register": "Lesetraining; die Reihe ist kein Gesprächssatz.",
+                "parts": [],
+                "extra": [],
+                "pitfall": "Beachte die Größe der Zeichen und die Zusatzstriche.",
+                "scenario": {
+                  "question": "Welche Lesung passt zur Zeichenfolge „あ い う え お“?",
+                  "correct": "a i u e o",
+                  "wrong": [
+                    "ka ki ku ke ko",
+                    "sa shi su se so",
+                    "sushi"
+                  ]
+                }
+              }
             },
             {
               "jp": "か き く け こ",
               "romaji": "ka ki ku ke ko",
               "de": "K-Reihe",
               "approx": "ka ki ku ke ko",
-              "note": "Regelmäßige Kombination mit k."
+              "note": "Regelmäßige Kombination mit k.",
+              "detail": {
+                "kind": "Zeichen lesen",
+                "usage": "Diese Zeichenfolge lesen und den Lauten zuordnen.",
+                "explain": "Die Spalten folgen immer a, i, u, e, o. K-Reihe: か ka, き ki, く ku, け ke, こ ko. S-Reihe: さ sa, し shi, す su, せ se, そ so. Merke besonders し = shi, nicht si in der hier verwendeten Romaji-Schreibweise. Die Leerzeichen trennen in den Reihen einzelne Zeichen als Lernhilfe. Im Wort すし (sushi) stehen す und し direkt nebeneinander.",
+                "register": "Lesetraining; die Reihe ist kein Gesprächssatz.",
+                "parts": [],
+                "extra": [],
+                "pitfall": "Beachte die Größe der Zeichen und die Zusatzstriche.",
+                "scenario": {
+                  "question": "Welche Lesung passt zur Zeichenfolge „か き く け こ“?",
+                  "correct": "ka ki ku ke ko",
+                  "wrong": [
+                    "a i u e o",
+                    "sa shi su se so",
+                    "sushi"
+                  ]
+                }
+              }
             },
             {
               "jp": "さ し す せ そ",
               "romaji": "sa shi su se so",
               "de": "S-Reihe",
               "approx": "sa schi su se so",
-              "note": "Wichtig: し = shi, nicht si."
+              "note": "Wichtig: し = shi, nicht si.",
+              "detail": {
+                "kind": "Zeichen lesen",
+                "usage": "Diese Zeichenfolge lesen und den Lauten zuordnen.",
+                "explain": "Die Spalten folgen immer a, i, u, e, o. K-Reihe: か ka, き ki, く ku, け ke, こ ko. S-Reihe: さ sa, し shi, す su, せ se, そ so. Merke besonders し = shi, nicht si in der hier verwendeten Romaji-Schreibweise. Die Leerzeichen trennen in den Reihen einzelne Zeichen als Lernhilfe. Im Wort すし (sushi) stehen す und し direkt nebeneinander.",
+                "register": "Lesetraining; die Reihe ist kein Gesprächssatz.",
+                "parts": [],
+                "extra": [],
+                "pitfall": "Beachte die Größe der Zeichen und die Zusatzstriche.",
+                "scenario": {
+                  "question": "Welche Lesung passt zur Zeichenfolge „さ し す せ そ“?",
+                  "correct": "sa shi su se so",
+                  "wrong": [
+                    "a i u e o",
+                    "ka ki ku ke ko",
+                    "sushi"
+                  ]
+                }
+              }
             },
             {
               "jp": "すし",
               "romaji": "sushi",
               "de": "Sushi",
               "approx": "su-schi",
-              "note": "Zwei gleichmäßige Takte."
+              "note": "Zwei gleichmäßige Takte.",
+              "detail": {
+                "kind": "Nomen · Speise",
+                "usage": "Sushi, eine Speisebezeichnung.",
+                "explain": "Die Zeichen aus der S-Reihe werden zu einem Wort verbunden: su-shi. Die Umschrift shi steht nicht für si. Die Schreibweise 寿司 kann von der Spracherkennung zurückkommen.",
+                "pitfall": "Das u kann in natürlicher Rede schwach sein. Der Test ist kein verlässlicher Richter über diese feinen Lautunterschiede.",
+                "parts": [
+                  [
+                    "す",
+                    "su"
+                  ],
+                  [
+                    "し",
+                    "shi"
+                  ]
+                ],
+                "scenario": {
+                  "question": "Wie wird し in すし gelesen?",
+                  "correct": "shi",
+                  "wrong": [
+                    "chi",
+                    "ki"
+                  ]
+                },
+                "extra": [],
+                "register": ""
+              }
             }
           ],
           "speech": [
@@ -865,7 +1776,21 @@
           ],
           "id": "4:0",
           "origin": "legacy",
-          "stage": "Schrift"
+          "stage": "Schrift",
+          "goal": "Vokal-, K- und S-Reihe systematisch lesen.",
+          "study_guide": {
+            "revision": 1,
+            "prerequisites": [
+              "0:0",
+              "v11:learning-help"
+            ],
+            "points": [
+              "Die Spalten folgen immer a, i, u, e, o. K-Reihe: か ka, き ki, く ku, け ke, こ ko.",
+              "S-Reihe: さ sa, し shi, す su, せ se, そ so. Merke besonders し = shi, nicht si in der hier verwendeten Romaji-Schreibweise.",
+              "Die Leerzeichen trennen in den Reihen einzelne Zeichen als Lernhilfe. Im Wort すし (sushi) stehen す und し direkt nebeneinander."
+            ],
+            "recall": "Lies か, こ und し einzeln, danach すし als Wort."
+          }
         },
         {
           "title": "T- und N-Reihe",
@@ -876,21 +1801,81 @@
               "romaji": "ta chi tsu te to",
               "de": "T-Reihe",
               "approx": "ta tschi tsu te to",
-              "note": "Zwei wichtige Ausnahmen: ち = chi und つ = tsu."
+              "note": "Zwei wichtige Ausnahmen: ち = chi und つ = tsu.",
+              "detail": {
+                "kind": "Zeichen lesen",
+                "usage": "Diese Zeichenfolge lesen und den Lauten zuordnen.",
+                "explain": "T-Reihe: た ta, ち chi, つ tsu, て te, と to. Besonders chi und tsu unterscheiden sich von einer regelmäßigen ti-/tu-Reihe. N-Reihe: な na, に ni, ぬ nu, ね ne, の no. Das sind ganze Lautzeichen; ん ist dagegen ein eigener n-Takt ohne folgenden Vokal. なつ (natsu, Sommer) besteht aus な und normal großem つ. Hier sprichst du tsu; nur das kleine っ kennzeichnet eine Pause.",
+                "register": "Lesetraining; die Reihe ist kein Gesprächssatz.",
+                "parts": [],
+                "extra": [],
+                "pitfall": "Beachte die Größe der Zeichen und die Zusatzstriche.",
+                "scenario": {
+                  "question": "Welche Lesung passt zur Zeichenfolge „た ち つ て と“?",
+                  "correct": "ta chi tsu te to",
+                  "wrong": [
+                    "na ni nu ne no",
+                    "natsu"
+                  ]
+                }
+              }
             },
             {
               "jp": "な に ぬ ね の",
               "romaji": "na ni nu ne no",
               "de": "N-Reihe",
               "approx": "na ni nu ne no",
-              "note": "Diese Reihe ist regelmäßig."
+              "note": "Diese Reihe ist regelmäßig.",
+              "detail": {
+                "kind": "Zeichen lesen",
+                "usage": "Diese Zeichenfolge lesen und den Lauten zuordnen.",
+                "explain": "T-Reihe: た ta, ち chi, つ tsu, て te, と to. Besonders chi und tsu unterscheiden sich von einer regelmäßigen ti-/tu-Reihe. N-Reihe: な na, に ni, ぬ nu, ね ne, の no. Das sind ganze Lautzeichen; ん ist dagegen ein eigener n-Takt ohne folgenden Vokal. なつ (natsu, Sommer) besteht aus な und normal großem つ. Hier sprichst du tsu; nur das kleine っ kennzeichnet eine Pause.",
+                "register": "Lesetraining; die Reihe ist kein Gesprächssatz.",
+                "parts": [],
+                "extra": [],
+                "pitfall": "Beachte die Größe der Zeichen und die Zusatzstriche.",
+                "scenario": {
+                  "question": "Welche Lesung passt zur Zeichenfolge „な に ぬ ね の“?",
+                  "correct": "na ni nu ne no",
+                  "wrong": [
+                    "ta chi tsu te to",
+                    "natsu"
+                  ]
+                }
+              }
             },
             {
               "jp": "なつ",
               "romaji": "natsu",
               "de": "Sommer",
               "approx": "na-tsu",
-              "note": "Zwei klare Takte."
+              "note": "Zwei klare Takte.",
+              "detail": {
+                "kind": "Nomen · Jahreszeit",
+                "usage": "Sommer als Jahreszeit.",
+                "explain": "Verbinde na und tsu. Beim tsu beginnt der Laut mit einem kurzen t-Verschluss und geht in s über. Danach folgt der u-Laut. Übe erst ruhig, dann in normalem Rhythmus.",
+                "pitfall": "つ nicht einfach wie deutsches zu oder wie su lesen.",
+                "parts": [
+                  [
+                    "な",
+                    "na"
+                  ],
+                  [
+                    "つ",
+                    "tsu"
+                  ]
+                ],
+                "scenario": {
+                  "question": "Welche Lesung hat つ?",
+                  "correct": "tsu",
+                  "wrong": [
+                    "chi",
+                    "shi"
+                  ]
+                },
+                "extra": [],
+                "register": ""
+              }
             }
           ],
           "speech": [
@@ -906,7 +1891,20 @@
           ],
           "id": "4:1",
           "origin": "legacy",
-          "stage": "Schrift"
+          "stage": "Schrift",
+          "goal": "T- und N-Reihe lesen und unregelmäßige Lesungen erkennen.",
+          "study_guide": {
+            "revision": 1,
+            "prerequisites": [
+              "4:0"
+            ],
+            "points": [
+              "T-Reihe: た ta, ち chi, つ tsu, て te, と to. Besonders chi und tsu unterscheiden sich von einer regelmäßigen ti-/tu-Reihe.",
+              "N-Reihe: な na, に ni, ぬ nu, ね ne, の no. Das sind ganze Lautzeichen; ん ist dagegen ein eigener n-Takt ohne folgenden Vokal.",
+              "なつ (natsu, Sommer) besteht aus な und normal großem つ. Hier sprichst du tsu; nur das kleine っ kennzeichnet eine Pause."
+            ],
+            "recall": "Was unterscheidet つ von っ? Lies dann なつ."
+          }
         }
       ]
     },
@@ -1187,35 +2185,130 @@
               "romaji": "ha hi fu he ho",
               "de": "H-Reihe",
               "approx": "ha hi fu he ho",
-              "note": "ふ wird fu gesprochen; へ wird als Partikel später oft e gesprochen."
+              "note": "ふ wird fu gesprochen; へ wird als Partikel später oft e gesprochen.",
+              "detail": {
+                "kind": "Zeichen lesen",
+                "usage": "Diese Zeichenfolge lesen und den Lauten zuordnen.",
+                "explain": "H-Reihe: は ha, ひ hi, ふ fu, へ he, ほ ho. Bei ふ berühren die oberen Zähne nicht wie beim deutschen f die Unterlippe. M-Reihe: ま ma, み mi, む mu, め me, も mo. Y-Reihe: や ya, ゆ yu, よ yo. R-Reihe: ら ra, り ri, る ru, れ re, ろ ro; höre den kurzen Zungenschlag in der Vorlage. わ = wa, を wird als Partikel o gelesen, ん = n. は liest man als Zeichen ha, als Themenpartikel später wa. Das sind unterschiedliche Verwendungen desselben Zeichens.",
+                "register": "Lesetraining; die Reihe ist kein Gesprächssatz.",
+                "parts": [],
+                "extra": [],
+                "pitfall": "Beachte die Größe der Zeichen und die Zusatzstriche.",
+                "scenario": {
+                  "question": "Welche Lesung passt zur Zeichenfolge „は ひ ふ へ ほ“?",
+                  "correct": "ha hi fu he ho",
+                  "wrong": [
+                    "ma mi mu me mo",
+                    "ya yu yo",
+                    "ra ri ru re ro",
+                    "wa o n"
+                  ]
+                }
+              }
             },
             {
               "jp": "ま み む め も",
               "romaji": "ma mi mu me mo",
               "de": "M-Reihe",
               "approx": "ma mi mu me mo",
-              "note": "Regelmäßige M-Reihe."
+              "note": "Regelmäßige M-Reihe.",
+              "detail": {
+                "kind": "Zeichen lesen",
+                "usage": "Diese Zeichenfolge lesen und den Lauten zuordnen.",
+                "explain": "H-Reihe: は ha, ひ hi, ふ fu, へ he, ほ ho. Bei ふ berühren die oberen Zähne nicht wie beim deutschen f die Unterlippe. M-Reihe: ま ma, み mi, む mu, め me, も mo. Y-Reihe: や ya, ゆ yu, よ yo. R-Reihe: ら ra, り ri, る ru, れ re, ろ ro; höre den kurzen Zungenschlag in der Vorlage. わ = wa, を wird als Partikel o gelesen, ん = n. は liest man als Zeichen ha, als Themenpartikel später wa. Das sind unterschiedliche Verwendungen desselben Zeichens.",
+                "register": "Lesetraining; die Reihe ist kein Gesprächssatz.",
+                "parts": [],
+                "extra": [],
+                "pitfall": "Beachte die Größe der Zeichen und die Zusatzstriche.",
+                "scenario": {
+                  "question": "Welche Lesung passt zur Zeichenfolge „ま み む め も“?",
+                  "correct": "ma mi mu me mo",
+                  "wrong": [
+                    "ha hi fu he ho",
+                    "ya yu yo",
+                    "ra ri ru re ro",
+                    "wa o n"
+                  ]
+                }
+              }
             },
             {
               "jp": "や ゆ よ",
               "romaji": "ya yu yo",
               "de": "Y-Reihe",
               "approx": "ja ju jo",
-              "note": "Nur ya, yu und yo; yi/ye gibt es in der Grundreihe nicht."
+              "note": "Nur ya, yu und yo; yi/ye gibt es in der Grundreihe nicht.",
+              "detail": {
+                "kind": "Zeichen lesen",
+                "usage": "Diese Zeichenfolge lesen und den Lauten zuordnen.",
+                "explain": "H-Reihe: は ha, ひ hi, ふ fu, へ he, ほ ho. Bei ふ berühren die oberen Zähne nicht wie beim deutschen f die Unterlippe. M-Reihe: ま ma, み mi, む mu, め me, も mo. Y-Reihe: や ya, ゆ yu, よ yo. R-Reihe: ら ra, り ri, る ru, れ re, ろ ro; höre den kurzen Zungenschlag in der Vorlage. わ = wa, を wird als Partikel o gelesen, ん = n. は liest man als Zeichen ha, als Themenpartikel später wa. Das sind unterschiedliche Verwendungen desselben Zeichens.",
+                "register": "Lesetraining; die Reihe ist kein Gesprächssatz.",
+                "parts": [],
+                "extra": [],
+                "pitfall": "Beachte die Größe der Zeichen und die Zusatzstriche.",
+                "scenario": {
+                  "question": "Welche Lesung passt zur Zeichenfolge „や ゆ よ“?",
+                  "correct": "ya yu yo",
+                  "wrong": [
+                    "ha hi fu he ho",
+                    "ma mi mu me mo",
+                    "ra ri ru re ro",
+                    "wa o n"
+                  ]
+                }
+              }
             },
             {
               "jp": "ら り る れ ろ",
               "romaji": "ra ri ru re ro",
               "de": "R-Reihe",
               "approx": "ra ri ru re ro",
-              "note": "Das japanische r liegt klanglich zwischen deutschem r und l; die Zungenspitze tippt kurz an."
+              "note": "Das japanische r liegt klanglich zwischen deutschem r und l; die Zungenspitze tippt kurz an.",
+              "detail": {
+                "kind": "Zeichen lesen",
+                "usage": "Diese Zeichenfolge lesen und den Lauten zuordnen.",
+                "explain": "H-Reihe: は ha, ひ hi, ふ fu, へ he, ほ ho. Bei ふ berühren die oberen Zähne nicht wie beim deutschen f die Unterlippe. M-Reihe: ま ma, み mi, む mu, め me, も mo. Y-Reihe: や ya, ゆ yu, よ yo. R-Reihe: ら ra, り ri, る ru, れ re, ろ ro; höre den kurzen Zungenschlag in der Vorlage. わ = wa, を wird als Partikel o gelesen, ん = n. は liest man als Zeichen ha, als Themenpartikel später wa. Das sind unterschiedliche Verwendungen desselben Zeichens.",
+                "register": "Lesetraining; die Reihe ist kein Gesprächssatz.",
+                "parts": [],
+                "extra": [],
+                "pitfall": "Beachte die Größe der Zeichen und die Zusatzstriche.",
+                "scenario": {
+                  "question": "Welche Lesung passt zur Zeichenfolge „ら り る れ ろ“?",
+                  "correct": "ra ri ru re ro",
+                  "wrong": [
+                    "ha hi fu he ho",
+                    "ma mi mu me mo",
+                    "ya yu yo",
+                    "wa o n"
+                  ]
+                }
+              }
             },
             {
               "jp": "わ を ん",
               "romaji": "wa o n",
               "de": "W-Reihe und n",
               "approx": "wa o n",
-              "note": "を wird als Partikel meist o gesprochen; ん ist ein eigener Sprechtakt."
+              "note": "を wird als Partikel meist o gesprochen; ん ist ein eigener Sprechtakt.",
+              "detail": {
+                "kind": "Zeichen lesen",
+                "usage": "Diese Zeichenfolge lesen und den Lauten zuordnen.",
+                "explain": "H-Reihe: は ha, ひ hi, ふ fu, へ he, ほ ho. Bei ふ berühren die oberen Zähne nicht wie beim deutschen f die Unterlippe. M-Reihe: ま ma, み mi, む mu, め me, も mo. Y-Reihe: や ya, ゆ yu, よ yo. R-Reihe: ら ra, り ri, る ru, れ re, ろ ro; höre den kurzen Zungenschlag in der Vorlage. わ = wa, を wird als Partikel o gelesen, ん = n. は liest man als Zeichen ha, als Themenpartikel später wa. Das sind unterschiedliche Verwendungen desselben Zeichens.",
+                "register": "Lesetraining; die Reihe ist kein Gesprächssatz.",
+                "parts": [],
+                "extra": [],
+                "pitfall": "Beachte die Größe der Zeichen und die Zusatzstriche.",
+                "scenario": {
+                  "question": "Welche Lesung passt zur Zeichenfolge „わ を ん“?",
+                  "correct": "wa o n",
+                  "wrong": [
+                    "ha hi fu he ho",
+                    "ma mi mu me mo",
+                    "ya yu yo",
+                    "ra ri ru re ro"
+                  ]
+                }
+              }
             }
           ],
           "speech": [
@@ -1238,7 +2331,20 @@
           ],
           "id": "10:0",
           "origin": "legacy",
-          "stage": "Schrift"
+          "stage": "Schrift",
+          "goal": "Die übrigen Grundreihen lesen und Sonderfälle einordnen.",
+          "study_guide": {
+            "revision": 1,
+            "prerequisites": [
+              "4:1"
+            ],
+            "points": [
+              "H-Reihe: は ha, ひ hi, ふ fu, へ he, ほ ho. Bei ふ berühren die oberen Zähne nicht wie beim deutschen f die Unterlippe. M-Reihe: ま ma, み mi, む mu, め me, も mo.",
+              "Y-Reihe: や ya, ゆ yu, よ yo. R-Reihe: ら ra, り ri, る ru, れ re, ろ ro; höre den kurzen Zungenschlag in der Vorlage.",
+              "わ = wa, を wird als Partikel o gelesen, ん = n. は liest man als Zeichen ha, als Themenpartikel später wa. Das sind unterschiedliche Verwendungen desselben Zeichens."
+            ],
+            "recall": "Erkenne ふ, ゆ, ろ und ん ohne die ganze Reihe aufzusagen."
+          }
         },
         {
           "title": "Dakuten, kleine や/ゆ/よ und っ",
@@ -1249,28 +2355,104 @@
               "romaji": "ga gi gu ge go",
               "de": "G-Reihe",
               "approx": "ga gi gu ge go",
-              "note": "Dakuten ゛ macht aus k häufig g."
+              "note": "Dakuten ゛ macht aus k häufig g.",
+              "detail": {
+                "kind": "Zeichen lesen",
+                "usage": "Diese Zeichenfolge lesen und den Lauten zuordnen.",
+                "explain": "Zwei Striche heißen Dakuten: か→が (ka→ga), さ→ざ (sa→za), た→だ (ta→da), は→ば (ha→ba). Dabei werden し→じ (shi→ji) und つ→づ (tsu→zu) besonders gelesen. Der kleine Kreis macht aus der H- die P-Reihe: ぱ pa, ぴ pi, ぷ pu, ぺ pe, ぽ po. Striche und Kreis sind bedeutungsentscheidend. Kleines ゃ verbindet sich etwa mit き zu きゃ (kya), einem Takt. Kleines っ markiert dagegen eine Pause: がっこう (gakkō, Schule) hat ga, Pause, ko, o.",
+                "register": "Lesetraining; die Reihe ist kein Gesprächssatz.",
+                "parts": [],
+                "extra": [],
+                "pitfall": "Beachte die Größe der Zeichen und die Zusatzstriche.",
+                "scenario": {
+                  "question": "Welche Lesung passt zur Zeichenfolge „が ぎ ぐ げ ご“?",
+                  "correct": "ga gi gu ge go",
+                  "wrong": [
+                    "za ji zu ze zo",
+                    "pa pi pu pe po",
+                    "kya kyu kyo",
+                    "gakkō"
+                  ]
+                }
+              }
             },
             {
               "jp": "ざ じ ず ぜ ぞ",
               "romaji": "za ji zu ze zo",
               "de": "Z-Reihe",
               "approx": "sa dschi su se so",
-              "note": "じ wird ji gesprochen; ず = zu."
+              "note": "じ wird ji gesprochen; ず = zu.",
+              "detail": {
+                "kind": "Zeichen lesen",
+                "usage": "Diese Zeichenfolge lesen und den Lauten zuordnen.",
+                "explain": "Zwei Striche heißen Dakuten: か→が (ka→ga), さ→ざ (sa→za), た→だ (ta→da), は→ば (ha→ba). Dabei werden し→じ (shi→ji) und つ→づ (tsu→zu) besonders gelesen. Der kleine Kreis macht aus der H- die P-Reihe: ぱ pa, ぴ pi, ぷ pu, ぺ pe, ぽ po. Striche und Kreis sind bedeutungsentscheidend. Kleines ゃ verbindet sich etwa mit き zu きゃ (kya), einem Takt. Kleines っ markiert dagegen eine Pause: がっこう (gakkō, Schule) hat ga, Pause, ko, o.",
+                "register": "Lesetraining; die Reihe ist kein Gesprächssatz.",
+                "parts": [],
+                "extra": [],
+                "pitfall": "Beachte die Größe der Zeichen und die Zusatzstriche.",
+                "scenario": {
+                  "question": "Welche Lesung passt zur Zeichenfolge „ざ じ ず ぜ ぞ“?",
+                  "correct": "za ji zu ze zo",
+                  "wrong": [
+                    "ga gi gu ge go",
+                    "pa pi pu pe po",
+                    "kya kyu kyo",
+                    "gakkō"
+                  ]
+                }
+              }
             },
             {
               "jp": "ぱ ぴ ぷ ぺ ぽ",
               "romaji": "pa pi pu pe po",
               "de": "P-Reihe",
               "approx": "pa pi pu pe po",
-              "note": "Handakuten ゜ macht aus h die P-Reihe."
+              "note": "Handakuten ゜ macht aus h die P-Reihe.",
+              "detail": {
+                "kind": "Zeichen lesen",
+                "usage": "Diese Zeichenfolge lesen und den Lauten zuordnen.",
+                "explain": "Zwei Striche heißen Dakuten: か→が (ka→ga), さ→ざ (sa→za), た→だ (ta→da), は→ば (ha→ba). Dabei werden し→じ (shi→ji) und つ→づ (tsu→zu) besonders gelesen. Der kleine Kreis macht aus der H- die P-Reihe: ぱ pa, ぴ pi, ぷ pu, ぺ pe, ぽ po. Striche und Kreis sind bedeutungsentscheidend. Kleines ゃ verbindet sich etwa mit き zu きゃ (kya), einem Takt. Kleines っ markiert dagegen eine Pause: がっこう (gakkō, Schule) hat ga, Pause, ko, o.",
+                "register": "Lesetraining; die Reihe ist kein Gesprächssatz.",
+                "parts": [],
+                "extra": [],
+                "pitfall": "Beachte die Größe der Zeichen und die Zusatzstriche.",
+                "scenario": {
+                  "question": "Welche Lesung passt zur Zeichenfolge „ぱ ぴ ぷ ぺ ぽ“?",
+                  "correct": "pa pi pu pe po",
+                  "wrong": [
+                    "ga gi gu ge go",
+                    "za ji zu ze zo",
+                    "kya kyu kyo",
+                    "gakkō"
+                  ]
+                }
+              }
             },
             {
               "jp": "きゃ きゅ きょ",
               "romaji": "kya kyu kyo",
               "de": "kombinierte Laute",
               "approx": "kja kju kjo",
-              "note": "Kleine や/ゆ/よ verbinden sich mit der vorherigen i-Silbe."
+              "note": "Kleine や/ゆ/よ verbinden sich mit der vorherigen i-Silbe.",
+              "detail": {
+                "kind": "Zeichen lesen",
+                "usage": "Diese Zeichenfolge lesen und den Lauten zuordnen.",
+                "explain": "Zwei Striche heißen Dakuten: か→が (ka→ga), さ→ざ (sa→za), た→だ (ta→da), は→ば (ha→ba). Dabei werden し→じ (shi→ji) und つ→づ (tsu→zu) besonders gelesen. Der kleine Kreis macht aus der H- die P-Reihe: ぱ pa, ぴ pi, ぷ pu, ぺ pe, ぽ po. Striche und Kreis sind bedeutungsentscheidend. Kleines ゃ verbindet sich etwa mit き zu きゃ (kya), einem Takt. Kleines っ markiert dagegen eine Pause: がっこう (gakkō, Schule) hat ga, Pause, ko, o.",
+                "register": "Lesetraining; die Reihe ist kein Gesprächssatz.",
+                "parts": [],
+                "extra": [],
+                "pitfall": "Beachte die Größe der Zeichen und die Zusatzstriche.",
+                "scenario": {
+                  "question": "Welche Lesung passt zur Zeichenfolge „きゃ きゅ きょ“?",
+                  "correct": "kya kyu kyo",
+                  "wrong": [
+                    "ga gi gu ge go",
+                    "za ji zu ze zo",
+                    "pa pi pu pe po",
+                    "gakkō"
+                  ]
+                }
+              }
             },
             {
               "jp": "がっこう",
@@ -1280,7 +2462,26 @@
               "note": "Das kleine っ verdoppelt den folgenden Konsonanten: gak-kō.",
               "example": "がっこうへいきます。",
               "example_romaji": "gakkō e ikimasu.",
-              "example_de": "Ich gehe zur Schule."
+              "example_de": "Ich gehe zur Schule.",
+              "detail": {
+                "kind": "Zeichen lesen",
+                "usage": "Diese Zeichenfolge lesen und den Lauten zuordnen.",
+                "explain": "Zwei Striche heißen Dakuten: か→が (ka→ga), さ→ざ (sa→za), た→だ (ta→da), は→ば (ha→ba). Dabei werden し→じ (shi→ji) und つ→づ (tsu→zu) besonders gelesen. Der kleine Kreis macht aus der H- die P-Reihe: ぱ pa, ぴ pi, ぷ pu, ぺ pe, ぽ po. Striche und Kreis sind bedeutungsentscheidend. Kleines ゃ verbindet sich etwa mit き zu きゃ (kya), einem Takt. Kleines っ markiert dagegen eine Pause: がっこう (gakkō, Schule) hat ga, Pause, ko, o.",
+                "register": "Lesetraining; die Reihe ist kein Gesprächssatz.",
+                "parts": [],
+                "extra": [],
+                "pitfall": "Beachte die Größe der Zeichen und die Zusatzstriche.",
+                "scenario": {
+                  "question": "Welche Lesung passt zur Zeichenfolge „がっこう“?",
+                  "correct": "gakkō",
+                  "wrong": [
+                    "ga gi gu ge go",
+                    "za ji zu ze zo",
+                    "pa pi pu pe po",
+                    "kya kyu kyo"
+                  ]
+                }
+              }
             }
           ],
           "speech": [
@@ -1305,7 +2506,21 @@
           ],
           "id": "10:1",
           "origin": "legacy",
-          "stage": "Schrift"
+          "stage": "Schrift",
+          "goal": "Zusatzzeichen, kleine Kana und Pausen unterscheiden.",
+          "study_guide": {
+            "revision": 1,
+            "prerequisites": [
+              "10:0",
+              "v11:small-tsu"
+            ],
+            "points": [
+              "Zwei Striche heißen Dakuten: か→が (ka→ga), さ→ざ (sa→za), た→だ (ta→da), は→ば (ha→ba). Dabei werden し→じ (shi→ji) und つ→づ (tsu→zu) besonders gelesen.",
+              "Der kleine Kreis macht aus der H- die P-Reihe: ぱ pa, ぴ pi, ぷ pu, ぺ pe, ぽ po. Striche und Kreis sind bedeutungsentscheidend.",
+              "Kleines ゃ verbindet sich etwa mit き zu きゃ (kya), einem Takt. Kleines っ markiert dagegen eine Pause: がっこう (gakkō, Schule) hat ga, Pause, ko, o."
+            ],
+            "recall": "Vergleiche は, ば und ぱ. Was ändert der Kreis gegenüber den Strichen?"
+          }
         }
       ]
     },
@@ -1323,14 +2538,52 @@
               "romaji": "a i u e o",
               "de": "Katakana-Vokale",
               "approx": "a i u e o",
-              "note": "Gleiche Laute wie Hiragana, andere Schriftform."
+              "note": "Gleiche Laute wie Hiragana, andere Schriftform.",
+              "detail": {
+                "kind": "Zeichen lesen",
+                "usage": "Diese Zeichenfolge lesen und den Lauten zuordnen.",
+                "explain": "Katakana stehen oft in Fremdwörtern. Sie bezeichnen Laute wie Hiragana: ア a, イ i, ウ u, エ e, オ o; カ ka, キ ki, ク ku, ケ ke, コ ko. Neue Zeichen für die Wörter: ゲ ge, ム mu, ヒ hi, ド do, ツ tsu. ゲーム (gēmu) heißt Spiel; コーヒー (kōhī) Kaffee; ドイツ (Doitsu) Deutschland. Der Strich ー verlängert den unmittelbar vorher gesprochenen Vokal. In コーヒー ist erst o, dann i lang.",
+                "register": "Lesetraining; die Reihe ist kein Gesprächssatz.",
+                "parts": [],
+                "extra": [],
+                "pitfall": "Beachte die Größe der Zeichen und die Zusatzstriche.",
+                "scenario": {
+                  "question": "Welche Lesung passt zur Zeichenfolge „ア イ ウ エ オ“?",
+                  "correct": "a i u e o",
+                  "wrong": [
+                    "ka ki ku ke ko",
+                    "gēmu",
+                    "kōhī",
+                    "Doitsu"
+                  ]
+                }
+              }
             },
             {
               "jp": "カ キ ク ケ コ",
               "romaji": "ka ki ku ke ko",
               "de": "Katakana K-Reihe",
               "approx": "ka ki ku ke ko",
-              "note": "Katakana wird oft für Fremdwörter verwendet."
+              "note": "Katakana wird oft für Fremdwörter verwendet.",
+              "detail": {
+                "kind": "Zeichen lesen",
+                "usage": "Diese Zeichenfolge lesen und den Lauten zuordnen.",
+                "explain": "Katakana stehen oft in Fremdwörtern. Sie bezeichnen Laute wie Hiragana: ア a, イ i, ウ u, エ e, オ o; カ ka, キ ki, ク ku, ケ ke, コ ko. Neue Zeichen für die Wörter: ゲ ge, ム mu, ヒ hi, ド do, ツ tsu. ゲーム (gēmu) heißt Spiel; コーヒー (kōhī) Kaffee; ドイツ (Doitsu) Deutschland. Der Strich ー verlängert den unmittelbar vorher gesprochenen Vokal. In コーヒー ist erst o, dann i lang.",
+                "register": "Lesetraining; die Reihe ist kein Gesprächssatz.",
+                "parts": [],
+                "extra": [],
+                "pitfall": "Beachte die Größe der Zeichen und die Zusatzstriche.",
+                "scenario": {
+                  "question": "Welche Lesung passt zur Zeichenfolge „カ キ ク ケ コ“?",
+                  "correct": "ka ki ku ke ko",
+                  "wrong": [
+                    "a i u e o",
+                    "gēmu",
+                    "kōhī",
+                    "Doitsu"
+                  ]
+                }
+              }
             },
             {
               "jp": "ゲーム",
@@ -1340,7 +2593,26 @@
               "note": "ー verlängert den vorherigen Vokal.",
               "example": "ゲームをします。",
               "example_romaji": "gēmu o shimasu.",
-              "example_de": "Ich spiele ein Spiel."
+              "example_de": "Ich spiele ein Spiel.",
+              "detail": {
+                "kind": "Zeichen lesen",
+                "usage": "Diese Zeichenfolge lesen und den Lauten zuordnen.",
+                "explain": "Katakana stehen oft in Fremdwörtern. Sie bezeichnen Laute wie Hiragana: ア a, イ i, ウ u, エ e, オ o; カ ka, キ ki, ク ku, ケ ke, コ ko. Neue Zeichen für die Wörter: ゲ ge, ム mu, ヒ hi, ド do, ツ tsu. ゲーム (gēmu) heißt Spiel; コーヒー (kōhī) Kaffee; ドイツ (Doitsu) Deutschland. Der Strich ー verlängert den unmittelbar vorher gesprochenen Vokal. In コーヒー ist erst o, dann i lang.",
+                "register": "Lesetraining; die Reihe ist kein Gesprächssatz.",
+                "parts": [],
+                "extra": [],
+                "pitfall": "Beachte die Größe der Zeichen und die Zusatzstriche.",
+                "scenario": {
+                  "question": "Welche Lesung passt zur Zeichenfolge „ゲーム“?",
+                  "correct": "gēmu",
+                  "wrong": [
+                    "a i u e o",
+                    "ka ki ku ke ko",
+                    "kōhī",
+                    "Doitsu"
+                  ]
+                }
+              }
             },
             {
               "jp": "コーヒー",
@@ -1350,14 +2622,63 @@
               "note": "Beide langen Striche verlängern den Vokal.",
               "example": "コーヒーをください。",
               "example_romaji": "kōhī o kudasai.",
-              "example_de": "Einen Kaffee, bitte."
+              "example_de": "Einen Kaffee, bitte.",
+              "detail": {
+                "kind": "Zeichen lesen",
+                "usage": "Diese Zeichenfolge lesen und den Lauten zuordnen.",
+                "explain": "Katakana stehen oft in Fremdwörtern. Sie bezeichnen Laute wie Hiragana: ア a, イ i, ウ u, エ e, オ o; カ ka, キ ki, ク ku, ケ ke, コ ko. Neue Zeichen für die Wörter: ゲ ge, ム mu, ヒ hi, ド do, ツ tsu. ゲーム (gēmu) heißt Spiel; コーヒー (kōhī) Kaffee; ドイツ (Doitsu) Deutschland. Der Strich ー verlängert den unmittelbar vorher gesprochenen Vokal. In コーヒー ist erst o, dann i lang.",
+                "register": "Lesetraining; die Reihe ist kein Gesprächssatz.",
+                "parts": [],
+                "extra": [],
+                "pitfall": "Beachte die Größe der Zeichen und die Zusatzstriche.",
+                "scenario": {
+                  "question": "Welche Lesung passt zur Zeichenfolge „コーヒー“?",
+                  "correct": "kōhī",
+                  "wrong": [
+                    "a i u e o",
+                    "ka ki ku ke ko",
+                    "gēmu",
+                    "Doitsu"
+                  ]
+                }
+              }
             },
             {
               "jp": "ドイツ",
               "romaji": "Doitsu",
               "de": "Deutschland",
               "approx": "do-i-tsu",
-              "note": "Ausländische Ländernamen werden häufig in Katakana geschrieben."
+              "note": "Ausländische Ländernamen werden häufig in Katakana geschrieben.",
+              "detail": {
+                "kind": "Ländername · Katakana",
+                "usage": "Der japanische Name für Deutschland.",
+                "explain": "Sprich do-i-tsu in drei Takten. Ausländische Namen werden oft mit Katakana geschrieben. Katakana ist kein zusätzlicher Satz aus anderen Lauten, sondern eine andere Schrift für weitgehend dieselben Lautkombinationen.",
+                "pitfall": "Das Wort nicht wie das deutsche „Deutsch“ zusammenziehen. ツ steht hier für tsu.",
+                "parts": [
+                  [
+                    "ド",
+                    "do"
+                  ],
+                  [
+                    "イ",
+                    "i"
+                  ],
+                  [
+                    "ツ",
+                    "tsu"
+                  ]
+                ],
+                "scenario": {
+                  "question": "Was bezeichnet ドイツ?",
+                  "correct": "Deutschland.",
+                  "wrong": [
+                    "Die deutsche Sprache in jedem Zusammenhang.",
+                    "Die Zahl drei."
+                  ]
+                },
+                "extra": [],
+                "register": ""
+              }
             }
           ],
           "speech": [
@@ -1381,7 +2702,21 @@
           ],
           "id": "11:0",
           "origin": "legacy",
-          "stage": "Schrift"
+          "stage": "Schrift",
+          "goal": "Katakana als zweite Lautschrift erkennen und erste Wörter lesen.",
+          "study_guide": {
+            "revision": 1,
+            "prerequisites": [
+              "4:0",
+              "10:1"
+            ],
+            "points": [
+              "Katakana stehen oft in Fremdwörtern. Sie bezeichnen Laute wie Hiragana: ア a, イ i, ウ u, エ e, オ o; カ ka, キ ki, ク ku, ケ ke, コ ko.",
+              "Neue Zeichen für die Wörter: ゲ ge, ム mu, ヒ hi, ド do, ツ tsu. ゲーム (gēmu) heißt Spiel; コーヒー (kōhī) Kaffee; ドイツ (Doitsu) Deutschland.",
+              "Der Strich ー verlängert den unmittelbar vorher gesprochenen Vokal. In コーヒー ist erst o, dann i lang."
+            ],
+            "recall": "Lies コーヒー und nenne die beiden Vokale, die ー verlängert."
+          }
         }
       ]
     },
@@ -3375,7 +4710,7 @@
           "id": "v11:long-vowels",
           "title": "Kurz oder lang? Vokale unterscheiden",
           "xp": 50,
-          "goal": "Du unterscheidest Wörter, die sich durch einen langen Vokal verändern.",
+          "goal": "Kurze und lange Vokale als Bedeutungsunterschied erkennen.",
           "intro": "Du unterscheidest Wörter, die sich durch einen langen Vokal verändern. Ein langer Vokal erhält etwa zwei Sprechtakte. Die Schreibung aa/ii macht die Länge sichtbar; sie ist keine besonders starke Betonung.",
           "origin": "v11",
           "cards": [
@@ -3405,12 +4740,11 @@
                 ],
                 "pitfall": "Nicht lauter statt länger sprechen. Kurz und lang unterscheiden die Wörter; die Spracherkennung ist dafür kein verlässlicher Lautprüfer.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
-                  "correct": "Du benennst eine Tante, nicht eine Großmutter.",
+                  "question": "Du meinst die Tante. Welche Form hat dafür die passende Vokallänge?",
+                  "correct": "おばさん",
                   "wrong": [
-                    "Du sprichst von einer Großmutter und hältst das aa länger.",
-                    "Du benennst einen Onkel, nicht einen Großvater.",
-                    "Du sprichst von einem Großvater mit langem ii."
+                    "おばあさん",
+                    "おじいさん"
                   ]
                 }
               },
@@ -3447,7 +4781,7 @@
                 ],
                 "pitfall": "Nicht lauter statt länger sprechen. Kurz und lang unterscheiden die Wörter; die Spracherkennung ist dafür kein verlässlicher Lautprüfer.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „おばあさん“ (obaasan)?",
                   "correct": "Du sprichst von einer Großmutter und hältst das aa länger.",
                   "wrong": [
                     "Du benennst eine Tante, nicht eine Großmutter.",
@@ -3489,7 +4823,7 @@
                 ],
                 "pitfall": "Nicht lauter statt länger sprechen. Kurz und lang unterscheiden die Wörter; die Spracherkennung ist dafür kein verlässlicher Lautprüfer.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „おじさん“ (ojisan)?",
                   "correct": "Du benennst einen Onkel, nicht einen Großvater.",
                   "wrong": [
                     "Du benennst eine Tante, nicht eine Großmutter.",
@@ -3531,7 +4865,7 @@
                 ],
                 "pitfall": "Nicht lauter statt länger sprechen. Kurz und lang unterscheiden die Wörter; die Spracherkennung ist dafür kein verlässlicher Lautprüfer.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „おじいさん“ (ojiisan)?",
                   "correct": "Du sprichst von einem Großvater mit langem ii.",
                   "wrong": [
                     "Du benennst eine Tante, nicht eine Großmutter.",
@@ -3577,7 +4911,7 @@
                 ],
                 "pitfall": "Nicht lauter statt länger sprechen. Kurz und lang unterscheiden die Wörter; die Spracherkennung ist dafür kein verlässlicher Lautprüfer.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „おおきい“ (ōkii)?",
                   "correct": "Du beschreibst die Größe und übst zwei lange Vokale.",
                   "wrong": [
                     "Du benennst eine Tante, nicht eine Großmutter.",
@@ -3640,13 +4974,26 @@
             "Aussprache & Lernhilfe",
             "Einstieg"
           ],
-          "stage": "Einstieg"
+          "stage": "Einstieg",
+          "study_guide": {
+            "revision": 1,
+            "prerequisites": [
+              "0:0",
+              "0:1"
+            ],
+            "points": [
+              "Neue Zeichen in diesen Wörtern: ば = ba, じ = ji, さ = sa, ん = n, き = ki. Die vollständigen Reihen folgen später; nutze hier die Lesung als Stütze.",
+              "おばさん (obasan, Tante) und おばあさん (obaasan, Großmutter) unterscheiden sich durch ein zusätzliches a. おじさん (ojisan, Onkel) und おじいさん (ojiisan, Großvater) durch ein zusätzliches i.",
+              "Ein langer Vokal dauert zwei Takte. ō ist eine Kurzschreibweise für einen langen o-Laut: おおきい (ōkii, groß). Beim Tippen kannst du hier ookii verwenden."
+            ],
+            "recall": "Vergleiche obasan und obaasan. Welche zusätzliche Länge verändert die Bedeutung?"
+          }
         },
         {
           "id": "v11:small-tsu",
           "title": "Die kleine Pause: っ",
           "xp": 50,
-          "goal": "Du hörst und liest den Unterschied zwischen einem einfachen und einem doppelten Konsonanten.",
+          "goal": "Die kleine Pause っ von einem gesprochenen つ unterscheiden.",
           "intro": "Du hörst und liest den Unterschied zwischen einem einfachen und einem doppelten Konsonanten. Das kleine っ hält den folgenden Konsonanten kurz zurück. Es ist kein zusätzlich gesprochenes tsu.",
           "origin": "v11",
           "cards": [
@@ -3680,12 +5027,11 @@
                 ],
                 "pitfall": "Das kleine っ nicht als großes つ vorlesen. Die ganze Aufnahme darf dabei nicht abreißen.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
-                  "correct": "Du bittest jemanden zu kommen, ohne t zu verdoppeln.",
+                  "question": "Auf dem Umschlag fehlt eine Briefmarke. Welches Wort enthält dafür die nötige Pause?",
+                  "correct": "きって",
                   "wrong": [
-                    "Du benennst eine Briefmarke und machst die Pause vor t.",
-                    "Du beschreibst eine Steigung ohne doppeltes k.",
-                    "Du benennst den Beruf und hältst das k kurz zurück."
+                    "きて",
+                    "さか"
                   ]
                 }
               },
@@ -3730,7 +5076,7 @@
                 ],
                 "pitfall": "Das kleine っ nicht als großes つ vorlesen. Die ganze Aufnahme darf dabei nicht abreißen.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „きって“ (kitte)?",
                   "correct": "Du benennst eine Briefmarke und machst die Pause vor t.",
                   "wrong": [
                     "Du bittest jemanden zu kommen, ohne t zu verdoppeln.",
@@ -3776,7 +5122,7 @@
                 ],
                 "pitfall": "Das kleine っ nicht als großes つ vorlesen. Die ganze Aufnahme darf dabei nicht abreißen.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „さか“ (saka)?",
                   "correct": "Du beschreibst eine Steigung ohne doppeltes k.",
                   "wrong": [
                     "Du bittest jemanden zu kommen, ohne t zu verdoppeln.",
@@ -3826,7 +5172,7 @@
                 ],
                 "pitfall": "Das kleine っ nicht als großes つ vorlesen. Die ganze Aufnahme darf dabei nicht abreißen.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „さっか“ (sakka)?",
                   "correct": "Du benennst den Beruf und hältst das k kurz zurück.",
                   "wrong": [
                     "Du bittest jemanden zu kommen, ohne t zu verdoppeln.",
@@ -3876,7 +5222,7 @@
                 ],
                 "pitfall": "Das kleine っ nicht als großes つ vorlesen. Die ganze Aufnahme darf dabei nicht abreißen.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „まって“ (matte)?",
                   "correct": "Du bittest jemanden zu warten.",
                   "wrong": [
                     "Du bittest jemanden zu kommen, ohne t zu verdoppeln.",
@@ -3939,13 +5285,25 @@
             "Aussprache & Lernhilfe",
             "Einstieg"
           ],
-          "stage": "Einstieg"
+          "stage": "Einstieg",
+          "study_guide": {
+            "revision": 1,
+            "prerequisites": [
+              "v11:long-vowels"
+            ],
+            "points": [
+              "Zeichenhilfe: き = ki, て = te, さ = sa, か = ka, ま = ma. Kleines っ ist hier kein eigenes tsu, sondern hält den folgenden Konsonanten einen Takt zurück.",
+              "きて (kite, komm bitte) hat zwei Takte. きって (kitte, Briefmarke) hat drei: ki, Pause, te. Ebenso unterscheiden sich さか (saka, Steigung) und さっか (sakka, Schriftsteller).",
+              "まって (matte, warte) ist eine vertraute Bitte. Höfliche Bitten mit ください (kudasai, bitte) lernst du bald als feste Wendung."
+            ],
+            "recall": "Wo liegt die Pause in kitte? Sprich danach kite ohne diese Pause."
+          }
         },
         {
           "id": "v11:mora-n",
           "title": "Das n bekommt seinen eigenen Takt",
           "xp": 50,
-          "goal": "Du lässt ん auch mitten im Wort hörbar stehen.",
+          "goal": "ん als eigenen Sprechtakt hören und mitsprechen.",
           "intro": "Du lässt ん auch mitten im Wort hörbar stehen. ん ist eine eigene Sprecheinheit. Sein genauer Klang passt sich dem folgenden Laut an; füge keinen Vokal hinzu.",
           "origin": "v11",
           "cards": [
@@ -3979,12 +5337,11 @@
                 ],
                 "pitfall": "Kein zusätzliches „nu“ anhängen. Ein Buch heißt hon, nicht honu.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
-                  "correct": "Du benennst ein Buch und sprichst das abschließende n mit.",
+                  "question": "Du willst ein Buch benennen. Welche Form enthält ho und einen eigenen n-Takt?",
+                  "correct": "ほん",
                   "wrong": [
-                    "Du meinst die ganze Gruppe.",
-                    "Du benennst die Lehrkraft und achtest auf n vor s.",
-                    "Du sprichst eine Person höflich mit ihrem Namen an."
+                    "みんな",
+                    "さん"
                   ]
                 }
               },
@@ -4029,7 +5386,7 @@
                 ],
                 "pitfall": "Kein zusätzliches „nu“ anhängen. Ein Buch heißt hon, nicht honu.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „みんな“ (minna)?",
                   "correct": "Du meinst die ganze Gruppe.",
                   "wrong": [
                     "Du benennst ein Buch und sprichst das abschließende n mit.",
@@ -4075,7 +5432,7 @@
                 ],
                 "pitfall": "Kein zusätzliches „nu“ anhängen. Ein Buch heißt hon, nicht honu.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „せんせい“ (sensei)?",
                   "correct": "Du benennst die Lehrkraft und achtest auf n vor s.",
                   "wrong": [
                     "Du benennst ein Buch und sprichst das abschließende n mit.",
@@ -4117,7 +5474,7 @@
                 ],
                 "pitfall": "Kein zusätzliches „nu“ anhängen. Ein Buch heißt hon, nicht honu.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „さん“ (san)?",
                   "correct": "Du sprichst eine Person höflich mit ihrem Namen an.",
                   "wrong": [
                     "Du benennst ein Buch und sprichst das abschließende n mit.",
@@ -4163,7 +5520,7 @@
                 ],
                 "pitfall": "Kein zusätzliches „nu“ anhängen. Ein Buch heißt hon, nicht honu.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „しんぶん“ (shinbun)?",
                   "correct": "Du benennst eine Zeitung und übst zwei n-Takte.",
                   "wrong": [
                     "Du benennst ein Buch und sprichst das abschließende n mit.",
@@ -4226,13 +5583,25 @@
             "Aussprache & Lernhilfe",
             "Einstieg"
           ],
-          "stage": "Einstieg"
+          "stage": "Einstieg",
+          "study_guide": {
+            "revision": 1,
+            "prerequisites": [
+              "v11:small-tsu"
+            ],
+            "points": [
+              "Zeichenhilfe: ほ = ho, み = mi, な = na, せ = se, し = shi, ぶ = bu. ん ist der n-Laut am Ende eines Taktes.",
+              "ほん (hon, Buch) hat zwei Takte: ho-n. みんな (minna, alle) hat drei: mi-n-na. Das n nicht mit dem folgenden Zeichen verschlucken.",
+              "せんせい (sensei, Lehrkraft) wird in normaler Aussprache meist mit langem e gesprochen. Geschrieben und in dieser Romaji-Aufgabe bleibt es sensei. さん (san) steht höflich hinter dem Namen anderer Personen."
+            ],
+            "recall": "Klopfe die Takte von ほん und みんな mit. Zähle ん jeweils mit."
+          }
         },
         {
           "id": "v11:learning-help",
           "title": "Sag Bescheid, wenn du etwas nicht verstehst",
           "xp": 50,
-          "goal": "Du lernst fünf Hilfen, mit denen du das Lerntempo selbst steuern kannst.",
+          "goal": "Ein Gespräch verlangsamen, wiederholen oder erklären lassen.",
           "intro": "Du lernst fünf Hilfen, mit denen du das Lerntempo selbst steuern kannst. Diese Wendungen darfst du zunächst als ganze Bausteine benutzen. ください ist eine höfliche Bitte; die Verbformen lernst du später genauer.",
           "origin": "v11",
           "cards": [
@@ -4262,12 +5631,11 @@
                 ],
                 "pitfall": "Die Lautschrift ist eine Starthilfe, kein exaktes deutsches Wort. Sprich gleichmäßig und vergleiche dich mit der Hörvorlage.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
-                  "correct": "Du möchtest, dass dein Gegenüber langsamer spricht.",
+                  "question": "Dein Gegenüber spricht zu schnell. Welche kurze Bitte hilft zuerst?",
+                  "correct": "ゆっくり",
                   "wrong": [
-                    "Du möchtest dieselbe Aussage noch einmal hören.",
-                    "Du erklärst, dass du etwas nicht verstanden hast.",
-                    "Du möchtest das Gesagte schriftlich sehen."
+                    "もういちど",
+                    "かいてください"
                   ]
                 }
               },
@@ -4308,7 +5676,7 @@
                 ],
                 "pitfall": "Die Lautschrift ist eine Starthilfe, kein exaktes deutsches Wort. Doppelte Vokale bzw. ō/ū/ā/ī/ē nicht verkürzen.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „もういちど“ (mō ichido)?",
                   "correct": "Du möchtest dieselbe Aussage noch einmal hören.",
                   "wrong": [
                     "Du möchtest, dass dein Gegenüber langsamer spricht.",
@@ -4354,7 +5722,7 @@
                 ],
                 "pitfall": "Die Lautschrift ist eine Starthilfe, kein exaktes deutsches Wort. Sprich gleichmäßig und vergleiche dich mit der Hörvorlage.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „わかりません“ (wakarimasen)?",
                   "correct": "Du erklärst, dass du etwas nicht verstanden hast.",
                   "wrong": [
                     "Du möchtest, dass dein Gegenüber langsamer spricht.",
@@ -4400,7 +5768,7 @@
                 ],
                 "pitfall": "Die Lautschrift ist eine Starthilfe, kein exaktes deutsches Wort. Sprich gleichmäßig und vergleiche dich mit der Hörvorlage.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „かいてください“ (kaite kudasai)?",
                   "correct": "Du möchtest das Gesagte schriftlich sehen.",
                   "wrong": [
                     "Du möchtest, dass dein Gegenüber langsamer spricht.",
@@ -4446,7 +5814,7 @@
                 ],
                 "pitfall": "Die Lautschrift ist eine Starthilfe, kein exaktes deutsches Wort. Sprich gleichmäßig und vergleiche dich mit der Hörvorlage.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „おしえてください“ (oshiete kudasai)?",
                   "correct": "Du bittest um eine Erklärung oder Information.",
                   "wrong": [
                     "Du möchtest, dass dein Gegenüber langsamer spricht.",
@@ -4509,13 +5877,26 @@
             "Aussprache & Lernhilfe",
             "Einstieg"
           ],
-          "stage": "Einstieg"
+          "stage": "Einstieg",
+          "study_guide": {
+            "revision": 1,
+            "prerequisites": [
+              "1:0",
+              "1:1"
+            ],
+            "points": [
+              "ゆっくり (yukkuri) bedeutet langsam, もういちど (mō ichido) noch einmal. Im Gespräch können diese kurzen Bitten schon helfen.",
+              "わかりません (wakarimasen) heißt Ich verstehe es nicht. Eine Rückfrage ist erlaubt und kein misslungener Gesprächsversuch.",
+              "かいてください (kaite kudasai, bitte aufschreiben) und おしえてください (oshiete kudasai, bitte erklären / mitteilen) lernst du zunächst als feste Bitten. Die Verbform vor kudasai wird später systematisch erklärt."
+            ],
+            "recall": "Bitte erst um langsameres Sprechen und dann um eine Wiederholung."
+          }
         },
         {
           "id": "v11:small-ya",
           "title": "Kleine ゃ・ゅ・ょ: zwei Zeichen, ein Laut",
           "xp": 50,
-          "goal": "Du verbindest i-Reihen mit einem kleinen ya, yu oder yo.",
+          "goal": "Kombinierte Laute von getrennten Kana unterscheiden.",
           "intro": "Du verbindest i-Reihen mit einem kleinen ya, yu oder yo. きゃ besteht aus き und kleinem ゃ, wird aber zusammen kya gesprochen. Erst ein zusätzlicher Vokal verlängert den Laut.",
           "origin": "v11",
           "cards": [
@@ -4545,12 +5926,11 @@
                 ],
                 "pitfall": "Kleines ゃ nicht wie großes や behandeln. ki-ya und kya haben unterschiedlich viele Sprechtakte.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
-                  "correct": "Du verbindest ki und kleines ya zu einem kurzen Laut.",
+                  "question": "Welche Schreibweise verbindet ki und kleines ya zu einem einzigen Takt?",
+                  "correct": "きゃ",
                   "wrong": [
-                    "Du sprichst die Zahl neun mit langem u.",
-                    "Du nennst den heutigen Tag.",
-                    "Du benennst ein Foto und unterscheidest sha von shi."
+                    "きゅう",
+                    "きょう"
                   ]
                 }
               },
@@ -4591,7 +5971,7 @@
                 ],
                 "pitfall": "Kleines ゃ nicht wie großes や behandeln. ki-ya und kya haben unterschiedlich viele Sprechtakte.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „きゅう“ (kyū)?",
                   "correct": "Du sprichst die Zahl neun mit langem u.",
                   "wrong": [
                     "Du verbindest ki und kleines ya zu einem kurzen Laut.",
@@ -4637,7 +6017,7 @@
                 ],
                 "pitfall": "Kleines ゃ nicht wie großes や behandeln. ki-ya und kya haben unterschiedlich viele Sprechtakte.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „きょう“ (kyō)?",
                   "correct": "Du nennst den heutigen Tag.",
                   "wrong": [
                     "Du verbindest ki und kleines ya zu einem kurzen Laut.",
@@ -4687,7 +6067,7 @@
                 ],
                 "pitfall": "Kleines ゃ nicht wie großes や behandeln. ki-ya und kya haben unterschiedlich viele Sprechtakte.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „しゃしん“ (shashin)?",
                   "correct": "Du benennst ein Foto und unterscheidest sha von shi.",
                   "wrong": [
                     "Du verbindest ki und kleines ya zu einem kurzen Laut.",
@@ -4733,7 +6113,7 @@
                 ],
                 "pitfall": "Kleines ゃ nicht wie großes や behandeln. ki-ya und kya haben unterschiedlich viele Sprechtakte.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „おちゃ“ (ocha)?",
                   "correct": "Du benennst Tee mit dem kombinierten Laut cha.",
                   "wrong": [
                     "Du verbindest ki und kleines ya zu einem kurzen Laut.",
@@ -4796,7 +6176,20 @@
             "Aussprache & Lernhilfe",
             "Einstieg"
           ],
-          "stage": "Schrift"
+          "stage": "Schrift",
+          "study_guide": {
+            "revision": 1,
+            "prerequisites": [
+              "10:1",
+              "v11:long-vowels"
+            ],
+            "points": [
+              "きゃ (kya) wird in einem Takt gesprochen. きや (kiya) mit großem や hätte zwei Takte. Die Größe des zweiten Zeichens zählt.",
+              "きゅう (kyū, neun) und きょう (kyō, heute) verlängern den kombinierten Laut um einen Vokaltakt.",
+              "しゃしん (shashin, Foto) beginnt mit sha; おちゃ (ocha, Tee) enthält cha. Lies die kleinen Zeichen zusammen mit ihrem Vorgänger, nicht als eigenes ya."
+            ],
+            "recall": "Vergleiche kya mit kiya. Welche Form braucht zwei statt eines Taktes?"
+          }
         }
       ]
     },
@@ -4810,7 +6203,7 @@
           "id": "v11:kana-k",
           "title": "K-Reihe in Wörtern",
           "xp": 50,
-          "goal": "Du liest Wörter mit か・き・く・け・こ, statt nur eine Reihe auswendig aufzusagen.",
+          "goal": "Bekannte Hiragana in kurzen Wörtern selbst zusammensetzen.",
           "intro": "Du liest Wörter mit か・き・く・け・こ, statt nur eine Reihe auswendig aufzusagen. Erst Zeichen erkennen, dann zu einem Wort verbinden. です in den Beispielen bedeutet hier sinngemäß „das ist …“.",
           "origin": "v11",
           "cards": [
@@ -4844,12 +6237,11 @@
                 ],
                 "pitfall": "Die Lautschrift ist eine Starthilfe, kein exaktes deutsches Wort. Sprich gleichmäßig und vergleiche dich mit der Hörvorlage.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
-                  "correct": "Du benennst ein Gesicht.",
+                  "question": "Du zeigst auf dein Gesicht. Welches gelernte Wort benennt es?",
+                  "correct": "かお",
                   "wrong": [
-                    "Du benennst einen Baum.",
-                    "Du benennst den Mund.",
-                    "Du benennst einen Teich."
+                    "こえ",
+                    "いけ"
                   ]
                 }
               },
@@ -4886,7 +6278,7 @@
                 ],
                 "pitfall": "Die Lautschrift ist eine Starthilfe, kein exaktes deutsches Wort. Sprich gleichmäßig und vergleiche dich mit der Hörvorlage.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „き“ (ki)?",
                   "correct": "Du benennst einen Baum.",
                   "wrong": [
                     "Du benennst ein Gesicht.",
@@ -4932,7 +6324,7 @@
                 ],
                 "pitfall": "Die Lautschrift ist eine Starthilfe, kein exaktes deutsches Wort. Sprich gleichmäßig und vergleiche dich mit der Hörvorlage.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „くち“ (kuchi)?",
                   "correct": "Du benennst den Mund.",
                   "wrong": [
                     "Du benennst ein Gesicht.",
@@ -4978,7 +6370,7 @@
                 ],
                 "pitfall": "Die Lautschrift ist eine Starthilfe, kein exaktes deutsches Wort. Sprich gleichmäßig und vergleiche dich mit der Hörvorlage.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „いけ“ (ike)?",
                   "correct": "Du benennst einen Teich.",
                   "wrong": [
                     "Du benennst ein Gesicht.",
@@ -5024,7 +6416,7 @@
                 ],
                 "pitfall": "Die Lautschrift ist eine Starthilfe, kein exaktes deutsches Wort. Sprich gleichmäßig und vergleiche dich mit der Hörvorlage.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „こえ“ (koe)?",
                   "correct": "Du benennst eine Stimme.",
                   "wrong": [
                     "Du benennst ein Gesicht.",
@@ -5087,13 +6479,26 @@
             "Hiragana: echte Wörter lesen",
             "Schrift"
           ],
-          "stage": "Schrift"
+          "stage": "Schrift",
+          "study_guide": {
+            "revision": 1,
+            "prerequisites": [
+              "4:0",
+              "4:1"
+            ],
+            "points": [
+              "かお (kao, Gesicht) liest du か ka + お o. き (ki, Baum) ist schon allein ein Wort.",
+              "くち (kuchi, Mund) verbindet ku mit chi. いけ (ike, Teich) und こえ (koe, Stimme) haben jeweils zwei klare Vokaltakte.",
+              "Die Beispiele mit です (desu) sind höfliche Benennungen, etwa かおです (kao desu, es ist ein Gesicht). Du lernst den Satzbau später; hier steht das Lesen der Wörter im Mittelpunkt."
+            ],
+            "recall": "Lies こえ zuerst selbst und kontrolliere erst danach mit der Stimme."
+          }
         },
         {
           "id": "v11:kana-s",
           "title": "S-Reihe: shi ist nicht si",
           "xp": 50,
-          "goal": "Du liest sa, shi, su, se und so in fünf kurzen Wörtern.",
+          "goal": "Die S-Reihe in wechselnden Wortpositionen abrufen.",
           "intro": "Du liest sa, shi, su, se und so in fünf kurzen Wörtern. し wird shi gelesen; bei den anderen Zeichen der Reihe bleibt s. Deine Aussprachehilfe schreibt shi angenähert als schi.",
           "origin": "v11",
           "cards": [
@@ -5127,12 +6532,11 @@
                 ],
                 "pitfall": "Die Lautschrift ist eine Starthilfe, kein exaktes deutsches Wort. Sprich gleichmäßig und vergleiche dich mit der Hörvorlage.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
-                  "correct": "Du benennst einen Regenschirm.",
+                  "question": "Es regnet und du suchst deinen Schirm. Welches Wort brauchst du?",
+                  "correct": "かさ",
                   "wrong": [
-                    "Du benennst das Essen Sushi.",
-                    "Du benennst einen Stuhl.",
-                    "Du meinst die Welt."
+                    "いす",
+                    "そら"
                   ]
                 }
               },
@@ -5173,7 +6577,7 @@
                 ],
                 "pitfall": "Die Lautschrift ist eine Starthilfe, kein exaktes deutsches Wort. Sprich gleichmäßig und vergleiche dich mit der Hörvorlage.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „すし“ (sushi)?",
                   "correct": "Du benennst das Essen Sushi.",
                   "wrong": [
                     "Du benennst einen Regenschirm.",
@@ -5219,7 +6623,7 @@
                 ],
                 "pitfall": "Die Lautschrift ist eine Starthilfe, kein exaktes deutsches Wort. Sprich gleichmäßig und vergleiche dich mit der Hörvorlage.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „いす“ (isu)?",
                   "correct": "Du benennst einen Stuhl.",
                   "wrong": [
                     "Du benennst einen Regenschirm.",
@@ -5269,7 +6673,7 @@
                 ],
                 "pitfall": "Die Lautschrift ist eine Starthilfe, kein exaktes deutsches Wort. Sprich gleichmäßig und vergleiche dich mit der Hörvorlage.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „せかい“ (sekai)?",
                   "correct": "Du meinst die Welt.",
                   "wrong": [
                     "Du benennst einen Regenschirm.",
@@ -5315,7 +6719,7 @@
                 ],
                 "pitfall": "Die Lautschrift ist eine Starthilfe, kein exaktes deutsches Wort. Sprich gleichmäßig und vergleiche dich mit der Hörvorlage.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „そら“ (sora)?",
                   "correct": "Du benennst den Himmel.",
                   "wrong": [
                     "Du benennst einen Regenschirm.",
@@ -5378,13 +6782,26 @@
             "Hiragana: echte Wörter lesen",
             "Schrift"
           ],
-          "stage": "Schrift"
+          "stage": "Schrift",
+          "study_guide": {
+            "revision": 1,
+            "prerequisites": [
+              "v11:kana-k",
+              "4:0"
+            ],
+            "points": [
+              "かさ (kasa, Schirm) endet auf sa; いす (isu, Stuhl) endet auf su. Achte auf die genaue Reihenfolge.",
+              "すし (sushi) hat su und shi. Das einzelne し wird nicht als deutsches sch ohne Vokal gesprochen.",
+              "せかい (sekai, Welt) hat se-ka-i; そら (sora, Himmel) hat so-ra. Die Vokale in kai bleiben zwei Takte."
+            ],
+            "recall": "Welche Zeichen unterscheiden いす und すし? Lies beide ohne die Romaji."
+          }
         },
         {
           "id": "v11:kana-tn",
           "title": "T- und N-Reihe lesen",
           "xp": 50,
-          "goal": "Du erkennst chi, tsu und die N-Reihe in Alltagswörtern.",
+          "goal": "T- und N-Laute in bekannten kurzen Wortformen lesen.",
           "intro": "Du erkennst chi, tsu und die N-Reihe in Alltagswörtern. Die besonderen Lesungen der T-Reihe sind ち = chi und つ = tsu. Die N-Reihe folgt na, ni, nu, ne, no.",
           "origin": "v11",
           "cards": [
@@ -5418,12 +6835,11 @@
                 ],
                 "pitfall": "Die Lautschrift ist eine Starthilfe, kein exaktes deutsches Wort. Sprich gleichmäßig und vergleiche dich mit der Hörvorlage.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
-                  "correct": "Du benennst einen Oktopus.",
+                  "question": "Im Aquarium siehst du einen Oktopus. Wie heißt dieses Tier?",
+                  "correct": "たこ",
                   "wrong": [
-                    "Du benennst den Mond.",
-                    "Du benennst eine Hand.",
-                    "Du benennst eine Katze."
+                    "ねこ",
+                    "いぬ"
                   ]
                 }
               },
@@ -5464,7 +6880,7 @@
                 ],
                 "pitfall": "Die Lautschrift ist eine Starthilfe, kein exaktes deutsches Wort. Sprich gleichmäßig und vergleiche dich mit der Hörvorlage.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „つき“ (tsuki)?",
                   "correct": "Du benennst den Mond.",
                   "wrong": [
                     "Du benennst einen Oktopus.",
@@ -5506,7 +6922,7 @@
                 ],
                 "pitfall": "Die Lautschrift ist eine Starthilfe, kein exaktes deutsches Wort. Sprich gleichmäßig und vergleiche dich mit der Hörvorlage.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „て“ (te)?",
                   "correct": "Du benennst eine Hand.",
                   "wrong": [
                     "Du benennst einen Oktopus.",
@@ -5552,7 +6968,7 @@
                 ],
                 "pitfall": "Die Lautschrift ist eine Starthilfe, kein exaktes deutsches Wort. Sprich gleichmäßig und vergleiche dich mit der Hörvorlage.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „ねこ“ (neko)?",
                   "correct": "Du benennst eine Katze.",
                   "wrong": [
                     "Du benennst einen Oktopus.",
@@ -5598,7 +7014,7 @@
                 ],
                 "pitfall": "Die Lautschrift ist eine Starthilfe, kein exaktes deutsches Wort. Sprich gleichmäßig und vergleiche dich mit der Hörvorlage.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „いぬ“ (inu)?",
                   "correct": "Du benennst einen Hund.",
                   "wrong": [
                     "Du benennst einen Oktopus.",
@@ -5661,13 +7077,26 @@
             "Hiragana: echte Wörter lesen",
             "Schrift"
           ],
-          "stage": "Schrift"
+          "stage": "Schrift",
+          "study_guide": {
+            "revision": 1,
+            "prerequisites": [
+              "4:1",
+              "10:0"
+            ],
+            "points": [
+              "たこ (tako, Oktopus) hat ta-ko. つき (tsuki, Mond) beginnt mit tsu, nicht mit su.",
+              "て (te) bedeutet Hand. ねこ (neko, Katze) und いぬ (inu, Hund) üben ne und nu an verschiedenen Stellen.",
+              "Ein Wort kann aus einem oder mehreren Kana bestehen. Sprich jeden Takt gleichmäßig, ohne automatisch das erste Zeichen stark zu betonen."
+            ],
+            "recall": "Lies ねこ und いぬ und ordne die beiden Tiere zu."
+          }
         },
         {
           "id": "v11:kana-hm",
           "title": "H- und M-Reihe lesen",
           "xp": 50,
-          "goal": "Du liest kurze Wörter mit h, f und m.",
+          "goal": "H- und M-Zeichen in kurzen Alltagswörtern erkennen.",
           "intro": "Du liest kurze Wörter mit h, f und m. ふ wird fu umschrieben, aber ohne den kräftigen Zahn-Lippen-Kontakt des deutschen f. Die übrige Reihe lautet ha, hi, he, ho.",
           "origin": "v11",
           "cards": [
@@ -5701,12 +7130,11 @@
                 ],
                 "pitfall": "Die Lautschrift ist eine Starthilfe, kein exaktes deutsches Wort. Sprich gleichmäßig und vergleiche dich mit der Hörvorlage.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
-                  "correct": "Du benennst eine Blume.",
+                  "question": "Du zeigst auf eine Blume. Welches Wort passt hier?",
+                  "correct": "はな",
                   "wrong": [
-                    "Du benennst einen Menschen.",
-                    "Du benennst ein Schiff.",
-                    "Du benennst ein Ohr oder die Ohren."
+                    "ひと",
+                    "ふね"
                   ]
                 }
               },
@@ -5747,7 +7175,7 @@
                 ],
                 "pitfall": "Die Lautschrift ist eine Starthilfe, kein exaktes deutsches Wort. Sprich gleichmäßig und vergleiche dich mit der Hörvorlage.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „ひと“ (hito)?",
                   "correct": "Du benennst einen Menschen.",
                   "wrong": [
                     "Du benennst eine Blume.",
@@ -5793,7 +7221,7 @@
                 ],
                 "pitfall": "Die Lautschrift ist eine Starthilfe, kein exaktes deutsches Wort. Sprich gleichmäßig und vergleiche dich mit der Hörvorlage.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „ふね“ (fune)?",
                   "correct": "Du benennst ein Schiff.",
                   "wrong": [
                     "Du benennst eine Blume.",
@@ -5839,7 +7267,7 @@
                 ],
                 "pitfall": "Die Lautschrift ist eine Starthilfe, kein exaktes deutsches Wort. Sprich gleichmäßig und vergleiche dich mit der Hörvorlage.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „みみ“ (mimi)?",
                   "correct": "Du benennst ein Ohr oder die Ohren.",
                   "wrong": [
                     "Du benennst eine Blume.",
@@ -5885,7 +7313,7 @@
                 ],
                 "pitfall": "Die Lautschrift ist eine Starthilfe, kein exaktes deutsches Wort. Sprich gleichmäßig und vergleiche dich mit der Hörvorlage.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „もも“ (momo)?",
                   "correct": "Du benennst einen Pfirsich.",
                   "wrong": [
                     "Du benennst eine Blume.",
@@ -5948,13 +7376,26 @@
             "Hiragana: echte Wörter lesen",
             "Schrift"
           ],
-          "stage": "Schrift"
+          "stage": "Schrift",
+          "study_guide": {
+            "revision": 1,
+            "prerequisites": [
+              "10:0",
+              "v11:kana-tn"
+            ],
+            "points": [
+              "はな (hana) bedeutet auf dieser Karte Blume. Derselbe Kana-Text kann je nach Wortkontext auch anderes bedeuten; hier lernst du nur die angegebene Bedeutung.",
+              "ひと (hito, Mensch) und ふね (fune, Schiff) üben hi und fu. Höre bei fu genau auf die Vorlage.",
+              "みみ (mimi, Ohr / Ohren) wiederholt mi. もも (momo, Pfirsich) wiederholt mo. Kana unterscheiden diese Wörter auch ohne unterschiedliche Konsonanten."
+            ],
+            "recall": "Welcher Vokal unterscheidet みみ von もも?"
+          }
         },
         {
           "id": "v11:kana-voiced",
           "title": "Stimmhafte Laute im Wort",
           "xp": 50,
-          "goal": "Du erkennst die kleinen Striche und den Kreis an Hiragana.",
+          "goal": "Dakuten und Handakuten beim Lesen von Wörtern beachten.",
           "intro": "Du erkennst die kleinen Striche und den Kreis an Hiragana. Zwei kleine Striche verändern unter anderem k zu g und h zu b. Ein kleiner Kreis macht aus h ein p. Die Lesungen werden hier jeweils mitgeliefert.",
           "origin": "v11",
           "cards": [
@@ -5988,12 +7429,11 @@
                 ],
                 "pitfall": "Die Lautschrift ist eine Starthilfe, kein exaktes deutsches Wort. Sprich gleichmäßig und vergleiche dich mit der Hörvorlage.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
-                  "correct": "Du benennst einen Schlüssel.",
+                  "question": "Vor der verschlossenen Tür suchst du deinen Schlüssel. Welches Wort passt?",
+                  "correct": "かぎ",
                   "wrong": [
-                    "Du benennst Wasser.",
-                    "Du benennst ein Telefon.",
-                    "Du benennst eine Tasche."
+                    "みず",
+                    "かばん"
                   ]
                 }
               },
@@ -6034,7 +7474,7 @@
                 ],
                 "pitfall": "Die Lautschrift ist eine Starthilfe, kein exaktes deutsches Wort. Sprich gleichmäßig und vergleiche dich mit der Hörvorlage.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „みず“ (mizu)?",
                   "correct": "Du benennst Wasser.",
                   "wrong": [
                     "Du benennst einen Schlüssel.",
@@ -6084,7 +7524,7 @@
                 ],
                 "pitfall": "Die Lautschrift ist eine Starthilfe, kein exaktes deutsches Wort. Sprich gleichmäßig und vergleiche dich mit der Hörvorlage.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „でんわ“ (denwa)?",
                   "correct": "Du benennst ein Telefon.",
                   "wrong": [
                     "Du benennst einen Schlüssel.",
@@ -6134,7 +7574,7 @@
                 ],
                 "pitfall": "Die Lautschrift ist eine Starthilfe, kein exaktes deutsches Wort. Sprich gleichmäßig und vergleiche dich mit der Hörvorlage.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „かばん“ (kaban)?",
                   "correct": "Du benennst eine Tasche.",
                   "wrong": [
                     "Du benennst einen Schlüssel.",
@@ -6188,7 +7628,7 @@
                 ],
                 "pitfall": "Die Lautschrift ist eine Starthilfe, kein exaktes deutsches Wort. Sprich gleichmäßig und vergleiche dich mit der Hörvorlage.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „えんぴつ“ (enpitsu)?",
                   "correct": "Du benennst einen Bleistift.",
                   "wrong": [
                     "Du benennst einen Schlüssel.",
@@ -6251,7 +7691,19 @@
             "Hiragana: echte Wörter lesen",
             "Schrift"
           ],
-          "stage": "Schrift"
+          "stage": "Schrift",
+          "study_guide": {
+            "revision": 1,
+            "prerequisites": [
+              "10:1"
+            ],
+            "points": [
+              "かぎ (kagi, Schlüssel): ぎ trägt zwei Striche und wird gi gesprochen. みず (mizu, Wasser) enthält ず = zu.",
+              "でんわ (denwa, Telefon) enthält で = de und einen eigenen n-Takt. かばん (kaban, Tasche) enthält ば = ba.",
+              "えんぴつ (enpitsu, Bleistift) enthält ぴ = pi mit kleinem Kreis. Das n kann vor p ähnlich wie m klingen; die gelernte Romaji-Schreibweise bleibt enpitsu."
+            ],
+            "recall": "Finde in えんぴつ den Kreis und in かばん die zwei Striche."
+          }
         }
       ]
     },
@@ -6265,7 +7717,7 @@
           "id": "v11:kata-basics",
           "title": "Katakana: erste Alltagswörter",
           "xp": 50,
-          "goal": "Du erkennst Wörter in der zweiten japanischen Lautschrift.",
+          "goal": "Neue Katakana direkt an kurzen Alltagswörtern lernen.",
           "intro": "Du erkennst Wörter in der zweiten japanischen Lautschrift. Katakana notiert grundsätzlich dieselben Laute wie Hiragana. Fremdwörter werden an japanische Lautmuster angepasst, nicht englisch ausgesprochen.",
           "origin": "v11",
           "cards": [
@@ -6303,12 +7755,11 @@
                 ],
                 "pitfall": "Die Lautschrift ist eine Starthilfe, kein exaktes deutsches Wort. Sprich gleichmäßig und vergleiche dich mit der Hörvorlage.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
-                  "correct": "Du benennst eine Kamera.",
+                  "question": "Du möchtest ein Foto machen und brauchst eine Kamera. Welches Wort passt?",
+                  "correct": "カメラ",
                   "wrong": [
-                    "Du benennst einen Test.",
-                    "Du benennst ein Hotel.",
-                    "Du benennst einen Bus."
+                    "ホテル",
+                    "ペン"
                   ]
                 }
               },
@@ -6353,7 +7804,7 @@
                 ],
                 "pitfall": "Die Lautschrift ist eine Starthilfe, kein exaktes deutsches Wort. Sprich gleichmäßig und vergleiche dich mit der Hörvorlage.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „テスト“ (tesuto)?",
                   "correct": "Du benennst einen Test.",
                   "wrong": [
                     "Du benennst eine Kamera.",
@@ -6403,7 +7854,7 @@
                 ],
                 "pitfall": "Die Lautschrift ist eine Starthilfe, kein exaktes deutsches Wort. Sprich gleichmäßig und vergleiche dich mit der Hörvorlage.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „ホテル“ (hoteru)?",
                   "correct": "Du benennst ein Hotel.",
                   "wrong": [
                     "Du benennst eine Kamera.",
@@ -6449,7 +7900,7 @@
                 ],
                 "pitfall": "Die Lautschrift ist eine Starthilfe, kein exaktes deutsches Wort. Sprich gleichmäßig und vergleiche dich mit der Hörvorlage.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „バス“ (basu)?",
                   "correct": "Du benennst einen Bus.",
                   "wrong": [
                     "Du benennst eine Kamera.",
@@ -6495,7 +7946,7 @@
                 ],
                 "pitfall": "Die Lautschrift ist eine Starthilfe, kein exaktes deutsches Wort. Sprich gleichmäßig und vergleiche dich mit der Hörvorlage.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „ペン“ (pen)?",
                   "correct": "Du benennst einen Stift.",
                   "wrong": [
                     "Du benennst eine Kamera.",
@@ -6558,13 +8009,25 @@
             "Katakana im Alltag",
             "Schrift"
           ],
-          "stage": "Schrift"
+          "stage": "Schrift",
+          "study_guide": {
+            "revision": 1,
+            "prerequisites": [
+              "11:0"
+            ],
+            "points": [
+              "Zeichenhilfe: メ me, ラ ra, テ te, ス su, ト to, ホ ho, ル ru, バ ba, ペ pe, ン n. Verbinde sie mit den schon bekannten Zeichen.",
+              "カメラ (kamera, Kamera), テスト (tesuto, Test) und ホテル (hoteru, Hotel) folgen der japanischen Lautform. Sprich nicht einfach das deutsche Wort aus.",
+              "バス (basu, Bus) enthält su; ペン (pen, Stift) endet mit einem eigenen n-Takt. Der Kreis in ペ macht pe, die Striche in バ machen ba."
+            ],
+            "recall": "Zerlege ホテル in ho-te-ru und ペン in pe-n."
+          }
         },
         {
           "id": "v11:kata-long",
           "title": "Der Strich ー verlängert den Vokal",
           "xp": 50,
-          "goal": "Du liest lange Vokale in häufigen Katakana-Wörtern.",
+          "goal": "Lange Vokale in Katakana hören, lesen und tippen.",
           "intro": "Du liest lange Vokale in häufigen Katakana-Wörtern. ー wiederholt den vorhergehenden Vokalklang, nicht den gesamten Konsonanten. In der Umschrift zeigt ein Strich über dem Vokal die Länge.",
           "origin": "v11",
           "cards": [
@@ -6598,12 +8061,11 @@
                 ],
                 "pitfall": "Den Längestrich ー nicht als Pause oder als Zahl eins lesen.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
-                  "correct": "Du benennst einen Supermarkt mit zwei langen Vokalen.",
+                  "question": "Du suchst einen Supermarkt. Welches Wort kannst du auf dem Schild erkennen?",
+                  "correct": "スーパー",
                   "wrong": [
-                    "Du benennst Kuchen.",
-                    "Du benennst Käse.",
-                    "Du benennst ein Taxi."
+                    "タクシー",
+                    "チーズ"
                   ]
                 }
               },
@@ -6644,7 +8106,7 @@
                 ],
                 "pitfall": "Den Längestrich ー nicht als Pause oder als Zahl eins lesen.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „ケーキ“ (kēki)?",
                   "correct": "Du benennst Kuchen.",
                   "wrong": [
                     "Du benennst einen Supermarkt mit zwei langen Vokalen.",
@@ -6690,7 +8152,7 @@
                 ],
                 "pitfall": "Den Längestrich ー nicht als Pause oder als Zahl eins lesen.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „チーズ“ (chīzu)?",
                   "correct": "Du benennst Käse.",
                   "wrong": [
                     "Du benennst einen Supermarkt mit zwei langen Vokalen.",
@@ -6740,7 +8202,7 @@
                 ],
                 "pitfall": "Den Längestrich ー nicht als Pause oder als Zahl eins lesen.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „タクシー“ (takushī)?",
                   "correct": "Du benennst ein Taxi.",
                   "wrong": [
                     "Du benennst einen Supermarkt mit zwei langen Vokalen.",
@@ -6786,7 +8248,7 @@
                 ],
                 "pitfall": "Den Längestrich ー nicht als Pause oder als Zahl eins lesen.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „ジュース“ (jūsu)?",
                   "correct": "Du benennst ein Saftgetränk.",
                   "wrong": [
                     "Du benennst einen Supermarkt mit zwei langen Vokalen.",
@@ -6849,13 +8311,26 @@
             "Katakana im Alltag",
             "Schrift"
           ],
-          "stage": "Schrift"
+          "stage": "Schrift",
+          "study_guide": {
+            "revision": 1,
+            "prerequisites": [
+              "v11:kata-basics",
+              "v11:long-vowels"
+            ],
+            "points": [
+              "Zeichenhilfe: パ pa, チ chi, ズ zu, タ ta, シ shi, ジ ji, ュ kleines yu. Bei ジュ liest du ju zusammen.",
+              "スーパー (sūpā, Supermarkt) enthält langes u und a. ケーキ (kēki, Kuchen) enthält langes e. チーズ (chīzu, Käse) enthält langes i.",
+              "タクシー (takushī, Taxi) endet auf langes i; ジュース (jūsu, Saft) hat langes u. Tippe lange Vokale bei Bedarf doppelt: suupaa, keeki, chiizu, takushii, juusu."
+            ],
+            "recall": "Welchen Vokal verlängert der Strich jeweils in チーズ und ケーキ?"
+          }
         },
         {
           "id": "v11:kata-similar",
           "title": "シ・ツ und ソ・ン unterscheiden",
           "xp": 50,
-          "goal": "Du erkennst ähnlich aussehende Katakana in echten Wörtern.",
+          "goal": "Ähnliche Katakana anhand ihrer Form und im Wort unterscheiden.",
           "intro": "Du erkennst ähnlich aussehende Katakana in echten Wörtern. Vergleiche Lage und Richtung der Striche. Die Lesung steht neben jedem Wort; du musst sie nicht erraten.",
           "origin": "v11",
           "cards": [
@@ -6889,12 +8364,11 @@
                 ],
                 "pitfall": "Die Lautschrift ist eine Starthilfe, kein exaktes deutsches Wort. Sprich gleichmäßig und vergleiche dich mit der Hörvorlage.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
-                  "correct": "Du liest シ am Anfang eines Tiernamens.",
+                  "question": "Im Tierpark steht ein Hirsch. Welches Ankerwort mit シ bezeichnet ihn?",
+                  "correct": "シカ",
                   "wrong": [
-                    "Du liest ツ am Anfang eines Lebensmittels.",
-                    "Du liest ソ und die Kombination ファ.",
-                    "Du liest ein abschließendes ン in einem Essenswort."
+                    "ツナ",
+                    "シャツ"
                   ]
                 }
               },
@@ -6935,7 +8409,7 @@
                 ],
                 "pitfall": "Die Lautschrift ist eine Starthilfe, kein exaktes deutsches Wort. Sprich gleichmäßig und vergleiche dich mit der Hörvorlage.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „ツナ“ (tsuna)?",
                   "correct": "Du liest ツ am Anfang eines Lebensmittels.",
                   "wrong": [
                     "Du liest シ am Anfang eines Tiernamens.",
@@ -6981,7 +8455,7 @@
                 ],
                 "pitfall": "Die Lautschrift ist eine Starthilfe, kein exaktes deutsches Wort. Sprich gleichmäßig und vergleiche dich mit der Hörvorlage.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „ソファ“ (sofa)?",
                   "correct": "Du liest ソ und die Kombination ファ.",
                   "wrong": [
                     "Du liest シ am Anfang eines Tiernamens.",
@@ -7027,7 +8501,7 @@
                 ],
                 "pitfall": "Die Lautschrift ist eine Starthilfe, kein exaktes deutsches Wort. Sprich gleichmäßig und vergleiche dich mit der Hörvorlage.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „パン“ (pan)?",
                   "correct": "Du liest ein abschließendes ン in einem Essenswort.",
                   "wrong": [
                     "Du liest シ am Anfang eines Tiernamens.",
@@ -7073,7 +8547,7 @@
                 ],
                 "pitfall": "Die Lautschrift ist eine Starthilfe, kein exaktes deutsches Wort. Sprich gleichmäßig und vergleiche dich mit der Hörvorlage.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „シャツ“ (shatsu)?",
                   "correct": "Du unterscheidest kleines ャ von großem ツ.",
                   "wrong": [
                     "Du liest シ am Anfang eines Tiernamens.",
@@ -7136,13 +8610,25 @@
             "Katakana im Alltag",
             "Schrift"
           ],
-          "stage": "Schrift"
+          "stage": "Schrift",
+          "study_guide": {
+            "revision": 1,
+            "prerequisites": [
+              "v11:kata-long"
+            ],
+            "points": [
+              "Vergleiche シ (shi) und ツ (tsu) bewusst im Schriftbild, ebenso ソ (so) und ン (n). Lies nicht allein nach dem Umriss des gesamten Wortes.",
+              "Neue Zeichen: ナ na, フ fu, kleines ァ a, ャ kleines ya. ファ wird zusammen fa gelesen; シャ zusammen sha.",
+              "シカ (shika, Hirsch), ツナ (tsuna, Thunfisch), ソファ (sofa, Sofa), パン (pan, Brot) und シャツ (shatsu, Hemd) geben dir feste Ankerwörter."
+            ],
+            "recall": "Finde in シャツ zuerst shi + kleines ya und danach großes tsu."
+          }
         },
         {
           "id": "v11:kata-media",
           "title": "Katakana für Technik und Medien",
           "xp": 50,
-          "goal": "Du liest fünf Wörter, die auf Geräten und in Menüs vorkommen.",
+          "goal": "Technikwörter lesen, ohne die deutsche Lautung zu übernehmen.",
           "intro": "Du liest fünf Wörter, die auf Geräten und in Menüs vorkommen. Du lernst jeweils die japanische Aussprache, nicht die englische Originalaussprache. Das ist besonders bei Wörtern mit zusätzlichen Vokalen wichtig.",
           "origin": "v11",
           "cards": [
@@ -7180,12 +8666,11 @@
                 ],
                 "pitfall": "Die Lautschrift ist eine Starthilfe, kein exaktes deutsches Wort. Sprich gleichmäßig und vergleiche dich mit der Hörvorlage.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
-                  "correct": "Du benennst einen Fernseher.",
+                  "question": "Du willst den Fernseher einschalten. Welches Wort bezeichnet das Gerät?",
+                  "correct": "テレビ",
                   "wrong": [
-                    "Du benennst ein Radio.",
-                    "Du benennst einen Computer.",
-                    "Du benennst ein Smartphone."
+                    "ラジオ",
+                    "スマホ"
                   ]
                 }
               },
@@ -7230,7 +8715,7 @@
                 ],
                 "pitfall": "Die Lautschrift ist eine Starthilfe, kein exaktes deutsches Wort. Sprich gleichmäßig und vergleiche dich mit der Hörvorlage.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „ラジオ“ (rajio)?",
                   "correct": "Du benennst ein Radio.",
                   "wrong": [
                     "Du benennst einen Fernseher.",
@@ -7284,7 +8769,7 @@
                 ],
                 "pitfall": "Die Lautschrift ist eine Starthilfe, kein exaktes deutsches Wort. Sprich gleichmäßig und vergleiche dich mit der Hörvorlage.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „パソコン“ (pasokon)?",
                   "correct": "Du benennst einen Computer.",
                   "wrong": [
                     "Du benennst einen Fernseher.",
@@ -7334,7 +8819,7 @@
                 ],
                 "pitfall": "Die Lautschrift ist eine Starthilfe, kein exaktes deutsches Wort. Sprich gleichmäßig und vergleiche dich mit der Hörvorlage.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „スマホ“ (sumaho)?",
                   "correct": "Du benennst ein Smartphone.",
                   "wrong": [
                     "Du benennst einen Fernseher.",
@@ -7384,7 +8869,7 @@
                 ],
                 "pitfall": "Die Lautschrift ist eine Starthilfe, kein exaktes deutsches Wort. Sprich gleichmäßig und vergleiche dich mit der Hörvorlage.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „アプリ“ (apuri)?",
                   "correct": "Du benennst eine App.",
                   "wrong": [
                     "Du benennst einen Fernseher.",
@@ -7447,13 +8932,25 @@
             "Katakana im Alltag",
             "Schrift"
           ],
-          "stage": "Schrift"
+          "stage": "Schrift",
+          "study_guide": {
+            "revision": 1,
+            "prerequisites": [
+              "v11:kata-similar"
+            ],
+            "points": [
+              "Neue Zeichen: ビ bi, オ o, リ ri, マ ma, プ pu. テレビ (terebi) bezeichnet einen Fernseher, ラジオ (rajio) ein Radio.",
+              "パソコン (pasokon, Computer) und スマホ (sumaho, Smartphone) sind gebräuchliche Kurzformen. Lerne sie als ganze Wörter.",
+              "アプリ (apuri, App) hat drei Takte. Dass ein Fremdwort vertraut aussieht, bedeutet nicht, dass seine japanische Aussprache der deutschen entspricht."
+            ],
+            "recall": "Sprich アプリ in drei Takten und lies danach スマホ."
+          }
         },
         {
           "id": "v11:kata-combinations",
           "title": "Kleine Katakana und Doppelkonsonanten",
           "xp": 50,
-          "goal": "Du liest Kombinationen und kleine Pausen in Lehnwörtern.",
+          "goal": "Kleine Katakana und Pausen auch in Fremdwörtern lesen.",
           "intro": "Du liest Kombinationen und kleine Pausen in Lehnwörtern. Kleine Zeichen verbinden sich mit dem Zeichen davor. Kleines ッ bremst dagegen den folgenden Konsonanten; ー verlängert einen Vokal.",
           "origin": "v11",
           "cards": [
@@ -7495,12 +8992,11 @@
                 ],
                 "pitfall": "Die Lautschrift ist eine Starthilfe, kein exaktes deutsches Wort. Sprich gleichmäßig und vergleiche dich mit der Hörvorlage.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
-                  "correct": "Du benennst ein Ticket und hörst die kurze Pause.",
+                  "question": "Du brauchst eine Eintrittskarte. Welches gelernte Wort enthält die Pause vor t?",
+                  "correct": "チケット",
                   "wrong": [
-                    "Du liest einen doppelten g-Laut.",
-                    "Du benennst Nachrichten mit langem nyū.",
-                    "Du liest den Fremdwortlaut ti."
+                    "バッグ",
+                    "ニュース"
                   ]
                 }
               },
@@ -7545,7 +9041,7 @@
                 ],
                 "pitfall": "Die Lautschrift ist eine Starthilfe, kein exaktes deutsches Wort. Sprich gleichmäßig und vergleiche dich mit der Hörvorlage.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „バッグ“ (baggu)?",
                   "correct": "Du liest einen doppelten g-Laut.",
                   "wrong": [
                     "Du benennst ein Ticket und hörst die kurze Pause.",
@@ -7591,7 +9087,7 @@
                 ],
                 "pitfall": "Die Lautschrift ist eine Starthilfe, kein exaktes deutsches Wort. Doppelte Vokale bzw. ō/ū/ā/ī/ē nicht verkürzen.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „ニュース“ (nyūsu)?",
                   "correct": "Du benennst Nachrichten mit langem nyū.",
                   "wrong": [
                     "Du benennst ein Ticket und hörst die kurze Pause.",
@@ -7633,7 +9129,7 @@
                 ],
                 "pitfall": "Die Lautschrift ist eine Starthilfe, kein exaktes deutsches Wort. Doppelte Vokale bzw. ō/ū/ā/ī/ē nicht verkürzen.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „ティー“ (tī)?",
                   "correct": "Du liest den Fremdwortlaut ti.",
                   "wrong": [
                     "Du benennst ein Ticket und hörst die kurze Pause.",
@@ -7683,7 +9179,7 @@
                 ],
                 "pitfall": "Die Lautschrift ist eine Starthilfe, kein exaktes deutsches Wort. Sprich gleichmäßig und vergleiche dich mit der Hörvorlage.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „ファイル“ (fairu)?",
                   "correct": "Du benennst eine Datei.",
                   "wrong": [
                     "Du benennst ein Ticket und hörst die kurze Pause.",
@@ -7746,7 +9242,20 @@
             "Katakana im Alltag",
             "Schrift"
           ],
-          "stage": "Schrift"
+          "stage": "Schrift",
+          "study_guide": {
+            "revision": 1,
+            "prerequisites": [
+              "v11:kata-similar",
+              "v11:small-tsu"
+            ],
+            "points": [
+              "Zeichenhilfe: ニ ni, グ gu, kleines ィ i. ニュ wird nyu, ティ wird ti und ファ wird fa gelesen; das kleine Zeichen gehört jeweils zum vorherigen.",
+              "チケット (chiketto, Ticket) hat die Pause vor t; バッグ (baggu, Tasche) vor g. Kleines ッ wird hier nicht als tsu gesprochen.",
+              "ニュース (nyūsu, Nachrichten) und ティー (tī, Tee) verlängern den kombinierten Vokal. ファイル (fairu, Datei) hat fa-i-ru, also drei Takte."
+            ],
+            "recall": "Markiere in チケット die Pause und in ティー den langen Vokal."
+          }
         }
       ]
     },
@@ -7760,7 +9269,7 @@
           "id": "v11:first-meeting",
           "title": "Zum ersten Mal jemanden treffen",
           "xp": 50,
-          "goal": "Du kannst ein Kennenlernen eröffnen und deinen Namen nennen.",
+          "goal": "Eine kurze erste Vorstellung in passender Reihenfolge führen.",
           "intro": "Du kannst ein Kennenlernen eröffnen und deinen Namen nennen. In diesen Sätzen macht です eine Aussage höflich. Pronomen können fehlen, wenn klar ist, wer spricht.",
           "origin": "v11",
           "cards": [
@@ -7790,12 +9299,11 @@
                 ],
                 "pitfall": "Die Lautschrift ist eine Starthilfe, kein exaktes deutsches Wort. Sprich gleichmäßig und vergleiche dich mit der Hörvorlage.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
-                  "correct": "Du begrüßt jemanden, dem du zum ersten Mal begegnest.",
+                  "question": "Du wirst einer Person zum ersten Mal vorgestellt. Womit beginnst du?",
+                  "correct": "はじめまして",
                   "wrong": [
-                    "Du stellst dich mit einem Namen vor.",
-                    "Du schließt eine erste Vorstellung freundlich ab.",
-                    "Du erwiderst eine freundliche Vorstellung."
+                    "またあした",
+                    "こちらこそ"
                   ]
                 }
               },
@@ -7836,7 +9344,7 @@
                 ],
                 "pitfall": "Die Lautschrift ist eine Starthilfe, kein exaktes deutsches Wort. Sprich gleichmäßig und vergleiche dich mit der Hörvorlage.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „さくらです“ (Sakura desu)?",
                   "correct": "Du stellst dich mit einem Namen vor.",
                   "wrong": [
                     "Du begrüßt jemanden, dem du zum ersten Mal begegnest.",
@@ -7882,7 +9390,7 @@
                 ],
                 "pitfall": "Die Lautschrift ist eine Starthilfe, kein exaktes deutsches Wort. Sprich gleichmäßig und vergleiche dich mit der Hörvorlage.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „よろしくおねがいします“ (yoroshiku onegai shimasu)?",
                   "correct": "Du schließt eine erste Vorstellung freundlich ab.",
                   "wrong": [
                     "Du begrüßt jemanden, dem du zum ersten Mal begegnest.",
@@ -7928,7 +9436,7 @@
                 ],
                 "pitfall": "Die Lautschrift ist eine Starthilfe, kein exaktes deutsches Wort. Sprich gleichmäßig und vergleiche dich mit der Hörvorlage.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „こちらこそ“ (kochira koso)?",
                   "correct": "Du erwiderst eine freundliche Vorstellung.",
                   "wrong": [
                     "Du begrüßt jemanden, dem du zum ersten Mal begegnest.",
@@ -7974,7 +9482,7 @@
                 ],
                 "pitfall": "Die Lautschrift ist eine Starthilfe, kein exaktes deutsches Wort. Sprich gleichmäßig und vergleiche dich mit der Hörvorlage.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „またあした“ (mata ashita)?",
                   "correct": "Du verabschiedest dich bis zum nächsten Tag.",
                   "wrong": [
                     "Du begrüßt jemanden, dem du zum ersten Mal begegnest.",
@@ -8037,13 +9545,26 @@
             "Sich kennenlernen",
             "Erste Sätze"
           ],
-          "stage": "Erste Sätze"
+          "stage": "Erste Sätze",
+          "study_guide": {
+            "revision": 1,
+            "prerequisites": [
+              "3:0",
+              "1:0"
+            ],
+            "points": [
+              "はじめまして (hajimemashite) passt zum ersten Kennenlernen. Danach kannst du deinen Namen mit です (desu) nennen: さくらです (Sakura desu). Sakura ist hier ein Beispielname.",
+              "よろしくおねがいします (yoroshiku onegai shimasu) ist eine feste freundliche Formel beim Kennenlernen. Eine starre wortwörtliche deutsche Übersetzung hilft hier weniger als die Situation.",
+              "こちらこそ (kochira koso) erwidert die Freundlichkeit. またあした (mata ashita, bis morgen) passt nur, wenn ein Wiedersehen morgen gemeint ist."
+            ],
+            "recall": "Begrüße eine neue Person, nenne deinen Namen und schließe freundlich ab."
+          }
         },
         {
           "id": "v11:asking-names",
           "title": "Namen nennen und höflich nachfragen",
           "xp": 50,
-          "goal": "Du fragst nach einem Namen und verstehst eine Vorstellung.",
+          "goal": "Den eigenen Namen nennen und höflich nach dem anderen fragen.",
           "intro": "Du fragst nach einem Namen und verstehst eine Vorstellung. お macht einige Nomen höflicher. In Fragen steht か am Ende. Ein fremder Name bekommt oft さん, der eigene nicht.",
           "origin": "v11",
           "cards": [
@@ -8073,12 +9594,11 @@
                 ],
                 "pitfall": "Die Lautschrift ist eine Starthilfe, kein exaktes deutsches Wort. Sprich gleichmäßig und vergleiche dich mit der Hörvorlage.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
-                  "correct": "Du benennst den Namen als Information.",
+                  "question": "Du suchst in einem Formular das Feld für den Namen. Welches gelernte Wort bezeichnet diese Information?",
+                  "correct": "なまえ",
                   "wrong": [
-                    "Du fragst höflich nach dem Namen deines Gegenübers.",
-                    "Du sprichst eine andere Person höflich mit ihrem Namen an.",
-                    "Du stellst deinen Namen mit „ich heiße“ vor."
+                    "どうぞ",
+                    "たなかさん"
                   ]
                 }
               },
@@ -8119,7 +9639,7 @@
                 ],
                 "pitfall": "Die Lautschrift ist eine Starthilfe, kein exaktes deutsches Wort. Sprich gleichmäßig und vergleiche dich mit der Hörvorlage.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „おなまえは“ (onamae wa)?",
                   "correct": "Du fragst höflich nach dem Namen deines Gegenübers.",
                   "wrong": [
                     "Du benennst den Namen als Information.",
@@ -8165,7 +9685,7 @@
                 ],
                 "pitfall": "Die Lautschrift ist eine Starthilfe, kein exaktes deutsches Wort. Sprich gleichmäßig und vergleiche dich mit der Hörvorlage.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „たなかさん“ (Tanaka-san)?",
                   "correct": "Du sprichst eine andere Person höflich mit ihrem Namen an.",
                   "wrong": [
                     "Du benennst den Namen als Information.",
@@ -8215,7 +9735,7 @@
                 ],
                 "pitfall": "Die Lautschrift ist eine Starthilfe, kein exaktes deutsches Wort. Doppelte Vokale bzw. ō/ū/ā/ī/ē nicht verkürzen.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „さくらといいます“ (Sakura to iimasu)?",
                   "correct": "Du stellst deinen Namen mit „ich heiße“ vor.",
                   "wrong": [
                     "Du benennst den Namen als Information.",
@@ -8257,7 +9777,7 @@
                 ],
                 "pitfall": "Die Lautschrift ist eine Starthilfe, kein exaktes deutsches Wort. Doppelte Vokale bzw. ō/ū/ā/ī/ē nicht verkürzen.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „どうぞ“ (dōzo)?",
                   "correct": "Du überlässt einer anderen Person freundlich das Wort.",
                   "wrong": [
                     "Du benennst den Namen als Information.",
@@ -8320,13 +9840,25 @@
             "Sich kennenlernen",
             "Erste Sätze"
           ],
-          "stage": "Erste Sätze"
+          "stage": "Erste Sätze",
+          "study_guide": {
+            "revision": 1,
+            "prerequisites": [
+              "v11:first-meeting"
+            ],
+            "points": [
+              "なまえ (namae) heißt Name. おなまえは (onamae wa) fragt höflich nach dem Namen des Gegenübers. Das o ist hier eine Höflichkeitsvorsilbe; wa wird als は geschrieben.",
+              "Bei anderen Personen folgt さん (san) dem Namen: たなかさん (Tanaka-san). Beim eigenen Namen lässt du san weg.",
+              "さくらといいます (Sakura to iimasu) ist die feste Vorstellung Ich heiße Sakura. どうぞ (dōzo) kann dem Gegenüber das Wort anbieten. Die Grammatik von to iimasu wird später vertieft."
+            ],
+            "recall": "Frage nach dem Namen und antworte mit deinem eigenen Namen ohne san."
+          }
         },
         {
           "id": "v11:countries",
           "title": "Länder und Herkunft",
           "xp": 50,
-          "goal": "Du nennst fünf Länder und bildest mit じん eine Nationalität.",
+          "goal": "Fünf Ländernamen lesen und das Nationalitätsmuster übertragen.",
           "intro": "Du nennst fünf Länder und bildest mit じん eine Nationalität. Land + じん bezeichnet eine Person aus diesem Land. Land + です kann je nach Frage die Herkunft knapp beantworten.",
           "origin": "v11",
           "cards": [
@@ -8356,12 +9888,11 @@
                 ],
                 "pitfall": "Die Lautschrift ist eine Starthilfe, kein exaktes deutsches Wort. Sprich gleichmäßig und vergleiche dich mit der Hörvorlage.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
-                  "correct": "Du nennst Japan als Land.",
+                  "question": "Du möchtest Japan als Land nennen. Welche Form brauchst du?",
+                  "correct": "にほん",
                   "wrong": [
-                    "Du nennst Deutschland als Land.",
-                    "Du nennst Frankreich als Land.",
-                    "Du nennst das Vereinigte Königreich als Land."
+                    "ドイツ",
+                    "イギリス"
                   ]
                 }
               },
@@ -8398,7 +9929,7 @@
                 ],
                 "pitfall": "Die Lautschrift ist eine Starthilfe, kein exaktes deutsches Wort. Sprich gleichmäßig und vergleiche dich mit der Hörvorlage.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „ドイツ“ (Doitsu)?",
                   "correct": "Du nennst Deutschland als Land.",
                   "wrong": [
                     "Du nennst Japan als Land.",
@@ -8440,7 +9971,7 @@
                 ],
                 "pitfall": "Die Lautschrift ist eine Starthilfe, kein exaktes deutsches Wort. Sprich gleichmäßig und vergleiche dich mit der Hörvorlage.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „フランス“ (Furansu)?",
                   "correct": "Du nennst Frankreich als Land.",
                   "wrong": [
                     "Du nennst Japan als Land.",
@@ -8482,7 +10013,7 @@
                 ],
                 "pitfall": "Die Lautschrift ist eine Starthilfe, kein exaktes deutsches Wort. Sprich gleichmäßig und vergleiche dich mit der Hörvorlage.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „イギリス“ (Igirisu)?",
                   "correct": "Du nennst das Vereinigte Königreich als Land.",
                   "wrong": [
                     "Du nennst Japan als Land.",
@@ -8524,7 +10055,7 @@
                 ],
                 "pitfall": "Die Lautschrift ist eine Starthilfe, kein exaktes deutsches Wort. Sprich gleichmäßig und vergleiche dich mit der Hörvorlage.",
                 "scenario": {
-                  "question": "Welche Verwendung passt zu dieser Karte?",
+                  "question": "In welcher Situation passt „アメリカ“ (Amerika)?",
                   "correct": "Du nennst die USA als Herkunftsland.",
                   "wrong": [
                     "Du nennst Japan als Land.",
@@ -8587,7 +10118,20 @@
             "Sich kennenlernen",
             "Erste Sätze"
           ],
-          "stage": "Erste Sätze"
+          "stage": "Erste Sätze",
+          "study_guide": {
+            "revision": 1,
+            "prerequisites": [
+              "2:1",
+              "v11:asking-names"
+            ],
+            "points": [
+              "にほん (Nihon) bezeichnet Japan, ドイツ (Doitsu) Deutschland, フランス (Furansu) Frankreich, イギリス (Igirisu) das Vereinigte Königreich und アメリカ (Amerika) hier die USA.",
+              "Noch benötigte Katakana: ン n, ギ gi, ア a. Das sind dieselben Laute wie in den bekannten Hiragana; ぎ und ギ gehören zur G-Reihe.",
+              "Für eine Person ergänzt du in diesen Beispielen じん (jin): にほんじん (Nihon-jin), ドイツじん (Doitsu-jin). Mit です (desu) entsteht eine höfliche Aussage. Beim Gesprächstraining darfst du Antworten und Hilfen erst ansehen und dann selbst sprechen."
+            ],
+            "recall": "Wähle einen Ländernamen, ergänze jin und bilde eine Aussage mit desu."
+          }
         },
         {
           "id": "v11:languages",
@@ -32708,4 +34252,3 @@
   ],
   "authorship_note": "Die neuen deutschen Erklärungen, japanischen Beispiele und Übungen wurden eigenständig für dieses Paket verfasst. Die Quellen dienen fachlicher Orientierung, nicht als übernommene Lehrbuchtexte oder Bestätigung einer offiziellen Prüfung."
 }
-

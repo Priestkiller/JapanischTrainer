@@ -13,6 +13,22 @@ function pass(s) {
  else s.checkWrite(s.card.romaji);
 }
 
+test('All 150 lessons remain solvable with the revised content and help never advances a task',()=>{
+ const c=setup();
+ assert.equal(c.lessons.filter(l=>l.study_guide).length,30);
+ for(const l of c.lessons){
+  const s=new Session(l,c,false);s.hintOpen=true;
+  assert.equal(s.advance(),'blocked');assert.equal(c.store.data.completed.includes(l.key),false);
+  let ended=false;
+  for(let i=0;i<l.cards.length*8;i++){
+   pass(s);assert.equal(s.success,true,`${l.key} ${s.phase}`);
+   const result=s.advance();assert.equal(s.hintOpen,false);
+   if(result==='complete'){ended=true;break;}
+  }
+  assert.equal(ended,true,l.key);
+ }
+});
+
 test('The full original course and stable IDs are available on Android',()=>{
  const c=setup();assert.equal(c.lessons.length,150);assert.equal(c.cards.length,680);
  assert.deepEqual(c.lessons.map(l=>l.key),raw.learning_order);assert.equal(c.catalog.TEACHERS.length,8);

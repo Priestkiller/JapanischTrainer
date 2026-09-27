@@ -5,7 +5,7 @@ const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const bridge=window.AndroidTrainer;
 const state={page:'home',session:null,query:'',stage:'Alle',libraryQuery:'',review:null,revealed:false,teacherDetail:null,
-  caps:{native:!!bridge,models:false,modelBytes:0,version:'11.0.1-android.3'},audio:null,speech:null,speechMessage:'',recording:'idle',
+  caps:{native:!!bridge,models:false,modelBytes:0,version:'11.0.2-android.1'},audio:null,speech:null,speechMessage:'',recording:'idle',
   modelStatus:'',modelPercent:0,modelBusy:false,updateStatus:'',updateAvailable:false,updateBusy:false,licenseText:'',completeLesson:null};
 let course,store,catalog,talkUI,blinkIndex,expressions,animationStop=()=>{},toastTimer,requestCounter=0,saveError='';
 const native=(name,...args)=> { if(bridge&&typeof bridge[name]==='function')return bridge[name](...args);return undefined; };
@@ -26,14 +26,14 @@ function heading(eyebrow,title,description='') {return `<div class="page-heading
 function teacherStrip() {const t=course.teacher();return `<div class="coach"><img src="assets/teachers/${t.id}/avatar.png" alt=""><div class="coach-copy"><strong>${esc(t.name)} begleitet dich</strong><p class="sub">${esc(t.style)}</p></div><span class="pill">Schritt für Schritt</span></div>`;}
 function home() {
   const t=course.teacher(),next=course.next(),done=course.lessons.filter(l=>store.data.completed.includes(l.key)).length;
-  return `<p class="eyebrow">Dein kleiner Schritt nach Japan</p><section class="hero" aria-label="Willkommen"><div class="hero-copy"><span class="pill">${state.caps.models?'● Alles bereit · offline':'150 Lektionen · offline lernen'}</span><h1 style="margin-top:16px">Ein bisschen<br>Japanisch.<br>Jeden Tag.</h1><p class="sub">${esc(t.name)} begleitet dich auf deinem Lernweg.</p><button class="primary" id="hero-resume">Weiterlernen →</button><p class="hero-quote">„${esc(t.de)}“</p></div><canvas id="teacher-canvas" width="512" height="768" role="img" aria-label="${esc(t.name)}"></canvas></section>
-  <div class="stats"><div class="stat accent"><strong>${store.data.streak} ${store.data.streak===1?'Tag':'Tage'}</strong><span>Lernserie</span></div><div class="stat"><strong>${store.data.xp} XP</strong><span>Level ${Math.floor(store.data.xp/250)+1}</span></div><div class="stat"><strong>${done} / 150</strong><span>Lektionen</span></div></div>
-  <section class="section"><div class="section-title"><h2>Dein nächster Schritt</h2><button class="text-link" data-nav="course">Lernweg ansehen</button></div><article class="card next-card"><span class="pill">${esc(next.level)}</span><p class="lesson-title">${esc(next.title)}</p><p class="sub">${esc(next.goal??next.unit)}</p><div class="progress" aria-label="${done} von 150 Lektionen"><span style="width:${done/150*100}%"></span></div><div class="row"><span class="sub">${next.cards.length} Lernkarten · ${next.xp??20} XP</span><button class="small primary" id="next-resume">${store.data.last_lesson.key===next.key?'Fortsetzen':'Loslegen'} →</button></div></article></section>
+  return `<p class="eyebrow">Dein kleiner Schritt nach Japan</p><section class="hero" aria-label="Willkommen"><div class="hero-copy"><span class="pill">${state.caps.models?'● Alles bereit · offline':`${course.lessons.length} Lektionen · offline lernen`}</span><h1 style="margin-top:16px">Ein bisschen<br>Japanisch.<br>Jeden Tag.</h1><p class="sub">${esc(t.name)} begleitet dich auf deinem Lernweg.</p><button class="primary" id="hero-resume">Weiterlernen →</button><p class="hero-quote">„${esc(t.de)}“</p></div><canvas id="teacher-canvas" width="512" height="768" role="img" aria-label="${esc(t.name)}"></canvas></section>
+  <div class="stats"><div class="stat accent"><strong>${store.data.streak} ${store.data.streak===1?'Tag':'Tage'}</strong><span>Lernserie</span></div><div class="stat"><strong>${store.data.xp} XP</strong><span>Level ${Math.floor(store.data.xp/250)+1}</span></div><div class="stat"><strong>${done} / ${course.lessons.length}</strong><span>Lektionen</span></div></div>
+  <section class="section"><div class="section-title"><h2>Dein nächster Schritt</h2><button class="text-link" data-nav="course">Lernweg ansehen</button></div><article class="card next-card"><span class="pill">${esc(next.level)}</span><p class="lesson-title">${esc(next.title)}</p><p class="sub">${esc(next.goal??next.unit)}</p><div class="progress" aria-label="${done} von ${course.lessons.length} Lektionen"><span style="width:${done/course.lessons.length*100}%"></span></div><div class="row"><span class="sub">${next.cards.length} Lernkarten · ${next.xp??20} XP</span><button class="small primary" id="next-resume">${store.data.last_lesson.key===next.key?'Fortsetzen':'Loslegen'} →</button></div></article></section>
   <section class="card talk-home"><span class="pill">Neu · Gespräche offline</span><h2>Einfach mal miteinander reden.</h2><p class="sub">Mit ${esc(t.name)} im Café bestellen, jemanden kennenlernen oder das Wochenende planen.</p><button class="primary wide" data-nav="talk">Gespräche üben →</button></section>
   ${!state.caps.models?`<aside class="info"><strong>Deine Lehrer bekommen eine Stimme.</strong><p style="margin:5px 0 7px">Lade einmal das Sprachpaket für Stimmen und Sprechen. Danach funktioniert auch das offline.</p><button class="small ghost" data-nav="settings">Sprachpaket einrichten</button></aside>`:''}
   ${store.data.show_kiko?`<div class="kiko-note"><img src="assets/mascot/kiko_idle.png" alt="Kiko"><span>Lieber fünf Minuten mit Freude als gar nicht anfangen.</span></div>`:''}`;
 }
-function courseList() {return heading('Dein Lernweg','Schritt für Schritt','150 Lektionen. Vom ersten Laut bis zum zusammenhängenden Text.')+
+function courseList() {return heading('Dein Lernweg','Schritt für Schritt',`${course.lessons.length} Lektionen. Vom ersten Laut bis zum zusammenhängenden Text.`)+
   `<div class="filters"><label class="field"><span>Lektion oder Wort suchen</span><input id="course-search" type="search" placeholder="Zum Beispiel: Hiragana, Reisen …" value="${esc(state.query)}"></label><label class="field"><span>Abschnitt</span><select id="stage"><option>Alle</option>${course.stages.map(s=>`<option ${s===state.stage?'selected':''}>${esc(s)}</option>`).join('')}</select></label></div><div id="course-results">${courseRows()}</div>`;}
 function courseRows() {
   const list=course.search(state.query,state.stage);let previous='';
@@ -58,24 +58,36 @@ function explanation(card,lesson) {
   const p=course.profile(card,lesson),ex=course.example(card);
   return `<div class="explain"><h3>${esc(p.kind)}</h3><p>${esc(p.usage)}</p><h3>So funktioniert es</h3><p>${esc(p.explain)}</p>${p.parts?.length?`<ul>${p.parts.map(part=>`<li><strong lang="ja">${esc(part[0])}</strong> – ${esc(part[1])}</li>`).join('')}</ul>`:''}<h3>Ein Beispiel</h3><div class="example"><p class="jp" lang="ja">${esc(ex.jp)}</p><p class="romaji">${esc(ex.romaji)}</p><p>${esc(ex.de)}</p><button class="small ghost" id="hear-example">▷ Beispiel hören</button></div>${p.register?`<h3>Wann passt das?</h3><p>${esc(p.register)}</p>`:''}<h3>Achte darauf</h3><p>${esc(p.pitfall)}</p>${p.extra?.length?`<ul>${p.extra.map(x=>`<li>${esc(Array.isArray(x)?x.join(' · '):x)}</li>`).join('')}</ul>`:''}</div>`;
 }
+function lessonGuide(lesson,open=false) {
+  const g=lesson.study_guide;
+  const points=g?.points??(lesson.intro?[lesson.intro]:[]);
+  if(!points.length)return '';
+  const before=(g?.prerequisites??[]).map(key=>course.byKey.get(key)?.title).filter(Boolean);
+  return `<details class="lesson-guide" ${open?'open':''}><summary>Vorwissen & Lernhilfe</summary><div class="explain">${before.length?`<p class="sub"><strong>Das greifst du wieder auf:</strong> ${esc(before.join(' · '))}</p>`:''}${points.map(p=>`<p>${esc(p)}</p>`).join('')}${g?.recall?`<div class="info"><strong>Zum selbst Ausprobieren</strong><p>${esc(g.recall)}</p></div>`:''}</div></details>`;
+}
 function lesson() {
   const s=state.session;if(!s)return '';
   const phase=PHASES.indexOf(s.phase);
   return `<div class="lesson-layout"><div class="lesson-header"><button class="back-button" data-nav="course" aria-label="Zurück zum Lernweg">‹</button><div><h1>${esc(s.lesson.title)}</h1><span class="sub">${esc(s.lesson.level)} · Karte ${s.index+1} von ${s.lesson.cards.length}</span></div></div>
+  ${s.mode==='learn'&&s.phase==='speak'&&s.lesson.goal?`<p class="lesson-goal"><strong>Dein Lernziel:</strong> ${esc(s.lesson.goal)}</p>`:''}
   ${s.mode==='recap'?`<div class="info">Noch ${s.recap.length} Zuordnungen in der Abschlussrunde. Schwierige Karten kommen noch einmal dran.</div>`:`<div class="phase-track" aria-label="Schritt ${phase+1} von 6">${PHASES.map((p,i)=>`<span class="${i===phase?'current':i<phase?'past':''}"></span>`).join('')}</div>`}
   <section class="card exercise-card" data-step="${s.mode==='recap'?'recap':s.phase}"><div class="task-header"><div><p class="eyebrow" id="step-count">${s.mode==='recap'?`Abschlussrunde · ${s.recap_passed+1}/${s.recap_total}`:`Schritt ${phase+1}/6`}</p><h2>${s.mode==='recap'?'Zum Abschluss':LABELS[s.phase]}</h2></div></div><div id="task">${task()}</div></section></div>`;
 }
 function task() {
   const s=state.session;let html='';
   if(s.mode==='recap')html=`<p>Welche Bedeutung passt?</p><p class="jp exercise-prompt" lang="ja">${esc(s.card.jp)}</p>`+options(s);
-  else if(s.phase==='speak')html=cardView(s.card);
+  else if(s.phase==='speak')html=cardView(s.card)+lessonGuide(s.lesson,s.index===0);
   else if(s.phase==='meaning')html=`<p>Was bedeutet die japanische Form?</p><p class="jp exercise-prompt" lang="ja">${esc(s.card.jp)}</p>`+options(s);
   else if(s.phase==='listen')html=`<p>Höre eine bereits geübte Form. Welche Bedeutung passt?</p><button class="primary wide" id="hear-task">▷ Hörbeispiel abspielen</button><p id="audio-status" class="speech-message" role="status"></p>${options(s)}`;
   else if(s.phase==='build') {
     const parts=course.blocks(s.card,s.lesson);
     html=parts.length?`<p>Setze die Bausteine in die richtige Reihenfolge.</p><p class="build-meaning">${esc(s.card.de)}</p><div class="token-board" id="token-board">${s.tokens.length?s.tokens.map((v,i)=>`<button data-remove-token="${i}">${esc(parts[v])}</button>`).join(''):'<span class="sub">Tippe die Bausteine unten an.</span>'}</div><div class="tokens">${shuffle(parts.map((p,i)=>i),s.key).map(i=>`<button data-token="${i}" ${s.tokens.includes(i)||s.success?'disabled':''}>${esc(parts[i])}</button>`).join('')}</div><button class="ghost wide" id="check-build" ${s.success?'disabled':''}>Reihenfolge prüfen</button>`:`<p>Diese kurze Form hat keine getrennten Bausteine. Wähle ihre Lesung.</p><p class="jp exercise-prompt" lang="ja">${esc(s.card.jp)}</p>`+options(s);
   } else if(s.phase==='write')html=`<p>Schreibe die Lesung aus dem Gedächtnis in Romaji.</p><p class="jp exercise-prompt" lang="ja">${esc(s.card.jp)}</p><form id="write-form"><label class="field"><span>Deine Lesung</span><input id="romaji-input" type="text" autocomplete="off" autocapitalize="none" spellcheck="false" enterkeyhint="done" placeholder="Romaji eingeben" ${s.success?'disabled':''}></label><button class="ghost wide" ${s.success?'disabled':''}>Lesung prüfen</button></form>`;
-  else if(s.phase==='apply')html=`<p>${esc(course.profile(s.card,s.lesson).scenario.question)}</p>${options(s)}`;
+  else if(s.phase==='apply') {
+    const p=course.profile(s.card,s.lesson),q=p.scenario.question;
+    html=`${p.kind==='Leseverständnis'?`<p class="jp exercise-prompt" lang="ja">${esc(s.card.jp)}</p>`:''}<p>${esc(q)}</p>${/dieser (Lern)?Karte/i.test(q)?`<p lang="ja">${esc(s.card.jp)} (${esc(s.card.romaji)})</p>`:''}${options(s)}`;
+  }
+  if(s.mode==='recap'||s.phase!=='speak')html+=`<button id="show-hint" class="ghost wide">${s.hintOpen?'Hilfe schließen':'Ich brauche einen Hinweis'}</button>${s.hintOpen?`<aside class="exercise-hint"><p class="sub">Nachgeschaut · Hilfe gibt den nächsten Schritt nicht frei.</p><p class="jp" lang="ja">${esc(s.card.jp)}</p><p class="romaji">${esc(s.card.romaji)}</p><p>${esc(s.card.de)}</p>${lessonGuide(s.lesson)}${explanation(s.card,s.lesson)}</aside>`:''}`;
   html+=`<div id="task-feedback" aria-live="polite">${feedback(s)}</div>`;
   if(s.mode==='learn'&&s.phase==='speak'&&s.shortSpeechReady&&!s.success)html+='<div class="info"><strong>Einzellaut selbst prüfen</strong><p>Bei kurzen Kana kann die Erkennung abweichen. Vergleiche mit der Vorlage: Hast du den Laut nachgesprochen?</p><button id="confirm-short-speech" class="ghost wide">Ja, selbst geprüft</button><p class="sub" style="margin-top:8px">Als Selbstprüfung gespeichert, nicht als automatisch erkannte Übereinstimmung.</p></div>';
   html+=`<div class="task-footer"><button id="advance" class="primary" ${s.success?'':'disabled'}>${s.mode==='recap'?(s.recap.length===1?'Lektion abschließen':'Weiter →'):PHASES.indexOf(s.phase)<5?`Weiter zu ${PHASES.indexOf(s.phase)+2}/6 →`:s.index<s.lesson.cards.length-1?'Nächste Karte →':'Zur Abschlussrunde →'}</button></div>`;
@@ -87,6 +99,7 @@ function feedback(s) {return s.feedback?`<div class="feedback ${s.success?'corre
 function refreshTask() {$('#task').innerHTML=task();bindTask();bindNavigation();refreshAudio();}
 function bindTask() {
   const s=state.session;
+  if($('#show-hint'))$('#show-hint').onclick=()=>{s.hintOpen=!s.hintOpen;if(s.hintOpen){const m=s.metrics();m.hints=(Number.isInteger(m.hints)?m.hints:0)+1;s.snapshot();}refreshTask();};
   $$('[data-choice]').forEach(b=>b.onclick=()=>{s.choose(s.answers().options[Number(b.dataset.choice)]);refreshTask();});
   $$('[data-token]').forEach(b=>b.onclick=()=>{s.tokens.push(Number(b.dataset.token));refreshTask();});
   $$('[data-remove-token]').forEach(b=>b.onclick=()=>{if(!s.success){s.tokens.splice(Number(b.dataset.removeToken),1);refreshTask();}});

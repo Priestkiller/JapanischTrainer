@@ -110,7 +110,7 @@ export class Session {
   }
   get card() {return this.lesson.cards[this.index];}
   get key() {return `${this.lesson.key}:${this.index}`;}
-  reset() { this.success=false;this.feedback='';this.tokens=[];this.audio_seen=false;this.audio_skipped=false;this.shortSpeechReady=false;this.skipped=false;this.chosen=null;this.listenCard=shuffle(this.lesson.cards.slice(0,this.index+1),`${this.key}:${this.phase}`)[0]; }
+  reset() { this.success=false;this.feedback='';this.hintOpen=false;this.tokens=[];this.audio_seen=false;this.audio_skipped=false;this.shortSpeechReady=false;this.skipped=false;this.chosen=null;this.listenCard=shuffle(this.lesson.cards.slice(0,this.index+1),`${this.key}:${this.phase}`)[0]; }
   snapshot() {this.store.data.lesson_sessions[this.lesson.key]={flow_revision:FLOW_REVISION,passed:[...this.passed],index:this.index,phase:this.phase,mode:this.mode,recap:[...this.recap],recap_total:this.recap_total,recap_passed:this.recap_passed};this.store.data.last_lesson={key:this.lesson.key,card:this.index};this.store.save();}
   metrics() { const existing=this.store.data.study_cards[this.key];const m=record(existing)?existing:{};this.store.data.study_cards[this.key]=m;for(const key of ['attempts','mistakes','speech_attempts','speech_skips'])if(!Number.isInteger(m[key]))m[key]=0;if(!Array.isArray(m.phases))m.phases=[];return m; }
   mark(ok,feedback,skipped=false) {

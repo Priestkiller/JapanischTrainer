@@ -146,7 +146,7 @@ with tempfile.TemporaryDirectory() as tmp:
         app.open_lesson('v11:jobs',2,True);app.scroll=0;capture('LIVE_V11_Neue_Lektion.png')
         app.open_lesson('v11:read-day',2,True);app.flow.phase='apply';app.flow.reset_task();app.scroll=0
         capture('LIVE_V11_Leseverstaendnis.png')
-        click('speak');capture('LIVE_V11_Inline.png')
+        click('learn-help');click('speak');capture('LIVE_V11_Inline.png')
         record('Live framebuffer captured from the running native window')
         (out/'ui-course-report.json').write_text(json.dumps({'checks':checks,'count':len(checks),'passed':True,
             'environment':sys.platform+'; temporary test profile','real_audio_inference':False,
