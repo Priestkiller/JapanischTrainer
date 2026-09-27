@@ -11,6 +11,8 @@ out = MOBILE/'generated/assets'
 out.mkdir(parents=True, exist_ok=True)
 for name in ('data', 'assets', 'licenses'):
     shutil.copytree(ROOT/name, out/name, dirs_exist_ok=True)
+shutil.copytree(MOBILE/'licenses',out/'licenses/android',dirs_exist_ok=True)
+shutil.copy2(MOBILE/'ANDROID_NOTICES.txt',out/'ANDROID_NOTICES.txt')
 for name in ('LICENSE.txt', 'MODEL_LICENSES.txt', 'MODEL_ATTRIBUTION.txt', 'THIRD_PARTY_NOTICES.txt'):
     shutil.copy2(ROOT/name, out/name)
 shutil.copy2(MOBILE/'model-pack.json', out/'model-pack.json')

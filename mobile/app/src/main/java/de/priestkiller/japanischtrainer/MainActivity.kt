@@ -21,6 +21,7 @@ import java.io.ByteArrayInputStream
 import java.io.File
 import java.util.concurrent.Executors
 import org.json.JSONObject
+import kotlin.math.roundToInt
 
 class MainActivity:Activity() {
     lateinit var web:WebView; private set
@@ -35,6 +36,7 @@ class MainActivity:Activity() {
     private var readyApk:File?=null
     private var exportText:String?=null
     private var closed=false
+    private var profileWarning=""
 
     override fun onCreate(savedInstanceState:Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,6 +52,7 @@ class MainActivity:Activity() {
         val loader=WebViewAssetLoader.Builder().addPathHandler("/assets/",WebViewAssetLoader.AssetsPathHandler(this)).build()
         web.settings.apply {
             javaScriptEnabled=true; domStorageEnabled=true
+            textZoom=(resources.configuration.fontScale*100).roundToInt().coerceIn(80,200)
             allowFileAccess=false; allowContentAccess=false; mixedContentMode=WebSettings.MIXED_CONTENT_NEVER_ALLOW
             mediaPlaybackRequiresUserGesture=true; setSupportMultipleWindows(false)
         }
@@ -78,7 +81,7 @@ class MainActivity:Activity() {
         runOnUiThread { if(!closed) web.evaluateJavascript("window.JTNative && window.JTNative(${JSONObject.quote(type)},$data)",null) }
     }
     private fun capabilities()=JSONObject().put("native",true).put("models",models.ready())
-        .put("modelBytes",models.manifest.getLong("bytes")).put("version",BuildConfig.VERSION_NAME)
+        .put("modelBytes",models.manifest.getLong("bytes")).put("version",BuildConfig.VERSION_NAME).put("profileWarning",profileWarning)
     private fun message(text:String) { emit("message",JSONObject().put("message",text)) }
     private fun save(text:String):Boolean {
         if(text.length>2_000_000)return false
@@ -93,7 +96,18 @@ class MainActivity:Activity() {
     }
     inner class Bridge {
         @JavascriptInterface fun getProfile():String = synchronized(profile) {
-            try { String(profile.readFully(),Charsets.UTF_8) } catch(e:Exception) { "{}" }
+            if(!profile.baseFile.exists() && !File(profile.baseFile.path+".bak").exists())return@synchronized "{}"
+            val bytes=profile.readFully()
+            val raw=String(bytes,Charsets.UTF_8).removePrefix("\uFEFF")
+            try {
+                val parsed=JSONObject(raw)
+                require(parsed.optJSONArray("completed")!=null && parsed.optInt("xp",-1)>=0)
+                raw
+            } catch(e:Exception) {
+                File(filesDir,"progress-unreadable-${System.currentTimeMillis()}.json").writeBytes(bytes)
+                profileWarning="Die Lernstand-Datei war nicht lesbar und wurde intern gesichert. Du kannst eine JSON-Sicherung importieren."
+                "{}"
+            }
         }
         @JavascriptInterface fun saveProfile(json:String)=save(json)
         @JavascriptInterface fun getCapabilities()=capabilities().toString()

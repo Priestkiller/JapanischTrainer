@@ -45,7 +45,7 @@ jobs:
           ram-size: 4096M
           disk-size: 6000M
           disable-animations: true
-          script: cd mobile && gradle --no-daemon :app:connectedDebugAndroidTest
+          script: cd mobile && gradle --no-daemon :app:connectedDebugAndroidTest && adb pull /sdcard/Android/data/de.priestkiller.japanischtrainer.test/files/test-evidence app/build/reports/emulator-screens
       - name: Upload APKs and actual test evidence
         if: always()
         uses: actions/upload-artifact@v4

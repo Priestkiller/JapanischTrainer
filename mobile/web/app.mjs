@@ -163,7 +163,7 @@ function bindPage() {
     $('#kiko').onchange=e=>{store.data.show_kiko=e.target.checked;save();};
     $('#export').onclick=()=>{save();if(bridge)native('exportProfile',JSON.stringify(store.data,null,2));else toast('Datei-Export ist in der installierten Android-App verfügbar.');};
     $('#import').onclick=()=>{if(bridge)native('importProfile');else toast('Datei-Import ist in der installierten Android-App verfügbar.');};
-    $('#licenses').onclick=async()=>{const [gpl,models,third]=await Promise.all(['LICENSE.txt','MODEL_LICENSES.txt','THIRD_PARTY_NOTICES.txt'].map(p=>fetch(p).then(r=>r.text())));state.licenseText=[gpl,models,third,'Android: sherpa-onnx 1.13.8 (Apache-2.0), AndroidX (Apache-2.0), Kotlin (Apache-2.0).'].join('\n\n');navigate('licenses');};
+    $('#licenses').onclick=async()=>{const paths=['ANDROID_NOTICES.txt','MODEL_LICENSES.txt','MODEL_ATTRIBUTION.txt','LICENSE.txt','licenses/android/sherpa-onnx-APACHE-2.0.txt','licenses/android/onnxruntime-MIT.txt','licenses/android/piper-phonemize-LICENSE.txt','licenses/android/espeak-ng-GPL-3.0.txt'];const texts=await Promise.all(paths.map(p=>fetch(p).then(r=>{if(!r.ok)throw Error('Lizenzdatei fehlt.');return r.text();})));state.licenseText=texts.join('\n\n');navigate('licenses');};
     bindSettingsBoxes();
   }
 }
@@ -192,6 +192,7 @@ function record() {
   const s=state.session,id=`speech-${++requestCounter}`;
   state.speech={id,context:`${s.key}:${s.phase}`,target:course.speechTarget(s.card,s.lesson)};
   state.recording='requesting';state.speechMessage='Mikrofon wird vorbereitet …';native('record',id);refreshAudio();
+  $('.learn-card').scrollIntoView({block:'start',behavior:'instant'});
 }
 function refreshAudio() {
   const button=$('#record');if(button) {button.textContent={idle:'◉ Jetzt sprechen',requesting:'Mikrofon wird vorbereitet …',recording:'■ Aufnahme beenden',recognizing:'Sprache wird erkannt …'}[state.recording];button.disabled=!['idle','recording'].includes(state.recording);button.classList.toggle('recording',state.recording==='recording');}
@@ -275,6 +276,6 @@ async function start() {
   document.addEventListener('visibilitychange',()=>{if(document.hidden){stopMedia();save();}});
   document.addEventListener('focusin',e=>{if(e.target.matches('input[type=text],input[type=search]'))document.body.classList.add('keyboard');});
   document.addEventListener('focusout',()=>{setTimeout(()=>{if(!document.activeElement.matches('input[type=text],input[type=search]'))document.body.classList.remove('keyboard');},100);});
-  render();document.documentElement.dataset.ready='true';
+  render();document.documentElement.dataset.ready='true';if(state.caps.profileWarning)toast(state.caps.profileWarning);
 }
 start().catch(error=>{$('#app').innerHTML=`<div class="info error"><h1>Start nicht möglich</h1><p>${esc(error.message)}</p><p>Bitte starte die App erneut. Deine Lernstand-Datei wird nicht absichtlich gelöscht.</p></div>`;console.error(error);});

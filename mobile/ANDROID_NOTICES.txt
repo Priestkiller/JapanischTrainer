@@ -1,0 +1,28 @@
+JapanischTrainer Android – Hinweise zu Drittkomponenten
+
+Programmquellcode: GPL-3.0-or-later, siehe LICENSE.txt.
+Kursdaten und vorhandene Lehrer-/Kiko-Grafiken stammen aus dem JapanischTrainer.
+
+Android-Sprachbibliothek: sherpa-onnx 1.13.8, k2-fsa und Mitwirkende,
+Apache-2.0. Originalquelle: https://github.com/k2-fsa/sherpa-onnx/tree/v1.13.8
+Die AAR enthält ONNX Runtime 1.28.2 (Microsoft, MIT) und TTS-Komponenten.
+piper-phonemize: MIT; eSpeak NG: GPL-3.0-or-later.
+Die festgelegten Originalquellen einschließlich Build-Dateien von sherpa-onnx,
+piper-phonemize und eSpeak NG liegen unter mobile/vendor-sources/ im passenden
+Quellpaket. Dateiversionen, Originaladressen und Prüfsummen: SOURCES.json.
+Weitere Bibliotheken werden durch die Original-Build-Dateien mit ihren
+festgelegten URLs und Prüfsummen bezogen. Für einen Bibliotheks-Neubau siehe
+die Android-Build-Skripte im sherpa-onnx-Quellarchiv.
+
+AndroidX WebKit 1.12.1, Core 1.15.0 und transitiv eingebundene AndroidX-
+Komponenten: The Android Open Source Project, Apache-2.0.
+Kotlin-Standardbibliothek: JetBrains und Mitwirkende, Apache-2.0.
+Apache-2.0-Text und die weiteren Originaltexte: licenses/android/ in der App.
+
+Sprachmodelle werden separat heruntergeladen. Supertonic 3 verwendet
+BigScience Open RAIL-M; SenseVoiceSmall verwendet die FunASR-Modelllizenz.
+Vollständige Bedingungen und Attributionen: MODEL_LICENSES.txt und
+MODEL_ATTRIBUTION.txt. Modellgewichte werden nicht pauschal unter GPL gestellt.
+
+Download von APK und Quellpaket:
+https://github.com/Priestkiller/JapanischTrainer/releases/tag/android-v11.0.1-1

@@ -126,8 +126,16 @@ class SpeechEngine(private val models: ModelStore, private val event: (String, M
     fun close() { destroyed=true; stopAll(); worker.execute { tts?.release(); recognizer?.release() }; worker.shutdown() }
     // Instrumented test: real synthesis and recognition, no microphone or speaker involved.
     fun diagnostic(): String {
-        val audio=tts().generateWithConfig("ありがとうございます。",GenerationConfig(sid=2,extra=mapOf("lang" to "ja")))
-        check(audio.samples.size>1000)
+        var first:GeneratedAudio?=null
+        val speakers=intArrayOf(2,0,6,9,1,3,7,4)
+        val speeds=floatArrayOf(.95f,.90f,.93f,1.03f,.87f,1.05f,.94f,.99f)
+        for(i in speakers.indices) {
+            val normal=tts().generateWithConfig("ありがとうございます。",GenerationConfig(sid=speakers[i],speed=speeds[i],extra=mapOf("lang" to "ja")))
+            val slow=tts().generateWithConfig("ありがとうございます。",GenerationConfig(sid=speakers[i],speed=speeds[i]*.72f,extra=mapOf("lang" to "ja")))
+            check(normal.samples.size>1000 && slow.samples.size>normal.samples.size)
+            if(first==null)first=normal
+        }
+        val audio=first!!
         val engine=asr(); val stream=engine.createStream()
         return try { stream.acceptWaveform(audio.samples,audio.sampleRate); engine.decode(stream); engine.getResult(stream).text } finally { stream.release() }
     }
