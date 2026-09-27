@@ -76,7 +76,11 @@ class SpeechEngine(private val models: ModelStore, private val event: (String, M
     fun stopPlayback() { generation.incrementAndGet(); runCatching { playback?.pause(); playback?.flush() } }
     @Suppress("MissingPermission")
     fun startRecording(request:String) {
-        if(recording||decoding||destroyed)return
+        if(destroyed)return
+        if(recording||decoding) {
+            event("speechError",mapOf("request" to request,"message" to "Die vorherige Aufnahme wird noch beendet. Bitte gleich erneut versuchen."))
+            return
+        }
         stopPlayback()
         if(!models.ready()) { event("speechError",mapOf("request" to request,"message" to "Bitte zuerst das Sprachpaket laden.")); return }
         cancelRecording=false; recording=true
