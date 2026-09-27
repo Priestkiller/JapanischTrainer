@@ -125,6 +125,7 @@ class MainActivity:Activity() {
         @JavascriptInterface fun downloadModels() { runOnUiThread { askModels() } }
         @JavascriptInterface fun cancelDownload() { models.cancelled=true }
         @JavascriptInterface fun checkUpdates() { runOnUiThread { checkUpdate() } }
+        @JavascriptInterface fun checkTestUpdates() { runOnUiThread { checkUpdate(true) } }
         @JavascriptInterface fun installUpdate() { runOnUiThread { this@MainActivity.installUpdate() } }
         @JavascriptInterface fun exportProfile(json:String) { runOnUiThread {
             if(json.length>2_000_000)return@runOnUiThread
@@ -161,11 +162,12 @@ class MainActivity:Activity() {
                 }
             }.show()
     }
-    private fun checkUpdate() {
+    private fun checkUpdate(testChannel:Boolean=false) {
         if(downloading)return
-        downloading=true; emit("updateChecking")
+        availableUpdate=null; readyApk=null
+        downloading=true; emit("updateChecking",JSONObject().put("test",testChannel))
         io.execute {
-            try { availableUpdate=updates.check(); emit(if(availableUpdate==null)"updateCurrent" else "updateAvailable",availableUpdate?:JSONObject()) }
+            try { availableUpdate=updates.check(testChannel); emit(if(availableUpdate==null)"updateCurrent" else "updateAvailable",(availableUpdate?:JSONObject()).put("test",testChannel)) }
             catch(e:Exception) { emit("updateError",JSONObject().put("message","Updates derzeit nicht erreichbar. Bitte später erneut versuchen.")) }
             finally { downloading=false }
         }

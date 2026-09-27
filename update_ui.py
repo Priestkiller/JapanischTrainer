@@ -16,8 +16,8 @@ def show_updates(app, root_path, current):
     win = tk.Toplevel(app.root)
     app.update_window = win
     win.title('JapanischTrainer – Updates')
-    win.geometry('640x410')
-    win.minsize(520, 340)
+    win.geometry('640x490')
+    win.minsize(520, 460)
     win.transient(app.root)
     win.configure(bg='#10243e')
     status = tk.StringVar(value='Installierte Version: '+current)
@@ -25,13 +25,14 @@ def show_updates(app, root_path, current):
     tk.Label(win, textvariable=status, bg='#10243e', fg='#dceaff', wraplength=580, justify='left', font=('Segoe UI',11)).pack(padx=22,anchor='w')
     notes = tk.Text(win, height=8, wrap='word', bg='#eef5ff', fg='#142942', font=('Segoe UI',11), relief='flat', padx=12,pady=10)
     notes.pack(padx=22,pady=14,fill='both',expand=True)
-    notes.insert('1.0','Du kannst während der Update-Prüfung weiterlernen. Dein Fortschritt bleibt erhalten.')
+    intro = 'Dein Fortschritt bleibt erhalten. Testversionen enthalten neue Funktionen zum Ausprobieren und werden nur über „Testversion suchen“ angeboten.'
+    notes.insert('1.0',intro)
     notes.configure(state='disabled')
     bar = ttk.Progressbar(win, maximum=100)
     bar.pack(padx=22,fill='x')
     events = queue.Queue()
     cancelled = threading.Event()
-    state = {'busy':False, 'release':None, 'ready':False, 'closed':False, 'cache':None}
+    state = {'busy':False, 'release':None, 'closed':False, 'cache':None, 'channel':'stable'}
 
     def close():
         cancelled.set()
@@ -41,14 +42,21 @@ def show_updates(app, root_path, current):
     def worker(action):
         state['busy'] = True
         button.configure(state='disabled')
+        stable_button.configure(state='disabled')
+        test_button.configure(state='disabled')
         def run():
             try: events.put(('done',action()))
             except Exception as exc: events.put(('error',str(exc)))
         threading.Thread(target=run, daemon=True).start()
 
-    def check():
-        status.set('Suche nach Updates …')
-        worker(lambda: ('checked', check_update(root_path,current)))
+    def check(channel='stable'):
+        if state['busy']:return
+        state.update(channel=channel, release=None, cache=None)
+        bar['value']=0
+        button.pack_forget()
+        notes.configure(state='normal');notes.delete('1.0','end');notes.insert('1.0',intro);notes.configure(state='disabled')
+        status.set('Suche nach Testversionen …' if channel=='test' else 'Suche nach regulären Updates …')
+        worker(lambda: ('checked', check_update(root_path,current,channel)))
 
     def download():
         state['cache'] = data_dir()/'updates'/uuid.uuid4().hex
@@ -71,8 +79,13 @@ def show_updates(app, root_path, current):
         state['closed'] = True
         app.close()
 
-    button = tk.Button(win,text='Nach Updates suchen',command=check,bg='#008bed',fg='white',relief='flat',padx=18,pady=9)
-    button.pack(pady=16)
+    searches = tk.Frame(win,bg='#10243e')
+    searches.pack(pady=(12,4))
+    stable_button = tk.Button(searches,text='Nach Updates suchen',command=check,padx=12,pady=8)
+    stable_button.pack(side='left',padx=5)
+    test_button = tk.Button(searches,text='Testversion suchen',command=lambda:check('test'),padx=12,pady=8)
+    test_button.pack(side='left',padx=5)
+    button = tk.Button(win,text='Update herunterladen',command=download,bg='#008bed',fg='white',relief='flat',padx=18,pady=9)
     win.protocol('WM_DELETE_WINDOW',close)
 
     def poll():
@@ -85,18 +98,19 @@ def show_updates(app, root_path, current):
                     status.set(f'Update wird geladen: {a/1048576:.1f} / {b/1048576:.1f} MB')
                     continue
                 state['busy']=False;button.configure(state='normal')
+                stable_button.configure(state='normal');test_button.configure(state='normal')
                 if kind=='error':
-                    status.set(value);button.configure(text='Erneut prüfen',command=check)
+                    status.set(value);button.pack_forget()
                 elif value[0]=='checked':
                     state['release']=value[1]
                     if value[1] is None:
-                        status.set('Version '+current+' ist aktuell.')
-                        button.configure(text='Erneut prüfen',command=check)
+                        status.set(('Keine neuere Testversion verfügbar. Installiert: ' if state['channel']=='test' else 'Keine neuere reguläre Version verfügbar. Installiert: ')+current)
                     else:
                         info=value[1][1]
-                        status.set('Installiert: '+current+' · Verfügbar: '+info['version'])
+                        status.set('Installiert: '+current+' · '+('Testversion: ' if state['channel']=='test' else 'Verfügbar: ')+info['version'])
                         notes.configure(state='normal');notes.delete('1.0','end');notes.insert('1.0',info.get('notes','Neue Programmversion.'));notes.configure(state='disabled')
-                        button.configure(text='Update herunterladen',command=download)
+                        button.configure(text='Testversion herunterladen' if state['channel']=='test' else 'Update herunterladen',command=download)
+                        button.pack(pady=(5,14))
                 else:
                     status.set('Download und Signatur geprüft. Dein Lernstand bleibt erhalten.')
                     button.configure(text='Update einspielen und neu starten',command=install)

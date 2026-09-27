@@ -15,23 +15,33 @@ class AppUpdates(private val context: Context) {
             String(ModelStore.readLimited(input,2_000_000),Charsets.UTF_8)
         } } finally { c.disconnect() }
     }
-    fun check():JSONObject? {
+    fun check(testChannel:Boolean=false):JSONObject? {
         val releases=JSONArray(json("https://api.github.com/repos/Priestkiller/JapanischTrainer/releases?per_page=30"))
         var newest:JSONObject?=null
         for(i in 0 until releases.length()) {
             val release=releases.getJSONObject(i)
-            if(release.optBoolean("draft") || !release.getString("tag_name").startsWith("android-v"))continue
+            if(!acceptsRelease(release,testChannel))continue
             val assets=release.getJSONArray("assets")
             for(j in 0 until assets.length()) {
                 val asset=assets.getJSONObject(j)
                 if(asset.getString("name")!="android-update.json")continue
                 val info=JSONObject(json(asset.getString("browser_download_url")))
                 require(info.getString("package")=="de.priestkiller.japanischtrainer")
-                require(info.getString("url").startsWith("https://github.com/Priestkiller/JapanischTrainer/releases/download/android-v"))
+                require(info.getString("url").startsWith("https://github.com/Priestkiller/JapanischTrainer/releases/download/"+release.getString("tag_name")+"/"))
                 if(info.getInt("code")>BuildConfig.VERSION_CODE && (newest==null || info.getInt("code")>newest!!.getInt("code")))newest=info
             }
         }
         return newest
+    }
+    companion object {
+        fun acceptsRelease(release:JSONObject,testChannel:Boolean):Boolean {
+            if(release.optBoolean("draft"))return false
+            val prefix=if(testChannel)"android-test-v" else "android-v"
+            // Earlier regular Android releases were also marked as prereleases on GitHub.
+            // Separate tags keep tests out of both the old and the new regular updater.
+            return Regex(Regex.escape(prefix)+"\\d+\\.\\d+\\.\\d+-\\d+").matches(release.optString("tag_name")) &&
+                (!testChannel || release.optBoolean("prerelease"))
+        }
     }
     fun download(info:JSONObject,progress:(Long,Long)->Unit):File {
         val dir=File(context.cacheDir,"updates").apply { mkdirs() }

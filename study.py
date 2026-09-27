@@ -135,17 +135,32 @@ class StudySession:
             self.feedback='Bitte zuerst das Hörbeispiel anhören oder „Ohne Ton“ wählen.';return
         self.chosen=value;ok=value==correct
         why=self.book.profile(self.card,self.lesson)
-        feedback=('Richtig. '+(why['explain'] if self.phase=='apply' else 'Die passende Zuordnung ist: '+str(correct))) if ok else 'Noch nicht. Schau in die Erklärung oder höre noch einmal. Die Aufgabe bleibt offen.'
+        feedback=('Richtig. '+(why['scenario'].get('explanation',why['explain']) if self.phase=='apply' and self.mode!='recap' else 'Die passende Zuordnung ist: '+str(correct))) if ok else self.wrong_choice(value)
         self.mark(ok,feedback,skipped=self.phase=='listen' and self.audio_skipped)
+    def wrong_choice(self,value):
+        if self.phase=='apply' and self.mode!='recap':
+            profile=self.book.profile(self.card,self.lesson)
+            reason=profile['scenario'].get('feedback',{}).get(value) or profile['explain']
+        elif self.phase=='build' and self.mode!='recap':
+            profile=self.book.profile(self.card,self.lesson)
+            reason=profile.get('feedback',{}).get('write',profile['pitfall'])
+        else:
+            target=self.listen_card if self.phase=='listen' and self.mode!='recap' else self.card
+            other=next((c for c in self.lesson['cards'] if c['de']==value),None)
+            prefix=f'Deine Auswahl gehört zu {other["jp"]} ({other["romaji"]}). ' if other else ''
+            reason=prefix+self.book.profile(target,self.lesson)['explain']
+        return 'Noch nicht. '+reason+' Die Aufgabe bleibt offen.'
     def check_build(self):
         parts,_=self.book.blocks(self.card,self.lesson)
         if not parts:return
         right=self.tokens==list(range(len(parts))) or [parts[i] for i in self.tokens]==parts
-        self.mark(right,'Richtig zusammengesetzt.' if right else 'Die Reihenfolge stimmt noch nicht. Vergleiche mit der Lernkarte oben und versuche es erneut.')
+        hint=self.book.profile(self.card,self.lesson).get('feedback',{}).get('build','Die Bausteine müssen vollständig sein. '+self.book.profile(self.card,self.lesson)['explain'])
+        self.mark(right,'Richtig zusammengesetzt.' if right else 'Die Reihenfolge stimmt noch nicht. '+hint)
     def check_write(self,text):
         self.input_text=text;ok=any(matches_romaji(text,reading) for reading in [self.card['romaji']]+self.card.get('romaji_aliases',[]))
+        hint=self.book.profile(self.card,self.lesson).get('feedback',{}).get('write',self.book.profile(self.card,self.lesson)['pitfall'])
         self.mark(ok,'Richtig geschrieben. Lange Vokale sind erhalten.' if ok else
-                  'Noch nicht passend. Vergleiche die Lesung oben. Für ō kannst du ou oder oo schreiben; die Länge darf nicht fehlen.')
+                  'Noch nicht passend. '+hint+' Für ō sind ou oder oo möglich; fehlende Vokallänge bleibt ein Fehler.')
     def advance(self):
         """Returns complete only after every task and a full recap, never after one MC."""
         if not self.success:return 'blocked'

@@ -1,5 +1,6 @@
 {
   "manifest_url": "https://github.com/Priestkiller/JapanischTrainer/releases/latest/download/update.json",
+  "test_releases_url": "https://api.github.com/repos/Priestkiller/JapanischTrainer/releases?per_page=30",
   "public_key": "lkQ49wSDKyZ0oBh4lP0YRBZbPvnCMkUA+Zr81AGli8s=",
   "downloads_url": "https://github.com/Priestkiller/JapanischTrainer/releases"
 }

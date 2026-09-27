@@ -5,8 +5,8 @@ const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const bridge=window.AndroidTrainer;
 const state={page:'home',session:null,query:'',stage:'Alle',libraryQuery:'',review:null,revealed:false,teacherDetail:null,
-  caps:{native:!!bridge,models:false,modelBytes:0,version:'11.0.2-android.1'},audio:null,speech:null,speechMessage:'',recording:'idle',
-  modelStatus:'',modelPercent:0,modelBusy:false,updateStatus:'',updateAvailable:false,updateBusy:false,licenseText:'',completeLesson:null};
+  caps:{native:!!bridge,models:false,modelBytes:0,version:'11.0.4-android.1'},audio:null,speech:null,speechMessage:'',recording:'idle',
+  modelStatus:'',modelPercent:0,modelBusy:false,updateStatus:'',updateAvailable:false,updateBusy:false,updateTest:false,licenseText:'',completeLesson:null};
 let course,store,catalog,talkUI,blinkIndex,expressions,animationStop=()=>{},toastTimer,requestCounter=0,saveError='';
 const native=(name,...args)=> { if(bridge&&typeof bridge[name]==='function')return bridge[name](...args);return undefined; };
 function toast(text) { $('#toast').textContent=text;$('#toast').classList.add('visible');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('#toast').classList.remove('visible'),4800); }
@@ -144,10 +144,10 @@ function settings() {return heading('So passt es zu dir','Einstellungen')+
   <section class="card"><h2>Lernen & Darstellung</h2><label class="field"><span>Sprechtempo · zusätzlich zum Lehrerprofil</span><select id="speed">${[.65,.8,.85,1,1.15].map(v=>`<option value="${v}" ${Math.abs(store.data.tts_speed-v)<.001?'selected':''}>${v.toLocaleString('de-DE')}× ${v===1?'· normal':''}</option>`).join('')}</select></label><label class="setting-row"><span>Sanfte Figurenbewegung</span><input id="motion" type="checkbox" ${store.data.motion_enabled?'checked':''}></label><label class="setting-row"><span>Kiko auf der Startseite</span><input id="kiko" type="checkbox" ${store.data.show_kiko?'checked':''}></label><p class="sub">Schriftgröße und Bildschirmzoom folgen zusätzlich deinen Android-Einstellungen.</p></section>
   <section class="card"><h2>Lernstand sichern</h2><p class="sub">Eine JSON-Sicherung enthält XP, Lehrerauswahl, Lernschritte und den letzten Textverlauf je Gesprächsszene. Du kannst auch einen Export der Windows-Version übernehmen. Es gibt keine automatische Synchronisierung.</p><div class="toolbar"><button id="export" class="ghost">Exportieren</button><button id="import" class="ghost">Importieren</button></div><p class="sub">Bei Deinstallation löscht Android die App-Daten. Exportiere deinen Lernstand vorher. Bei einem App-Update bleiben sie erhalten.</p></section>
   <section class="card"><h2>App-Updates</h2><p class="sub">Installiert: ${esc(state.caps.version)}</p><p class="sub">Updates werden erst auf deinen Wunsch geladen. Android bittet anschließend um deine Installationsbestätigung.</p><div id="updates-box">${updateBox()}</div></section>
-  <section class="card"><h2>Über den Trainer</h2><p class="sub">Kurs 11.0.1 · 150 Lektionen · 680 Lernkarten</p><p class="sub">Programmquellcode: GPL-3.0-or-later.<br>Sprachmodelle haben eigene Lizenzbedingungen.</p><button id="licenses" class="ghost wide">Lizenzen & Modellbedingungen</button></section>`;}
+  <section class="card"><h2>Über den Trainer</h2><p class="sub">Kurs ${esc(course.raw.content_version)} · ${course.lessons.length} Lektionen · ${course.cards.length} Lernkarten</p><p class="sub">Programmquellcode: GPL-3.0-or-later.<br>Sprachmodelle haben eigene Lizenzbedingungen.</p><button id="licenses" class="ghost wide">Lizenzen & Modellbedingungen</button></section>`;}
 function modelBox() {return state.caps.models?'<p class="info success">✓ Sprachpaket bereit. Stimmen und Erkennung sind offline verfügbar.</p>':
   `<p class="download-status">${esc(state.modelStatus||`Einmaliger Download: ca. ${Math.round(state.caps.modelBytes/1e6)} MB. Für spätere App-Updates wird das Paket weiterverwendet.`)}</p>${state.modelBusy?`<div class="progress"><span style="width:${state.modelPercent}%"></span></div><button class="ghost wide" id="cancel-models">Download abbrechen</button>`:`<button class="primary wide" id="download-models">Sprachpaket laden</button>`}`;}
-function updateBox() {return `<p class="download-status" role="status">${esc(state.updateStatus)}</p><button class="ghost wide" id="check-updates" ${state.updateBusy?'disabled':''}>Nach Updates suchen</button>${state.updateAvailable?`<button style="margin-top:10px" class="primary wide" id="install-update" ${state.updateBusy?'disabled':''}>Update installieren</button>`:''}`;}
+function updateBox() {return `<p class="download-status" role="status">${esc(state.updateStatus)}</p><button class="ghost wide" id="check-updates" ${state.updateBusy?'disabled':''}>Nach Updates suchen</button><button style="margin-top:10px" class="ghost wide" id="check-test-updates" ${state.updateBusy?'disabled':''}>Testversion suchen</button><p class="muted">Testversionen enthalten neue Funktionen zum Ausprobieren. Dein Lernstand und das Sprachpaket bleiben erhalten.</p>${state.updateAvailable?`<button style="margin-top:10px" class="primary wide" id="install-update" ${state.updateBusy?'disabled':''}>${state.updateTest?'Testversion herunterladen':'Update installieren'}</button>`:''}`;}
 function render() {
   animationStop();document.body.classList.toggle('motion-off',!store.data.motion_enabled);
   const pages={home,course:courseList,lesson,complete,teachers,review,library,grammar,progress,more,settings,talk:()=>talkUI.hub(),conversation:()=>talkUI.conversation(),
@@ -194,6 +194,7 @@ function bindSettingsBoxes() {
   if($('#download-models'))$('#download-models').onclick=()=>bridge?native('downloadModels'):toast('Das Sprachpaket wird in der installierten Android-App geladen.');
   if($('#cancel-models'))$('#cancel-models').onclick=()=>native('cancelDownload');
   if($('#check-updates'))$('#check-updates').onclick=()=>bridge?native('checkUpdates'):toast('Die Update-Prüfung ist in der Android-App verfügbar.');
+  if($('#check-test-updates'))$('#check-test-updates').onclick=()=>bridge?native('checkTestUpdates'):toast('Die Prüfung auf Testversionen ist in der Android-App verfügbar.');
   if($('#install-update'))$('#install-update').onclick=()=>{save();native('installUpdate');};
 }
 function refreshSettingsBoxes() {if($('#models-box'))$('#models-box').innerHTML=modelBox();if($('#updates-box'))$('#updates-box').innerHTML=updateBox();bindSettingsBoxes();}
@@ -238,9 +239,9 @@ window.JTNative=(type,data={})=> {
   else if(type==='modelsReady'){state.modelBusy=false;state.caps={...state.caps,...data};refreshSettingsBoxes();toast('Sprachpaket bereit. Du kannst jetzt offline hören und sprechen.');}
   else if(type==='modelError'){state.modelBusy=false;state.modelStatus=data.message;refreshSettingsBoxes();toast(data.message);}
   else if(type.startsWith('update')) {
-    if(type==='updateChecking'){state.updateBusy=true;state.updateStatus='Verbindung zu GitHub wird geprüft …';}
-    if(type==='updateCurrent'){state.updateBusy=false;state.updateAvailable=false;state.updateStatus='Du verwendest die aktuelle Android-Version.';}
-    if(type==='updateAvailable'){state.updateBusy=false;state.updateAvailable=true;state.updateStatus=`Version ${data.name} ist verfügbar. ${data.notes??''}`;}
+    if(type==='updateChecking'){state.updateBusy=true;state.updateAvailable=false;state.updateTest=!!data.test;state.updateStatus=state.updateTest?'Suche nach Testversionen …':'Suche nach regulären Updates …';}
+    if(type==='updateCurrent'){state.updateBusy=false;state.updateAvailable=false;state.updateStatus=data.test?'Keine neuere Testversion verfügbar.':'Keine neuere reguläre Android-Version verfügbar.';}
+    if(type==='updateAvailable'){state.updateBusy=false;state.updateAvailable=true;state.updateTest=!!data.test;state.updateStatus=`${state.updateTest?'Testversion':'Version'} ${data.name} ist verfügbar. ${data.notes??''}`;}
     if(type==='updateProgress'){state.updateBusy=true;state.updateStatus=`Update wird geladen: ${Math.floor(data.done/data.total*100)} %`;}
     if(type==='updateReady'){state.updateBusy=false;state.updateAvailable=true;state.updateStatus='Download und Herausgeber geprüft. Android fragt nach deiner Bestätigung.';}
     if(type==='updateError'){state.updateBusy=false;state.updateStatus=data.message;}
@@ -286,7 +287,7 @@ async function animateTeacher() {
   const start=performance.now();let last=-2;
   const draw=now=> {
     if(!alive)return;
-    const moving=store.data.motion_enabled&&!matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const moving=!!blink?.frames?.length&&store.data.motion_enabled&&!matchMedia('(prefers-reduced-motion: reduce)').matches;
     const tick=moving?(now-start)%5200:1000;const position=tick<320?Math.min(4,Math.floor((tick<160?tick:320-tick)/32)):-1;
     if(position!==last){ctx.clearRect(0,0,512,768);ctx.drawImage(base,0,0,512,768);drawPatch(mouth,expression.idle.bbox);if(position>=0)drawPatch(frames[position],blink.bbox);last=position;}
     if(moving)raf=requestAnimationFrame(draw);

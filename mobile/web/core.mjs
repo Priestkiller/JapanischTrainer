@@ -124,7 +124,7 @@ export class Session {
   answers() {
     let correct,pool;
     if(this.mode==='recap'||this.phase==='meaning') {correct=this.card.de;pool=this.lesson.cards.map(c=>c.de);}
-    else if(this.phase==='listen') {correct=this.listenCard.de;pool=this.lesson.cards.map(c=>c.de);}
+    else if(this.phase==='listen') {correct=this.listenCard.de;pool=this.lesson.cards.slice(0,this.index+1).map(c=>c.de);}
     else if(this.phase==='apply') {const p=this.course.profile(this.card,this.lesson).scenario;correct=p.correct;pool=p.wrong;}
     else {correct=this.card.romaji;pool=this.lesson.cards.map(c=>c.romaji);}
     const options=shuffle([...new Set(pool)].filter(p=>p!==correct),this.key).slice(0,3);options.push(correct);
@@ -134,7 +134,15 @@ export class Session {
     if(this.mode!=='recap'&&['speak','write'].includes(this.phase))return;
     const {correct,options}=this.answers();if(!options.includes(value))return;
     if(this.phase==='listen'&&this.mode!=='recap'&&!this.audio_seen) {this.feedback='Höre das Beispiel zuerst vollständig an.';return;}
-    this.chosen=value;const ok=value===correct;this.mark(ok,ok?'Richtig. '+(this.phase==='apply'?this.course.profile(this.card,this.lesson).explain:`Die passende Zuordnung ist: ${correct}`):'Noch nicht. Überlege noch einmal und versuche es erneut.');
+    this.chosen=value;const ok=value===correct,p=this.course.profile(this.card,this.lesson);this.mark(ok,ok?'Richtig. '+(this.phase==='apply'&&this.mode!=='recap'?(p.scenario.explanation??p.explain):`Die passende Zuordnung ist: ${correct}`):this.wrongChoice(value));
+  }
+  wrongChoice(value) {
+    let reason;
+    if(this.phase==='apply'&&this.mode!=='recap') {const p=this.course.profile(this.card,this.lesson);reason=p.scenario.feedback?.[value]??p.explain;}
+    else if(this.phase==='build'&&this.mode!=='recap') {const p=this.course.profile(this.card,this.lesson);reason=p.feedback?.write??p.pitfall;}
+    else {const target=this.phase==='listen'&&this.mode!=='recap'?this.listenCard:this.card,other=this.lesson.cards.find(c=>c.de===value);
+      reason=(other?`Deine Auswahl gehört zu ${other.jp} (${other.romaji}). `:'')+this.course.profile(target,this.lesson).explain;}
+    return `Noch nicht. ${reason} Die Aufgabe bleibt offen.`;
   }
   checkSpeech(text) {
     if(this.mode!=='learn'||this.phase!=='speak'||this.success)return false;
@@ -154,8 +162,8 @@ export class Session {
     this.mark(true,'Selbstprüfung bestätigt: Du hast den Laut nachgesprochen. Weiter geht’s mit Schritt 2.');
     return true;
   }
-  checkWrite(text) {if(this.mode!=='learn'||this.phase!=='write')return;const ok=[this.card.romaji,...(this.card.romaji_aliases??[])].some(r=>matchesRomaji(text,r));this.mark(ok,ok?'Richtig geschrieben. Auch die Vokallängen stimmen.':'Noch nicht passend. Für ō kannst du ou oder oo schreiben; die Länge darf nicht fehlen.');}
-  checkBuild() {if(this.mode!=='learn'||this.phase!=='build')return;const parts=this.course.blocks(this.card,this.lesson);if(!parts.length)return;const ok=this.tokens.length===parts.length&&this.tokens.map(i=>parts[i]).every((v,i)=>v===parts[i]);this.mark(ok,ok?'Richtig zusammengesetzt.':'Die Reihenfolge stimmt noch nicht. Ordne die Bausteine neu und versuche es erneut.');}
+  checkWrite(text) {if(this.mode!=='learn'||this.phase!=='write')return;const ok=[this.card.romaji,...(this.card.romaji_aliases??[])].some(r=>matchesRomaji(text,r)),p=this.course.profile(this.card,this.lesson);this.mark(ok,ok?'Richtig geschrieben. Auch die Vokallängen stimmen.':`Noch nicht passend. ${p.feedback?.write??p.pitfall} Für ō sind ou oder oo möglich; fehlende Vokallänge bleibt ein Fehler.`);}
+  checkBuild() {if(this.mode!=='learn'||this.phase!=='build')return;const parts=this.course.blocks(this.card,this.lesson);if(!parts.length)return;const ok=this.tokens.length===parts.length&&this.tokens.map(i=>parts[i]).every((v,i)=>v===parts[i]),p=this.course.profile(this.card,this.lesson);this.mark(ok,ok?'Richtig zusammengesetzt.':`Die Reihenfolge stimmt noch nicht. ${p.feedback?.build??('Die Bausteine müssen vollständig sein. '+p.explain)}`);}
   advance() {
     if(!this.success||this.skipped)return 'blocked';
     if(this.mode==='learn'&&!PHASES.slice(0,PHASES.indexOf(this.phase)+1).every((p,i)=>this.passed[i]===p))return 'blocked';

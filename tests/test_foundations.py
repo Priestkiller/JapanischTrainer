@@ -9,7 +9,7 @@ class FoundationTests(unittest.TestCase):
     def test_guides_use_existing_earlier_lessons_and_leave_no_foundation_fallback(self):
         data=json.loads((ROOT/'data/course.json').read_text('utf-8'))
         lessons={l.get('id',f'{u}:{i}'):l for u,unit in enumerate(data['units']) for i,l in enumerate(unit['lessons'])}
-        order=data['learning_order'];guided=[k for k in order if 'study_guide' in lessons[k]]
+        order=data['learning_order'];guided=[k for k in order if 'study_guide' in lessons[k] and lessons[k]['study_guide'].get('package',1)==1]
         self.assertEqual(guided,order[:30])
         for key in guided:
             lesson=lessons[key];g=lesson['study_guide']

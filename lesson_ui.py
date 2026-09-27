@@ -115,8 +115,10 @@ class LessonMixin:
         before=self.flow.metrics()['attempts'];text=self.entry.get()
         if self.flow.phase=='listen':
             if not(self.flow.audio_seen or self.flow.audio_skipped):self.flow.feedback='Zuerst anhören oder bewusst „Ohne Ton“ wählen.'
-            else:self.flow.mark(matches_romaji(text,self.flow.listen_card['romaji']),
-                    'Passende Lesung.' if matches_romaji(text,self.flow.listen_card['romaji']) else 'Vergleiche die Lesung noch einmal.',skipped=self.flow.audio_skipped)
+            else:
+                card=self.flow.listen_card
+                ok=any(matches_romaji(text,r) for r in [card['romaji']]+card.get('romaji_aliases',[]))
+                self.flow.mark(ok,'Passende Lesung.' if ok else 'Noch nicht. '+self.book.profile(card,self.flow.lesson).get('feedback',{}).get('write',card['note']),skipped=self.flow.audio_skipped)
         else:self.flow.check_write(text)
         self._react_to_step(before,'write');self.request_draw()
     def pick_block(self,index):

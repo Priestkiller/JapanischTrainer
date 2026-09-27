@@ -2,7 +2,7 @@ V11.0.0 – Kursausbau auf Basis von V10.1
 ======================================
 
 + 100 zusätzliche Lektionen / 502 zusätzliche Lernkarten.
-  Gesamt: 150 Lektionen, 680 Karten, 564 explizite Sprechziele.
+  Gesamt: 150 Lektionen, 680 Karten, 565 explizite Sprechziele (lokaler Stand 11.0.3).
 + 20 neue thematische Module, in acht verständliche Kursabschnitte eingeordnet.
 + Neue alltagsbezogene Erklärungen, Lesungen, Wortbausteine und Beispiele.
 + Fünf angeleitete Mini-Dialoge und fünf kurze Lesetexte.

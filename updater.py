@@ -110,16 +110,45 @@ def verify_envelope(raw, public_key):
         raise UpdateError('Die Update-Signatur oder die Versionsinformationen sind ungültig.') from exc
 
 
-def check_update(root, current):
+def check_update(root, current, channel='stable'):
     source = load_source(root)
+    if channel not in ('stable', 'test'):
+        raise UpdateError('Unbekannter Update-Kanal.')
     if not source.get('manifest_url') or not source.get('public_key'):
         raise UpdateError('Update-Quelle noch nicht eingerichtet.')
     try:
-        with open_url(source['manifest_url']) as response:
-            raw = response.read(65537)
-        if len(raw) > 65536:
-            raise UpdateError('Die Update-Informationen sind zu groß.')
-        info = verify_envelope(raw, source['public_key'])
+        urls = [source['manifest_url']]
+        if channel == 'test':
+            if not source.get('test_releases_url'):
+                raise UpdateError('Quelle für Testversionen noch nicht eingerichtet.')
+            with open_url(source['test_releases_url']) as response:
+                listing = response.read(2_000_001)
+            if len(listing) > 2_000_000:
+                raise UpdateError('Die Liste der Testversionen ist zu groß.')
+            releases = json.loads(listing)
+            if not isinstance(releases, list):
+                raise UpdateError('Die Liste der Testversionen ist ungültig.')
+            urls = []
+            for release in releases:
+                tag = release.get('tag_name', '')
+                if release.get('draft') or not release.get('prerelease') or not re.fullmatch(r'windows-test-v\d+\.\d+\.\d+', tag):
+                    continue
+                expected = 'https://github.com/Priestkiller/JapanischTrainer/releases/download/'+tag+'/update.json'
+                if any(asset.get('name') == 'update.json' and asset.get('browser_download_url') == expected for asset in release.get('assets', [])):
+                    urls.append(expected)
+        candidates = []
+        for url in urls:
+            with open_url(url) as response:
+                raw = response.read(65537)
+            if len(raw) > 65536:
+                raise UpdateError('Die Update-Informationen sind zu groß.')
+            info = verify_envelope(raw, source['public_key'])
+            if channel == 'test' and not info['url'].startswith(url.rsplit('/', 1)[0]+'/'):
+                raise UpdateError('Das Testpaket gehört nicht zu dieser Veröffentlichung.')
+            candidates.append((raw, info))
+        if not candidates:
+            return None
+        raw, info = max(candidates, key=lambda item: version(item[1]['version']))
     except UpdateError:
         raise
     except Exception as exc:

@@ -1,8 +1,8 @@
 {
-  "name": "11.0.2-android.1",
-  "code": 11000201,
-  "course": "11.0.2",
+  "name": "11.0.4-android.1",
+  "code": 11000401,
+  "course": "11.0.4",
   "package": "de.priestkiller.japanischtrainer",
-  "releasePage": "https://github.com/Priestkiller/JapanischTrainer/releases/tag/android-v11.0.2-1",
-  "notes": "30 vertiefte Einstiegslektionen mit Lernzielen, Zeichenhilfen und verständlichen Satzmustern. Situationsaufgaben und bewusst abrufbare Hinweise. Lesetexte bleiben bei Verständnisfragen sichtbar. Lernstand und Sprachpaket bleiben erhalten."
+  "releasePage": "https://github.com/Priestkiller/JapanischTrainer/releases/tag/android-v11.0.4-1",
+  "notes": "Zweites Inhaltspaket: 25 Lektionen mit 121 Karten verbessert. Neuer Button Testversion suchen mit getrenntem Kanal. Lernstand und Sprachpaket bleiben erhalten."
 }

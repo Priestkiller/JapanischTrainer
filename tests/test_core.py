@@ -55,5 +55,5 @@ class CoreTests(unittest.TestCase):
         self.store.data['last_lesson']={'key':'1:0','card':1}
         self.assertIn('ありがとう',[c['jp'] for c in self.model.available_cards()])
     def test_existing_speech_targets_retained(self):
-        self.assertEqual(sum(len(l.get('speech',[])) for l in self.model.lessons if l.get('origin')=='legacy'),62)
+        self.assertEqual(sum(len(l.get('speech',[])) for l in self.model.lessons if l.get('origin')=='legacy'),63) # 62 preserved + nani/nan alternatives
 if __name__=='__main__':unittest.main(verbosity=2)
