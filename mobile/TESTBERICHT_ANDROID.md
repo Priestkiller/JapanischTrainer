@@ -6,11 +6,8 @@ für diese Prüfung verbunden. Diese erste Android-Ausgabe ist eine Vorschau.
 
 ## Build und Nachweis
 
-- APK-Build aus Commit `16e18c9e64d68558980119f94e750605a51c8513`.
-- [GitHub-Build mit Android-Instrumentierung](https://github.com/Priestkiller/JapanischTrainer/actions/runs/36318755200).
-- [Zusätzliche Prüfung nach WebView-Zeichnen und tatsächlichem Querformatwechsel](https://github.com/Priestkiller/JapanischTrainer/actions/runs/36319329281).
-  Dafür wurde ausschließlich der Instrumentierungstest geändert; der ausgelieferte
-  App-Code und die APK stammen weiterhin aus dem oben genannten Build.
+- APK-Build aus Commit `b5225e580c3bf61e179248819c9529e3c6db80f0`.
+- [GitHub-Build mit Android-Instrumentierung und Screenshots](https://github.com/Priestkiller/JapanischTrainer/actions/runs/36319598975).
 - JDK 17, Gradle 8.11.1, Android Gradle Plugin 8.9.3, Kotlin 2.1.20,
   compile/target SDK 35; Minimum Android 9/API 28.
 - ARM64- und x86_64-Bibliotheken. Die enthaltenen ARM64-Bibliotheken besitzen
@@ -66,14 +63,11 @@ Android 15/API 35, Google APIs, Pixel-5-Profil, x86_64, 4 GB RAM.
   sind länger. SenseVoice erkennt aus dem erzeugten japanischen Audiosignal
   „ありがとう“. Dies verwendet echte native Modelle, keine Attrappen.
 
-Screenshots stammen aus Browser bzw. laufendem Android-Emulator. In einem
-vorherigen CI-Lauf waren die App-Tests bereits erfolgreich, aber das nachträgliche
-Kopieren der Screenshots schlug nach der Test-Deinstallation fehl. Die Bilder
-werden jetzt durch die Gradle-Testausgabesammlung vor dem Aufräumen gesichert.
-Die Bildaufnahme wartet zusätzlich auf den WebView-Zeichenabschluss, damit keine
-veralteten Ladebilder als fertige Bildschirmansicht dokumentiert werden.
-Beim Browsertest wurde außerdem eine fehlende Lizenzdatei erkannt, ergänzt und
-durch eine Prüfung im Asset-Build abgesichert.
+Screenshots stammen aus Browser bzw. laufendem Android-Emulator. Die Bildaufnahme
+wartet auf den WebView-Zeichenabschluss und einen tatsächlichen Querformatwechsel.
+Die Gradle-Testausgabesammlung sichert sie vor dem Aufräumen der Testinstallation.
+Bei der Prüfung wurden außerdem eine fehlende Lizenzdatei und schlecht lesbare
+Android-Systemleisten nach einem Bildschirmwechsel korrigiert.
 
 ## Grenzen und noch offene Gerätetests
 
