@@ -7,7 +7,7 @@ Tablets an. Der Lernablauf umfasst sechs Schritte pro Karte und eine Abschlussru
 
 ## Installation und Offline-Sprache
 
-Die signierte APK wird separat unter `android-v11.0.1-1` veröffentlicht; Windows
+Die signierte APK wird separat unter `android-v11.0.1-2` veröffentlicht; Windows
 behält seinen bestehenden Update-Kanal. Android fragt beim ersten APK-Download
 nach der Freigabe zur Installation aus der jeweiligen Download-App.
 
@@ -20,8 +20,20 @@ Arbeitsspeicher und werden nicht hochgeladen oder als Audiodateien gespeichert.
 Das Paket wird über HTTPS geladen und mit den in der APK festgelegten SHA-256-
 Prüfsummen kontrolliert. Modellbedingungen sind vor dem Download in der App lesbar.
 
-Die textbasierte Lernfunktion funktioniert auch vor dem Sprachpaket-Download.
-„Ohne Ton üben“ wird nicht als bestandene Hörübung gewertet. Der Sprachvergleich
+Der Lektionsablauf beginnt mit **1/6 Hören & Sprechen**. Erst eine vollständig
+abgespielte Vorlage und ein passender erkannter Text schalten **2/6 Bedeutung**
+frei. Danach folgen **3/6 Hörverstehen**, **4/6 Bausteine**, **5/6 Schreiben** und
+**6/6 Anwenden**. Die vollständige Vorlage und das Mikrofon erscheinen nur im
+ersten Schritt. Spätere Aufgaben zeigen nur die nötige Frage; Erklärungen mit
+Lösungen werden dort erst nach einer richtigen Antwort angeboten.
+
+Für diesen Ablauf ist das Sprachpaket erforderlich. Fehlende Wiedergabe,
+fehlgeschlagene Aufnahmen, falsche Antworten und Überspringen geben keinen
+Folgeschritt frei. Kursübersicht und Nachschlagewerk bleiben ohne Modelle nutzbar.
+Erfolge und Voraussetzungen werden je Karte gespeichert und beim Fortsetzen
+geprüft. Bei älteren Lernständen beginnt nur die noch angefangene Karte mit dem
+neuen ersten Schritt; abgeschlossene Lektionen, XP und Abschlussrunden bleiben
+erhalten. Der Sprachvergleich
 bewertet erkannten Text, keine Einzellaute oder Tonhöhen. Kurze Kana können von
 Spracherkennung unzuverlässig erkannt werden. Stimmen und Erkennung werden
 abwechselnd geladen, damit nicht beide Modelle gleichzeitig RAM belegen.

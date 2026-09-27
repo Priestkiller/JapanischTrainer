@@ -2,10 +2,10 @@
 
 ## Einmal installieren
 
-1. Öffne auf dem Handy die [Android-Downloadseite](https://github.com/Priestkiller/JapanischTrainer/releases/tag/android-v11.0.1-1).
+1. Öffne auf dem Handy die [Android-Downloadseite](https://github.com/Priestkiller/JapanischTrainer/releases/tag/android-v11.0.1-2).
 2. Lade **JapanischTrainer-11.0.1-Android.apk** herunter und öffne die Datei.
 3. Bestätige die Android-Installation. Falls Android fragt, erlaube der verwendeten Download-App die Installation dieser APK.
-4. Öffne **JapanischTrainer**. Textübungen kannst du sofort starten.
+4. Öffne **JapanischTrainer**. Kursübersicht und Nachschlagewerk stehen sofort bereit.
 5. Öffne das Zahnrad → **Offline-Stimmen & Sprechen** und lade das Sprachpaket einmalig, am besten über WLAN. Der Download ist rund 284 MB groß; halte währenddessen ungefähr 900 MB Speicher frei und lasse die App geöffnet. Bei einem Abbruch kannst du den Download erneut starten.
 
 Danach funktionieren alle acht Lehrer-Stimmen und die japanische
@@ -21,11 +21,23 @@ Unten findest du **Start, Lernweg, Üben, Lehrer und Mehr**.
 Über **Weiterlernen** setzt du deine angefangene Lektion fort.
 Unter **Lehrer** kannst du die Stimme anhören und den Lehrer wechseln.
 
-**Jetzt sprechen** bleibt auf der Lernkarte. Erlaube den Mikrofonzugriff, sprich
-die sichtbare Vorlage und tippe auf **Aufnahme beenden**. Nach spätestens
+Jede Karte beginnt mit **Schritt 1/6: Hören & Sprechen**. Höre die Vorlage zuerst
+vollständig an und tippe anschließend auf **Jetzt nachsprechen**. Erlaube den
+Mikrofonzugriff, sprich die sichtbare Vorlage und tippe auf **Aufnahme beenden**.
+Erst ein passender erkannter Text gibt **Weiter zu 2/6** frei. Nach spätestens
 15 Sekunden endet die Aufnahme automatisch. Sie bleibt im Arbeitsspeicher des
 Handys. Die Rückmeldung vergleicht den erkannten Text; sie ist keine phonetische
 Aussprache-Note. Bei sehr kurzen Kana ist die Spracherkennung weniger zuverlässig.
+
+Danach folgen Bedeutung erkennen, Hörverstehen, Bausteine ordnen, selbst Schreiben
+und Anwenden. Die nächsten Schritte werden erst nach einer richtigen Antwort
+freigeschaltet. Die große Vorlage mit Übersetzung und Mikrofon erscheint nur in
+Schritt 1. Bei einem Fehler bleibst du in derselben Übung und kannst es erneut
+versuchen. Nach allen Karten folgt die Abschlussrunde.
+
+Bei diesem Update behalten abgeschlossene Lektionen und XP ihren Stand. Eine
+noch angefangene Karte aus der ersten Android-Version beginnt einmalig bei
+Schritt 1/6, damit der neue Ablauf vollständig durchlaufen wird.
 
 Für den ersten Gerätetest: Spiele eine normale und eine langsame Stimmprobe ab,
 nimm einen japanischen Beispielsatz auf und drehe das Handy ins Querformat.

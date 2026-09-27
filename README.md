@@ -17,11 +17,15 @@ werden separat mit Ed25519 signiert und in der App geprüft.
 
 ### Android
 
-[Android-APK und Installationshilfe](https://github.com/Priestkiller/JapanischTrainer/releases/tag/android-v11.0.1-1)
+[Android-APK und Installationshilfe](https://github.com/Priestkiller/JapanischTrainer/releases/tag/android-v11.0.1-2)
 für Android 9+ mit ARM64, darunter das Samsung Galaxy S24 Ultra. Die erste
 Android-Version wird als Vorschau veröffentlicht. Sie hat eine eigene
 Handy-Oberfläche mit Navigation am unteren Rand, großen Bedienelementen,
 Hoch-/Querformat und denselben Kursdaten wie Windows.
+
+Jede Karte startet mit Hören und Sprechen (1/6). Danach folgen fünf weitere
+Übungen, jeweils erst nach erfolgreichem Abschluss des vorherigen Schritts.
+Die vollständige Lösungskarte erscheint nur im ersten Schritt.
 
 APK installieren und einmalig in den Einstellungen das Sprachpaket laden
 (ca. 284 MB). Danach sind Lehrer-Stimmen und Spracherkennung offline verfügbar.

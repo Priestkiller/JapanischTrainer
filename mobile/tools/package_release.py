@@ -39,7 +39,7 @@ def sha(file):
 feed = {'package': version['package'], 'code': version['code'], 'name': version['name'],
         'url': version['releasePage'].replace('/tag/', '/download/') + '/' + apk.name,
         'bytes': apk.stat().st_size, 'sha256': sha(apk),
-        'notes': 'Erste Android-Version: Handy-Layout, 150 Lektionen, acht Offline-Stimmen, Lernstand-Import und Update-Button.',
+        'notes': version['notes'],
         'sourceCommit': commit}
 (out / 'android-update.json').write_text(json.dumps(feed, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
 files = [apk, source, out / 'android-update.json', out / 'INSTALLIEREN_ANDROID.md', out / 'TESTBERICHT_ANDROID.md']

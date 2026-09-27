@@ -1,7 +1,8 @@
 {
-  "name": "11.0.1-android.1",
-  "code": 11000101,
+  "name": "11.0.1-android.2",
+  "code": 11000102,
   "course": "11.0.1",
   "package": "de.priestkiller.japanischtrainer",
-  "releasePage": "https://github.com/Priestkiller/JapanischTrainer/releases/tag/android-v11.0.1-1"
+  "releasePage": "https://github.com/Priestkiller/JapanischTrainer/releases/tag/android-v11.0.1-2",
+  "notes": "Neuer Lernablauf: Hören und Sprechen zuerst, danach fünf aufeinander aufbauende Übungen. Jeder Schritt wird erst nach Erfolg freigeschaltet. Die Lösungskarte erscheint nur in Schritt 1. Abgeschlossene Lektionen und XP bleiben erhalten."
 }
