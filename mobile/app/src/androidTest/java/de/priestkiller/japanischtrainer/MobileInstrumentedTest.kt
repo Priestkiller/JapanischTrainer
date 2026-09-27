@@ -78,6 +78,32 @@ class MobileInstrumentedTest {
             screenshot(scenario,"android-landscape")
         }
     }
+    @Test fun offlineConversationBranchesAndKeepsDraftOnRestart() {
+        ActivityScenario.launch(MainActivity::class.java).use { scenario ->
+            waitFor(scenario,"document.documentElement.dataset.ready === 'true'")
+            eval(scenario,"document.querySelector('[data-nav=talk]').click()")
+            waitFor(scenario,"document.querySelectorAll('[data-talk-scene]').length === 5")
+            screenshot(scenario,"android-talk-hub")
+            eval(scenario,"document.querySelector('[data-talk-scene=cafe]').click()")
+            waitFor(scenario,"!!document.querySelector('#talk-draft')")
+            // Typed answers test native WebView and persistence. This is not a microphone test.
+            eval(scenario,"(()=>{const f=document.querySelector('#talk-draft');f.value='コーヒーをお願いします。';f.dispatchEvent(new Event('input',{bubbles:true}));document.querySelector('#talk-form').requestSubmit()})()")
+            waitFor(scenario,"document.querySelector('.talk-cue').textContent.includes('warmes oder kaltes')")
+            eval(scenario,"document.querySelector('#talk-translation').click()")
+            eval(scenario,"document.querySelector('#talk-reading').click()")
+            assertEquals("true",eval(scenario,"document.documentElement.scrollWidth <= innerWidth"))
+            screenshot(scenario,"android-talk-cafe")
+            eval(scenario,"(()=>{const f=document.querySelector('#talk-draft');f.value='冷たいものをお願いします。';f.dispatchEvent(new Event('input',{bubbles:true}));document.querySelector('[data-nav=talk]').click()})()")
+            scenario.recreate()
+            waitFor(scenario,"document.documentElement.dataset.ready === 'true'")
+            eval(scenario,"document.querySelector('[data-nav=talk]').click();document.querySelector('[data-talk-scene=cafe]').click()")
+            waitFor(scenario,"!!document.querySelector('#talk-draft')")
+            assertEquals("true",eval(scenario,"document.querySelector('#talk-draft').value === '冷たいものをお願いします。'"))
+            assertEquals("true",eval(scenario,"JSON.parse(AndroidTrainer.getProfile()).talk.sessions.cafe.slots.drink === 'コーヒー'"))
+            eval(scenario,"document.querySelector('#talk-form').requestSubmit()")
+            waitFor(scenario,"document.querySelector('.talk-cue').textContent.includes('klein oder groß')")
+        }
+    }
     @Test fun realAndroidSpeechModelInferenceWithoutMicrophone() {
         val context=InstrumentationRegistry.getInstrumentation().targetContext
         val models=ModelStore(context)

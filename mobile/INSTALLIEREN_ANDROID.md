@@ -2,7 +2,7 @@
 
 ## Einmal installieren
 
-1. Öffne auf dem Handy die [Android-Downloadseite](https://github.com/Priestkiller/JapanischTrainer/releases/tag/android-v11.0.1-2).
+1. Öffne auf dem Handy die [Android-Downloadseite](https://github.com/Priestkiller/JapanischTrainer/releases/tag/android-v11.0.1-3).
 2. Lade **JapanischTrainer-11.0.1-Android.apk** herunter und öffne die Datei.
 3. Bestätige die Android-Installation. Falls Android fragt, erlaube der verwendeten Download-App die Installation dieser APK.
 4. Öffne **JapanischTrainer**. Kursübersicht und Nachschlagewerk stehen sofort bereit.
@@ -49,6 +49,30 @@ nimm einen japanischen Beispielsatz auf und drehe das Handy ins Querformat.
 Prüfe anschließend, ob **Weiterlernen** nach einem App-Neustart dieselbe Aufgabe
 öffnet. Hörbarkeit, Mikrofon und Samsung-spezifische Bedienung brauchen diesen
 echten Gerätetest zusätzlich zu den automatisierten Prüfungen.
+
+## Miteinander sprechen
+
+Öffne **Üben → Gespräche üben** oder den neuen Gesprächsbereich auf der Startseite.
+Wähle Kennenlernen, Café, Einkaufen, Wegfragen oder Wochenendpläne.
+
+1. Dein gewählter Lehrer eröffnet die Szene auf Japanisch.
+2. Tippe **Antwort aufnehmen**, sprich und beende die Aufnahme. Nach spätestens
+   15 Sekunden endet sie automatisch.
+3. Prüfe den erkannten Text. Du kannst Erkennungsfehler berichtigen oder deine
+   Antwort direkt auf Japanisch tippen. Tippe dann **Antwort senden**.
+4. Dein Lehrer reagiert mit dem passenden vorbereiteten Gesprächsbeitrag.
+   Deine Auswahl beeinflusst den weiteren Verlauf.
+
+Mit **Übersetzung**, **Lesung**, **Langsam** und **Antwortideen** bekommst du Hilfe.
+„もう一度お願いします。“ bittet um eine langsame Wiederholung. Falls eine Antwort
+außerhalb der vorbereiteten Wege liegt, bleibt die Szene bei ihrer Frage; die
+App erfindet keine passende Reaktion. Dies sind geführte Offline-Gespräche,
+noch keine freien Unterhaltungen mit einer KI.
+
+Der letzte Textverlauf und angefangene Antworten je Szene bleiben zum Fortsetzen
+auf dem Handy gespeichert und sind in deiner Lernstandsicherung enthalten.
+Mikrofonaufnahmen werden weder gespeichert noch hochgeladen. Das vorhandene
+Sprachpaket genügt; es ist kein weiterer Download und kein Anbieterzugang nötig.
 
 ## Spätere Updates
 

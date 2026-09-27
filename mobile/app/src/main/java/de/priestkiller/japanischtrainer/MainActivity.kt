@@ -202,7 +202,7 @@ class MainActivity:Activity() {
         val request=pendingRecording; pendingRecording=null
         if(requestCode==10 && request!=null) {
             if(grantResults.firstOrNull()==PackageManager.PERMISSION_GRANTED)speech.startRecording(request)
-            else emit("speechError",JSONObject().put("request",request).put("message","Mikrofonzugriff nicht erlaubt. Du kannst die Aufnahme überspringen und weiterlernen."))
+            else emit("speechError",JSONObject().put("request",request).put("message","Mikrofonzugriff nicht erlaubt. Du kannst ihn in den Android-App-Einstellungen erlauben."))
         }
     }
     @Deprecated("Platform document picker callback")

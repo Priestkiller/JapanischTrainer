@@ -17,7 +17,7 @@ werden separat mit Ed25519 signiert und in der App geprüft.
 
 ### Android
 
-[Android-APK und Installationshilfe](https://github.com/Priestkiller/JapanischTrainer/releases/tag/android-v11.0.1-2)
+[Android-APK und Installationshilfe](https://github.com/Priestkiller/JapanischTrainer/releases/tag/android-v11.0.1-3)
 für Android 9+ mit ARM64, darunter das Samsung Galaxy S24 Ultra. Die erste
 Android-Version wird als Vorschau veröffentlicht. Sie hat eine eigene
 Handy-Oberfläche mit Navigation am unteren Rand, großen Bedienelementen,

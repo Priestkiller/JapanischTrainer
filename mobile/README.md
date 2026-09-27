@@ -7,7 +7,7 @@ Tablets an. Der Lernablauf umfasst sechs Schritte pro Karte und eine Abschlussru
 
 ## Installation und Offline-Sprache
 
-Die signierte APK wird separat unter `android-v11.0.1-2` veröffentlicht; Windows
+Die signierte APK wird separat unter `android-v11.0.1-3` veröffentlicht; Windows
 behält seinen bestehenden Update-Kanal. Android fragt beim ersten APK-Download
 nach der Freigabe zur Installation aus der jeweiligen Download-App.
 
@@ -46,6 +46,20 @@ abwechselnd geladen, damit nicht beide Modelle gleichzeitig RAM belegen.
 
 ## Lernstände und Updates
 
+Unter **Üben → Gespräche üben** stehen fünf geführte Offline-Gespräche bereit:
+Kennenlernen, Café, Einkaufen, Wegfragen und Wochenendpläne. Der gewählte Lehrer
+spricht die japanischen Beiträge mit seiner vorhandenen Stimme. Antworten können
+aufgenommen oder getippt werden. Erkannter Text wird vor dem Senden angezeigt
+und kann berichtigt werden. Je nach Antwort folgt ein anderer vorbereiteter
+Gesprächsweg; offene Themen und frei erzeugte KI-Antworten werden nicht angeboten.
+Übersetzung, Lesung, langsame Wiederholung und Antwortideen sind zuschaltbar.
+
+Die Szenen laufen mit dem vorhandenen Sprachpaket ohne Anbieterzugang oder
+zusätzliche Modelle. Textverläufe (höchstens 40 Beiträge je Szene), Entwürfe und
+Gesprächspositionen bleiben lokal im Lernstand und werden mit einer JSON-Sicherung
+exportiert. Audiodaten bleiben im Arbeitsspeicher. Gespräche haben eigene
+Abschlusszähler und überspringen keine Kurslektionen oder XP-Voraussetzungen.
+
 Ein App-Update erhält den lokalen Lernstand und das bereits geladene Sprachpaket.
 Die Update-Prüfung filtert ausschließlich Android-Releases. Vor Installation
 werden Paketname, höhere Versionsnummer, SHA-256 und die Übereinstimmung des
@@ -68,7 +82,7 @@ Im Repository-Stamm:
 
 ```sh
 python mobile/tools/prepare_assets.py --download-library
-node --test mobile/tests/core.test.mjs
+node --test mobile/tests/core.test.mjs mobile/tests/talk.test.mjs
 cd mobile
 gradle :app:assembleRelease :app:lintRelease
 gradle :app:connectedDebugAndroidTest

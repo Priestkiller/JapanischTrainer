@@ -1,3 +1,17 @@
+# Android 11.0.1-android.3
+
+- Neuer Gesprächsraum auf der Startseite, unter Üben und unter Mehr.
+- Fünf geführte Offline-Szenen mit verschiedenen Antwortwegen: Kennenlernen,
+  Café, Einkaufen, Wegfragen und Wochenendpläne.
+- Die gewählte Lehrer-Stimme spricht die Antworten. Mikrofon und japanische
+  Texteingabe sind möglich; erkannte Antworten lassen sich vor dem Senden ändern.
+- Optionale Übersetzung, Lesung, langsames Wiederholen und Antwortideen.
+- Szenen merken sich Auswahl, letzte Textbeiträge und unfertige Antworten;
+  sie lassen sich nach einem Neustart fortsetzen. Abschlusszähler sind separat
+  vom Kursfortschritt. Kein Anbieterzugang oder zusätzliches Sprachmodell nötig.
+- Der Hinweis bei verweigerter Mikrofonberechtigung verspricht kein Überspringen
+  der weiterhin verpflichtenden Sprechübung mehr.
+
 # Android 11.0.1-android.2
 
 - Jede Karte beginnt mit Hören & Sprechen (1/6). Es folgen Bedeutung erkennen,

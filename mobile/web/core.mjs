@@ -1,4 +1,5 @@
 /* GPL-3.0-or-later. Mobile port of learning.py and study.py; stable desktop IDs. */
+import {cleanTalk} from './talk.mjs';
 export const PHASES=['speak','meaning','listen','build','write','apply'];
 export const LABELS={speak:'Hören & Sprechen',meaning:'Bedeutung erkennen',listen:'Hörverstehen',build:'Bausteine ordnen',write:'Selbst schreiben',apply:'Anwenden'};
 export const FLOW_REVISION=2;
@@ -23,7 +24,7 @@ export function cleanProfile(input={},strict=false) {
   if(!record(input)||(strict&&(!Array.isArray(input.completed)||!Number.isInteger(input.xp)||input.xp<0)))throw Error('Keine gültige Lernstand-Datei. Bitte einen JSON-Export des Trainers wählen.');
   const out={completed:[],xp:0,streak:0,last_active:null,teacher_id:'sakura',speaker_id:2,tts_speed:1,
     ui_scale:1,motion_enabled:true,motion_preset:'natural',show_kiko:true,library_all:false,
-    review:{},last_lesson:{},speech_scores:{},study_cards:{},lesson_sessions:{},legacy_unlocked:[],course_revision:0};
+    review:{},last_lesson:{},speech_scores:{},study_cards:{},lesson_sessions:{},legacy_unlocked:[],course_revision:0,talk:cleanTalk(input.talk)};
   for(const key of ['review','last_lesson','speech_scores','study_cards','lesson_sessions'])
     if(record(input[key]))out[key]=JSON.parse(JSON.stringify(input[key]));
   for(const key of ['completed','legacy_unlocked'])

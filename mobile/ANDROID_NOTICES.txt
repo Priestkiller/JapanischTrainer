@@ -25,4 +25,4 @@ Vollständige Bedingungen und Attributionen: MODEL_LICENSES.txt und
 MODEL_ATTRIBUTION.txt. Modellgewichte werden nicht pauschal unter GPL gestellt.
 
 Download von APK und Quellpaket:
-https://github.com/Priestkiller/JapanischTrainer/releases/tag/android-v11.0.1-2
+https://github.com/Priestkiller/JapanischTrainer/releases/tag/android-v11.0.1-3

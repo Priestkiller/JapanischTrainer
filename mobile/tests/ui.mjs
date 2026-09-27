@@ -20,7 +20,7 @@ try {
     getProfile:()=>localStorage.getItem('jt-test-profile')??'{}',
     saveProfile:json=>{localStorage.setItem('jt-test-profile',json);return true;},
     getCapabilities:()=>JSON.stringify({native:true,models:true,version:'UI-Test'}),
-    speak:(text,sid,speed,request)=>window.testCalls.push({type:'audio',request,text}),
+    speak:(text,sid,speed,request)=>window.testCalls.push({type:'audio',request,text,sid,speed}),
     record:request=>window.testCalls.push({type:'speech',request}),
     stopAudio:()=>{},stopRecording:()=>{}
    };
@@ -88,8 +88,41 @@ try {
   assert.equal(await page.locator('#select-teacher').innerText(),'✓ Ausgewählt');await noOverflow('teachers');
   await page.locator('[data-page=course]').click();await page.locator('#course-search').fill('ありがとう');assert.ok(await page.locator('[data-lesson]').count());await noOverflow('search');
   await page.locator('#settings-shortcut').click();await page.locator('#licenses').click();await page.locator('.licenses').waitFor();await noOverflow('licenses');
+  await page.locator('[data-page=review]').click();await page.getByRole('button',{name:'Gespräche üben →',exact:true}).click();await noOverflow('talk-hub');
+  assert.equal(await page.locator('[data-talk-scene]').count(),5);
+  await page.screenshot({path:path.join(output,`talk-hub-${width}x${height}.png`),fullPage:true});
+  await page.locator('[data-talk-scene=cafe]').click();await noOverflow('conversation');
+  assert.equal(await page.locator('.chat-translation').count(),0);assert.equal(await page.locator('#talk-send').isDisabled(),true);
+  assert.equal(await page.evaluate(()=>window.testCalls.filter(c=>c.type==='audio').at(-1).sid),4,'Uses selected Yuki voice');
+  await page.locator('#talk-record').click();
+  await page.evaluate(()=>{const call=window.testCalls.filter(c=>c.type==='speech').at(-1);window.JTNative('speechError',{request:call.request,message:'Mikrofonzugriff nicht erlaubt.'});});
+  assert.equal(await page.locator('#talk-send').isDisabled(),true);assert.equal(await page.locator('#talk-record').isDisabled(),false);
+  async function talkRecognize(text) {
+   await page.locator('#talk-record').click();
+   await page.evaluate(text=>{const call=window.testCalls.filter(c=>c.type==='speech').at(-1);window.JTNative('recording',{request:call.request});window.JTNative('recognizing',{request:call.request});window.JTNative('speechResult',{request:call.request,text});},text);
+  }
+  async function talkSend(text) {await page.locator('#talk-draft').fill(text);await page.locator('#talk-send').click();}
+  await talkRecognize('お茶をください。');assert.equal(await page.locator('#talk-draft').inputValue(),'お茶をください。');assert.equal(await page.locator('.from-user').count(),0,'Recognition alone does not submit a wrong transcript');
+  await talkSend('コーヒーをお願いします。');assert.ok((await page.locator('.from-teacher').last().innerText()).includes('コーヒー'));
+  assert.ok((await page.locator('.from-user').last().innerText()).includes('Text'));
+  await page.locator('#talk-translation').click();await page.locator('#talk-reading').click();assert.ok(await page.locator('.chat-translation').count());assert.ok(await page.locator('.chat-reading').count());
+  await page.screenshot({path:path.join(output,`talk-cafe-${width}x${height}.png`),fullPage:true});
+  await talkSend('コーヒーはいりません。');assert.ok((await page.locator('.talk-composer').innerText()).includes('Offline-Szene'));
+  assert.equal(await page.evaluate(()=>JSON.parse(localStorage.getItem('jt-test-profile')).talk.sessions.cafe.node),'temperature');
+  await talkRecognize('冷たいものをお願いします。');
+  await page.reload();await page.waitForSelector('html[data-ready=true]');await page.locator('[data-nav=talk]').click();await page.locator('[data-talk-scene=cafe]').click();
+  assert.equal(await page.locator('#talk-draft').inputValue(),'冷たいものをお願いします。');assert.ok((await page.locator('.talk-partner').innerText()).includes('Yuki'));
+  await page.locator('#talk-record').click();const stale=await page.evaluate(()=>window.testCalls.filter(c=>c.type==='speech').at(-1).request);
+  await page.locator('[data-nav=talk]').click();await page.locator('[data-talk-scene=weekend]').click();
+  await page.evaluate(request=>window.JTNative('speechResult',{request,text:'映画を見たいです。'}),stale);
+  assert.equal(await page.locator('#talk-draft').inputValue(),'');assert.equal(await page.locator('.from-user').count(),0,'Old recording cannot answer another scene');
+  await page.locator('[data-nav=talk]').click();await page.locator('[data-talk-scene=cafe]').click();await page.locator('#talk-send').click();
+  await talkSend('小さいサイズでお願いします。');await talkSend('持ち帰りでお願いします。');await talkSend('カードでお願いします。');
+  await page.locator('.talk-complete').waitFor();assert.equal(await page.locator('#talk-record').count(),0);await noOverflow('talk-completed');
+  assert.equal(await page.evaluate(()=>JSON.parse(localStorage.getItem('jt-test-profile')).talk.completed.cafe),1);
+  assert.equal(await page.evaluate(()=>JSON.parse(localStorage.getItem('jt-test-profile')).xp),0,'Conversation does not bypass lesson XP');
   assert.equal(errors.length,0,errors.join('\n'));
-  report.viewports.push({width,height,horizontalOverflow:false,touchTargets:true,resume:true,allSixSequentialSteps:true,speakingRequired:true,noAnswerCardInLaterSteps:true,staleSpeechIgnored:true,writeValidation:true,teacherSelection:true,search:true});
+  report.viewports.push({width,height,horizontalOverflow:false,touchTargets:true,resume:true,allSixSequentialSteps:true,speakingRequired:true,noAnswerCardInLaterSteps:true,staleSpeechIgnored:true,writeValidation:true,teacherSelection:true,search:true,conversationBranching:true,editableTranscript:true,talkResume:true,microphoneErrorRecoverable:true,staleTalkResultsIgnored:true});
   await context.close();
  }
  report.passed=true;console.log(JSON.stringify(report,null,2));

@@ -1,8 +1,8 @@
 {
-  "name": "11.0.1-android.2",
-  "code": 11000102,
+  "name": "11.0.1-android.3",
+  "code": 11000103,
   "course": "11.0.1",
   "package": "de.priestkiller.japanischtrainer",
-  "releasePage": "https://github.com/Priestkiller/JapanischTrainer/releases/tag/android-v11.0.1-2",
-  "notes": "Sechs aufeinander aufbauende Übungen: Hören und Sprechen zuerst. Jeder Schritt wird erst nach Erfolg freigeschaltet; die Lösungskarte erscheint nur in Schritt 1. Bei kurzen Kana ist nach einer Aufnahme eine gekennzeichnete Selbstprüfung möglich. Abgeschlossene Lektionen und XP bleiben erhalten."
+  "releasePage": "https://github.com/Priestkiller/JapanischTrainer/releases/tag/android-v11.0.1-3",
+  "notes": "Neuer Gesprächsraum unter Üben: fünf geführte Offline-Gespräche mit verschiedenen Antwortwegen, deiner Lehrer-Stimme, Mikrofon, Textkorrektur und Hilfen. Unfertige Gespräche bleiben gespeichert. Kein weiterer Modelldownload und kein Anbieterzugang nötig."
 }
