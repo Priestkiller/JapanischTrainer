@@ -91,7 +91,7 @@ Alle fünf tatsächlich vorhandenen Szenen, Knoten, Muster und Folgeknoten folge
 ''')
     md('LUECKEN_UND_SPRUENGE.md','''# Belegte Befunde und verbleibende Lücken
 
-Stand: Paket 01 veröffentlicht mit 11.0.2, Paket 02 zunächst lokal mit 11.0.3 umgesetzt und mit 11.0.4 veröffentlicht; keine vollständige Fachabnahme.
+Stand: Paket 01 veröffentlicht mit 11.0.2, Paket 02 mit 11.0.4 und Paket 03 als Testversion 11.0.5; keine vollständige Fachabnahme.
 
 | Priorität | Fundstelle | Befund am Ausgangsstand | Umsetzung / Rest |
 | --- | --- | --- | --- |
@@ -148,7 +148,7 @@ Offen: eigene sprachliche Einzelprüfung der übrigen 70 Lektionen, menschliche 
     md('PAKET_03.md','\n\n'.join(third))
     md('AUSBAUPLAN.md','''# Weiterer Ausbau nach Paket 03
 
-Paket 01 und 02 sind in gemeinsamen Kursdaten und beiden Programmen umgesetzt. Paket 02: 25 bestehende Lektionen, keine neue ID, keine Reihenfolge- oder Speichermigration. Die ausgewählten Lücken ließen sich in bestehenden Einheiten schließen. 150 Lektionen bleiben 150; zusätzliche Lektionen sind kein Abnahmekriterium. Die folgenden Pakete sind weiterhin Planung.
+Paket 01, 02 und 03 sind in gemeinsamen Kursdaten und beiden Programmen umgesetzt. Paket 03: 25 bestehende Lektionen / 119 Karten als Testversion 11.0.5 veröffentlicht; keine neue ID, Reihenfolge- oder Speichermigration. Die ausgewählten Lücken ließen sich in bestehenden Einheiten schließen. 150 Lektionen bleiben 150; zusätzliche Lektionen sind kein Abnahmekriterium. Paket 04 und 05 sind weiterhin Planung.
 
 | Folgepaket | Ziel / Position | Umfang als Planung | Erklärungen und Übungen | Gespräch / Abnahme |
 | --- | --- | --- | --- | --- |
