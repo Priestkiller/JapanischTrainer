@@ -35,7 +35,7 @@ try {
    const saved=await page.evaluate(()=>JSON.parse(AndroidTrainer.getProfile()));assert.equal(saved.xp,321);assert.deepEqual(saved.completed,['0:0']);assert.equal(saved.teacher_id,'ren');assert.equal(saved.study_cards[l.id+':0'].hints,1);assert.equal(saved.review['0:0:1'].box,2);
    await page.locator('#show-hint').click();assert.equal(await page.locator('.exercise-hint').count(),0);
    await page.getByRole('button',{name:scenario.correct,exact:true}).click();assert.equal(await page.locator('#advance').isDisabled(),false);
-   if(['15:0','v11:dialog-directions','v11:read-profile','6:0','v11:checkout','v11:dialog-cafe'].includes(l.id))await page.screenshot({path:new URL(`${l.id.replaceAll(':','-')}-${width}.png`,output).pathname.replace(/^\/([A-Za-z]:)/,'$1'),fullPage:true});
+   if(['15:0','v11:dialog-directions','v11:read-profile','6:0','v11:checkout','v11:dialog-cafe','v11:clock-hours','v11:dialog-weekend','v11:read-plan'].includes(l.id))await page.screenshot({path:new URL(`${l.id.replaceAll(':','-')}-${width}.png`,output).pathname.replace(/^\/([A-Za-z]:)/,'$1'),fullPage:true});
    await page.locator('#advance').click();assert.equal(await page.locator('#step-count').textContent(),'Schritt 1/6');assert.equal(await page.locator('.exercise-hint').count(),0);report.checks++;
   }
   assert.deepEqual(errors,[]);report.viewports.push({width,height,lessons:lessons.length});await context.close();

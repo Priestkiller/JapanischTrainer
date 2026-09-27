@@ -198,6 +198,73 @@ class MobileInstrumentedTest {
             }
         }
     }
+    @Test fun packageFourExplainsErrorsAndRetainsAnOldProfile() {
+        ActivityScenario.launch(MainActivity::class.java).use { scenario ->
+            waitFor(scenario,"document.documentElement.dataset.ready === 'true'")
+            val previous=eval(scenario,"AndroidTrainer.getProfile()")
+            try {
+                eval(scenario,"""
+                    (async()=>{try {
+                      const raw=await fetch('data/course.json').then(r=>r.json());
+                      const lessons=raw.units.flatMap(u=>u.lessons).filter(l=>l.study_guide?.package===4);
+                      window.package4Inventory=lessons.length===25 && lessons.reduce((n,l)=>n+l.cards.length,0)===123;
+                    }catch(e){window.package4Inventory=false;}})()
+                """.trimIndent())
+                waitFor(scenario,"window.package4Inventory === true")
+                // Fixture represents an earned fifth step from 11.0.5; no real
+                // microphone success is claimed by this persistence/UI test.
+                eval(scenario,"""
+                    (()=>{const p=JSON.parse(AndroidTrainer.getProfile());
+                      p.course_revision=11;p.xp=321;p.completed=['0:0'];p.teacher_id='ren';
+                      p.legacy_unlocked=['v11:clock-hours'];p.last_lesson={key:'v11:clock-hours',card:0};
+                      p.lesson_sessions={'v11:clock-hours':{flow_revision:2,index:0,phase:'apply',passed:['speak','meaning','listen','build','write'],mode:'learn',recap:[],recap_total:0,recap_passed:0}};
+                      AndroidTrainer.saveProfile(JSON.stringify(p));return true;})()
+                """.trimIndent())
+                scenario.recreate();waitFor(scenario,"document.documentElement.dataset.ready === 'true'")
+                eval(scenario,"document.querySelector('#hero-resume').click()")
+                waitFor(scenario,"document.querySelector('#step-count')?.textContent === 'Schritt 6/6'")
+                assertEquals("true",eval(scenario,"!document.querySelector('.romaji') && document.querySelector('#advance').disabled"))
+                eval(scenario,"Array.from(document.querySelectorAll('[data-choice]')).find(b=>b.textContent==='さんじはん').click()")
+                assertEquals("true",eval(scenario,"document.querySelector('#task-feedback').textContent.includes('3:30') && document.querySelector('#advance').disabled"))
+                assertEquals("true",eval(scenario,"document.documentElement.scrollWidth <= innerWidth"))
+                screenshot(scenario,"android-package4-wrong-answer")
+                eval(scenario,"document.querySelector('#show-hint').click()")
+                assertEquals("true",eval(scenario,"!!document.querySelector('.exercise-hint') && document.querySelector('#advance').disabled && JSON.parse(AndroidTrainer.getProfile()).xp===321"))
+                scenario.recreate();waitFor(scenario,"document.documentElement.dataset.ready === 'true'")
+                eval(scenario,"document.querySelector('#hero-resume').click()")
+                waitFor(scenario,"document.querySelector('#step-count')?.textContent === 'Schritt 6/6'")
+                assertEquals("true",eval(scenario,"!document.querySelector('.exercise-hint') && document.querySelector('#advance').disabled && JSON.parse(AndroidTrainer.getProfile()).teacher_id==='ren'"))
+            } finally {
+                eval(scenario,"AndroidTrainer.saveProfile($previous)")
+            }
+        }
+    }
+    @Test fun numbersPreparationDoesNotUnlockTheOldWrittenTask() {
+        ActivityScenario.launch(MainActivity::class.java).use { scenario ->
+            waitFor(scenario,"document.documentElement.dataset.ready === 'true'")
+            val previous=eval(scenario,"AndroidTrainer.getProfile()")
+            try {
+                eval(scenario,"""
+                    (()=>{const p=JSON.parse(AndroidTrainer.getProfile());p.course_revision=11;p.xp=321;p.completed=['0:0'];p.teacher_id='ren';
+                      p.legacy_unlocked=['12:0'];p.last_lesson={key:'12:0',card:4};
+                      p.lesson_sessions={'12:0':{flow_revision:2,index:4,phase:'write',passed:['speak','meaning','listen','build'],mode:'learn',recap:[],recap_total:0,recap_passed:0}};
+                      AndroidTrainer.saveProfile(JSON.stringify(p));return true;})()
+                """.trimIndent())
+                scenario.recreate();waitFor(scenario,"document.documentElement.dataset.ready === 'true'")
+                eval(scenario,"document.querySelector('#hero-resume').click()")
+                waitFor(scenario,"document.querySelector('#step-count')?.textContent === 'Schritt 5/6'")
+                assertEquals("true",eval(scenario,"!document.querySelector('.exercise-hint') && document.querySelector('#advance').disabled"))
+                eval(scenario,"document.querySelector('#show-hint').click()")
+                assertEquals("true",eval(scenario,"document.querySelector('.exercise-hint').textContent.includes('drei Paaren') && document.querySelector('.exercise-hint').textContent.includes('Miniübung 3') && document.querySelector('#advance').disabled"))
+                assertEquals("true",eval(scenario,"document.documentElement.scrollWidth <= innerWidth"))
+                screenshot(scenario,"android-numbers-preparation")
+                scenario.recreate();waitFor(scenario,"document.documentElement.dataset.ready === 'true'")
+                eval(scenario,"document.querySelector('#hero-resume').click()")
+                waitFor(scenario,"document.querySelector('#step-count')?.textContent === 'Schritt 5/6'")
+                assertEquals("true",eval(scenario,"!document.querySelector('.exercise-hint') && document.querySelector('#advance').disabled && JSON.parse(AndroidTrainer.getProfile()).xp===321 && JSON.parse(AndroidTrainer.getProfile()).last_lesson.card===4"))
+            } finally { eval(scenario,"AndroidTrainer.saveProfile($previous)") }
+        }
+    }
     @Test fun realAndroidSpeechModelInferenceWithoutMicrophone() {
         val context=InstrumentationRegistry.getInstrumentation().targetContext
         val models=ModelStore(context)

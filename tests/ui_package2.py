@@ -7,7 +7,9 @@ ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT))
 from app import TrainerApp
 from ui_renderer import Surface
 PACKAGE=int(os.environ.get('JT_CONTENT_PACKAGE','2'))
-if PACKAGE==3:
+if PACKAGE==4:
+ from tools.upgrade_package4 import GUIDES
+elif PACKAGE==3:
  from tools.upgrade_package3 import GUIDES
 else:
  from tools.upgrade_package2 import GUIDES
@@ -35,9 +37,17 @@ with tempfile.TemporaryDirectory() as tmp,patch.dict(os.environ,{'JAPANISCHTRAIN
     app.show_explanation();render();assert app.pinned_rect;assert app.flow.metrics()['hints']==before+1
     assert not app.flow.success and app.flow.advance()=='blocked'
     app.show_explanation();render();assert app.pinned_rect is None
-    if key in ['15:0','v11:positions','v11:dialog-directions','v11:read-profile','6:0','v11:checkout','v11:dialog-cafe']:
+    if key in ['15:0','v11:positions','v11:dialog-directions','v11:read-profile','6:0','v11:checkout','v11:dialog-cafe','v11:clock-hours','v11:dialog-weekend','v11:read-plan']:
      app.actors.composite(app.frame.image).convert('RGB').save(out/(key.replace(':','-')+'.png'))
     checks.append(key)
+   if PACKAGE==4:
+    app.open_lesson('12:0',4,True);render()
+    assert any('drei Paaren' in v for v in text)
+    assert any('Miniübung 1' in v for v in text)
+    app.flow.phase='write';app.flow.reset_task();render();assert app.pinned_rect is None
+    app.flow.check_write('go roku');render();assert not app.flow.success and app.flow.advance()=='blocked'
+    app.show_explanation();render();assert app.pinned_rect and not app.flow.success
+    app.actors.composite(app.frame.image).convert('RGB').save(out/'numbers-preparation.png')
    app.open_lesson('13:0',0,True);app.flow.phase='listen';app.flow.reset_task();app.flow.audio_seen=True;render()
    assert app.entry;app.entry.delete(0,'end');app.entry.insert(0,'nan');app.check_learn_text();render();assert app.flow.success
    assert app.store.data['xp']==0 and app.store.data['completed']==[]

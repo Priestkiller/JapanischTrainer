@@ -39,6 +39,10 @@ class CourseV11Tests(unittest.TestCase):
                     if field=='example' and now.get('study_guide',{}).get('package') in (2,3):
                         if l['key']=='14:0' and actual['jp'] in ['が','を','の']:continue
                         self.assertEqual(actual['example']['jp'],value);continue
+                    # Package 04 normalizes only these legacy examples. All three
+                    # original strings remain protected, rather than dropping the check.
+                    if field=='example' and l['key'] in ('12:1','23:0'):
+                        self.assertEqual(actual['example'],{'jp':value,'romaji':prior['example_romaji'],'de':prior['example_de']});continue
                     self.assertEqual(actual[field],value,(l['key'],field))
     def test_learning_order_is_a_permutation(self):
         keys=[l['key'] for l in self.learning.lessons]

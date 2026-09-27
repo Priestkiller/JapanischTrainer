@@ -3,19 +3,20 @@
 Never reads learner data. Full linguistic review is deliberately NOT inferred.
 Usage: python tools/audit_course.py --output <report-directory>
 """
-import argparse,csv,hashlib,json,re,subprocess,unicodedata
+import argparse,csv,hashlib,json,re,subprocess,unicodedata,sys
 from collections import Counter
 from pathlib import Path
 
 ROOT=Path(__file__).resolve().parents[1]
-BASE='3eb4384273b981962dd67aae75bc56eacf45b917'
+sys.path.insert(0,str(ROOT))
+BASE='21de74cfd5cde7ba8d77cda00c877ca590d90dbf'
 
 def normalize(text):
     return re.sub(r'[\s。、！？!?.,・\-]','',unicodedata.normalize('NFKC',text)).lower()
 
 def export(out):
     out.mkdir(parents=True,exist_ok=True)
-    source_files=['data/course.json','data/deep_lessons.json','data/catalog.json','mobile/web/talk.mjs','learning.py','study.py','lesson_ui.py','mobile/web/core.mjs','mobile/web/app.mjs','tools/upgrade_foundations.py','tools/upgrade_package2.py','tools/upgrade_package3.py','tools/audit_course.py']
+    source_files=['data/course.json','data/deep_lessons.json','data/catalog.json','mobile/web/talk.mjs','learning.py','study.py','lesson_ui.py','mobile/web/core.mjs','mobile/web/app.mjs','tools/upgrade_foundations.py','tools/upgrade_package2.py','tools/upgrade_package3.py','tools/upgrade_package4.py','tools/report_package4.py','tools/audit_course.py']
     hashes={p:hashlib.sha256((ROOT/p).read_bytes()).hexdigest() for p in source_files}
     d=json.loads((ROOT/'data/course.json').read_text('utf-8'))
     deep=json.loads((ROOT/'data/deep_lessons.json').read_text('utf-8'))
@@ -53,13 +54,14 @@ def export(out):
     positions={k:i for i,k in enumerate(order)}
     assert len(order)==len(set(order))==len(raw)
     assert all(e['from'] in raw and e['to'] in raw and positions[e['from']]<positions[e['to']] for e in edges)
-    (out/'VORAUSSETZUNGEN.json').write_text(json.dumps({'schema':1,'nodes':order,'edges':edges,'unknown':'Keine automatisierte Vollanalyse impliziter Sprachvoraussetzungen. 80 Guides, davon je 25 in Paket 02 und 03; technische Reihenfolge, didaktische Voraussetzungen und spätere Wiederholung sind getrennte Beziehungstypen. Keine zusätzliche Freischaltbedingung.'},ensure_ascii=False,indent=2)+'\n','utf-8')
+    (out/'VORAUSSETZUNGEN.json').write_text(json.dumps({'schema':1,'nodes':order,'edges':edges,'unknown':'Keine automatisierte Vollanalyse impliziter Sprachvoraussetzungen. 105 Guides; Paket 01 mit 30, Paket 02–04 mit je 25; technische Reihenfolge, didaktische Voraussetzungen und spätere Wiederholung sind getrennte Beziehungstypen. Keine zusätzliche Freischaltbedingung.'},ensure_ascii=False,indent=2)+'\n','utf-8')
     def md(name,text): (out/name).write_text(text.strip()+'\n','utf-8')
     counts=Counter(raw_jp);normcounts=Counter(normalize(x) for x in raw_jp)
     guided=[m for m in matrix if m['inhaltsstatus'].startswith('Paket')]
     package1=[m for m in guided if raw[m['lektion']][0]['study_guide'].get('package',1)==1]
     package2=[m for m in guided if raw[m['lektion']][0]['study_guide'].get('package')==2]
     package3=[m for m in guided if raw[m['lektion']][0]['study_guide'].get('package')==3]
+    package4=[m for m in guided if raw[m['lektion']][0]['study_guide'].get('package')==4]
     # Serialize every actual conversation node and route, including executable text
     # templates as source instead of inventing a single representative dialogue.
     script="import {SCENES} from './mobile/web/talk.mjs'; console.log(JSON.stringify(SCENES,(_k,v)=>v instanceof RegExp?v.toString():typeof v==='function'?v.toString():v));"
@@ -70,14 +72,14 @@ def export(out):
         for nk,node in scene['nodes'].items():
             scene_text.append(f"#### Knoten `{nk}`\n\nQuelle: `mobile/web/talk.mjs: SCENES[{scene['id']}].nodes.{nk}`\n\n```json\n{json.dumps(node,ensure_ascii=False,indent=2)}\n```")
         scene_text.append('Vorwissen bleibt pro Gespräch fachlich zu prüfen. Unbekannte Antworten führen zu einer Rückfrage, Wiederholungsbitten bleiben am Knoten. Erkannten Text kann man korrigieren; Hilfen liefern ganze Antwortvarianten. Abschluss bleibt von Kurs-XP und Freischaltung getrennt. Die automatisierten Routentests prüfen erreichbare Ziele, keine freie Konversationsfähigkeit.')
-    md('BESTAND.md',f'''# Kursbestand {d['content_version']} – Teststand Inhaltspaket 03
+    md('BESTAND.md',f'''# Kursbestand {d['content_version']} – Teststand Inhaltspaket 04
 
 Ausgangscommit vor Umsetzung: `{BASE}`. Laufzeitquellen: `data/course.json`, `data/catalog.json`, `data/deep_lessons.json`; beide Plattformen verwenden diese Quellen. Android kopiert sie mit `mobile/tools/prepare_assets.py`, Windows mit `tools/stage_release.py`.
 
 - {len(order)} Lektionen, {len(cards)} Karten, {sum(m['explizite_sprechziele'] for m in matrix)} explizite Sprechdatensätze; fehlende explizite Ziele bekommen einen Laufzeit-Fallback. {len(cat['TEACHERS'])} Lehrer.
 - {len(counts)} unterschiedliche rohe japanische Kartenformen, {len(normcounts)} nach NFKC, Kleinschreibung sowie Entfernung von Leerraum und definierter Interpunktion. Hiragana und Katakana werden dabei nicht gleichgesetzt.
 - {sum(v-1 for v in counts.values())} weitere Vorkommen bereits vorhandener roher Formen. Dopplungen bleiben bewusst erhalten und sind nicht automatisch Inhaltsfehler.
-- Paket 01: {len(package1)} Lektionen / {sum(m['karten'] for m in package1)} Karten unverändert erhalten. Paket 02: {len(package2)} vorhandene Lektionen / {sum(m['karten'] for m in package2)} Karten tatsächlich überarbeitet. Paket 03: {len(package3)} Lektionen / {sum(m['karten'] for m in package3)} Karten überarbeitet. Zusammen {len(guided)} / {sum(m['karten'] for m in guided)}. Die übrigen {len(order)-len(guided)} Lektionen sind strukturell erfasst, nicht einzeln durchgesehen. Menschliche Fachabnahme bleibt für den gesamten Kurs offen.
+- Paket 01: {len(package1)} Lektionen / {sum(m['karten'] for m in package1)} Karten unverändert erhalten. Paket 02: {len(package2)} vorhandene Lektionen / {sum(m['karten'] for m in package2)} Karten tatsächlich überarbeitet. Paket 03: {len(package3)} Lektionen / {sum(m['karten'] for m in package3)} Karten überarbeitet. Paket 04: {len(package4)} Lektionen / {sum(m['karten'] for m in package4)} Karten überarbeitet; eine zusätzliche Vorbereitungskorrektur an `12:0:4` wird nicht doppelt gezählt. Zusammen {len(guided)} / {sum(m['karten'] for m in guided)}. Die übrigen {len(order)-len(guided)} Lektionen sind strukturell erfasst, nicht einzeln durchgesehen. Menschliche Fachabnahme bleibt für den gesamten Kurs offen.
 
 ## Zähl- und Prüfgrenzen
 
@@ -109,7 +111,7 @@ Stand: Paket 01 veröffentlicht mit 11.0.2, Paket 02 mit 11.0.4 und Paket 03 als
 
 Die Daten enthalten viele sinnvolle eigene Erklärungen, Gegensatzpaare und bestehende Alltagsszenen. Erhalten: stabile IDs, sechs Android-Schritte mit echten Freigabebedingungen, getrennte Kana-Selbstprüfung, wiederholbare Karten und Offline-Gesprächswege. Die automatische Erkennung ist Textabgleich, keine Akzentnote.
 
-Offen: eigene sprachliche Einzelprüfung der übrigen 70 Lektionen, menschliche Fachprüfung aller Lektionen und vollständige Vorbereitung sämtlicher Gesprächszweige. Die konkret verbesserten Verbindungen und verbleibenden Szenenlücken stehen in PAKET_02.md und PAKET_03.md. Paket 03 schließt die dort belegten Zahlen-/Bestelllücken mit 25 weiteren Einheiten, 29 Situationsaufgaben und erklärten Fehlantworten auf 119 Karten. Keine bloße Zählung wird als Schließung dieser Lücken ausgegeben.
+Offen: eigene sprachliche Einzelprüfung der übrigen 45 Lektionen, menschliche Fachprüfung aller Lektionen und vollständige Vorbereitung sämtlicher Gesprächszweige. Die konkret verbesserten Verbindungen und verbleibenden Szenenlücken stehen in PAKET_02.md und PAKET_03.md. Paket 03 schließt die dort belegten Zahlen-/Bestelllücken mit 25 weiteren Einheiten, 29 Situationsaufgaben und erklärten Fehlantworten auf 119 Karten. Paket 04 schließt belegte Zeit-/Terminlücken mit 25 weiteren Einheiten und 123 Karten, 37 gezielten Anwendungsfragen und erklärten Fehlantworten. Die bisherige Zahlen-Sammelkarte erhält eine Vorbereitung in drei Zweiergruppen, ohne geänderte Prüfziele. Grenzen von Café und Wochenendszene sind mit dem unveränderten Routencode geprüft. Befund-zu-Karten-Zuordnung und offene Unsicherheiten stehen in PAKET_04.md. Keine bloße Zählung wird als Schließung dieser Lücken ausgegeben.
 ''')
     package=['# Paket 01: tatsächlich umgesetzt','30 bestehende Lektionen vertieft, keine neue Lektions-ID. Gemeinsame Kursdaten werden in Windows und Android geladen. Alle ursprünglichen Kartenpositionen und Zieltexte bleiben erhalten.','Abnahme pro Lektion: Erklärungen vor bzw. während bewusster Hilfe erreichbar; sechs Schritte weiterhin lösbar; Voraussetzungsschlüssel gültig; muttersprachliche Prüfung und Anfänger-Erprobung noch offen.']
     for m in package1:
@@ -146,15 +148,17 @@ Offen: eigene sprachliche Einzelprüfung der übrigen 70 Lektionen, menschliche 
         l=raw[m['lektion']][0];g=l['study_guide']
         third.append(f"## {m['position']}. {m['titel']} (`{m['lektion']}`)\n\n{m['karten']} Karten. Lernziel: {m['lernziel']}\n\nVoraussetzungen: {m['vorwissen']}.\n\n"+'\n\n'.join(g['points'])+f"\n\nAbruf: {g['recall']}\n\nSpätere Wiederaufnahme: {', '.join(g.get('retrieves',[])) or 'Abrufimpuls und Abschlussrunde'}.\n\nAnwendung: {l['cards'][0]['detail']['scenario']['question']}")
     md('PAKET_03.md','\n\n'.join(third))
-    md('AUSBAUPLAN.md','''# Weiterer Ausbau nach Paket 03
+    from tools.report_package4 import report as package4_report
+    md('PAKET_04.md',package4_report(raw,order))
+    md('AUSBAUPLAN.md','''# Weiterer Ausbau nach Paket 04
 
-Paket 01, 02 und 03 sind in gemeinsamen Kursdaten und beiden Programmen umgesetzt. Paket 03: 25 bestehende Lektionen / 119 Karten als Testversion 11.0.5 veröffentlicht; keine neue ID, Reihenfolge- oder Speichermigration. Die ausgewählten Lücken ließen sich in bestehenden Einheiten schließen. 150 Lektionen bleiben 150; zusätzliche Lektionen sind kein Abnahmekriterium. Paket 04 und 05 sind weiterhin Planung.
+Paket 01 bis 04 sind in gemeinsamen Kursdaten und beiden Programmen umgesetzt. Paket 03: 25 bestehende Lektionen / 119 Karten als Testversion 11.0.5 veröffentlicht; keine neue ID, Reihenfolge- oder Speichermigration. Die ausgewählten Lücken ließen sich in bestehenden Einheiten schließen. 150 Lektionen bleiben 150; zusätzliche Lektionen sind kein Abnahmekriterium. Paket 04 ist mit 25 weiteren Lektionen / 123 Karten umgesetzt; die eigene Durchsicht umfasst jetzt 105 Lektionen / 501 Karten. Paket 05 bleibt Planung.
 
 | Folgepaket | Ziel / Position | Umfang als Planung | Erklärungen und Übungen | Gespräch / Abnahme |
 | --- | --- | --- | --- | --- |
 | 02: Satzbau und Rückfragen – veröffentlicht | Positionen 31–41, 54–58, 62–63, 77, 86–87, 130, 133, 135–136 | 25 Überarbeitungen, 121 Karten, keine neue Lektion | 75 Guide-Absätze, 25 zusätzliche Transferfragen, Fehlantwortbegründungen und spätere Wiederaufnahme | Kennenlernen, einfache Ortsfrage und Wegverständnis verbessert; nicht alle Gesprächszweige abgedeckt, menschliche Abnahme offen |
 | 03: Einkaufen, Café und Reiseanwendungen – umgesetzt | 42–46, 60, 66–76, 78–81, 105–106, 131–132 | 25 vorhandene Lektionen / 119 Karten; keine neue ID | 75 Lernhilfe-Absätze, 29 gezielte Anwendungsaufgaben und erklärte Fehlantworten | Je zwei konkrete Café-/Einkaufswege mit gelehrten Antworten automatisch geprüft; vollständiges Hörverständnis und menschliche Abnahme offen |
-| 04: Zeit und Verabredungen | Auf Zeitangaben, Verben und Einladungen aufbauen | 15–25 Überarbeitungen; 0–5 Ergänzungen bei nachgewiesenen Lücken | Tag/Uhrzeit/Treffpunkt austauschen, Alternativen anbieten, später erneut abrufen | Wochenendszene; menschliche Sprachprüfung und Anfänger-Durchlauf |
+| 04: Zeit und Verabredungen – umgesetzt | 47–53, 59, 82–85, 88–94, 126/129/134/137–139 | 25 vorhandene Lektionen / 123 Karten; zusätzlich Vorbereitung 12:0:4, keine neue ID | 75 Lernhilfe-Absätze, 37 Anwendungsfragen; Tag/Uhrzeit/Treffpunkt, Alternativen, Rückschau | Drei vorbereitete Wochenendwege, Cafégrenzen; menschliche Prüfung offen |
 | 05: Lesen und Wiederholen | Über mehrere Kapitel verteilt, nach den jeweiligen Formen | 10–20 bestehende Lektionen prüfen; neue Anzahl offen | Kurze ungesehene Texte mit bekanntem Wortschatz; zeitlich versetzter Abruf und echte Verständnisfragen | Inhalt beantworten statt Vorlage kopieren; jede falsche Auswahl begründbar |
 
 Die Spannen sind Planungsannahmen, keine vollständig spezifizierten Zusatzlektionen. Alle Pakete betreffen die gemeinsamen Kursdaten und beide Oberflächen; Offline-Gespräche bleiben zunächst Android-Funktion. Neue IDs nur für wirklich neue Inhalte, keine Neunummerierung alter Fortschritte. Voraussetzungsketten werden vor neuen Aufgaben geprüft. Wiederholung ist keine harte Freischaltbedingung.
@@ -165,9 +169,9 @@ Fachliche Abnahme: muttersprachliche Person prüft Natürlichkeit, Bedeutungen u
 
 {len(matrix)} eindeutige Lektionszeilen und {len(cards)} eindeutige Kartenzeilen; vollständige Abdeckung der tatsächlichen Kursquellen. {len(edges)} getrennt typisierte Beziehungen; alle Ziele vorhanden, alle hier explizit modellierten Voraussetzungskanten zeigen auf eine frühere Lektion und sind damit zyklenfrei. Unbekannte implizite Voraussetzungen bleiben unbekannt.
 
-Erfassung: alle 150 Lektionen / 680 Karten. Eigene sprachliche Durchsicht und Überarbeitung: 80 Lektionen / 378 Karten (Paket 01: 30/138, Paket 02: 25/121, Paket 03: 25/119). Vollständige fachliche Prüfung aller 150 Lektionen: **nicht abgeschlossen**. Menschliche Sprach- und Anfängerprüfung: **nicht ausgeführt**. Automatische Programmtests sind getrennt im technischen Testbericht dokumentiert und keine Sprachabnahme.
+Erfassung: alle 150 Lektionen / 680 Karten. Eigene sprachliche Durchsicht und Überarbeitung: 105 eindeutige Lektionen / 501 Karten (Paket 01: 30/138, Paket 02: 25/121, Paket 03: 25/119, Paket 04: 25/123; 12:0:4 nicht doppelt gezählt). Vollständige fachliche Prüfung aller 150 Lektionen: **nicht abgeschlossen**. Menschliche Sprach- und Anfängerprüfung: **nicht ausgeführt**. Automatische Programmtests sind getrennt im technischen Testbericht dokumentiert und keine Sprachabnahme.
 
-Export: `python tools/audit_course.py --output <Zielordner>`. Fachliche Ausgaben enthalten keine Laufzeitstempel. Gleiche Eingabedateien einschließlich redaktioneller Guides und dieses Skripts ergeben dieselben Berichte. Aktuelle Paket-3-Prüfungen stehen in `TESTBERICHT_11.0.5_TEST.md`; die öffentliche Kontrolle der stabilen Ausgabe bleibt in `VEROEFFENTLICHUNG_11.0.4.md`; Berichte für 11.0.2 und den lokalen Stand 11.0.3 bleiben historische Evidenz.
+Export: `python tools/audit_course.py --output <Zielordner>`. Fachliche Ausgaben enthalten keine Laufzeitstempel. Gleiche Eingabedateien einschließlich redaktioneller Guides und dieses Skripts ergeben dieselben Berichte. Aktuelle Paket-4-Prüfungen stehen in `TESTBERICHT_11.0.6_TEST.md` und `VEROEFFENTLICHUNG_11.0.6_TEST.md`; Paket 3 bleibt unter `TESTBERICHT_11.0.5_TEST.md` und `VEROEFFENTLICHUNG_11.0.5_TEST.md` dokumentiert; die öffentliche Kontrolle der stabilen Ausgabe bleibt in `VEROEFFENTLICHUNG_11.0.4.md`; Berichte für 11.0.2 und den lokalen Stand 11.0.3 bleiben historische Evidenz.
 
 Die Lehrtexte wurden eigenständig formuliert. Abgleich einzelner Schrift-/Leseregeln mit [Kana-Übersicht der Japan Foundation](https://www.irodori.jpf.go.jp/assets/data/Kana_all.pdf), Vorstellungen mit [Irodori Starter, Lektion 3](https://www.irodori.jpf.go.jp/assets/data/starter/pdf/X_L03.pdf). Diese Stichproben sind keine komplette externe Kursvalidierung.
 

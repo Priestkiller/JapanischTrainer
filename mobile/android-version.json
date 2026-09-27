@@ -1,8 +1,8 @@
 {
-  "name": "11.0.5-android.1-test",
-  "code": 11000501,
-  "course": "11.0.5",
+  "name": "11.0.6-android.1-test",
+  "code": 11000601,
+  "course": "11.0.6",
   "package": "de.priestkiller.japanischtrainer",
-  "releasePage": "https://github.com/Priestkiller/JapanischTrainer/releases/tag/android-test-v11.0.5-1",
-  "notes": "TESTVERSION: Inhaltspaket 3 mit 25 weiteren Lektionen und 119 Karten. Zahlen, Café, Einkauf und Reiseanwendungen; Lernstände bleiben erhalten. Menschliche Sprach-, Anfänger- und echte Geräteprüfung noch offen."
+  "releasePage": "https://github.com/Priestkiller/JapanischTrainer/releases/tag/android-test-v11.0.6-1",
+  "notes": "TESTVERSION: Inhaltspaket 4 mit 25 weiteren Lektionen und 123 Karten. Zeitangaben, Einladungen, Terminänderungen und Lesetexte; Lernstände bleiben erhalten. Menschliche Sprach-, Anfänger- und echte Geräteprüfung offen."
 }

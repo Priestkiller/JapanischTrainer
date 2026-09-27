@@ -6,6 +6,7 @@ from learning import Learning
 from storage import ProgressStore
 from study import PracticeBook, StudySession
 from tools import upgrade_package3 as authored
+from tools import upgrade_package4 as following
 
 ROOT=Path(__file__).resolve().parents[1]
 def digest(v):return hashlib.sha256(json.dumps(v,ensure_ascii=False,sort_keys=True).encode()).hexdigest()
@@ -23,7 +24,9 @@ class Package3Tests(unittest.TestCase):
         self.assertEqual(data['learning_order'],base['order']);self.assertEqual(data['revision'],base['revision'])
         self.assertEqual(len(base['reviewed']),55)
         for k,expected in base['lessons'].items():
-            if k not in authored.GUIDES:self.assertEqual(digest(raw[k]),expected,k)
+            # Package 04 is checked against its newer full 11.0.5 contract.
+            # All other original 11.0.4 hashes remain enforced here.
+            if k not in authored.GUIDES and k not in following.GUIDES:self.assertEqual(digest(raw[k]),expected,k)
         for k,l in raw.items():self.assertEqual(digest({'xp':l['xp'],'cards':[[c['jp'],c['romaji'],c['de']] for c in l['cards']]}),base['identities'][k],k)
     def test_inventory_prerequisites_solutions_and_feedback(self):
         lessons=[l for l in self.learning.lessons if l.get('study_guide',{}).get('package')==3]
@@ -56,11 +59,14 @@ class Package3Tests(unittest.TestCase):
             store=ProgressStore();learning=Learning(ROOT,store);f=StudySession(learning.by_key[key],store,PracticeBook(ROOT,learning),restore=True)
             for field in ['xp','teacher_id','completed','legacy_unlocked','review','last_lesson','lesson_sessions']:self.assertEqual(store.data[field],before[field],(key,field))
             self.assertEqual((f.phase,f.index),('write',1));self.assertEqual(f.advance(),'blocked')
-    def test_authoring_is_idempotent_without_touching_previous_packages(self):
+    def test_authoring_composition_is_idempotent_without_touching_previous_packages(self):
         temp=Path(self.tmp.name);(temp/'data').mkdir()
         for name in ['course.json','deep_lessons.json']:(temp/'data'/name).write_bytes((ROOT/'data'/name).read_bytes())
         before=(temp/'data/course.json').read_bytes()
         with patch.object(authored,'ROOT',temp):authored.upgrade()
+        # Reapply the one explicit later correction (12:0:4), never bless new
+        # hashes wholesale or let an older authoring script downgrade content.
+        with patch.object(following,'ROOT',temp):following.upgrade()
         self.assertEqual((temp/'data/course.json').read_bytes(),before)
 
 if __name__=='__main__':unittest.main()
