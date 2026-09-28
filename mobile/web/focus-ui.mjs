@@ -58,6 +58,7 @@ export function focusLesson({page,session,round,teacher,store,esc}) {
   flow.append(el('p','','Lerne die benötigten Ausdrücke mit Bedeutung, Aussprache und Beispielen kennen.'));
   const intro=button('▤ Einführung öffnen',()=>openSheet('intro'));intro.id='focus-intro';flow.append(intro);
  }
+ let recordingPanel=null,fixedAudio=null;
  const speaking=flow.querySelector('.speaking-card');
  if(speaking){
   const model=el('div','focus-model'),words=el('div','focus-word'),pron=speaking.querySelector('.pronunciation');
@@ -66,8 +67,9 @@ export function focusLesson({page,session,round,teacher,store,esc}) {
  }
  if(record){
   let panel=record.closest('.speech-panel');if(!panel){panel=el('div','speech-panel');record.before(panel);panel.append(record);}
+  recordingPanel=panel;panel.classList.add('focus-fixed-record');paper.classList.add('focus-speaking-paper');fixedAudio=flow.querySelector('.audio-actions');if(fixedAudio){fixedAudio.classList.add('focus-fixed-audio');paper.append(fixedAudio);}paper.append(panel);const own=query('#ex-own');if(own)panel.append(own);
   panel.prepend(el('div','focus-record-label','<span>● Jetzt aufnehmen</span><small>Deine Stimme bleibt auf dem Gerät</small>'));
-  const caption=flow.querySelector('.speech-caption')??[...flow.querySelectorAll(':scope > p.sub')].find(p=>p.textContent.startsWith('Lokaler Textvergleich'));if(caption){storeSheet('microphone','Sprechen und Erkennen',[family==='echo'?flow.querySelector('#ex-prompt'):null,caption]);tools.append(button('ⓘ Aufnahme',()=>openSheet('microphone')));}
+  const caption=panel.querySelector('.speech-caption')??[...flow.querySelectorAll(':scope > p.sub')].find(p=>p.textContent.startsWith('Lokaler Textvergleich'));if(caption){storeSheet('microphone','Sprechen und Erkennen',[family==='echo'?flow.querySelector('#ex-prompt'):null,caption]);tools.append(button('ⓘ Aufnahme',()=>openSheet('microphone')));}
  }
  const companions=el('div','focus-companions');companions.setAttribute('aria-label',`${teacher.name} begleitet dich`);
  const encouragement=success?'Gut gemacht! Weiter zum nächsten Schritt.':family==='speak'||family==='echo'?'Sprich in Ruhe nach. Die Vorlage bleibt sichtbar.':family==='build'||family==='translate'?'Baue den Satz in Ruhe. Du kannst jederzeit nachschauen.':'Schritt für Schritt. Du kannst dir Zeit lassen.';
@@ -82,10 +84,10 @@ export function focusLesson({page,session,round,teacher,store,esc}) {
  function layout(){
   if(!root.isConnected)return;
   flow.classList.remove('focus-pagination');flow.style.height='';flow.style.columnWidth='';flow.style.columnGap='';flow.style.columnFill='';viewport.style.height='';viewport.scrollLeft=0;pager.hidden=true;
-  const reserve=document.body.classList.contains('keyboard')?0:innerHeight>700?190:innerHeight>550?120:0;
-  const available=Math.max(110,workspace.clientHeight-tools.offsetHeight-caption.offsetHeight-48-reserve);
+  const reserve=document.body.classList.contains('keyboard')?0:innerHeight>700?(record?140:190):innerHeight>550?(record?55:120):0;
+  const available=Math.max(110,workspace.clientHeight-tools.offsetHeight-caption.offsetHeight-48-reserve-(recordingPanel?.offsetHeight??0)-(fixedAudio?.offsetHeight??0));
   if(flow.scrollHeight>available+2){
-   flow.classList.add('focus-pagination');const height=Math.max(100,available-50),width=viewport.clientWidth;
+   flow.classList.add('focus-pagination');const height=Math.max(record?88:100,available-50),width=viewport.clientWidth;
    flow.style.height=`${height}px`;flow.style.columnWidth=`${width}px`;flow.style.columnGap='24px';flow.style.columnFill='auto';viewport.style.height=`${height}px`;stride=width+24;
    taskPages=Math.max(1,Math.ceil((flow.scrollWidth+24)/stride));pager.hidden=taskPages===1;
   }else taskPages=1;
@@ -109,12 +111,12 @@ export function focusLesson({page,session,round,teacher,store,esc}) {
   let pages=1,step=0;
   function paginate(){if(sheet.hidden)return;const w=reading.clientWidth,h=reading.clientHeight;content.body.style.height=`${h}px`;content.body.style.columnWidth=`${w}px`;content.body.style.columnGap='28px';content.body.style.columnFill='auto';step=w+28;pages=Math.max(1,Math.ceil((content.body.scrollWidth+28)/step));move(0);}
   function move(delta){presentation.sheetPage=Math.max(0,Math.min(pages-1,presentation.sheetPage+delta));reading.scrollLeft=presentation.sheetPage*step;pageNumber.textContent=`${presentation.sheetPage+1} / ${pages}`;earlier.disabled=presentation.sheetPage===0;later.disabled=presentation.sheetPage===pages-1;}
-  sheet.onkeydown=e=>{if(e.key==='Escape'){e.preventDefault();closeSheet();}if(e.key==='Tab'){const visible=[...sheet.querySelectorAll('button,summary,input')].filter(b=>!b.disabled&&b.getBoundingClientRect().width&&b.getBoundingClientRect().left>=sheet.getBoundingClientRect().left&&b.getBoundingClientRect().right<=sheet.getBoundingClientRect().right);const first=visible[0],last=visible.at(-1);if(e.shiftKey&&document.activeElement===first){e.preventDefault();last?.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first?.focus();}}};
+  sheet.onkeydown=e=>{if(e.key==='Escape'){e.preventDefault();closeSheet();}if(e.key==='Tab'){const visible=[...sheet.querySelectorAll('button,summary,input')].filter(b=>!b.disabled&&b.getBoundingClientRect().width&&b.getBoundingClientRect().left>=sheet.getBoundingClientRect().left&&b.getBoundingClientRect().right<=sheet.getBoundingClientRect().right);const first=visible[0],last=visible.at(-1);e.preventDefault();if(visible.length){const at=visible.indexOf(document.activeElement),next=(at+(e.shiftKey?-1:1)+visible.length)%visible.length;visible[next].focus({preventScroll:true});}}};
   requestAnimationFrame(()=>{paginate();top.lastChild.focus({preventScroll:true});});sheet._paginate=paginate;
  }
  for(const entry of sheets.values())storage.append(entry.body);
  const relayout=()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(()=>{layout();sheet._paginate?.();},40);};
- layoutObserver=new ResizeObserver(relayout);layoutObserver.observe(workspace);flowObserver=new MutationObserver(relayout);flowObserver.observe(flow,{childList:true,subtree:true,characterData:true,attributes:true,attributeFilter:['hidden']});
+ layoutObserver=new ResizeObserver(relayout);layoutObserver.observe(workspace);flowObserver=new MutationObserver(relayout);flowObserver.observe(flow,{childList:true,subtree:true,characterData:true,attributes:true,attributeFilter:['hidden']});if(recordingPanel)flowObserver.observe(recordingPanel,{childList:true,subtree:true,characterData:true,attributes:true,attributeFilter:['hidden']});
  if(!extra&&session.mode==='learn'&&stage==='speak'&&session.index===0&&sheets.has('guide')&&!seenGuides.has(session.lesson.key)){seenGuides.add(session.lesson.key);presentation.sheet='guide';}if(extra&&stage==='intro'&&!seenGuides.has('extra:'+round.lesson.key)){seenGuides.add('extra:'+round.lesson.key);presentation.sheet='intro';}if(presentation.sheet)openSheet(presentation.sheet);requestAnimationFrame(layout);
- viewport.addEventListener('focusin',e=>{if(taskPages>1){const r=e.target.getBoundingClientRect(),v=viewport.getBoundingClientRect();if(r.left<v.left||r.right>v.right)setTaskPage(Math.floor((r.left-v.left+viewport.scrollLeft)/stride));}});
+ viewport.addEventListener('focusin',e=>{if(taskPages>1){const r=e.target.getBoundingClientRect(),v=viewport.getBoundingClientRect();setTaskPage(Math.floor((r.left-v.left+viewport.scrollLeft+1)/stride));}});
 }

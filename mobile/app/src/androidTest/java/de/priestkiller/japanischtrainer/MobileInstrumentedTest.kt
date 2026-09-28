@@ -324,10 +324,13 @@ class MobileInstrumentedTest {
             screenshot(scenario,"android-exercises-landscape")
             scenario.onActivity { it.requestedOrientation=ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;it.web.settings.textZoom=140 }
             waitFor(scenario,"innerHeight > innerWidth")
-            eval(scenario,"document.querySelector('#ex-help').click();document.querySelector('#ex-input').scrollIntoView({block:'center'})")
+            eval(scenario,"document.querySelector('#ex-help').click()")
             // A programmatic JS focus alone need not open the Android IME.
             // Tap the real WebView input and verify native keyboard visibility.
-            Thread.sleep(500)
+            Thread.sleep(700)
+            // Use the same visible page controls as a learner; do not scroll a hidden column into view.
+            eval(scenario,"(()=>{const input=document.querySelector('#ex-input'),view=document.querySelector('.focus-task-viewport');for(let i=0;i<20;i++){const r=input.getBoundingClientRect(),v=view.getBoundingClientRect();if(r.left>=v.left-1&&r.right<=v.right+1)break;document.querySelector('.focus-page-nav button:last-child').click();}})()")
+            assertEquals("true",eval(scenario,"(()=>{const r=document.querySelector('#ex-input').getBoundingClientRect(),v=document.querySelector('.focus-task-viewport').getBoundingClientRect();return r.left>=v.left-1&&r.right<=v.right+1&&r.top>=v.top-1&&r.bottom<=v.bottom+1})()"))
             val point=JSONArray(eval(scenario,"(()=>{const r=document.querySelector('#ex-input').getBoundingClientRect();return [r.left+r.width/2,r.top+r.height/2,innerWidth]})()"))
             var tapX=0f;var tapY=0f
             scenario.onActivity { activity ->

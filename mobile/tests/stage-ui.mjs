@@ -28,6 +28,7 @@ try{
    const r=await page.evaluate(()=>{const w=document.querySelector('.focus-workspace'),v=document.querySelector('.focus-task-viewport'),d=document.querySelector('.focus-dock').getBoundingClientRect(),teacher=document.querySelector('.focus-teacher').getBoundingClientRect();return {outer:document.documentElement.scrollHeight-innerHeight,horizontal:document.documentElement.scrollWidth-innerWidth,workspace:w.scrollHeight-w.clientHeight,task:v.scrollHeight-v.clientHeight,dockBottom:d.bottom,dockTop:d.top,teacherTop:teacher.top,teacherWidth:teacher.width};});
    assert.ok(r.outer<=1&&r.horizontal<=1&&r.workspace<=1&&r.task<=1&&r.dockBottom<=height+1&&r.dockTop>=0,label+JSON.stringify(r));
    if(height>700)assert.ok(r.teacherTop<height-150&&r.teacherWidth>140,label+' companion is visible');
+   for(const selector of ['.focus-fixed-record','.focus-fixed-audio']){const n=page.locator(selector);if(await n.count()){const r=await n.boundingBox();assert.ok(r.x>=0&&r.x+r.width<=width+1&&r.y>=0&&r.y+r.height<=height-40,label+' recording/listening remains in view');}}
    const pager=page.locator('.focus-page-nav');if(await pager.isVisible()){
     for(let i=0;i<25&&!await pager.locator('button').last().isDisabled();i++)await pager.locator('button').last().click();
     assert.equal(await pager.locator('button').last().isDisabled(),true,label+' bounded page count');

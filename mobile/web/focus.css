@@ -30,3 +30,8 @@ body.focus-mode:before{content:'';position:fixed;inset:0;pointer-events:none;bac
 .focus-companions{overflow:hidden}
 
 .focus-mode .focus-flow.focus-pagination .focus-model{display:block;break-inside:auto}.focus-pagination .focus-word{break-inside:auto}.focus-mode .focus-pagination .focus-model .jp{font-size:1.55rem}.focus-mode .focus-flow.focus-pagination .speech-panel,.focus-mode .focus-flow.focus-pagination .info{break-inside:auto}.focus-pagination .pronunciation{margin-top:8px}
+
+.focus-fixed-record{position:relative}.focus-mode .focus-fixed-audio{margin-top:10px}.focus-mode .focus-fixed-record{margin-top:10px}.focus-fixed-record #lesson-own,.focus-fixed-record #lesson-cancel{font-size:.7rem}
+@media(max-height:550px) and (min-width:600px){.focus-speaking-paper{display:grid!important;grid-template-columns:minmax(0,1fr) 205px;gap:6px 12px}.focus-speaking-paper .focus-task-title{grid-area:1/1}.focus-speaking-paper .focus-task-viewport{grid-area:2/1}.focus-speaking-paper .focus-fixed-audio{grid-area:1/2;margin:0}.focus-mode .focus-speaking-paper .focus-fixed-record{grid-area:2/2;margin:0;padding:6px}.focus-fixed-record .focus-record-label{display:none}.focus-mode .focus-fixed-record .focus-microphone{min-height:44px}.focus-fixed-record #lesson-own,.focus-fixed-record #lesson-cancel{font-size:.6rem;padding:6px}.focus-session:has(.focus-speaking-paper) .focus-workspace{padding-right:0}.focus-session:has(.focus-speaking-paper) .focus-companions{display:none}}
+
+@media(max-width:370px){.focus-record-label small{display:none}.focus-mode .focus-fixed-record{padding:7px}.focus-record-label{margin-bottom:5px}.focus-mode .focus-fixed-record .focus-microphone{min-height:44px}}
