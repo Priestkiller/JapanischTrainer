@@ -35,6 +35,16 @@ Der Update-Button erhält Lernstände und Sprachpaket. Details:
 [Android-Anleitung](mobile/INSTALLIEREN_ANDROID.md) und
 [Android-Technik und Build](mobile/README.md).
 
+### Neue Android Testansicht
+
+[Android 11.0.8 Testversion](https://github.com/Priestkiller/JapanischTrainer/releases/tag/android-test-v11.0.8-1):
+dunkle Lernkarten nach den Handyreferenzen, große Hauptaktionen, Mikrofonpegel,
+eigene Aufnahme und bessere Aufbereitung kurzer/leiser Kana. Über **Testversion suchen**
+erreichbar. Die automatische Erkennung einzelner Laute bleibt unsicher;
+[Prüfbericht](TESTBERICHT_ANDROID_11.0.8.md) und
+[S24-Ultra-Prüfliste](GERAETEPRUEFUNG_ANDROID_11.0.8.md) trennen Software- und Menschentests.
+Windows-Testversion bleibt 11.0.7; stabil bleibt 11.0.4.
+
 ## Lernen und Datenschutz
 
 Lernen, Sprachausgabe und Erkennung arbeiten lokal. Die manuelle Update-Prüfung
