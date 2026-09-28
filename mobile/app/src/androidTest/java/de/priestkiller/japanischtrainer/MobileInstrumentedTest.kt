@@ -112,7 +112,9 @@ class MobileInstrumentedTest {
             screenshot(scenario,"android-settings-large-text")
             scenario.onActivity { it.requestedOrientation=ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE }
             InstrumentationRegistry.getInstrumentation().waitForIdleSync()
-            waitFor(scenario,"innerWidth > innerHeight && document.documentElement.dataset.ready === 'true' && !!document.querySelector('#hero-resume')")
+            // Rotation now retains the current view (including settings), as
+            // required for the active exercise; it must not jump to Home.
+            waitFor(scenario,"innerWidth > innerHeight && document.documentElement.dataset.ready === 'true' && !!document.querySelector('#check-updates')")
             assertEquals("true",eval(scenario,"document.documentElement.scrollWidth <= innerWidth"))
             screenshot(scenario,"android-landscape")
         }
