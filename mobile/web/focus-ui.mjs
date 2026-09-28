@@ -85,7 +85,10 @@ export function focusLesson({page,session,round,teacher,store,esc}) {
   if(!root.isConnected)return;
   flow.classList.remove('focus-pagination');flow.style.height='';flow.style.columnWidth='';flow.style.columnGap='';flow.style.columnFill='';viewport.style.height='';viewport.scrollLeft=0;pager.hidden=true;
   const reserve=document.body.classList.contains('keyboard')?0:innerHeight>700?(record?140:190):innerHeight>550?(record?55:120):0;
-  const available=Math.max(110,workspace.clientHeight-tools.offsetHeight-caption.offsetHeight-48-reserve-(recordingPanel?.offsetHeight??0)-(fixedAudio?.offsetHeight??0));
+  const free=workspace.clientHeight-tools.offsetHeight-caption.offsetHeight-48-(recordingPanel?.offsetHeight??0)-(fixedAudio?.offsetHeight??0);
+  let available=Math.max(110,free-reserve);
+  // Short speech models stay on one view when they fit, before reserving decorative space.
+  if(record&&!extra&&session.card.jp.trim().length<=2&&flow.scrollHeight<=free-50)available=flow.scrollHeight+2;
   if(flow.scrollHeight>available+2){
    flow.classList.add('focus-pagination');const height=Math.max(record?88:100,available-50),width=viewport.clientWidth;
    flow.style.height=`${height}px`;flow.style.columnWidth=`${width}px`;flow.style.columnGap='24px';flow.style.columnFill='auto';viewport.style.height=`${height}px`;stride=width+24;

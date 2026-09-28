@@ -373,6 +373,8 @@ class MobileInstrumentedTest {
             assertEquals("true",eval(scenario,"document.querySelector('#advance').disabled && JSON.parse(AndroidTrainer.getProfile()).xp===0"))
             assertEquals("true",eval(scenario,"(()=>{const w=document.querySelector('.focus-workspace');return w.scrollHeight<=w.clientHeight+1 && document.documentElement.scrollHeight<=innerHeight+1})()"))
             assertEquals("true",eval(scenario,"(()=>{const t=document.querySelector('.focus-teacher').getBoundingClientRect(),w=document.querySelector('.focus-workspace').getBoundingClientRect();return t.top>=w.top && t.top<innerHeight-100 && t.width>100})()"))
+            assertEquals("true",eval(scenario,"document.querySelector('.focus-page-nav').hidden"))
+            println("Native stage viewport and type size: "+eval(scenario,"[innerWidth,innerHeight,getComputedStyle(document.documentElement).fontSize]"))
             screenshot(scenario,"android-stage-without-scroll")
         }
     }

@@ -11,7 +11,7 @@ const output=new URL('../test-results/stage/',import.meta.url);mkdirSync(output,
 const report={passed:false,coreViews:0,extraViews:0,viewportChecks:[],realDevice:false};
 const server=await previewServer(),browser=await chromium.launch({headless:true,channel:process.env.JT_BROWSER_CHANNEL??'msedge'});let page;
 try{
- for(const [width,height] of [[412,915],[320,640],[844,390],[768,1024]]){
+ for(const [width,height] of [[412,915],[393,800],[320,640],[844,390],[768,1024]]){
   const context=await browser.newContext({viewport:{width,height},isMobile:true,hasTouch:true});
   await context.addInitScript(()=>{window.AndroidTrainer={getProfile:()=>{const seed=localStorage.getItem('stage-seed');if(seed){localStorage.removeItem('stage-seed');localStorage.setItem('stage-profile',seed);return seed;}return localStorage.getItem('stage-profile')??'{}';},saveProfile:s=>{localStorage.setItem('stage-profile',s);return true;},getCapabilities:()=>'{"native":true,"models":true}',stopAudio:()=>{},stopRecording:()=>{}};});
   page=await context.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.goto(`http://127.0.0.1:${server.address().port}`);await page.waitForSelector('html[data-ready=true]');
@@ -36,7 +36,7 @@ try{
     while(!await pager.locator('button').first().isDisabled())await pager.locator('button').first().click();
    }
   }
-  for(const card of cards)for(const phase of PHASES){await open(card,phase);await bounded(`${width}:${card.key}:${phase}`);report.coreViews++;if(width===412&&card.jp==='ありがとう'&&phase==='speak')await page.screenshot({path:new URL('speaking-412.png',output).pathname.replace(/^\/([A-Z]:)/,'$1')});}
+  for(const card of cards)for(const phase of PHASES){await open(card,phase);await bounded(`${width}:${card.key}:${phase}`);if(height>=740&&card.jp==='あ'&&phase==='speak')assert.equal(await page.locator('.focus-page-nav').isVisible(),false,'A short kana stays together with pronunciation and recording');report.coreViews++;if(width===412&&card.jp==='ありがとう'&&phase==='speak')await page.screenshot({path:new URL('speaking-412.png',output).pathname.replace(/^\/([A-Z]:)/,'$1')});}
   if(width===412)for(const pack of data.packs)for(let i=0;i<pack.tasks.length;i++){
    await open(course.cards.find(c=>c.lesson_key===pack.lesson),'speak',i);await bounded(pack.tasks[i]);report.extraViews++;
    const t=data.tasks.find(t=>t.id===pack.tasks[i]);if(['translate','read','echo'].includes(t.family)&&pack.lesson==='5:0')await page.screenshot({path:new URL(t.family+'-412.png',output).pathname.replace(/^\/([A-Z]:)/,'$1')});
