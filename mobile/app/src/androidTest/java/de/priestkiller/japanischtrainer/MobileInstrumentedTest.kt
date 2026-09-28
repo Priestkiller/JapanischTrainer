@@ -322,10 +322,29 @@ class MobileInstrumentedTest {
             screenshot(scenario,"android-exercises-landscape")
             scenario.onActivity { it.requestedOrientation=ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;it.web.settings.textZoom=140 }
             waitFor(scenario,"innerHeight > innerWidth")
-            eval(scenario,"document.querySelector('#ex-help').click();document.querySelector('#ex-input').scrollIntoView({block:'center'});document.querySelector('#ex-input').focus()")
+            eval(scenario,"document.querySelector('#ex-help').click();document.querySelector('#ex-input').scrollIntoView({block:'center'})")
+            // A programmatic JS focus alone need not open the Android IME.
+            // Tap the real WebView input and verify native keyboard visibility.
+            Thread.sleep(500)
+            val point=JSONArray(eval(scenario,"(()=>{const r=document.querySelector('#ex-input').getBoundingClientRect();return [r.left+r.width/2,r.top+r.height/2,innerWidth]})()"))
+            var tapX=0f;var tapY=0f
             scenario.onActivity { activity ->
-                (activity.getSystemService(android.content.Context.INPUT_METHOD_SERVICE) as android.view.inputmethod.InputMethodManager).showSoftInput(activity.web,android.view.inputmethod.InputMethodManager.SHOW_IMPLICIT)
+                val origin=IntArray(2);activity.web.getLocationOnScreen(origin)
+                val scale=activity.web.width/point.getDouble(2)
+                tapX=(origin[0]+point.getDouble(0)*scale).toFloat();tapY=(origin[1]+point.getDouble(1)*scale).toFloat()
             }
+            val instrumentation=InstrumentationRegistry.getInstrumentation();val down=android.os.SystemClock.uptimeMillis()
+            for(action in listOf(android.view.MotionEvent.ACTION_DOWN,android.view.MotionEvent.ACTION_UP)) {
+                val event=android.view.MotionEvent.obtain(down,android.os.SystemClock.uptimeMillis(),action,tapX,tapY,0)
+                instrumentation.sendPointerSync(event);event.recycle()
+            }
+            var keyboard=false
+            for(attempt in 0..30) {
+                scenario.onActivity { keyboard=it.web.rootWindowInsets?.isVisible(android.view.WindowInsets.Type.ime())==true }
+                if(keyboard)break
+                Thread.sleep(200)
+            }
+            assertTrue("The real Android keyboard must be open for this test",keyboard)
             Thread.sleep(1000)
             assertEquals("true",eval(scenario,"document.documentElement.scrollWidth<=innerWidth && document.querySelector('#ex-input').value==='mi'"))
             screenshot(scenario,"android-exercises-large-text-keyboard")
