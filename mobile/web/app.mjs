@@ -19,7 +19,7 @@ function persist(text) {
 }
 function showSaveError() {let el=$('#save-error');if(!el){el=document.createElement('div');el.id='save-error';el.className='storage-error';el.role='alert';document.body.prepend(el);}el.textContent=saveError;}
 function save() {try{store.save();}catch(e){toast(e.message);}}
-function stopMedia() {native('stopAudio');native('stopRecording',true);state.audio=null;state.speech=null;state.ownSpeech=null;state.recording='idle';talkUI?.refresh();}
+function stopMedia() {native('stopAudio');native('stopRecording',true);state.audio=null;state.speech=null;state.ownSpeech=null;if(state.session)state.session.shortSpeechReady=false;state.recording='idle';talkUI?.refresh();}
 function navigate(page) {
   if(state.page==='exercises'&&page!==state.page)exerciseUI?.cancel();
   if(state.session&&state.page==='lesson')state.session.snapshot();
@@ -271,7 +271,7 @@ window.JTNative=(type,data={})=> {
   } else if(type==='profileCandidate') {
     try {const profile=cleanProfile(JSON.parse(data.json),true);native('confirmImport',JSON.stringify(profile));}catch(e){toast(e.message);}
   } else if(type==='profileImported') {exerciseUI?.reset();store.data=cleanProfile(data,true);state.session=null;state.review=null;talkUI?.reset();navigate('home');toast('Lernstand übernommen.');}
-  else if(type==='audioCancelled'){state.audio=null;state.speech=null;state.recording='idle';state.speechMessage='';refreshAudio();}
+  else if(type==='audioCancelled'){state.audio=null;state.speech=null;state.ownSpeech=null;if(state.session)state.session.shortSpeechReady=false;state.recording='idle';state.speechMessage='';refreshAudio();}
   else if(type.startsWith('audio')&&data.request===state.audio?.id) {
     if(type==='audioLoading')state.audio.message='Stimme wird vorbereitet …';
     if(type==='audioStarted')state.audio.message='Wiedergabe läuft …';

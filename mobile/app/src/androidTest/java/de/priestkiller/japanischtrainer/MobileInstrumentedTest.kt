@@ -66,6 +66,7 @@ class MobileInstrumentedTest {
         var focused=false
         scenario.onActivity { focused=it.hasWindowFocus() }
         assertTrue("A system dialog must not cover the app screenshot",focused)
+        assertEquals("true",eval(scenario,"!document.body.classList.contains('focus-mode') || (()=>{const d=document.querySelector('.focus-dock').getBoundingClientRect();return d.top>=0 && d.bottom<=innerHeight+1 && document.documentElement.scrollWidth<=innerWidth})()"))
         val folder=File(requireNotNull(InstrumentationRegistry.getArguments().getString("additionalTestOutputDir"))).apply { mkdirs() }
         val bitmap=instrumentation.uiAutomation.takeScreenshot()
         File(folder,"$name.png").outputStream().use { bitmap.compress(Bitmap.CompressFormat.PNG,100,it) }

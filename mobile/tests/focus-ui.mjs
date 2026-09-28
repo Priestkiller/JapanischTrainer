@@ -33,6 +33,9 @@ try{
   const profile=await page.evaluate(()=>JSON.parse(localStorage.getItem('focus-profile')));assert.equal(profile.study_cards['0:0:0'].mistakes,0);assert.equal(profile.xp,0);
   await page.locator('#lesson-own').click();assert.equal(await page.evaluate(()=>calls.at(-1).original),id);
   await page.evaluate(()=>JTNative('audioDone',{request:calls.at(-1).id}));
+  await page.evaluate(()=>JTNative('audioCancelled'));
+  assert.equal(await page.locator('#lesson-own').isVisible(),false);assert.equal(await page.locator('#confirm-short-speech').isDisabled(),true);
+  await listen();id=await start();await page.evaluate(id=>JTNative('speechResult',{request:id,text:'いい',audioQualified:true,shortKana:true}),id);
   await page.locator('#confirm-short-speech').click();await dock();
   await page.screenshot({path:path.join(output.pathname.replace(/^\/([A-Z]:)/,'$1'),`self-check-${width}.png`)});
   await page.locator('#advance').click();assert.equal(await page.locator('#lesson-own').count(),0);
