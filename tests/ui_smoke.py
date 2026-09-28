@@ -100,7 +100,7 @@ with tempfile.TemporaryDirectory() as temp:
         refresh();assert app.entry and app.entry_mode=='study'
         app.entry.delete(0,'end');app.entry.insert(0,'arigatoo');app.entry.event_generate('<KeyRelease>');root.update()
         app.entry.focus_set();pause(.3);before=app.entry.get();count=app.actors.frame_count;pause(.35)
-        assert app.entry.get()==before and app.actors.frame_count>count
+        assert app.entry.get()==before and app.actors.frame_count==count and not app.actor_specs
         app.entry.event_generate('<KeyPress-Return>');root.update();refresh();assert app.flow.success
         click('next');assert app.flow.phase=='apply';correct_option();click('next');assert app.card_index==2 and app.flow.phase=='understand'
         checks.append('All six guided steps work through real pointer and keyboard input')

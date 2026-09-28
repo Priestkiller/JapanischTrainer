@@ -6,10 +6,19 @@ The JSON description is shared with the Android adapter in exercises.mjs.
 from __future__ import annotations
 import copy, json, re, time, unicodedata
 from pathlib import Path
+from speech_support import SpeechSupport
 
 FAMILIES={'pairs':'Paare zuordnen','echo':'Nachsprechen','recall':'Sag das auf Japanisch',
           'hear_gap':'Hörlücke','choice_gap':'Lücke auswählen','multi_gap':'Mehrfachlücken',
           'translate':'Übersetzen mit Bausteinen','read':'Lesen und antworten'}
+INSTRUCTIONS={'pairs':'Wähle links eine Form oder ein Audiofeld und rechts ihre Bedeutung. Ordne alle Paare zu und bestätige mit Prüfen.',
+ 'echo':'Höre zuerst normal oder langsam zu. Sprich danach die sichtbare Vorlage nach.',
+ 'recall':'Sprich die deutsche Vorgabe auf Japanisch. Die gesuchte Antwort bleibt zunächst verborgen.',
+ 'hear_gap':'Höre zu und schreibe nur die fehlende Einheit in Romaji. Normal und Langsam wiederholen die Vorlage.',
+ 'choice_gap':'Wähle eine passende Ergänzung für die Lücke und bestätige mit Prüfen.',
+ 'multi_gap':'Wähle zuerst eine Lücke, dann ihren Baustein. Ergänze alle Lücken und bestätige mit Prüfen.',
+ 'translate':'Übersetze die deutsche Vorgabe mit den japanischen Bausteinen. Tippe sie in der Satzreihenfolge an und bestätige mit Prüfen.',
+ 'read':'Lies den japanischen Text. Wähle eine Antwort auf die Frage und bestätige mit Prüfen.'}
 
 def normalize(value):
     return re.sub(r'[\s。！？!?.,、·「」“”]', '', unicodedata.normalize('NFKC',str(value)).lower())
@@ -83,10 +92,23 @@ class ExerciseRound:
         return self.book.tasks[ids[min(i,len(ids)-1)]]
     @property
     def answer(self):return self.state['task']
+    @property
+    def support(self):
+        key=f'exercise:{self.task["id"]}:{self.state["stage"]}'
+        if getattr(self,'_support',None) is None or self._support.key!=key:self._support=SpeechSupport(self.store,key,{'card':self.task['card'],'lesson':self.lesson['key'],'kind':'exercise','task':self.task['id']})
+        return self._support
+    def accept_support(self,deck):
+        if self.state['stage'] not in ('main','review') or self.task['family'] not in ('echo','recall') or self.answer['success'] or not self.support.confirm(deck):return False
+        self.answer['success']=True;self.answer['feedback']=self.support.data['feedback'];self.answer['supported_speech']=True;self.log('selection')
+        if self.state['stage']=='main':self.state['review']=[v for v in self.state['review'] if v not in (self.task['id'],self.task.get('repeat'))]
+        self.save();return True
     def save(self):self.store.data['lesson_sessions'][self.key]=copy.deepcopy(self.state);self.store.save()
     def start(self):
         if self.state['stage']=='intro':self.state['stage']='main';self.save()
-    def restart(self):self.state=self.fresh();self.sanitize();self.save()
+    def restart(self):
+        for identity in self.pack['tasks']:
+            for stage in ('main','review'):self.store.data.get('speech_support',{}).pop(f'exercise:{identity}:{stage}',None)
+        self._support=None;self.state=self.fresh();self.sanitize();self.save()
     def help(self,level):
         d=self.answer;d['help']=max(d['help'],level);d['help_open']=True;self.save()
     def set(self,key,value):

@@ -8,8 +8,9 @@ from motion import PRESETS,preset_name,preset_strength
 from study import PracticeBook,StudySession,PHASES,LABELS,matches_romaji
 from ui_renderer import WHITE,MUTED,INK,BLUE,PINK
 from exercise_ui import ExerciseMixin
+from speech_help_ui import SpeechHelpMixin
 
-class LessonMixin(ExerciseMixin):
+class LessonMixin(ExerciseMixin,SpeechHelpMixin):
     def init_v8(self):
         self.book=PracticeBook(self.learning.root,self.learning)
         self.init_exercises()
@@ -17,7 +18,16 @@ class LessonMixin(ExerciseMixin):
         self.inline_speech=False;self.detail_open=False;self.speech_epoch=0
         self.reactions=ReactionController();self.reaction_until=0.;self.reaction='idle';self.actor_specs=[]
         self.pinned_rect=None;self.inline_rect=None;self.exercise_rect=None
-        self.actors=ActorLayer(self.root,self.canvas,lambda:self.store.data.get('motion_enabled',True),self.actor_mood,self.actor_feedback,lambda:preset_strength(self.store.data.get('motion_preset')))
+        self.actors=ActorLayer(self.root,self.canvas,self.figures_moving,self.actor_mood,self.actor_feedback,lambda:preset_strength(self.store.data.get('motion_preset')))
+    def figures_moving(self):
+        if not self.store.data.get('motion_enabled',True) or self.store.data.get('motion_preset')=='off':return False
+        try:
+            import ctypes,os
+            if os.name=='nt':
+                allowed=ctypes.c_int(1)
+                if ctypes.windll.user32.SystemParametersInfoW(0x1042,0,ctypes.byref(allowed),0) and not allowed.value:return False
+        except (AttributeError,OSError):pass
+        return self.view!='complete' or time.monotonic()-getattr(self,'completion_started',0)<2.65
     def new_flow(self,index=0,restore=False):
         self.clear_reaction()
         self.flow=StudySession(self.lesson,self.store,self.book,index,restore)
@@ -35,7 +45,7 @@ class LessonMixin(ExerciseMixin):
         if state=='complete':
             self.store.mark_complete(self.lesson['key'],self.lesson.get('xp',20))
             self.store.data.setdefault('lesson_sessions',{}).pop(self.lesson['key'],None)
-            self.store.save();self.navigate('complete');self.react('praise','lesson-complete');return
+            self.store.save();self.completion_started=time.monotonic();self.navigate('complete');self.react('praise','lesson-complete');return
         self.clear_reaction()
         changed=self.card_index!=self.flow.index
         self.card_index=self.flow.index;self.answer=None;self.answer_correct=False
@@ -86,6 +96,8 @@ class LessonMixin(ExerciseMixin):
         if self.view=='lesson':
             if self.inline_speech:
                 if self.recording:self.stop_capture(False)
+                self.speech_epoch+=1
+                if getattr(self,'active_speech_help',None):self.active_speech_help[0].cancel()
                 self.inline_speech=False
             else:
                 item=self.learning.speech_target(c,lesson or self.lesson)
@@ -93,8 +105,9 @@ class LessonMixin(ExerciseMixin):
                     self.speech_epoch+=1;self.result=None;self.last_audio=None;self.speech_error=''
                 self.speech_item=item;self.inline_speech=True
             self.scroll=0;self.hide_entry();self.request_draw();return
-        self.speech_epoch+=1;self.speech_item=self.learning.speech_target(c,lesson or self.lesson)
+        self.speech_review_key=None;self.speech_epoch+=1;self.speech_item=self.learning.speech_target(c,lesson or self.lesson)
         self.speech_item['approx']=c.get('approx','');self.speech_item['note']=c.get('note','')
+        self.speech_item['card_key']=c.get('key',f'{self.lesson["key"]}:{self.card_index}')
         self.speech_return=self.view;self.result=None;self.speech_error='';self.last_audio=None;self.navigate('speaking')
     def skip_speaking(self):
         self.clear_reaction()
@@ -133,6 +146,7 @@ class LessonMixin(ExerciseMixin):
         before=self.flow.metrics()['attempts'];self.flow.check_build()
         self._react_to_step(before,'build');self.request_draw()
     def show_explanation(self):
+        if self.recording or self.job:self.notify('Beende zuerst die Aufnahme oder Auswertung.');return
         self.detail_open=not self.detail_open;self.flow.hint_used=True
         if self.detail_open:
             m=self.flow.metrics();m['hints']=m.get('hints',0)+1;self.flow.snapshot()
@@ -176,7 +190,7 @@ class LessonMixin(ExerciseMixin):
         yy+=s.paragraph(x+35,yy,c['romaji'],ix-x-48,size,'#56749a',lineheight=size*1.25)+12
         size=layout['de'][0]
         s.paragraph(x+35,yy,'Bedeutung: '+c['de'],ix-x-48,size,INK,True,lineheight=size*1.25)
-        s.text(ix+14,top+24,'Aussprachehilfe',12,INK,True)
+        s.text(ix+14,top+24,'Aussprachehilfe · Annäherung',11,INK,True)
         size=layout['approx'][0]
         ah=s.paragraph(ix+14,top+52,c.get('approx') or c['romaji'],iw-27,size,'#20579d',True,lineheight=size*1.25)
         ny=top+52+ah+14
@@ -200,7 +214,9 @@ class LessonMixin(ExerciseMixin):
         if self.speech_error:feedback='Audio-Hinweis: '+self.speech_error
         elif self.result:
             r=self.result;reliable=r.reliable and (not r.quality or r.quality.status!='bad')
-            feedback=('Erkannt: '+(r.heard or 'kein Text')+' · '+str(r.score)+' % Textabgleich') if reliable else 'Aufnahme nicht sicher auswertbar. Kein Aussprachefehler daraus abgeleitet.'
+            feedback=('Erkannt: '+(r.heard or 'kein Text')+' · '+('Text passt.' if r.score>=80 else 'Text weicht ab.')) if reliable else 'Aufnahme nicht sicher auswertbar. Kein Aussprachefehler daraus abgeleitet.'
+        support=self.current_speech_support()
+        if support.data['failures']:feedback+=f' · Versuch {support.data["failures"]}: '+support.data['feedback']
         box_h=max(33,h-164);s.panel((x+16,y+130,w-42,box_h),'white',10,False)
         s.paragraph(x+28,y+139,feedback,w-66,12.5,color,max_lines=2,lineheight=17)
         s.text(x+18,y+h-23,'Textabgleich, keine Laut-/Akzentnote.',10.5,MUTED,width=w-207)
@@ -212,10 +228,11 @@ class LessonMixin(ExerciseMixin):
         sub=(f'Wiederholung {f.recap_passed+1} / {f.recap_total} · Bekannte Wörter, neu gemischt' if f.mode=='recap' else
              f'Karte {self.card_index+1} / {len(self.lesson["cards"])} · Schritt {step} / 6: {LABELS[f.phase]} · Kein Zeitdruck')
         self.heading(s,'Lektion – '+self.lesson['title'],sub,True)
-        x=294;y=193;lw=min(682,(self.W-x-36)*.615);rx=x+lw+22
+        x=294;y=193;show_teacher=self.inline_speech or self.detail_open
+        lw=min(682,(self.W-x-36)*.615) if show_teacher else self.W-x-36;rx=x+lw+22
         value=(f.recap_passed/max(1,f.recap_total)) if f.mode=='recap' else (self.card_index+(step-1)/6)/len(self.lesson['cards'])
         s.progress((x,175,lw-12,7),value)
-        if (f.phase=='understand' and f.mode=='learn') or self.detail_open:
+        if (f.phase=='understand' and f.mode=='learn') or self.detail_open or self.inline_speech:
             word_h=max(304 if self.H>=960 else 280,108+self.pinned_text_layout(s,lw,c)['white_h'])
             self.draw_pinned_word(s,x,y,lw,word_h,c)
         else:
@@ -256,7 +273,11 @@ class LessonMixin(ExerciseMixin):
         message=('Ich höre zu. Aussprachehilfe und Wort bleiben direkt neben dir.' if self.recording else
                  'Du darfst nachschauen. Kleine Wiederholungen sind Teil des Lernens.' if f.mode=='recap' else
                  'Erst verstehen. Dann in kleinen Schritten üben – ganz in deinem Tempo.')
-        self.teacher_stage(s,(rx,166,self.W-rx-17,self.H-182),message)
+        if show_teacher:
+            support=self.current_speech_support() if self.inline_speech else None
+            if support and support.unlocked:s.button('speech-help',(rx,166,self.W-rx-25,44),'Auswahlhilfe schließen' if support.data['open'] else 'Antwort stattdessen auswählen',self.toggle_speech_help,'blue',size=12,enabled=not self.recording and not self.job)
+            if support and support.data['open']:self.draw_speech_help(s,(rx,220,self.W-rx-25,self.H-240))
+            else:self.teacher_stage(s,(rx,220 if support and support.unlocked else 166,self.W-rx-17,self.H-(236 if support and support.unlocked else 182)),message)
     def text_block(self,p,o,w,title,text,kind='white'):
         if not text:return o
         lines=p.wrap(text,w-66,15);height=61+len(lines)*22

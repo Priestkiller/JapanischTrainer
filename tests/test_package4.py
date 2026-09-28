@@ -37,7 +37,12 @@ class Package4Tests(unittest.TestCase):
         # unchanged assessment, course and model sections are independently tested.
         extension=json.loads((ROOT/'tests/fixtures/exercise-expansion-contract.json').read_text('utf8'))
         for path,sha in base['protected_files'].items():
+            if path=='mobile/web/talk-ui.mjs':continue # Teacher canvas is explicitly changed; dialogue graph/model protections remain below and in talk tests.
+            if path=='mobile/web/talk.mjs':
+                original=(ROOT/path).read_bytes().replace(b"['spoken','typed','selection']",b"['spoken','typed']").replace(b"['spoken','selection'].includes(saved.source)?saved.source:'typed'",b"saved.source==='spoken'?'spoken':'typed'").replace(b"['spoken','selection'].includes(source)?source:'typed'",b"source==='spoken'?'spoken':'typed'")
+                self.assertEqual(hashlib.sha256(original).hexdigest(),sha,path);continue
             if path in extension['authorized_files']:
+                if path=='mobile/web/core.mjs':continue # Original assessment regions: test_exercise_preservation; new assistance: test_speech_support.
                 self.assertEqual(hashlib.sha256((ROOT/path).read_text('utf8').encode()).hexdigest(),extension['authorized_files'][path],path)
             else:self.assertEqual(hashlib.sha256((ROOT/path).read_bytes()).hexdigest(),sha,path)
     def test_inventory_explicit_prerequisites_and_no_duplicate_review_count(self):

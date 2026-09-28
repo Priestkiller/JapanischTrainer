@@ -1,9 +1,9 @@
 {
-  "name": "11.0.9-android.1-test",
-  "code": 11000901,
+  "name": "11.0.10-android.1-test",
+  "code": 11001001,
   "course": "11.0.7",
   "package": "de.priestkiller.japanischtrainer",
-  "releasePage": "https://github.com/Priestkiller/JapanischTrainer/releases/tag/android-test-v11.0.9-1",
-  "notes": "TESTVERSION: Lernansichten nach den Handy-Referenzen mit sichtbarer Lehrkraft und Kiko, Nachtszene, festen Hauptaktionen und Seitentasten statt vertikalem Scrollen. Vorwissen und Erklärungen öffnen separat. Lernstände, sechs Schritte und Kana-Erkennung bleiben erhalten. Echte S24-Ultra-, Mikrofon- und Anfängerprüfung offen.",
-  "releaseVersion": "11.0.9"
+  "releasePage": "https://github.com/Priestkiller/JapanischTrainer/releases/tag/android-test-v11.0.10-1",
+  "notes": "TESTVERSION: Vollständige Nachsprechvorlage, Auswahlhilfe nach drei erfolglosen Aufnahmeversuchen, gespeicherter unterstützter Fortschritt und spätere freiwillige Sprechwiederholung. Lehrer gezielt beim Sprechen, Kiko beim Abschluss. Echte S24-Ultra-, Mikrofon-, Hör- und Anfängerprüfung bleiben offen.",
+  "releaseVersion": "11.0.10"
 }

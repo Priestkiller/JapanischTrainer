@@ -372,10 +372,40 @@ class MobileInstrumentedTest {
             waitFor(scenario,"document.querySelector('.focus-sheet').hidden")
             assertEquals("true",eval(scenario,"document.querySelector('#advance').disabled && JSON.parse(AndroidTrainer.getProfile()).xp===0"))
             assertEquals("true",eval(scenario,"(()=>{const w=document.querySelector('.focus-workspace');return w.scrollHeight<=w.clientHeight+1 && document.documentElement.scrollHeight<=innerHeight+1})()"))
-            assertEquals("true",eval(scenario,"(()=>{const t=document.querySelector('.focus-teacher').getBoundingClientRect(),w=document.querySelector('.focus-workspace').getBoundingClientRect();return t.top>=w.top && t.top<innerHeight-100 && t.width>100})()"))
+            assertEquals("true",eval(scenario,"(()=>{const t=document.querySelector('.focus-teacher').getBoundingClientRect(),w=document.querySelector('.focus-workspace').getBoundingClientRect();return t.bottom<=w.top+1 && t.top>=0 && t.width>=25 && !document.querySelector('.focus-kiko')})()"))
             assertEquals("true",eval(scenario,"document.querySelector('.focus-page-nav').hidden"))
             println("Native stage viewport and type size: "+eval(scenario,"[innerWidth,innerHeight,getComputedStyle(document.documentElement).fontSize]"))
             screenshot(scenario,"android-stage-without-scroll")
+        }
+    }
+    @Test fun threeTechnicalAttemptsAllowConfirmedSelectionAndPreserveItAfterRestart() {
+        ActivityScenario.launch(MainActivity::class.java).use { scenario ->
+            waitFor(scenario,"document.documentElement.dataset.ready === 'true'")
+            eval(scenario,"document.querySelector('#hero-resume').click()")
+            waitFor(scenario,"!!document.querySelector('.focus-sheet:not([hidden])')")
+            eval(scenario,"JTBack(); JTNative('capabilities',{native:true,models:false})")
+            for (attempt in 1..3) {
+                eval(scenario,"document.querySelector('#record').click()")
+                assertEquals(attempt.toString(),eval(scenario,"JSON.parse(AndroidTrainer.getProfile()).speech_support['lesson:0:0:0'].failures"))
+                assertEquals((attempt==3).toString(),eval(scenario,"!!document.querySelector('#speech-alternative')"))
+                assertEquals("true",eval(scenario,"document.querySelector('#advance').disabled"))
+            }
+            screenshot(scenario,"android-speech-three-attempts")
+            eval(scenario,"document.querySelector('#speech-alternative').click();document.querySelector('#speech-prepare').click()")
+            eval(scenario,"document.querySelector('[data-support-choice=\"0:0:1\"]').click();document.querySelector('#speech-confirm').click()")
+            assertEquals("true",eval(scenario,"document.querySelector('#advance').disabled"))
+            eval(scenario,"document.querySelector('[data-support-choice=\"0:0:0\"]').click()")
+            screenshot(scenario,"android-speech-selection")
+            eval(scenario,"document.querySelector('#speech-confirm').click()")
+            assertEquals("true",eval(scenario,"!document.querySelector('#advance').disabled && JSON.parse(AndroidTrainer.getProfile()).study_cards['0:0:0'].last_speech_outcome==='selection' && JSON.parse(AndroidTrainer.getProfile()).xp===0 && Object.keys(JSON.parse(AndroidTrainer.getProfile()).speech_scores).length===0"))
+            scenario.recreate();waitFor(scenario,"document.documentElement.dataset.ready === 'true'")
+            eval(scenario,"document.querySelector('#hero-resume').click()")
+            waitFor(scenario,"!!document.querySelector('.focus-sheet:not([hidden])')")
+            eval(scenario,"JTBack()")
+            assertEquals("false",eval(scenario,"document.querySelector('#advance').disabled"))
+            eval(scenario,"document.querySelector('#advance').click()")
+            assertEquals("true",eval(scenario,"document.querySelector('.focus-session').dataset.family==='meaning' && !document.querySelector('#teacher-canvas') && !document.querySelector('.focus-kiko')"))
+            screenshot(scenario,"android-meaning-without-figures")
         }
     }
     @Test fun recordingReplayRejectsWrongIdentityAndClearsOnCancel() {

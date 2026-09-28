@@ -4,7 +4,7 @@ let presentation={key:'',page:0,sheet:'',sheetPage:0},layoutObserver=null,flowOb
 const el=(tag,cls,html='')=>{const n=document.createElement(tag);n.className=cls;n.innerHTML=html;return n;};
 const button=(label,fn,cls='')=>{const b=el('button',cls);b.type='button';b.textContent=label;b.onclick=fn;return b;};
 const icons={book:'▤',speak:'♩',meaning:'文',listen:'♫',build:'▦',write:'✎',apply:'◇'};
-export function closeFocusSheet(){const close=document.querySelector('.focus-sheet:not([hidden]) .focus-sheet-close');if(!close)return false;close.click();return true;}
+export function closeFocusSheet(){const close=document.querySelector('#speech-close')??document.querySelector('.focus-sheet:not([hidden]) .focus-sheet-close');if(!close)return false;close.click();return true;}
 export function focusLesson({page,session,round,teacher,store,esc}) {
  const active=['lesson','exercises'].includes(page);document.body.classList.toggle('focus-mode',active);
  layoutObserver?.disconnect();flowObserver?.disconnect();clearTimeout(resizeTimer);if(!active)return;
@@ -63,20 +63,28 @@ export function focusLesson({page,session,round,teacher,store,esc}) {
  if(speaking){
   const model=el('div','focus-model'),words=el('div','focus-word'),pron=speaking.querySelector('.pronunciation');
   for(const n of [...speaking.children])if(n.matches('.jp,.romaji,.translation')||(extra&&n.tagName==='P'&&!n.className))words.append(n);
-  model.append(words);if(pron){pron.textContent=pron.textContent.replace(/^Aussprachehilfe(?: · Näherung)?[: ·]*/,'');pron.insertAdjacentHTML('afterbegin','<strong>Aussprachehilfe</strong>');model.append(pron);}speaking.prepend(model);speaking.querySelector('#speak-instruction')?.remove();
+  model.append(words);if(pron){pron.textContent=pron.textContent.replace(/^Aussprachehilfe(?: · Näherung)?[: ·]*/,'');pron.insertAdjacentHTML('afterbegin','<strong>Aussprachehilfe · Annäherung</strong>');model.append(pron);}speaking.prepend(model);
  }
  if(record){
   let panel=record.closest('.speech-panel');if(!panel){panel=el('div','speech-panel');record.before(panel);panel.append(record);}
   recordingPanel=panel;panel.classList.add('focus-fixed-record');paper.classList.add('focus-speaking-paper');fixedAudio=flow.querySelector('.audio-actions');if(fixedAudio){fixedAudio.classList.add('focus-fixed-audio');paper.append(fixedAudio);}paper.append(panel);const own=query('#ex-own');if(own)panel.append(own);
   panel.prepend(el('div','focus-record-label','<span>● Jetzt aufnehmen</span><small>Deine Stimme bleibt auf dem Gerät</small>'));
-  const caption=panel.querySelector('.speech-caption')??[...flow.querySelectorAll(':scope > p.sub')].find(p=>p.textContent.startsWith('Lokaler Textvergleich'));if(caption){storeSheet('microphone','Sprechen und Erkennen',[family==='echo'?flow.querySelector('#ex-prompt'):null,caption]);tools.append(button('ⓘ Aufnahme',()=>openSheet('microphone')));}
+  const caption=panel.querySelector('.speech-caption')??[...flow.querySelectorAll(':scope > p.sub')].find(p=>p.textContent.startsWith('Lokaler Textvergleich'));if(caption){storeSheet('microphone','Sprechen und Erkennen',[caption]);tools.append(button('ⓘ Aufnahme',()=>openSheet('microphone')));}
  }
  const companions=el('div','focus-companions');companions.setAttribute('aria-label',`${teacher.name} begleitet dich`);
  const encouragement=success?'Gut gemacht! Weiter zum nächsten Schritt.':family==='speak'||family==='echo'?'Sprich in Ruhe nach. Die Vorlage bleibt sichtbar.':family==='build'||family==='translate'?'Baue den Satz in Ruhe. Du kannst jederzeit nachschauen.':'Schritt für Schritt. Du kannst dir Zeit lassen.';
- companions.innerHTML=`<img class="focus-teacher" src="assets/teachers/${teacher.id}/full.png" alt="${esc(teacher.name)}"><p class="focus-coach-copy"><strong>🌸 ${esc(teacher.name)}</strong><span>${esc(encouragement)}</span></p>${store.data.show_kiko?'<div class="focus-kiko"><img src="assets/mascot/kiko_study.png" alt="Kiko"><p><strong>Kiko 🌱</strong><span>Kleine Schritte,<br>große Träume! 🌸</span></p></div>':''}`;
+ const isSpeaking=['speak','echo','recall'].includes(family)&&!['intro','complete'].includes(stage);
+ document.body.dataset.teacherMood=success?'praise':'idle';
+ root.classList.toggle('is-speaking',isSpeaking);
+ companions.hidden=!isSpeaking;
+ if(isSpeaking)companions.innerHTML=`<canvas id="teacher-canvas" class="focus-teacher" width="512" height="768" role="img" aria-label="${esc(teacher.name)} hört dir zu"></canvas><p class="focus-coach-copy"><strong>${esc(teacher.name)}</strong><span>${esc(encouragement)}</span></p>`;
+ const cue=el('div','focus-cue');
+ if(isSpeaking){for(const n of [flow.querySelector('#speak-instruction'),flow.querySelector('.answer-format'),flow.querySelector('#ex-prompt'),flow.querySelector('.focus-model')].filter(Boolean))cue.append(n);}
+ else {const first=flow.querySelector(':scope > p');if(first)cue.append(first);for(const n of [...flow.querySelectorAll(':scope > #ex-prompt,:scope > .exercise-prompt,:scope > .build-meaning,:scope > .exercise-reading,:scope > .exercise-frame')])cue.append(n);}
+ if(cue.childElementCount)viewport.before(cue);
  const pager=el('nav','focus-page-nav');pager.setAttribute('aria-label','Seiten der aktuellen Aufgabe');
  const prev=button('← Zurück',()=>setTaskPage(presentation.page-1)),count=el('span',''),forward=button('Weiterlesen →',()=>setTaskPage(presentation.page+1));pager.append(prev,count,forward);pager.hidden=true;
- workspace.append(paper,tools,pager,companions);root.replaceChildren(header,workspace,dock);
+ workspace.append(paper,tools,pager);if(isSpeaking)header.append(companions);root.replaceChildren(header,workspace,dock);
  const sheet=el('section','focus-sheet');sheet.setAttribute('role','dialog');sheet.setAttribute('aria-modal','true');sheet.setAttribute('aria-labelledby','focus-sheet-title');sheet.hidden=true;root.append(sheet);
  const storage=el('div','focus-sheet-storage');storage.hidden=true;root.append(storage);
  let restoreFocus=null,taskPages=1,stride=0;
@@ -84,12 +92,13 @@ export function focusLesson({page,session,round,teacher,store,esc}) {
  function layout(){
   if(!root.isConnected)return;
   flow.classList.remove('focus-pagination');flow.style.height='';flow.style.columnWidth='';flow.style.columnGap='';flow.style.columnFill='';viewport.style.height='';viewport.scrollLeft=0;pager.hidden=true;
-  const reserve=document.body.classList.contains('keyboard')?0:innerHeight>700?(record?140:190):innerHeight>550?(record?55:120):0;
-  const free=workspace.clientHeight-tools.offsetHeight-caption.offsetHeight-48-(recordingPanel?.offsetHeight??0)-(fixedAudio?.offsetHeight??0);
+  const reserve=0;
+  const free=workspace.clientHeight-tools.offsetHeight-caption.offsetHeight-cue.offsetHeight-74-(recordingPanel?.offsetHeight??0)-(fixedAudio?.offsetHeight??0);
   let available=Math.max(110,free-reserve);
   // Short speech models stay on one view when they fit, before reserving decorative space.
   if(record&&!extra&&session.card.jp.trim().length<=2&&flow.scrollHeight<=free-50)available=flow.scrollHeight+2;
-  if(flow.scrollHeight>available+2){
+  if(isSpeaking){viewport.style.height=`${Math.max(0,Math.min(flow.scrollHeight,free))}px`;viewport.classList.add('speech-feedback-scroll');taskPages=1;}
+  else if(flow.scrollHeight>available+2){
    flow.classList.add('focus-pagination');const height=Math.max(record?88:100,available-50),width=viewport.clientWidth;
    flow.style.height=`${height}px`;flow.style.columnWidth=`${width}px`;flow.style.columnGap='24px';flow.style.columnFill='auto';viewport.style.height=`${height}px`;stride=width+24;
    taskPages=Math.max(1,Math.ceil((flow.scrollWidth+24)/stride));pager.hidden=taskPages===1;
@@ -97,7 +106,7 @@ export function focusLesson({page,session,round,teacher,store,esc}) {
   setTaskPage(presentation.page);
   const target=document.activeElement?.matches('input,textarea')?document.activeElement:revealResult?(flow.querySelector('#confirm-short-speech')?.closest('.info')??feedback):null;
   if(target&&taskPages>1){const r=target.getBoundingClientRect(),v=viewport.getBoundingClientRect();setTaskPage(Math.floor((r.left-v.left+viewport.scrollLeft+1)/stride));}revealResult=false;
-  root.classList.toggle('focus-short',innerHeight<550);companions.classList.toggle('focus-companions-compact',companions.clientHeight<240);companions.classList.toggle('focus-companions-minimal',companions.clientHeight<155);
+  root.classList.toggle('focus-short',innerHeight<550);root.classList.toggle('focus-overflow',free<80);
  }
  function closeSheet(){
   if(presentation.sheet==='help'&&helpOpen){document.getElementById(extra?'ex-help':'show-hint')?.click();return;}
@@ -122,4 +131,5 @@ export function focusLesson({page,session,round,teacher,store,esc}) {
  layoutObserver=new ResizeObserver(relayout);layoutObserver.observe(workspace);flowObserver=new MutationObserver(relayout);flowObserver.observe(flow,{childList:true,subtree:true,characterData:true,attributes:true,attributeFilter:['hidden']});if(recordingPanel)flowObserver.observe(recordingPanel,{childList:true,subtree:true,characterData:true,attributes:true,attributeFilter:['hidden']});
  if(!extra&&session.mode==='learn'&&stage==='speak'&&session.index===0&&sheets.has('guide')&&!seenGuides.has(session.lesson.key)){seenGuides.add(session.lesson.key);presentation.sheet='guide';}if(extra&&stage==='intro'&&!seenGuides.has('extra:'+round.lesson.key)){seenGuides.add('extra:'+round.lesson.key);presentation.sheet='intro';}if(presentation.sheet)openSheet(presentation.sheet);requestAnimationFrame(layout);
  viewport.addEventListener('focusin',e=>{if(taskPages>1){const r=e.target.getBoundingClientRect(),v=viewport.getBoundingClientRect();setTaskPage(Math.floor((r.left-v.left+viewport.scrollLeft+1)/stride));}});
+ document.dispatchEvent(new Event('jt-actors'));
 }

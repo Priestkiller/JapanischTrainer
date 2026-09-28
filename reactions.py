@@ -83,6 +83,8 @@ class ReactionController:
                        else 'Die Erkennung war noch nicht eindeutig. Probiere es in Ruhe noch einmal.')
         elif self.source == 'speech-uncertain':
             message = 'Die Aufnahme ist nicht sicher auswertbar. Das ist keine falsche Antwort.'
+        elif self.source == 'speech-assisted':
+            message = 'Richtig ausgewählt. Mit dieser Hilfe geht es weiter; Sprechen üben wir später.'
         elif self.source == 'review-known':
             message = 'Schön, dass du dich erinnerst. Weiter so!'
         elif self.source == 'lesson-complete':

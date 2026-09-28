@@ -1,5 +1,7 @@
 /* Additional rounds on the existing course and profile. No XP or completion writes. */
+import {SpeechSupport} from './speech-support.mjs';
 export const FAMILIES={pairs:'Paare zuordnen',echo:'Nachsprechen',recall:'Sag das auf Japanisch',hear_gap:'Hörlücke',choice_gap:'Lücke auswählen',multi_gap:'Mehrfachlücken',translate:'Übersetzen mit Bausteinen',read:'Lesen und antworten'};
+export const INSTRUCTIONS={pairs:'Wähle links eine Form oder ein Audiofeld und rechts ihre Bedeutung. Ordne alle Paare zu und bestätige mit Überprüfen.',echo:'Höre zuerst normal oder langsam zu. Sprich danach die sichtbare Vorlage nach.',recall:'Sprich die deutsche Vorgabe auf Japanisch. Die gesuchte Antwort bleibt zunächst verborgen.',hear_gap:'Höre zu und schreibe nur die fehlende Einheit in Romaji. Normal und Langsam wiederholen die Vorlage.',choice_gap:'Wähle eine passende Ergänzung für die Lücke und bestätige mit Überprüfen.',multi_gap:'Wähle zuerst eine Lücke, dann ihren Baustein. Ergänze alle Lücken und bestätige mit Überprüfen.',translate:'Übersetze die deutsche Vorgabe mit den japanischen Bausteinen. Tippe sie in der Satzreihenfolge an und bestätige mit Überprüfen.',read:'Lies den japanischen Text. Wähle eine Antwort auf die Frage und bestätige mit Überprüfen.'};
 const clone=x=>JSON.parse(JSON.stringify(x));
 export const normalize=s=>String(s).normalize('NFKC').toLowerCase().replace(/[\s。！？!?.,、·「」“”]/gu,'');
 export function matches(value,answers,mode='exact') {
@@ -40,9 +42,13 @@ export class ExerciseRound {
   }
   get task(){const s=this.state,ids=s.stage==='review'?s.review:s.queue,i=s.stage==='review'?s.review_index:s.index;return this.book.tasks.get(ids[Math.min(i,ids.length-1)]);}
   get answer(){return this.state.task;}
+  get support(){const key=this.supportKey??`exercise:${this.task.id}:${this.state.stage}`;if(this._support?.key!==key)this._support=new SpeechSupport(this.store,key,{card:this.task.card,lesson:this.task.card.slice(0,this.task.card.lastIndexOf(':')),kind:'exercise',task:this.task.id});return this._support;}
+  acceptSupport(deck){if(!['main','review'].includes(this.state.stage)||!['echo','recall'].includes(this.task.family)||this.answer.success||!this.support.confirm(deck))return false;
+    this.answer.success=true;this.answer.feedback=this.support.data.feedback;this.answer.supported_speech=true;this.log('selection');
+    if(this.state.stage==='main')this.state.review=this.state.review.filter(id=>id!==this.task.id&&id!==this.task.repeat);this.save();return true;}
   save(){this.store.data.lesson_sessions[this.key]=clone(this.state);this.store.save();}
   start(){if(this.state.stage==='intro'){this.state.stage='main';this.save();}}
-  restart(){this.state=this.fresh();this.sanitize();this.save();}
+  restart(){for(const id of this.pack.tasks)for(const phase of ['main','review'])delete this.store.data.speech_support?.[`exercise:${id}:${phase}`];this._support=null;this.state=this.fresh();this.sanitize();this.save();}
   help(level){this.answer.help=Math.max(level,this.answer.help);this.answer.help_open=true;this.save();}
   set(key,value){if(['help_open','active','left'].includes(key)||!this.answer.success){this.answer[key]=value;this.save();}}
   heard(identity='target',readingHelp=false){if(!this.answer.heard.includes(identity))this.answer.heard.push(identity);if(readingHelp)this.answer.audio_help=true;this.save();}

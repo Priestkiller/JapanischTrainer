@@ -69,10 +69,10 @@ export function cleanTalk(input) {
   const replies=Array.isArray(saved.replies)?saved.replies.slice(0,20):[];
   for(const reply of replies) {const route=scene.nodes[node].routes?.find(r=>r.pattern.test(normalizeTalk(reply)));if(!route)break;derived={...derived,...route.slots};node=route.next;accepted++;}
   if(node!==saved.node)continue;
-  const history=Array.isArray(saved.history)?saved.history.slice(-40).filter(x=>object(x)&&['user','teacher'].includes(x.role)).map(x=>({role:x.role,jp:text(x.jp),romaji:text(x.romaji),de:text(x.de),source:['spoken','typed'].includes(x.source)?x.source:undefined})).filter(x=>x.jp):[];
+  const history=Array.isArray(saved.history)?saved.history.slice(-40).filter(x=>object(x)&&['user','teacher'].includes(x.role)).map(x=>({role:x.role,jp:text(x.jp),romaji:text(x.romaji),de:text(x.de),source:['spoken','typed','selection'].includes(x.source)?x.source:undefined})).filter(x=>x.jp):[];
   // Render the current prompt from our authored graph, never from an imported last prompt.
   const current=message(scene.nodes[node].say,derived);if(history.at(-1)?.role==='teacher')history[history.length-1]=current;else history.push(current);
-  out.sessions[scene.id]={revision:1,node,slots:derived,replies:replies.slice(0,accepted).map(r=>text(r,300)),history,teacherId:text(saved.teacherId,20),draft:text(saved.draft,300),source:saved.source==='spoken'?'spoken':'typed',turn:Math.max(accepted,Math.min(100000,Number(saved.turn)||0))};
+  out.sessions[scene.id]={revision:1,node,slots:derived,replies:replies.slice(0,accepted).map(r=>text(r,300)),history,teacherId:text(saved.teacherId,20),draft:text(saved.draft,300),source:['spoken','selection'].includes(saved.source)?saved.source:'typed',turn:Math.max(accepted,Math.min(100000,Number(saved.turn)||0))};
  }
  return out;
 }
@@ -89,7 +89,7 @@ export class TalkSession {
  get done(){return this.current.done===true;}
  get prompt(){return message(this.current.say,this.slots);}
  get context(){return `talk:${this.scene.id}:${this.turn}`;}
- setDraft(value,source='typed'){this.draft=String(value??'').slice(0,300);this.source=source==='spoken'?'spoken':'typed';}
+ setDraft(value,source='typed'){this.draft=String(value??'').slice(0,300);this.source=['spoken','selection'].includes(source)?source:'typed';}
  save(){this.history=this.history.slice(-40);this.store.data.talk.sessions[this.scene.id]={revision:1,node:this.node,slots:{...this.slots},replies:[...this.replies],history:this.history,teacherId:this.teacherId,draft:this.draft,source:this.source,turn:this.turn};this.store.save();}
  respond() {
   if(this.done)return {accepted:false};const reply=this.draft.trim(),normalized=normalizeTalk(reply);

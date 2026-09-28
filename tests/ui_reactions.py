@@ -28,7 +28,7 @@ with tempfile.TemporaryDirectory() as temp:
         root.update();refresh()
     def prepare(name):
         app.choose_teacher(name,True);app.open_lesson('1:0',1,True)
-        app.flow.phase='meaning';app.flow.reset_task();app.message='';app.hover='';app.focus='';app.clear_reaction();refresh();pump(.04)
+        app.flow.phase='meaning';app.flow.reset_task();app.detail_open=True;app.message='';app.hover='';app.focus='';app.clear_reaction();refresh();pump(.04)
     def correct():
         opts,c=app.flow.answers();click('answer:'+str(opts.index(c)))
     def capture(name):
@@ -43,9 +43,9 @@ with tempfile.TemporaryDirectory() as temp:
             correct();pump(.20);assert app.actor_mood()=='praise',name
             assert app.actor_feedback().teacher_id==name
             assert 'praise' in app.actors.rigs['teacher'].capabilities['expressions']
-            assert 'kiko' in app.actors.specs and app.actors.rigs['kiko'].capabilities['closed_idle']
+            assert 'kiko' not in app.actors.specs
             capture(name+'_richtig.png')
-            log('Closed idle, real correct-answer click, teacher joy and Kiko response: '+name)
+            log('Closed idle and real correct-answer teacher joy during an explicit explanation; no Kiko: '+name)
             seq=app.reactions.sequence;app.check_answer(app.flow.answers()[1]);assert app.reactions.sequence==seq
             app.flow.reset_task();app.clear_reaction();opts,c=app.flow.answers()
             wrong=next(i for i,v in enumerate(opts) if v!=c);click('answer:'+str(wrong));pump(.05)

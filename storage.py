@@ -25,7 +25,7 @@ class ProgressStore:
                    'teacher_id':'sakura','tts_speed':1.,'mic_device':None,'streak':0,
                    'last_active':None,'review':{},'last_lesson':{},'ui_scale':1.,
                    'show_kiko':True,'library_all':False,'motion_enabled':True,
-                   'study_cards':{},'lesson_sessions':{},'motion_preset':'natural'}
+                   'study_cards':{},'lesson_sessions':{},'speech_support':{},'speech_reviews':{},'motion_preset':'natural'}
         self.load()
 
     def load(self):
@@ -38,7 +38,7 @@ class ProgressStore:
             merged.update(incoming)
             for key in ('xp','streak'):
                 merged[key]=max(0,int(merged.get(key,0)))
-            for key in ('review','last_lesson','speech_scores','study_cards','lesson_sessions'):
+            for key in ('review','last_lesson','speech_scores','study_cards','lesson_sessions','speech_support','speech_reviews'):
                 if not isinstance(merged.get(key),dict):merged[key]={}
             merged['completed']=list(dict.fromkeys(str(k) for k in merged['completed']))
             for key,lower,upper in [('ui_scale',.8,1.2),('tts_speed',.5,1.4)]:

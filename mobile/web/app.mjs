@@ -3,12 +3,13 @@ import {createTalkUI} from './talk-ui.mjs';
 import {createExerciseUI} from './exercise-ui.mjs';
 import {focusLesson,closeFocusSheet} from './focus-ui.mjs';
 import {applyKanaRecognition} from './kana-recognition.mjs';
+import {supportView,bindSupport} from './speech-support-ui.mjs';
 
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const bridge=window.AndroidTrainer;
 const state={page:'home',session:null,query:'',stage:'Alle',libraryQuery:'',review:null,revealed:false,teacherDetail:null,
-  caps:{native:!!bridge,models:false,modelBytes:0,version:'11.0.9-android.1-test'},audio:null,speech:null,speechMessage:'',recording:'idle',
+  caps:{native:!!bridge,models:false,modelBytes:0,version:'11.0.10-android.1-test'},audio:null,speech:null,speechMessage:'',recording:'idle',
   modelStatus:'',modelPercent:0,modelBusy:false,updateStatus:'',updateAvailable:false,updateBusy:false,updateTest:false,licenseText:'',completeLesson:null};
 let course,store,catalog,talkUI,exerciseUI,blinkIndex,expressions,animationStop=()=>{},toastTimer,requestCounter=0,saveError='';
 const native=(name,...args)=> { if(bridge&&typeof bridge[name]==='function')return bridge[name](...args);return undefined; };
@@ -19,7 +20,7 @@ function persist(text) {
 }
 function showSaveError() {let el=$('#save-error');if(!el){el=document.createElement('div');el.id='save-error';el.className='storage-error';el.role='alert';document.body.prepend(el);}el.textContent=saveError;}
 function save() {try{store.save();}catch(e){toast(e.message);}}
-function stopMedia() {native('stopAudio');native('stopRecording',true);state.audio=null;state.speech=null;state.ownSpeech=null;if(state.session)state.session.shortSpeechReady=false;state.recording='idle';talkUI?.refresh();}
+function stopMedia() {state.speech?.support?.cancel();native('stopAudio');native('stopRecording',true);state.audio=null;state.speech=null;state.ownSpeech=null;if(state.session)state.session.shortSpeechReady=false;state.recording='idle';talkUI?.refresh();}
 function navigate(page) {
   if(state.page==='exercises'&&page!==state.page)exerciseUI?.cancel();
   if(state.session&&state.page==='lesson')state.session.snapshot();
@@ -80,7 +81,7 @@ function lesson() {
 function task() {
   const s=state.session;let html='';
   if(s.mode==='recap')html=`<p>Welche Bedeutung passt?</p><p class="jp exercise-prompt" lang="ja">${esc(s.card.jp)}</p>`+options(s);
-  else if(s.phase==='speak')html=cardView(s.card)+lessonGuide(s.lesson,s.index===0);
+  else if(s.phase==='speak')html=cardView(s.card)+supportView(s.support,s.supportDeck(),esc)+lessonGuide(s.lesson,s.index===0);
   else if(s.phase==='meaning')html=`<p>Was bedeutet die japanische Form?</p><p class="jp exercise-prompt" lang="ja">${esc(s.card.jp)}</p>`+options(s);
   else if(s.phase==='listen')html=`<p>Höre eine bereits geübte Form. Welche Bedeutung passt?</p><button class="primary wide" id="hear-task">▷ Hörbeispiel abspielen</button><p id="audio-status" class="speech-message" role="status"></p>${options(s)}`;
   else if(s.phase==='build') {
@@ -104,6 +105,7 @@ function decorateLesson(){focusLesson({page:state.page,session:state.session,tea
 function refreshTask() {$('#app').innerHTML=lesson();decorateLesson();bindTask();bindNavigation();refreshAudio();}
 function bindTask() {
   const s=state.session;
+  if(s.phase==='speak')bindSupport(s.support,refreshTask,()=>{if(state.recording==='idle')s.acceptSupport();});
   if($('#show-hint'))$('#show-hint').onclick=()=>{s.hintOpen=!s.hintOpen;if(s.hintOpen){const m=s.metrics();m.hints=(Number.isInteger(m.hints)?m.hints:0)+1;}s.snapshot();refreshTask();};
   $$('[data-choice]').forEach(b=>b.onclick=()=>{s.choose(s.answers().options[Number(b.dataset.choice)]);refreshTask();});
   $$('[data-token]').forEach(b=>b.onclick=()=>{s.tokens.push(Number(b.dataset.token));s.snapshot();refreshTask();});
@@ -129,7 +131,7 @@ function bindTask() {
     else {render();window.scrollTo({top:0,behavior:'instant'});}
   };
 }
-function complete() {const l=state.completeLesson;return `<div class="completion"><div class="seal">✓</div><p class="eyebrow">Schritt für Schritt</p><h1>Gut gemacht!</h1><p>Du hast „${esc(l.title)}“ abgeschlossen.</p><p class="sub">${l.xp??20} XP für den ersten Abschluss dieser Lektion.</p><div class="card" style="margin-top:25px"><h2>Bereit für den nächsten Schritt?</h2><p class="sub">${esc(course.next().title)}</p><button class="primary wide" id="complete-next">Weiterlernen →</button></div><button class="ghost wide" data-nav="home">Zur Startseite</button></div>`;}
+function complete() {const l=state.completeLesson;return `<div class="completion"><p class="eyebrow">Lektion abgeschlossen</p><h1>Gut gemacht!</h1><p>Du hast „${esc(l.title)}“ abgeschlossen.</p><p class="sub">${l.xp??20} XP einmalig beim ersten Abschluss.</p>${store.data.show_kiko?'<img class="completion-kiko" src="assets/mascot/kiko_cheer.png" alt="Kiko freut sich mit dir"><p>Kleine Schritte, große Fortschritte!</p>':''}<button class="primary wide" id="complete-next">Weiterlernen →</button><button class="ghost wide" data-nav="course">Zum Lernpfad</button></div>`;}
 function teachers() {
   const selected=course.teacher();const detail=catalog.TEACHERS.find(t=>t.id===state.teacherDetail)??selected;
   return heading('Deine Begleitung','Mit wem lernst du?','Acht Persönlichkeiten. Wähle die Begleitung, mit der du dich wohlfühlst.')+
@@ -139,7 +141,9 @@ function teachers() {
 function nextReview() {const available=course.available();const due=available.filter(c=>(store.data.review[c.key]?.due??0)<=Date.now()/1000);const pool=due.length?due:available;const old=state.review?.key;state.review=pool.find(c=>c.key!==old)??pool[0];state.revealed=false;}
 function review() {
   if(!state.review)nextReview();const c=state.review;
+  const speechReviews=Object.entries(store.data.speech_reviews??{}).filter(([,v])=>v.status==='pending').map(([key,v])=>{const card=course.cards.find(c=>c.key===v.card);if(v.kind==='talk')return `<button class="ghost wide" data-talk-review="${esc(v.scene)}">Gespräch erneut üben · freiwillig</button>`;return card?`<button class="ghost wide" data-speech-review="${esc(key)}">${esc(card.jp)} · ${esc(card.de)}<small>${v.due>Date.now()/1000?'Für morgen vorgemerkt · schon jetzt freiwillig üben':'Jetzt freiwillig sprechen üben'}</small></button>`:'';}).join('');
   return heading('In deinem Tempo','Üben & miteinander sprechen','Wiederhole gelernte Karten oder probiere ein geführtes Gespräch.')+
+  (speechReviews?`<section class="card"><h2>Sprechen später üben</h2><p>Nach der Auswahlhilfe vorgemerkt. Dein Lektionsfortschritt bleibt erhalten.</p>${speechReviews}</section>`:'')+
   `<section class="card talk-home"><h2>Dein Gesprächsraum</h2><p class="sub">Du sprichst, dein Lehrer reagiert. Fünf Alltagssituationen mit verschiedenen Gesprächswegen.</p><button class="primary wide" data-nav="talk">Gespräche üben →</button></section>`+
   `<article class="card review-card"><span class="pill">${esc(c.lesson)}</span><p class="jp" lang="ja">${esc(c.jp)}</p><button id="review-audio" class="ghost small">▷ Anhören</button>${state.revealed?`<div style="margin-top:20px"><p class="romaji">${esc(c.romaji)}</p><p>${esc(c.de)}</p><div class="toolbar"><button id="review-again" class="ghost">Noch einmal</button><button id="review-known" class="primary">Gewusst ✓</button></div></div>`:`<button class="primary wide" id="reveal" style="margin-top:25px">Lesung & Bedeutung zeigen</button>`}</article><p class="sub">Ehrlich einschätzen hilft mehr als Raten. „Noch einmal“ legt die Karte früher wieder vor.</p><button class="ghost wide" data-nav="library">Alle gelernten Wörter ansehen</button>`;
 }
@@ -186,6 +190,8 @@ function bindPage() {
     $('#teacher-voice').onclick=()=>play(t.jp,false,false,t);
   }
   if(state.page==='review') {
+    $$('[data-talk-review]').forEach(b=>b.onclick=()=>talkUI.open(b.dataset.talkReview,true));
+    $$('[data-speech-review]').forEach(b=>b.onclick=()=>exerciseUI.reviewSpeech(b.dataset.speechReview));
     $('#review-audio').onclick=()=>play(state.review.jp);
     if($('#reveal'))$('#reveal').onclick=()=>{state.revealed=true;render();};
     for(const [id,known] of [['review-again',false],['review-known',true]])if($('#'+id))$('#'+id).onclick=()=>{reviewCard(course,known,state.review);nextReview();render();};
@@ -228,23 +234,26 @@ function record() {
   if(state.recording==='recording'){state.recording='recognizing';native('stopRecording',false);refreshAudio();return;}
   if(state.recording!=='idle')return;
   if(!bridge){toast('Das Mikrofon ist in der installierten Android-App verfügbar.');return;}
-  if(!state.caps.models){toast('Bitte zuerst unter Einstellungen das Sprachpaket laden.');return;}
-  if(!s.audio_seen){toast('Höre die Vorlage zuerst vollständig an.');return;}
+  if(state.caps.models&&!s.audio_seen){toast('Höre die Vorlage zuerst vollständig an.');return;}
   native('stopAudio');state.audio=null;
   s.shortSpeechReady=false;
   state.ownSpeech=null;state.micLevel=0;state.micSeconds=0;
   const id=`speech-${++requestCounter}`;
-  state.speech={id,context:`${s.key}:${s.phase}`,target:course.speechTarget(s.card,s.lesson)};
+  if(!s.support.begin(id))return;
+  if(!state.caps.models){s.support.finish(id,'technical');state.speechMessage='Das Sprachpaket fehlt. Richte es unter Einstellungen ein oder nutze nach drei Versuchen die Auswahlhilfe.';refreshTask();return;}
+  state.speech={id,context:`${s.key}:${s.phase}`,target:course.speechTarget(s.card,s.lesson),support:s.support};
   state.recording='requesting';state.speechMessage='Mikrofon wird vorbereitet …';native(isShortKana(s.card.jp)&&bridge?.recordKana?'recordKana':'record',id);refreshAudio();
 }
 function refreshAudio() {
   talkUI?.refresh();
   exerciseUI?.refresh();
-  const s=state.session,button=$('#record');if(button) {button.textContent=s.success?'✓ Gesprochen':!s.audio_seen?'Erst die Vorlage anhören':{idle:'◉ Jetzt nachsprechen',requesting:'Mikrofon wird vorbereitet …',recording:'■ Aufnahme beenden',recognizing:'Sprache wird erkannt …'}[state.recording];button.disabled=s.success||!s.audio_seen||!['idle','recording'].includes(state.recording);button.classList.toggle('recording',state.recording==='recording');}
+  document.body.dataset.recording=state.recording;
+  const s=state.session,button=$('#record');if(button) {button.textContent=s.success?(s.support.data.assisted?'✓ Mit Auswahlhilfe geschafft':s.metrics().last_speech_outcome==='self_check'?'✓ Selbst geprüft':'✓ Text passt'):!state.caps.models?'◉ Aufnahme versuchen':!s.audio_seen?'Erst die Vorlage anhören':{idle:'◉ Jetzt nachsprechen',requesting:'Mikrofon wird vorbereitet …',recording:'■ Aufnahme beenden',recognizing:'Sprache wird erkannt …'}[state.recording];button.disabled=s.success||(state.caps.models&&!s.audio_seen)||!['idle','recording'].includes(state.recording);button.classList.toggle('recording',state.recording==='recording');}
   if($('#speak-instruction'))$('#speak-instruction').textContent=s.success?'Geschafft! Weiter geht’s mit der Bedeutung.':s.audio_seen?'Jetzt bist du dran: Sprich die Vorlage nach.':'Höre die Vorlage an und sprich sie danach nach.';
   if(s?.phase==='listen')$$('[data-choice]').forEach(b=>b.disabled=s.success||!s.audio_seen);
   if($('#confirm-short-speech'))$('#confirm-short-speech').disabled=state.recording!=='idle'||!s.shortSpeechReady;
-  if($('#speech-status'))$('#speech-status').textContent=state.speechMessage;
+  if($('#speech-status'))$('#speech-status').textContent=state.speechMessage||(s?.phase==='speak'&&s.support.data.transcript?`Zuletzt erkannt: „${s.support.data.transcript}“`:'');
+  $$('[data-support-choice],#speech-confirm,#speech-alternative,#speech-prepare,#hear-normal,#hear-slow').forEach(b=>b.disabled=state.recording!=='idle');
   if($('#lesson-own')){$('#lesson-own').hidden=!state.ownSpeech;$('#lesson-own').disabled=state.recording!=='idle';}
   if($('#lesson-cancel'))$('#lesson-cancel').hidden=state.recording==='idle';
   if($('.microphone-live'))$('.microphone-live').hidden=state.recording!=='recording';
@@ -255,7 +264,7 @@ function refreshAudio() {
 window.JTNative=(type,data={})=> {
   if(!course)return;
   if(exerciseUI?.handle(type,data))return;
-  if(type==='capabilities'){state.caps={...state.caps,...data};refreshSettingsBoxes();talkUI?.refresh();}
+  if(type==='capabilities'){state.caps={...state.caps,...data};refreshSettingsBoxes();refreshAudio();}
   else if(type==='message')toast(data.message);
   else if(type==='modelProgress'){state.modelBusy=true;state.modelPercent=data.done/data.total*100;state.modelStatus=`${Math.round(data.done/1e6)} / ${Math.round(data.total/1e6)} MB · ${Math.floor(state.modelPercent)} %`;refreshSettingsBoxes();}
   else if(type==='modelsReady'){state.modelBusy=false;state.caps={...state.caps,...data};refreshSettingsBoxes();toast('Sprachpaket bereit. Du kannst jetzt offline hören und sprechen.');}
@@ -271,7 +280,7 @@ window.JTNative=(type,data={})=> {
   } else if(type==='profileCandidate') {
     try {const profile=cleanProfile(JSON.parse(data.json),true);native('confirmImport',JSON.stringify(profile));}catch(e){toast(e.message);}
   } else if(type==='profileImported') {exerciseUI?.reset();store.data=cleanProfile(data,true);state.session=null;state.review=null;talkUI?.reset();navigate('home');toast('Lernstand übernommen.');}
-  else if(type==='audioCancelled'){state.audio=null;state.speech=null;state.ownSpeech=null;if(state.session)state.session.shortSpeechReady=false;state.recording='idle';state.speechMessage='';refreshAudio();}
+  else if(type==='audioCancelled'){state.speech?.support?.cancel();state.audio=null;state.speech=null;state.ownSpeech=null;if(state.session)state.session.shortSpeechReady=false;state.recording='idle';state.speechMessage='';refreshAudio();}
   else if(type.startsWith('audio')&&data.request===state.audio?.id) {
     if(type==='audioLoading')state.audio.message='Stimme wird vorbereitet …';
     if(type==='audioStarted')state.audio.message='Wiedergabe läuft …';
@@ -282,13 +291,17 @@ window.JTNative=(type,data={})=> {
     if(type==='speechLevel'){state.micLevel=data.level;state.micSeconds=data.seconds;}
     if(type==='recording'){state.recording='recording';state.speechMessage='Sprich jetzt. Nach spätestens 15 Sekunden endet die Aufnahme.';}
     if(type==='recognizing'){state.recording='recognizing';state.speechMessage='Dein Handy wertet die Aufnahme lokal aus …';}
-    if(type==='speechError'){state.recording='idle';state.speechMessage=data.message;state.speech=null;}
+    if(type==='speechError'){state.recording='idle';state.speechMessage=data.message;state.speech.support?.finish(data.request,'technical');state.speech=null;if(state.page==='lesson')refreshTask();else if(state.page==='conversation')render();}
     if(type==='speechResult') {
       state.recording='idle';const s=state.session;
       if(state.speech.kind==='talk')talkUI?.recognized(data.text,state.speech.context);
       else if(state.page==='lesson'&&s&&s.mode==='learn'&&s.phase==='speak'&&state.speech.context===`${s.key}:${s.phase}`) {
+        if(state.speech.support.active!==data.request)return;
         state.ownSpeech=state.speech.id;
-        if(!applyKanaRecognition(s,data.text??'',data.audioQualified===true&&data.shortKana===true))s.checkSpeech(data.text);
+        const heard=data.text??'';
+        if(!applyKanaRecognition(s,heard,data.audioQualified===true&&data.shortKana===true)&&heard.trim()&&!(data.shortKana===true&&data.audioQualified!==true))s.checkSpeech(heard);
+        state.speech.support?.finish(data.request,s.success?'accepted':!heard.trim()||data.shortKana&&!data.audioQualified?'unreliable':'mismatch');
+        s.support.data.transcript=heard;s.support.save();
         state.speechMessage=data.text?`Erkannt: „${data.text}“`:'Der kurze Laut konnte nicht sicher verschriftlicht werden.';
         refreshTask();
       }
@@ -297,24 +310,27 @@ window.JTNative=(type,data={})=> {
     refreshAudio();
   }
 };
-window.JTBack=()=> {if(closeFocusSheet())return;if(state.page==='home')native('closeApp');else navigate(state.page==='exercises'?'lesson':state.page==='lesson'?'course':state.page==='conversation'?'talk':state.page==='talk'?'review':state.page==='licenses'?'settings':'home');};
+window.JTBack=()=> {if(closeFocusSheet())return;if(state.page==='home')native('closeApp');else navigate(state.page==='exercises'?exerciseUI.backPage():state.page==='lesson'?'course':state.page==='conversation'?'talk':state.page==='talk'?'review':state.page==='licenses'?'settings':'home');};
 async function animateTeacher() {
+  animationStop();
   const canvas=$('#teacher-canvas');if(!canvas)return;
-  const t=course.teacher(),ctx=canvas.getContext('2d');let alive=true,raf=0;
-  animationStop=()=>{alive=false;cancelAnimationFrame(raf);};
+  const t=catalog.TEACHERS.find(t=>t.id===canvas.dataset.teacher)??course.teacher(),ctx=canvas.getContext('2d');let alive=true,raf=0,restTimer=0;
+  animationStop=()=>{alive=false;cancelAnimationFrame(raf);clearTimeout(restTimer);};
   const load=src=>new Promise(resolve=>{const image=new Image();image.onload=()=>resolve(image);image.onerror=()=>resolve(null);image.src=src;});
   const base=await load(`assets/teachers/${t.id}/full.png`);if(!alive||!base)return;
   const expression=expressions.expressions[t.id],blink=blinkIndex[t.id];
   const mouth=await load(`assets/animation/${t.id}/${expression.idle.file}`);
+  const praise=await load(`assets/animation/${t.id}/${expression.praise.file}`);
   const frames=await Promise.all((blink?.frames??[]).map(file=>load(`assets/animation/${t.id}/${file}`)));
   const drawPatch=(image,box)=>{if(image)ctx.drawImage(image,box[0]/2,box[1]/2,(box[2]-box[0])/2,(box[3]-box[1])/2);};
   const start=performance.now();let last=-2;
   const draw=now=> {
     if(!alive)return;
-    const moving=!!blink?.frames?.length&&store.data.motion_enabled&&!matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const moving=!!blink?.frames?.length&&store.data.motion_enabled&&store.data.motion_preset!=='off'&&!matchMedia('(prefers-reduced-motion: reduce)').matches&&canvas.isConnected&&!document.hidden;
     const tick=moving?(now-start)%5200:1000;const position=tick<320?Math.min(4,Math.floor((tick<160?tick:320-tick)/32)):-1;
-    if(position!==last){ctx.clearRect(0,0,512,768);ctx.drawImage(base,0,0,512,768);drawPatch(mouth,expression.idle.bbox);if(position>=0)drawPatch(frames[position],blink.bbox);last=position;}
-    if(moving)raf=requestAnimationFrame(draw);
+    const happy=document.body.dataset.teacherMood==='praise'&&now-start<2650,mood=position+':'+happy;
+    if(mood!==last){ctx.clearRect(0,0,512,768);ctx.drawImage(base,0,0,512,768);drawPatch(happy?praise:mouth,happy?expression.praise.bbox:expression.idle.bbox);if(position>=0)drawPatch(frames[position],blink.bbox);last=mood;}
+    if(moving)raf=requestAnimationFrame(draw);else if(happy)restTimer=setTimeout(()=>draw(performance.now()),2700);
   };
   draw(performance.now());
 }
@@ -322,6 +338,8 @@ async function start() {
   const files=['data/course.json','data/catalog.json','data/deep_lessons.json','assets/animation/blink_index.json','assets/animation/expressions.json','data/exercises.json'];
   const [raw,c,d,b,e,exerciseData]=await Promise.all(files.map(p=>fetch(p).then(r=>{if(!r.ok)throw Error('Kursdatei fehlt: '+p);return r.json();})));
   catalog=c;blinkIndex=b;expressions=e;
+  document.addEventListener('jt-actors',()=>animateTeacher());
+  document.addEventListener('visibilitychange',()=>{if(document.hidden){animationStop();stopMedia();}else animateTeacher();});
   let profile={};try{profile=JSON.parse(bridge?native('getProfile'):localStorage.getItem('jt-mobile-profile')??'{}');}catch(error){toast('Lernstand ist nicht lesbar. Bitte eine Sicherung importieren.');}
   store=new Store(profile,persist);course=new Course(raw,c,d,store);
   exerciseUI=createExerciseUI({data:exerciseData,state,store,course,native,navigate,render,stopMedia,toast,esc,nextRequest:()=>`exercise-${++requestCounter}`,explanation,lessonGuide,focusLesson});

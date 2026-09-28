@@ -1,5 +1,6 @@
 /* GPL-3.0-or-later. Mobile port of learning.py and study.py; stable desktop IDs. */
 import {cleanTalk} from './talk.mjs';
+import {SpeechSupport,speechDeck} from './speech-support.mjs';
 export const PHASES=['speak','meaning','listen','build','write','apply'];
 export const LABELS={speak:'Hören & Sprechen',meaning:'Bedeutung erkennen',listen:'Hörverstehen',build:'Bausteine ordnen',write:'Selbst schreiben',apply:'Anwenden'};
 export const FLOW_REVISION=2;
@@ -25,7 +26,7 @@ export function cleanProfile(input={},strict=false) {
   const out={completed:[],xp:0,streak:0,last_active:null,teacher_id:'sakura',speaker_id:2,tts_speed:1,
     ui_scale:1,motion_enabled:true,motion_preset:'natural',show_kiko:true,library_all:false,
     review:{},last_lesson:{},speech_scores:{},study_cards:{},lesson_sessions:{},legacy_unlocked:[],course_revision:0,talk:cleanTalk(input.talk)};
-  for(const key of ['review','last_lesson','speech_scores','study_cards','lesson_sessions'])
+  for(const key of ['review','last_lesson','speech_scores','study_cards','lesson_sessions','speech_support','speech_reviews'])
     if(record(input[key]))out[key]=JSON.parse(JSON.stringify(input[key]));
   for(const key of ['completed','legacy_unlocked'])
     if(Array.isArray(input[key]))out[key]=[...new Set(input[key].filter(v=>typeof v==='string'&&v.length<150))];
@@ -105,6 +106,7 @@ export class Session {
       }
     }
     this.reset();
+    if(!restore||!record(saved))for(let i=0;i<lesson.cards.length;i++)delete this.store.data.speech_support?.[`lesson:${lesson.key}:${i}`];
     const draft=saved?.task;
     if(restore&&record(draft)&&draft.identity===`${this.key}:${this.phase}:${this.mode}`){
       for(const name of ['input_text','feedback'])if(typeof draft[name]==='string')this[name]=draft[name].slice(0,4000);
@@ -112,11 +114,16 @@ export class Session {
       if(typeof draft.chosen==='string')this.chosen=draft.chosen;
       this.tokens=Array.isArray(draft.tokens)?draft.tokens.filter(v=>Number.isInteger(v)&&v>=0&&v<this.course.blocks(this.card,this.lesson).length).slice(0,10):[];
     }
-    if(this.mode==='learn'&&this.passed.includes(this.phase)) {this.success=true;this.feedback='Diesen Schritt hast du bereits geschafft. Weiter geht’s!';}
+    if(this.mode==='learn'&&this.passed.includes(this.phase)) {this.success=true;this.feedback=this.phase==='speak'&&this.support.data.assisted?'Mit Auswahlhilfe geschafft. Weiter zum nächsten Lernschritt.':'Diesen Schritt hast du bereits geschafft. Weiter geht’s!';}
     this.snapshot();
   }
   get card() {return this.lesson.cards[this.index];}
   get key() {return `${this.lesson.key}:${this.index}`;}
+  get support(){const key=`lesson:${this.key}`;if(this._support?.key!==key)this._support=new SpeechSupport(this.store,key,{card:this.key,lesson:this.lesson.key,kind:'lesson'});return this._support;}
+  supportDeck(){const target={...this.card,key:this.key},at=this.course.cards.findIndex(c=>c.key===this.key);return speechDeck(target,this.course.cards.slice(0,at+1),this.course.cards);}
+  acceptSupport(){if(this.mode!=='learn'||this.phase!=='speak'||this.success||!this.support.confirm(this.supportDeck()))return false;
+    const m=this.metrics();m.speech_supported=(Number(m.speech_supported)||0)+1;m.last_speech_outcome='selection';
+    this.mark(true,'Mit Auswahlhilfe geschafft. Weiter zum nächsten Lernschritt; Sprechen ist für später vorgemerkt.');return true;}
   reset() { this.success=false;this.feedback='';this.hintOpen=false;this.input_text='';this.tokens=[];this.audio_seen=false;this.audio_skipped=false;this.shortSpeechReady=false;this.skipped=false;this.chosen=null;this.listenCard=shuffle(this.lesson.cards.slice(0,this.index+1),`${this.key}:${this.phase}`)[0]; }
   snapshot() {this.store.data.lesson_sessions[this.lesson.key]={flow_revision:FLOW_REVISION,passed:[...this.passed],index:this.index,phase:this.phase,mode:this.mode,recap:[...this.recap],recap_total:this.recap_total,recap_passed:this.recap_passed,task:{identity:`${this.key}:${this.phase}:${this.mode}`,input_text:this.input_text,tokens:[...this.tokens],chosen:this.chosen,hintOpen:this.hintOpen,audio_seen:this.audio_seen,audio_skipped:this.audio_skipped,feedback:this.feedback}};this.store.data.last_lesson={key:this.lesson.key,card:this.index};this.store.save();}
   metrics() { const existing=this.store.data.study_cards[this.key];const m=record(existing)?existing:{};this.store.data.study_cards[this.key]=m;for(const key of ['attempts','mistakes','speech_attempts','speech_skips'])if(!Number.isInteger(m[key]))m[key]=0;if(!Array.isArray(m.phases))m.phases=[];return m; }
@@ -165,6 +172,7 @@ export class Session {
   confirmShortSpeech() {
     if(this.mode!=='learn'||this.phase!=='speak'||this.success||!this.audio_seen||!this.shortSpeechReady||!isShortKana(this.card.jp))return false;
     const m=this.metrics();m.speech_self_checks=(Number(m.speech_self_checks)||0)+1;
+    m.last_speech_outcome='self_check';
     this.shortSpeechReady=false;
     this.mark(true,'Selbstprüfung bestätigt: Du hast den Laut nachgesprochen. Weiter geht’s mit Schritt 2.');
     return true;

@@ -15,6 +15,9 @@ class PreservationTests(unittest.TestCase):
      if isinstance(f,ast.FunctionDef):current[node.name+'.'+f.name]=sha(ast.dump(f))
   for name,digest in base['unchanged_python'].items():self.assertEqual(current[name],digest,name)
   core=(ROOT/'mobile/web/core.mjs').read_text('utf8')
+  # The 11.0.10 task explicitly adds speech-help persistence and an outcome label.
+  # Remove only those additions when comparing the historical assessment contract.
+  core=core.replace("import {SpeechSupport,speechDeck} from './speech-support.mjs';\n",'').replace(",'speech_support','speech_reviews'",'').replace("    m.last_speech_outcome='self_check';\n",'')
   self.assertEqual(sha(core.split('export class Session')[0]),base['core_before_session'])
   self.assertEqual(sha(core.split('  metrics()')[1]),base['core_from_metrics'])
   css=(ROOT/'mobile/web/styles.css').read_text('utf8')

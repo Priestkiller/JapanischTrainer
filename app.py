@@ -17,7 +17,7 @@ from learning import Learning
 from lesson_ui import LessonMixin
 from study import matches_romaji
 from motion import PRESETS,preset_name
-ROOT=app_root();VERSION='11.0.7'
+ROOT=app_root();VERSION='11.0.10'
 NAV=[('home','home','Startseite'),('path','book','Lernen'),('speaking','mic','Sprechen'),('listening','headphones','Hören'),('writing','pencil','Schreiben'),('vocab','cards','Vokabeln'),('grammar','layers','Grammatik'),('kanji','kanji','Kanji'),('review','repeat','Wiederholen'),('progress','chart','Fortschritt'),('teachers','teachers','Lehrer'),('settings','settings','Einstellungen')]
 
 class TrainerApp(LessonMixin):
@@ -117,6 +117,7 @@ class TrainerApp(LessonMixin):
         if e.keysym in ('Next','Down'):self.wheel(120)
         if e.keysym in ('Prior','Up'):self.wheel(-120)
     def navigate(self,page):
+        if page!=self.view and getattr(self,'active_speech_help',None):self.active_speech_help[0].cancel()
         if self.view=='exercises' and page!=self.view:self.cancel_exercise()
         if self.recording:self.stop_capture(False)
         if self.view=='lesson':self.flow.snapshot()
@@ -156,13 +157,17 @@ class TrainerApp(LessonMixin):
     def toggle_recording(self):
         if self.recording:self.stop_capture(True);return
         if self.job:self.notify('Bitte auf das Ende der Sprachausgabe warten.');return
+        if self.view=='lesson':self.speech_item=self.learning.speech_target(self.current_card(),self.lesson)
+        support=self.current_speech_support();identity=str(time.monotonic_ns())
+        if not support.begin(identity):return
+        self.active_speech_help=(support,identity)
         try:
-            if self.view=='lesson':self.speech_item=self.learning.speech_target(self.current_card(),self.lesson)
             self.speech_epoch+=1
             self.engine.start_recording(self.store.data.get('mic_device'))
             if self.view=='lesson':self.flow.metrics()['speech_attempts']+=1;self.flow.snapshot()
             self.recording=True;self.record_started=time.monotonic();self.result=None;self.speech_error='';self.record_level=0.
         except Exception as exc:
+            support.finish(identity,'technical')
             self.speech_error='Mikrofon nicht verfügbar: '+str(exc)
             try:self.engine.stop_recording()
             except Exception:pass
@@ -176,21 +181,34 @@ class TrainerApp(LessonMixin):
             if grade:
                 item=self.speech_item or self.learning.speech_target(self.current_card(),self.lesson);self.speech_item=item
                 a=self.last_audio.copy();sr=self.last_rate;accepted=list(item['accept'])
-                self.run_worker('Spracherkennung',lambda:self.engine.recognize_for_target(a,accepted,sr),lambda result,target=item['target'],epoch=self.speech_epoch:self.received_speech(result,target,epoch))
-        except Exception as exc:self.speech_error=str(exc)
+                support,identity=self.active_speech_help;epoch=self.speech_epoch
+                def done(result):self.received_speech(result,item['target'],epoch)
+                done.on_error=lambda error:support.finish(identity,'technical') if epoch==self.speech_epoch else None
+                self.run_worker('Spracherkennung',lambda:self.engine.recognize_for_target(a,accepted,sr),done)
+            else:
+                active=getattr(self,'active_speech_help',None)
+                if active:active[0].cancel()
+        except Exception as exc:
+            self.speech_error=str(exc)
+            active=getattr(self,'active_speech_help',None)
+            if active:active[0].finish(active[1],'technical')
         self.request_draw()
     def received_speech(self,r,target=None,epoch=None):
         # Preserve the recorded target if the learner navigated while ASR was busy.
         target=target or (self.speech_item or {}).get('target','')
+        if target!=(self.speech_item or {}).get('target') or epoch is not None and epoch!=self.speech_epoch:return
         if target==(self.speech_item or {}).get('target') and (epoch is None or epoch==self.speech_epoch):
-            self.result=r
             reliable=r.reliable and (not r.quality or r.quality.status!='bad')
+            active=getattr(self,'active_speech_help',None)
+            if active and not active[0].finish(active[1],'accepted' if reliable and r.score>=80 else 'mismatch' if reliable and r.heard else 'unreliable'):return
+            self.result=r
             self.react('praise' if reliable and r.score>=80 else 'encourage',
                        'speech-match' if reliable else 'speech-uncertain')
         if target and r.reliable and (not r.quality or r.quality.status!='bad'):
             self.store.set_speech_score(target,r.score,r.heard);self.store.touch_day()
         self.request_draw()
     def play_recording(self):
+        if self.recording or self.job:return
         if self.last_audio is not None:
             audio=self.last_audio.copy();rate=self.last_rate
             self.run_worker('Deine Aufnahme',lambda:self.engine.play_recording(audio,rate),lambda _:None)
@@ -247,7 +265,7 @@ class TrainerApp(LessonMixin):
             if sel:s.button(id,(8,y-8,248,42),'',lambda p=page:self.navigate(p),'blue')
             elif self.hover==id:s.fill((8,y-8,248,42),'#1c344f',10)
             s.icon(icon,26,y,25);s.text(66,y+4,label,16,WHITE,sel);s.register(id,(8,y-8,248,42),lambda p=page:self.navigate(p),label);y+=44
-        if self.H>910 and self.store.data.get('show_kiko',True):
+        if self.H>910 and self.store.data.get('show_kiko',True) and self.view not in ('lesson','exercises','speaking','listening','writing','review','complete'):
             y=max(y+30,self.H-250);s.panel((14,y,234,199));s.text(133,y+20,'Kiko',21,WHITE,True);s.text(133,y+47,'Maskottchen',11,MUTED)
             self.add_actor(s,ROOT/'assets/mascot/kiko_idle.png',(16,y+49,118,144),'mascot','kiko');s.panel((129,y+74,108,87),'bubble',16,False);s.paragraph(140,y+86,'Juhu!\nGut gemacht!' if self.actor_mood()=='praise' else 'Noch einmal.\nWir üben!' if self.actor_mood()=='encourage' else 'Gemeinsam\nschaffen\nwir das!',87,12,INK)
         else:
@@ -359,36 +377,30 @@ class TrainerApp(LessonMixin):
         s.button('voice-preview',(rx+26,by+74,rw-52,44),'Stimmprobe anhören',lambda:self.speak(t['jp'],False,t['id']),'secondary','play',14);s.text(rx+29,by+134,'Schwerpunkt',12,'#8ac9fb',True);s.paragraph(rx+29,by+157,t['focus'],rw-58,14,WHITE,max_lines=2,lineheight=19)
         s.button('teacher-select',(rx+26,by+201,rw-52,45),'Ausgewählt ✓' if t['id']==self.learning.teacher()['id'] else 'Diese Lehrkraft wählen  →',lambda:self.choose_teacher(t['id'],True),'blue',size=15)
     def draw_speaking(self,s):
-        self.heading(s,'Sprechen mit '+self.learning.teacher()['name'],'Vorhören → aufnehmen → erkannte Wörter vergleichen. Leertaste startet und stoppt.')
-        item=self.speech_item or self.learning.speech_target(self.current_card(),self.lesson);x=294;y=189;lw=min(666,(self.W-x-38)*.61);rx=x+lw+25;vh=self.H-y-24;p=self.make_pane(lw,max(vh,860));o=-self.scroll
-        th=len(p.wrap(item['target'],lw-80,30,True,True))*38
-        rh=len(p.wrap(item.get('romaji',''),lw-80,16))*22
-        dh=len(p.wrap(item.get('meaning',''),lw-80,14,True))*21
-        inner=max(116,th+rh+dh+30);head=inner+137
-        p.panel((2,o+2,lw-10,head));p.icon('chat',22,o+21,25);p.text(62,o+23,'Dein Sprechziel',20,WHITE,True)
-        p.panel((18,o+64,lw-43,inner),'white',16,False);yy=o+78
-        yy+=p.paragraph(36,yy,item['target'],lw-80,30,INK,True,lineheight=38,jp=True)
-        yy+=p.paragraph(37,yy+4,item.get('romaji',''),lw-80,16,'#56739a',lineheight=22)+7
-        p.paragraph(37,yy,item.get('meaning',''),lw-80,14,INK,True,lineheight=21);bw=(lw-54)/2
-        by=o+head-58
-        p.button('speech-play',(18,by,bw,44),'Normal anhören',lambda:self.speak(item['target']),'blue','speaker',14);p.button('speech-slow',(27+bw,by,bw,44),'Langsam anhören',lambda:self.speak(item['target'],True),'secondary','turtle',14)
-        head_advance=head+19;o+=head_advance;p.panel((2,o,lw-10,177));p.icon('mic',22,o+19,25,'#ff94b4');p.text(62,o+23,'Jetzt bist du dran',19,WHITE,True)
-        p.button('record',(18,o+62,(lw-55)*.59,50),'Aufnahme stoppen' if self.recording else 'Aufnahme starten',self.toggle_recording,'red','pause' if self.recording else 'mic',15,enabled=not self.job)
-        p.button('play-own',(29+(lw-55)*.59,o+62,(lw-55)*.41,50),'Deine Aufnahme',self.play_recording,'secondary','headphones',12,enabled=self.last_audio is not None and not self.recording and not self.job)
-        status=f'Aufnahme läuft · {int(time.monotonic()-self.record_started)} / 15 s' if self.recording else self.job+' …' if self.job else 'Die Aufnahme bleibt auf deinem Computer.';p.text(22,o+130,status,13,MUTED,width=lw-40);p.progress((22,o+153,lw-48,6),self.record_level if self.recording else 0)
-        o+=195;p.panel((2,o,lw-10,286));p.text(23,o+20,'Was wurde verstanden?',20,WHITE,True)
-        if self.speech_error:
-            p.panel((18,o+61,lw-43,123),'white',15,False);p.paragraph(35,o+77,self.speech_error,lw-80,15,INK,max_lines=5);p.button('speech-settings',(18,o+207,lw-43,47),'Mikrofon und Modelle prüfen',lambda:self.navigate('settings'),size=15)
-        elif self.result:
-            r=self.result;reliable=r.reliable and (not r.quality or r.quality.status!='bad');p.panel((18,o+61,lw-43,87),'white',15,False);p.paragraph(35,o+78,r.heard or 'Kein Text erkannt.',lw-80,23,INK,True,max_lines=2,lineheight=31)
-            p.text(24,o+163,'Textübereinstimmung' if reliable else 'Aufnahme nicht zuverlässig auswertbar',14,MUTED,True,width=lw-70)
-            if reliable:p.progress((24,o+195,lw-122,10),r.score/100);p.text(lw-79,o+184,str(r.score)+' %',20,'#79ecc1',True)
-            p.paragraph(24,o+217,(r.quality.message if r.quality else '')+' · '+r.engine,lw-55,12,MUTED,max_lines=3,lineheight=17)
-        else:
-            p.panel((18,o+61,lw-43,95),'white',15,False);p.paragraph(35,o+78,'Noch keine Aufnahme ausgewertet. Hör dir das Wort an und sprich es danach selbst.',lw-80,17,INK,max_lines=3)
-            p.paragraph(24,o+180,'Keine erfundene Aussprache-Note: Die Erkennung vergleicht Text, nicht einzelne Laute oder japanischen Tonhöhenakzent.',lw-55,14,MUTED,max_lines=4,lineheight=20)
-        o+=304;p.button('speech-back',(18,o,lw-43,46),'Zurück zur Lernkarte  →',lambda:self.navigate('lesson'),'green',size=16);self.scroll_pane(s,p,x,y,vh,head_advance+562)
-        self.teacher_stage(s,(rx,171,self.W-rx-16,self.H-181),'Ich höre zu. Sprich in deinem Tempo.' if self.recording else 'Hör erst zu. Danach probieren wir es gemeinsam.')
+        self.heading(s,'Sprich nach · '+self.learning.teacher()['name'],'Höre zu und sprich die sichtbare Vorlage nach. Sprechen ist freiwillig.')
+        c=self.support_card();x=294;y=187;w=min(690,(self.W-x-38)*.63);rx=x+w+20
+        # Reuse the pinned speech cue of the additional exercises, including all aids.
+        t={'family':'echo','card':c['key'],'prompt':'Höre zuerst zu und sprich danach nach.'}
+        q=y+12
+        for text,size,color,bold,jp in [(c['jp'],26,WHITE,True,True),(c['romaji'],15,MUTED,False,False),('Bedeutung: '+c['de'],14,WHITE,True,False),('Aussprachehilfe · Annäherung: '+(c.get('approx') or c['romaji']),13,MUTED,False,False)]:
+            q+=s.paragraph(x+16,q,text,w-42,size,color,bold,lineheight=size*1.3,jp=jp)+7
+        bw=(w-44)/2
+        s.button('speech-normal',(x+12,q,bw,39),'Normal anhören',lambda:self.speak(c['jp']),'blue','speaker',13,enabled=not self.recording and not self.job)
+        s.button('speech-slow',(x+22+bw,q,bw,39),'Langsam anhören',lambda:self.speak(c['jp'],True),size=13,enabled=not self.recording and not self.job);q+=49
+        s.button('record',(x+12,q,bw,44),'Stoppen & auswerten' if self.recording else 'Aufnahme starten',self.toggle_recording,'red','mic',13,enabled=not self.job)
+        s.button('play-own',(x+22+bw,q,bw,44),'Eigene Aufnahme',self.play_recording,size=13,enabled=self.last_audio is not None and not self.recording and not self.job);q+=54
+        s.button('speech-cancel',(x+12,q,w-30,32),'Aufnahme abbrechen',lambda:self.stop_capture(False),size=12,enabled=self.recording);q+=42
+        support=self.current_speech_support();vh=max(35,self.H-q-82);p=self.make_pane(w,1400);o=-self.scroll
+        text=self.speech_error or ('Erkannt: '+(self.result.heard or 'kein Text') if self.result else 'Noch keine Aufnahme ausgewertet.')
+        o+=p.paragraph(14,o+5,text,w-35,14,WHITE,lineheight=20)+18
+        if support.data['failures']:o+=p.paragraph(14,o,f'{support.data["failures"]} erfolglose Versuche · '+support.data['feedback'],w-35,13,MUTED,lineheight=19)+18
+        o+=p.paragraph(14,o,'Textvergleich, keine Aussprache- oder Akzentnote. Technische Probleme sind keine Aussprachefehler.',w-35,12,MUTED,lineheight=18)+12
+        self.scroll_pane(s,p,x,q,vh,o+self.scroll)
+        back='review' if getattr(self,'speech_review_key',None) else self.speech_return
+        s.button('speech-back',(x+12,self.H-64,w-30,44),'Zurück · Fortschritt bleibt erhalten',lambda:self.navigate(back),'green',size=14)
+        if support.unlocked:s.button('speech-help',(rx,178,self.W-rx-25,44),'Auswahlhilfe schließen' if support.data['open'] else 'Antwort stattdessen auswählen',self.toggle_speech_help,'blue',size=12,enabled=not self.recording and not self.job)
+        if support.data['open']:self.draw_speech_help(s,(rx,230,self.W-rx-25,self.H-248))
+        else:self.teacher_stage(s,(rx,230 if support.unlocked else 187,self.W-rx-16,self.H-(248 if support.unlocked else 205)),'Ich höre zu. Sprich in deinem Tempo.' if self.recording else 'Hör erst zu. Danach probieren wir es gemeinsam.')
     def draw_listening(self,s):self.draw_library(s,True)
     def draw_vocab(self,s):self.draw_library(s,False)
     def draw_library(self,s,listening):
@@ -458,14 +470,13 @@ class TrainerApp(LessonMixin):
             self._last_write_check=(self.write_card['key'],self.write_mode,self.entry.get())
         self.request_draw()
     def draw_writing(self,s):
-        self.heading(s,'Lesen & schreiben','Schreibe die Lesung oder das japanische Wort. Die Lösung wird vorher erklärt.');x=294;y=196;w=min(676,(self.W-x-42)*.62);rx=x+w+24;s.panel((x,y,w,480))
+        self.heading(s,'Lesen & schreiben','Schreibe die Lesung in Romaji oder übersetze die deutsche Vorgabe ins Japanische.');x=294;y=196;w=self.W-x-24;s.panel((x,y,w,min(480,self.H-y-24)))
         for i,l in enumerate(['Romaji','Japanisch']):s.button('write-mode:'+l,(x+20+i*171,y+20,155,42),l,lambda v=l:self.set_write_mode(v),'blue' if self.write_mode==l else 'secondary',size=14)
         c=self.write_card;s.panel((x+20,y+83,w-40,131),'white',16,False);s.text(x+39,y+104,c['jp'] if self.write_mode=='Romaji' else c['de'],32,INK,True,width=w-83);s.text(x+39,y+157,'Bedeutung: '+c['de'] if self.write_mode=='Romaji' else 'Schreibe die japanische Form.',15,'#5b7599',width=w-83)
         s.text(x+23,y+242,'Deine Antwort',15,MUTED,True);s.panel((x+20,y+274,w-40,58),'white',14,False);self.entry_target=('writing',(x+36,y+284,w-74,38))
         s.button('write-check',(x+20,y+350,(w-51)/2,47),'Antwort prüfen',self.check_writing,'blue',size=15);s.button('write-new',(x+31+(w-51)/2,y+350,(w-51)/2,47),'Nächstes Wort',self.new_writing,size=15)
         if self.write_feedback:s.paragraph(x+25,y+421,self.write_feedback,w-50,15,'#95e8c1' if self.write_feedback.startswith('Richtig') else '#ffd1db',max_lines=2)
-        s.panel((x,y+503,w,133));s.icon('info',x+23,y+526,23,BLUE);s.paragraph(x+64,y+522,'Im Modus „Japanisch“ kannst du die japanische Windows-Tastatur verwenden. Romaji schreibst du mit deiner normalen deutschen Tastatur.',w-88,15,MUTED,max_lines=4,lineheight=22)
-        self.teacher_stage(s,(rx,186,self.W-rx-16,self.H-199),'Du darfst die Lesung in der Lernkarte jederzeit nachschauen.')
+        s.paragraph(x+23,y+220,'Romaji: deutsche Tastatur. Japanisch: japanische Tastatur. In der Lernkarte kannst du nachschauen.',w-46,12,MUTED,lineheight=16,max_lines=1)
     def next_review(self):
         cards=self.learning.available_cards();review=self.store.data.setdefault('review',{});now=time.time();due=[c for c in cards if review.get(c['key'],{}).get('due',0)<=now]
         self.review_card=random.choice(due or cards);self.review_revealed=False;self.request_draw()
@@ -482,7 +493,17 @@ class TrainerApp(LessonMixin):
         else:s.text(x+40,y+253,'Erst überlegen, dann aufdecken.',16,'#6d809a',width=w-80)
         s.button('review-reveal',(x+20,y+333,w-40,44),'Antwort aufdecken',self.reveal_review,size=15,enabled=not self.review_revealed)
         s.button('review-again',(x+20,y+396,(w-50)/2,48),'Noch üben',lambda:self.rate_review(False),size=15,enabled=self.review_revealed);s.button('review-known',(x+30+(w-50)/2,y+396,(w-50)/2,48),'Gewusst',lambda:self.rate_review(True),'green',size=15,enabled=self.review_revealed)
-        self.teacher_stage(s,(rx,181,self.W-rx-16,self.H-194),'Wiederholung zählt. Es ist normal, etwas noch einmal zu brauchen.')
+        pending=[(k,v) for k,v in self.store.data.get('speech_reviews',{}).items() if v.get('status')=='pending']
+        rw=self.W-rx-24;vh=self.H-235;p=self.make_pane(rw,max(vh,800));o=-self.scroll
+        s.text(rx,194,'Sprechen später üben',18,WHITE,True,width=rw)
+        if not pending:p.paragraph(10,o+12,'Hier erscheinen vorgemerkte Sprechaufgaben nach der Auswahlhilfe.',rw-20,14,MUTED,lineheight=21);o+=100
+        for key,value in pending:
+            card=next((c for c in self.learning.cards if c['key']==value.get('card')),None)
+            if not card:continue
+            height=54+len(p.wrap(card['jp']+' · '+card['de'],rw-24,14))*20
+            p.panel((2,o+2,rw-4,height),'dark',12);p.paragraph(12,o+12,card['jp']+' · '+card['de'],rw-24,14,WHITE,lineheight=20,jp=True)
+            p.button('speech-review:'+key,(12,o+height-32,rw-24,28),'Freiwillig üben',lambda key=key:self.start_speech_review(key),'blue',size=12);o+=height+12
+        self.scroll_pane(s,p,rx,229,vh,o+self.scroll+12)
     def draw_progress(self,s):
         self.heading(s,'Dein Fortschritt','Gespeicherte Lernergebnisse – keine Beispielzahlen.');x=294;y=189;w=self.W-x-24;done=[k for k in self.store.data['completed'] if k in self.learning.by_key];gap=16;cw=(w-gap*2)/3
         for i,(a,b) in enumerate([(f'{len(done)} / {len(self.learning.lessons)}','Lektionen abgeschlossen'),(str(self.store.data['xp']),'Erfahrungspunkte'),(str(self.store.data['streak']),'Lerntage in Folge')]):
@@ -544,7 +565,11 @@ class TrainerApp(LessonMixin):
         self.heading(s,'Lektion geschafft!','Dein Fortschritt. Kein Zeitdruck, keine verlorenen Leben.');x=294;y=196;w=min(674,(self.W-x-40)*.62);rx=x+w+25
         s.panel((x,y,w,430));s.icon('star',x+25,y+26,41,'#ffd375');s.text(x+84,y+28,'Gut gemacht!',31,WHITE,True);s.text(x+27,y+99,self.lesson['title'],23,WHITE,True,width=w-50);s.progress((x+27,y+152,w-54,13),1)
         s.panel((x+23,y+200,w-46,97),'white',16,False);s.text(x+43,y+222,str(len(self.lesson['cards']))+' Wörter / Lernkarten geübt',21,INK,True,width=w-83);s.text(x+43,y+263,'Fortschritt auf deinem Gerät gespeichert.',13,'#527396',width=w-83)
-        s.button('complete-next',(x+24,y+327,w-48,57),'Zur nächsten Etappe  →',lambda:self.open_lesson(self.learning.next_lesson()['key']),'green',size=18);self.teacher_stage(s,(rx,189,self.W-rx-16,self.H-202),'Schritt für Schritt. Das hast du gut gemacht!')
+        s.button('complete-next',(x+24,y+321,w-48,47),'Weiterlernen  →',lambda:self.open_lesson(self.learning.next_lesson()['key']),'green',size=18)
+        s.button('complete-path',(x+24,y+375,w-48,43),'Zum Lernpfad',lambda:self.navigate('path'),size=15)
+        if self.store.data.get('show_kiko',True):
+            self.add_actor(s,ROOT/'assets/mascot/kiko_cheer.png',(rx,240,self.W-rx-25,min(360,self.H-320)),'mascot','kiko-complete')
+            s.paragraph(rx+10,195,'Kiko freut sich mit dir. Ein weiterer Schritt ist geschafft!',self.W-rx-40,18,WHITE,True,lineheight=24)
     def hide_entry(self):
         if self.entry:
             if self.entry_mode=='study' and hasattr(self,'flow'):self.flow.input_text=self.entry.get()

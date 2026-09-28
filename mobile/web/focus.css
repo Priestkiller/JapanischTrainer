@@ -37,3 +37,29 @@ body.focus-mode:before{content:'';position:fixed;inset:0;pointer-events:none;bac
 @media(max-width:370px){.focus-record-label small{display:none}.focus-mode .focus-fixed-record{padding:7px}.focus-record-label{margin-bottom:5px}.focus-mode .focus-fixed-record .focus-microphone{min-height:44px}}
 
 .focus-companions-compact .focus-coach-copy{top:7px;padding:9px;font-size:.73rem;line-height:1.4}.focus-companions-compact .focus-coach-copy strong{margin-bottom:3px}.focus-companions-compact .focus-kiko{bottom:6px}.focus-companions-compact .focus-kiko img{width:65px}.focus-companions-compact .focus-kiko p{font-size:.6rem;padding:6px}.focus-companions-compact .focus-kiko strong{font-size:.67rem}.focus-companions-minimal .focus-coach-copy{display:none}
+
+/* Keep the actual cue together. Only answer lists and long explanations paginate. */
+.focus-mode .card{background:#092641f7}.focus-cue{flex:none;font-size:.88rem;line-height:1.45;margin-bottom:8px}.focus-cue>p{margin:0 0 8px}.focus-cue .focus-model{margin:0}.focus-cue .exercise-reading{max-height:28dvh;overflow:auto}.focus-cue .focus-word .jp{font-size:clamp(1.5rem,5.7vw,2.3rem);line-height:1.3}.focus-cue .romaji{font-size:.9rem;overflow-wrap:anywhere}.focus-cue .translation{font-size:.84rem}.focus-cue .pronunciation{font-size:.75rem;overflow-wrap:anywhere}.focus-cue .pronunciation strong{font-size:.67rem;margin-bottom:4px}.focus-cue #speak-instruction,.focus-cue #ex-prompt{font-size:.8rem;color:#d7e9f8}
+.focus-session .focus-workspace{padding-right:0}.focus-session .focus-companions{position:relative;display:flex;align-items:center;gap:10px;margin:4px 0 0;padding:0;overflow:hidden;height:68px;min-height:68px;width:auto;pointer-events:none}.focus-session .focus-teacher{position:static;width:53px;height:78px;min-height:0;max-width:none;max-height:none;object-fit:contain;flex:none}.focus-session .focus-coach-copy{position:static;width:auto;max-width:none;flex:1;padding:7px 10px;font-size:.72rem;line-height:1.35;border-radius:10px;margin:0;box-shadow:none}.focus-session .focus-coach-copy strong{margin-bottom:2px}.focus-session .focus-course-badge{display:none}.focus-session .focus-header{padding-bottom:5px}.focus-session .focus-lesson-title{margin-top:5px}.focus-session .focus-brand{margin-bottom:5px}
+.speech-feedback-scroll{overflow-y:auto;overscroll-behavior:contain}.speech-feedback-scroll .focus-flow{font-size:.78rem}.support-count{font-size:.73rem;line-height:1.4;margin:5px 0}.speech-alternative{padding:10px;border:1px solid #66bddc;border-radius:12px;background:#102f4e}.speech-alternative h3{font-size:.92rem}.speech-alternative p{font-size:.82rem}.focus-overflow .focus-workspace{overflow-y:auto;overscroll-behavior:contain}.focus-overflow .speech-feedback-scroll{min-height:110px}.focus-mode .focus-fixed-record{margin-top:7px}.focus-mode .focus-record-label{display:none}.focus-mode .focus-fixed-audio{margin-top:4px}.focus-mode .focus-fixed-record #lesson-own,.focus-mode .focus-fixed-record #lesson-cancel{margin-top:4px}
+@media(max-height:760px){.is-speaking .focus-brand{display:none}.focus-session .focus-companions{height:50px;min-height:50px}.focus-session .focus-teacher{width:37px;height:55px}.focus-session .focus-coach-copy{font-size:.65rem}.focus-cue .focus-word .jp{font-size:1.5rem}.focus-cue .pronunciation{padding:6px}.focus-cue .focus-model{gap:6px}.focus-mode .focus-microphone{min-height:44px}.focus-mode .focus-fixed-record{padding:6px}.focus-mode .speech-message{font-size:.7rem}}
+@media(max-height:550px) and (min-width:600px){.focus-session .focus-header{display:grid;grid-template-columns:1fr 1fr}.focus-session .focus-companions{grid-column:2;grid-row:1;height:40px;min-height:40px}.focus-session .focus-lesson-title{grid-column:1}.focus-session .focus-teacher{height:44px;width:30px}.focus-speaking-paper{grid-template-columns:minmax(0,1fr) 230px!important}.focus-speaking-paper .focus-cue{grid-area:2/1}.focus-speaking-paper .focus-task-viewport{grid-area:3/1/4/3}.focus-speaking-paper .focus-fixed-record{grid-area:2/2}.focus-session:has(.focus-speaking-paper) .focus-companions{display:flex}}
+/* Completion is the only exercise reward scene. Buttons never wait for motion. */
+.completion-kiko { display:block; width:clamp(90px,30vw,180px); height:190px; object-fit:contain; margin:8px auto; animation:kiko-complete 2.65s ease-out 1; }
+@keyframes kiko-complete { 0%,100% {transform:translateY(0) rotate(0)} 20%,65% {transform:translateY(-9px) rotate(-4deg)} 40%,80% {transform:translateY(-3px) rotate(4deg)} }
+.motion-off .completion-kiko {animation:none}
+@media (prefers-reduced-motion:reduce) {.completion-kiko {animation:none}}
+.completion .wide {margin:12px 0}
+.speech-alternative {padding:10px 0}
+.speech-alternative h3 {margin:4px 0;font-size:1rem}
+.speech-alternative p,.support-count {font-size:.83rem;line-height:1.35}
+.speech-alternative .options {gap:6px}
+.speech-alternative button {min-height:44px}
+[data-recording="recording"] .focus-companions {box-shadow:inset 3px 0 #ff658a}
+.talk-partner canvas {width:58px;height:88px;object-fit:contain;flex-shrink:0}
+.focus-session>.speech-alternative{position:absolute;inset:8px 0;z-index:20;background:#0b2947;padding:16px;overflow-y:auto;overscroll-behavior:contain;box-shadow:0 0 0 10px #041429aa}
+.support-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}.support-top button{font-size:1.5rem;min-width:44px}.support-top h3{font-size:1.1rem}.support-feedback{padding:10px;background:#173c5b;border-radius:10px}
+.speech-alternative .options button{font-size:1rem;padding:13px}
+.speech-alternative #speech-confirm{margin-top:16px;background:#067f65}
+@media(max-height:850px){.is-speaking .focus-brand{display:none}}
+.talk-layout>.speech-alternative{position:fixed;inset:10px;z-index:40;background:#f0f5ff;color:#092641;padding:18px;overflow-y:auto;max-width:760px;margin:auto}

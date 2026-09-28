@@ -1,6 +1,6 @@
 """Native Tk/Pillow exercise adapter; reuses the lesson layout and audio engine."""
 import time
-from exercises import ExerciseBook, ExerciseRound, FAMILIES, order
+from exercises import ExerciseBook, ExerciseRound, FAMILIES, INSTRUCTIONS, order
 from ui_renderer import WHITE, MUTED, INK
 
 class ExerciseMixin:
@@ -87,31 +87,36 @@ class ExerciseMixin:
         r=self.exercise_round
         if self.recording:self.exercise_stop(True);return
         if self.job or r.answer['success']:return
-        if r.task['family']=='echo' and 'target' not in r.answer['heard']:
+        if self.audio_status.get('tts') and r.task['family']=='echo' and 'target' not in r.answer['heard']:
             r.technical('Höre die sichtbare Vorlage zuerst vollständig an.');self.request_draw();return
+        support=r.support;identity=str(time.monotonic_ns())
+        if not support.begin(identity):return
+        self.active_speech_help=(support,identity)
         try:
             self.exercise_epoch+=1;self.engine.start_recording(self.store.data.get('mic_device'))
             self.recording=True;self.record_started=time.monotonic();self.last_audio=None;self.speech_error=''
-        except Exception as exc:r.technical('Mikrofon nicht verfügbar. Du kannst pausieren oder es erneut versuchen. '+str(exc))
+        except Exception as exc:support.finish(identity,'technical');r.technical('Mikrofon nicht verfügbar. Du kannst pausieren oder es erneut versuchen. '+str(exc))
         self.request_draw()
     def exercise_stop(self,grade=True):
         if not self.recording:return
-        self.recording=False;r=self.exercise_round;epoch=self.exercise_epoch;task_id=r.task['id'];teacher=self.learning.teacher()['id']
+        self.recording=False;r=self.exercise_round;epoch=self.exercise_epoch;task_id=r.task['id'];teacher=self.learning.teacher()['id'];support,identity=self.active_speech_help
         try:
             self.last_audio=self.engine.stop_recording();self.last_rate=self.engine.sample_rate
             if grade:
                 a=self.last_audio.copy();sr=self.last_rate;accepted=list(r.task['accepted_speech'])
                 def done(result):
                     if self.view!='exercises' or self.exercise_round is not r or self.exercise_epoch!=epoch or r.task['id']!=task_id or self.learning.teacher()['id']!=teacher:return
-                    if not result.reliable or result.quality and result.quality.status=='bad':r.technical('Diese Aufnahme ist nicht sicher auswertbar. Kein Aussprachefehler daraus abgeleitet.')
+                    if support.active!=identity:return
+                    if not result.reliable or result.quality and result.quality.status=='bad':support.finish(identity,'unreliable');r.technical('Diese Aufnahme ist nicht sicher auswertbar. Kein Aussprachefehler daraus abgeleitet.')
                     else:
                         ok=r.check(result.heard)
+                        support.finish(identity,'accepted' if ok else 'mismatch' if result.heard.strip() else 'unreliable')
                         if ok:self.react('praise','exercise-speech')
                     self.request_draw()
-                done.on_error=lambda error:None if self.view!='exercises' or self.exercise_epoch!=epoch or self.exercise_round is not r else r.technical(error)
+                done.on_error=lambda error:None if self.view!='exercises' or self.exercise_epoch!=epoch or self.exercise_round is not r else (support.finish(identity,'technical'),r.technical(error))
                 self.run_worker('Spracherkennung',lambda:self.engine.recognize_for_target(a,accepted,sr),done)
-            else:r.technical('Aufnahme abgebrochen. Die Sprechaufgabe bleibt offen.',True)
-        except Exception as exc:r.technical('Audio konnte nicht ausgewertet werden. '+str(exc))
+            else:support.cancel();r.technical('Aufnahme abgebrochen. Die Sprechaufgabe bleibt offen.',True)
+        except Exception as exc:support.finish(identity,'technical');r.technical('Audio konnte nicht ausgewertet werden. '+str(exc))
         self.request_draw()
     def exercise_card(self,key):
         lesson,index=key.rsplit(':',1);return self.learning.by_key[lesson]['cards'][int(index)]
@@ -129,13 +134,34 @@ class ExerciseMixin:
         p.button(identity,(18,o,w-44,h),'',action,kind,size=14,enabled=enabled)
         p.paragraph(29,o+9,label,w-67,14,WHITE,True,lineheight=20)
         return o+h+10
+    def draw_exercise_speech(self,s,x,y,w,t,d):
+        c=self.exercise_card(t['card']);echo=t['family']=='echo';q=y+16
+        lines=[('Sprich die sichtbare Vorlage nach.' if echo else t['prompt'],15,False)]
+        if echo:lines += [(c['jp'],24,True),(c['romaji'],15,False),(c['de'],14,False),('Aussprachehilfe · Annäherung: '+c.get('approx',c['romaji']),13,False)]
+        height=32+sum(len(s.wrap(text,w-44,size,False,jp))*(size*1.3)+7 for text,size,jp in lines)+106
+        s.panel((x,y,w-10,height),'dark',16)
+        for text,size,jp in lines:q+=s.paragraph(x+16,q,text,w-44,size,WHITE,lineheight=size*1.3,jp=jp)+7
+        bw=(w-48)/3;ready=not self.job and not self.recording
+        if echo or d['help']==2:
+            s.button('ex-audio',(x+12,q,bw,40),'Normal anhören',self.exercise_audio,'blue',size=12,enabled=ready)
+            s.button('ex-slow',(x+20+bw,q,bw,40),'Langsam anhören',lambda:self.exercise_audio(slow=True),size=12,enabled=ready)
+        s.button('ex-record',(x+28+2*bw,q,bw,40),'Stoppen' if self.recording else 'Jetzt sprechen',self.exercise_record,'red',size=12,enabled=not self.job and not d['success'])
+        q+=49
+        s.button('ex-own',(x+12,q,bw,40),'Meine Aufnahme',self.play_recording,size=12,enabled=ready and self.last_audio is not None)
+        s.button('ex-cancel',(x+20+bw,q,bw,40),'Abbrechen',lambda:self.exercise_stop(False),size=12,enabled=self.recording)
+        s.text(x+30+2*bw,q+11,'Freiwillig · lokal',12,MUTED,width=bw-10)
+        return height+12
     def draw_exercises(self,s):
         r=self.exercise_round
         if not r:self.draw_lesson(s);return
         stage=r.state['stage'];d=r.answer;t=r.task
         subtitle='Einführung · ohne Bewertung' if stage=='intro' else 'Runde beendet · Pflichtschritte bleiben unverändert' if stage=='complete' else f'Das üben wir noch einmal · {r.state["review_index"]+1}/{len(r.state["review"])}' if stage=='review' else f'Zusatzrunde · Aufgabe {r.state["index"]+1}/{len(r.state["queue"])}'
         self.heading(s,'Abwechslungsreich üben',self.lesson['title']+' · '+subtitle)
-        x=294;y=191;w=min(720,(self.W-x-38)*.69);rx=x+w+18;vh=self.H-y-83
+        x=294;y=191;show_teacher=stage in ('main','review') and (t['family'] in ('echo','recall') or d['help_open'])
+        w=min(720,(self.W-x-38)*.65) if show_teacher else self.W-x-38;rx=x+w+18;vh=self.H-y-83
+        pinned_speech=stage in ('main','review') and t['family'] in ('echo','recall')
+        if pinned_speech:
+            used=self.draw_exercise_speech(s,x,y,w,t,d);y+=used;vh=max(55,self.H-y-83)
         p=self.make_pane(w,16000);o=-self.scroll
         if stage=='intro':
             o=self.text_block(p,o,w,'Erst verstehen, dann ausprobieren','Hier lernst du die benötigten Ausdrücke und Unterschiede vor den neuen Aufgaben. Du kannst anschließend jederzeit Erklären öffnen. Diese Zusatzrunde setzt keine Pflichtschritte auf bestanden.')
@@ -145,12 +171,12 @@ class ExerciseMixin:
         elif stage=='complete':
             counts={}
             for event in r.state['outcomes']:counts[event['result']]=counts.get(event['result'],0)+1
-            labels={'independent':'selbstständig im ersten Versuch','hint':'mit Hinweis','solution':'nach angezeigter Erklärung','corrected':'nach Korrektur','wrong':'noch nicht passend','technical':'technischer Hinweis','unverified':'nicht sicher prüfbar','paused':'pausiert'}
+            labels={'independent':'selbstständig im ersten Versuch','hint':'mit Hinweis','solution':'nach angezeigter Erklärung','corrected':'nach Korrektur','wrong':'noch nicht passend','technical':'technischer Hinweis','unverified':'nicht sicher prüfbar','paused':'pausiert','selection':'mit Auswahlhilfe geschafft'}
             o=self.text_block(p,o,w,'Deine Übungsrunde','\n'.join(f'{labels.get(k,k)}: {v}' for k,v in counts.items()) or 'Keine bewerteten Versuche.')
             o=self.text_block(p,o,w,'In deinem Tempo','Fehler sind in der vorhandenen Wiederholungsplanung vorgemerkt. Es wurden keine zusätzlichen XP vergeben und keine Pflichtschritte ersetzt.')
         else:
-            o=self.text_block(p,o,w,FAMILIES[t['family']],t['prompt'])
-            if t['family']=='echo':
+            o=self.text_block(p,o,w,FAMILIES[t['family']],INSTRUCTIONS[t['family']]+'\n\n'+t['prompt'])
+            if t['family']=='echo' and not pinned_speech:
                 c=self.exercise_card(t['card'])
                 h=110+len(p.wrap(c['jp'],w-70,26,True,True))*35+len(p.wrap(c['de'],w-70,15))*22+len(p.wrap(c.get('approx',''),w-70,14))*20
                 p.panel((2,o+2,w-12,h),'dark',16);q=o+18
@@ -160,7 +186,7 @@ class ExerciseMixin:
                 p.paragraph(23,q,'Aussprachehilfe · Näherung: '+c.get('approx',''),w-60,14,MUTED,lineheight=20);o+=h+14
             if t['family']=='read':o=self.text_block(p,o,w,'Japanischer Ausgangstext',t['text'])
             if t['family'] in ('hear_gap','choice_gap'):o=self.text_block(p,o,w,'Satz mit Lücke',t['frame'])
-            if t['family'] in ('echo','hear_gap','read') or (t['family']=='recall' and d['help']==2):
+            if not pinned_speech and (t['family'] in ('echo','hear_gap','read') or (t['family']=='recall' and d['help']==2)):
                 o=self.exercise_button(p,o,w,'ex-audio','Normal anhören'+(' · Lesehilfe' if t['family']=='read' else ''),self.exercise_audio,enabled=not self.job and not self.recording)
                 o=self.exercise_button(p,o,w,'ex-slow','Langsam anhören',lambda:self.exercise_audio(slow=True),enabled=not self.job and not self.recording)
             if t['family']=='pairs':
@@ -187,12 +213,13 @@ class ExerciseMixin:
                 else:o=self.text_block(p,o,w,'Deine Reihenfolge',' · '.join(by.get(i,'') for i in d['tokens']) or 'Tippe Bausteine an. Erneutes Antippen entfernt sie.')
                 for token in order(t['tokens'],t['id']):o=self.exercise_button(p,o,w,'ex-token-'+token['id'],token['text'],lambda i=token['id']:self.exercise_token(i),enabled=not d['success'])
                 o=self.exercise_button(p,o,w,'ex-reset','Zurücksetzen',lambda:self.exercise_set('tokens' if t['family']=='translate' else 'slots',[] if t['family']=='translate' else {}),enabled=not d['success'])
-            if t['family'] in ('echo','recall'):
+            if t['family'] in ('echo','recall') and not pinned_speech:
                 o=self.exercise_button(p,o,w,'ex-record','■ Aufnahme beenden' if self.recording else 'Jetzt sprechen',self.exercise_record,'red',not self.job and not d['success'])
                 if self.last_audio is not None:o=self.exercise_button(p,o,w,'ex-own','Eigene Aufnahme anhören',self.play_recording,enabled=not self.job and not self.recording)
                 o=self.text_block(p,o,w,'Lokale Aufnahme',self.job or ('Aufnahme läuft · maximal 15 Sekunden' if self.recording else 'Textvergleich, keine Aussprache- oder Tonhöhennote. Kurze Wörter können unsicher erkannt werden.'))
                 if d['transcript']:o=self.text_block(p,o,w,'Erkannter Text',d['transcript'])
-            else:o=self.exercise_button(p,o,w,'ex-check','Prüfen',self.exercise_check,'blue',not d['success'] and not self.job)
+            elif not pinned_speech:o=self.exercise_button(p,o,w,'ex-check','Prüfen',self.exercise_check,'blue',not d['success'] and not self.job)
+            if pinned_speech and d['transcript']:o=self.text_block(p,o,w,'Erkannter Text',d['transcript'])
             if d['help_open']:
                 o=self.text_block(p,o,w,'Hinweis ohne vollständige Lösung',t['hint'])
                 if d['help']<2:o=self.exercise_button(p,o,w,'ex-solution','Vollständig erklären · Lösung zeigen',lambda:self.exercise_help(2))
@@ -211,4 +238,8 @@ class ExerciseMixin:
         s.button('ex-back',(x,fy,125,43),'Pause / Zurück',self.exercise_return,size=12)
         if stage in ('main','review'):s.button('ex-help',(x+135,fy,125,43),'Hilfe schließen' if d['help_open'] else 'Erklären / Warum?',self.exercise_help,size=12)
         s.button('ex-next',(x+270,fy,w-283,43),'Einführung gelesen · üben' if stage=='intro' else 'Neue Runde' if stage=='complete' else 'Weiter →',self.exercise_next,'green',size=12,enabled=not self.job and not self.recording and (stage in ('intro','complete') or d['success']))
-        self.teacher_stage(s,(rx,179,self.W-rx-17,self.H-196),'Du darfst fragen und nachschauen. Deine Eingabe bleibt dabei erhalten.')
+        if show_teacher:
+            support=r.support if t['family'] in ('echo','recall') else None
+            if support and support.unlocked:s.button('speech-help',(rx,179,self.W-rx-25,44),'Auswahlhilfe schließen' if support.data['open'] else 'Antwort stattdessen auswählen',self.toggle_speech_help,'blue',size=12,enabled=not self.recording and not self.job)
+            if support and support.data['open']:self.draw_speech_help(s,(rx,232,self.W-rx-25,self.H-249))
+            else:self.teacher_stage(s,(rx,232 if support and support.unlocked else 179,self.W-rx-17,self.H-(249 if support and support.unlocked else 196)),'Du darfst fragen und nachschauen. Deine Eingabe bleibt dabei erhalten.')

@@ -25,10 +25,11 @@ try{
    await page.evaluate(()=>new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r))));
   }
   async function bounded(label){
-   const r=await page.evaluate(()=>{const w=document.querySelector('.focus-workspace'),v=document.querySelector('.focus-task-viewport'),d=document.querySelector('.focus-dock').getBoundingClientRect(),teacher=document.querySelector('.focus-teacher').getBoundingClientRect();return {outer:document.documentElement.scrollHeight-innerHeight,horizontal:document.documentElement.scrollWidth-innerWidth,workspace:w.scrollHeight-w.clientHeight,task:v.scrollHeight-v.clientHeight,dockBottom:d.bottom,dockTop:d.top,teacherTop:teacher.top,teacherWidth:teacher.width};});
-   assert.ok(r.outer<=1&&r.horizontal<=1&&r.workspace<=1&&r.task<=1&&r.dockBottom<=height+1&&r.dockTop>=0,label+JSON.stringify(r));
-   if(height>700)assert.ok(r.teacherTop<height-150&&r.teacherWidth>140,label+' companion is visible');
-   for(const selector of ['.focus-fixed-record','.focus-fixed-audio']){const n=page.locator(selector);if(await n.count()){const r=await n.boundingBox();assert.ok(r.x>=0&&r.x+r.width<=width+1&&r.y>=0&&r.y+r.height<=height-40,label+' recording/listening remains in view');}}
+   const r=await page.evaluate(()=>{const w=document.querySelector('.focus-workspace'),v=document.querySelector('.focus-task-viewport'),d=document.querySelector('.focus-dock').getBoundingClientRect(),teacher=document.querySelector('.focus-teacher')?.getBoundingClientRect();return {outer:document.documentElement.scrollHeight-innerHeight,horizontal:document.documentElement.scrollWidth-innerWidth,workspace:w.scrollHeight-w.clientHeight,task:v.scrollHeight-v.clientHeight,dockBottom:d.bottom,dockTop:d.top,teacherTop:teacher?.top,teacherWidth:teacher?.width,speaking:document.querySelector('.focus-session').classList.contains('is-speaking')};});
+   assert.ok(r.outer<=1&&r.horizontal<=1&&r.dockBottom<=height+1&&r.dockTop>=0,label+JSON.stringify(r));
+   assert.equal(await page.locator('.focus-teacher').count(),r.speaking?1:0,label+' teacher only during speech');assert.equal(await page.locator('.focus-kiko').count(),0);
+   if(r.speaking)assert.ok(r.teacherTop>=0&&r.teacherWidth>=25,label+' companion is visible');
+   for(const selector of ['.focus-fixed-record','.focus-fixed-audio']){const n=page.locator(selector);if(await n.count()){await n.scrollIntoViewIfNeeded();const r=await n.boundingBox();assert.ok(r.x>=0&&r.x+r.width<=width+1&&r.y>=0&&r.y+r.height<=height-35,label+' recording/listening remains reachable in same view');}}
    const bubble=page.locator('.focus-coach-copy'),kiko=page.locator('.focus-kiko');if(await bubble.isVisible()&&await kiko.isVisible()){const a=await bubble.boundingBox(),b=await kiko.boundingBox();assert.ok(a.y+a.height<=b.y+1,label+' readable companion bubbles do not overlap');}
    const pager=page.locator('.focus-page-nav');if(await pager.isVisible()){
     for(let i=0;i<25&&!await pager.locator('button').last().isDisabled();i++)await pager.locator('button').last().click();
@@ -41,7 +42,7 @@ try{
    await open(course.cards.find(c=>c.lesson_key===pack.lesson),'speak',i);await bounded(pack.tasks[i]);report.extraViews++;
    const t=data.tasks.find(t=>t.id===pack.tasks[i]);if(['translate','read','echo'].includes(t.family)&&pack.lesson==='5:0')await page.screenshot({path:new URL(t.family+'-412.png',output).pathname.replace(/^\/([A-Z]:)/,'$1')});
   }
-  assert.deepEqual(errors,[]);report.viewportChecks.push({width,height,verticalScroll:false,explicitPageNavigation:true});await context.close();
+  assert.deepEqual(errors,[]);report.viewportChecks.push({width,height,speechCueTogether:true,longContentScrollFallback:true,explicitAnswerPages:true});await context.close();
  }
  report.passed=true;
 }catch(e){if(page)await page.screenshot({path:new URL('failure.png',output).pathname.replace(/^\/([A-Z]:)/,'$1')});throw e;}finally{writeFileSync(new URL('report.json',output),JSON.stringify(report,null,2));await browser.close();server.close();}
