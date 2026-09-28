@@ -44,6 +44,8 @@ Erklärungen haben sichtbare Seitentasten. Über **Testversion suchen** erreichb
 Die Kurzlaut-Aufbereitung aus 11.0.8 bleibt erhalten; automatische Erkennung einzelner
 Laute bleibt unsicher. [Prüfbericht](TESTBERICHT_ANDROID_11.0.9.md) und
 [S24-Ultra-Prüfliste](GERAETEPRUEFUNG_ANDROID_11.0.9.md) trennen Software- und Menschentests.
+Die [öffentliche Nachkontrolle](VEROEFFENTLICHUNG_ANDROID_11.0.9_TEST.md) bestätigt
+Downloads, Prüfsummen, Signatur und Trennung vom stabilen Kanal.
 Windows-Testversion bleibt 11.0.7; stabil bleibt 11.0.4.
 
 ## Lernen und Datenschutz
