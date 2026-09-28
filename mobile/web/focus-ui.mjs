@@ -33,7 +33,7 @@ export function focusLesson({page,session,round,teacher,store,esc}) {
   back.textContent='×';back.setAttribute('aria-label','Übung pausieren und zurück');
   bar.append(back);bar.insertAdjacentHTML('beforeend',`<progress max="${total}" value="${stage==='complete'?total:stage==='intro'?0:current}" aria-label="${isExtra?'Zusatzaufgabe':'Lernschritt'} ${current} von ${total}"></progress><span>${stage==='intro'?'Start':`${current} / ${total}`}</span>`);header.append(bar);
   const context=document.createElement('div');context.className='focus-lesson-title';
-  context.innerHTML=`<span>${esc(title)}</span><span class="focus-partner"><img src="assets/teachers/${teacher.id}/avatar.png" alt=""><span>${esc(teacher.name)}<small>begleitet dich</small></span></span>`;header.append(context);
+  context.innerHTML=`<span>${esc(title)}${!isExtra?`<small class="focus-card-count">Karte ${session.index+1} von ${session.lesson.cards.length}${recap?' · Abschlussrunde':''}</small>`:''}</span><span class="focus-partner"><img src="assets/teachers/${teacher.id}/avatar.png" alt=""><span>${esc(teacher.name)}<small>begleitet dich</small></span></span>`;header.append(context);
   const workspace=document.createElement('div');workspace.className='focus-workspace';workspace.setAttribute('aria-label','Aktuelle Aufgabe');
   for(const node of [...root.children])if(node!==header)workspace.append(node);
   root.append(workspace);
