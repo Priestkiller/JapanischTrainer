@@ -15,3 +15,7 @@ Jeder Programmstand erhält eine neue, höhere Versionsnummer beziehungsweise ei
 Die Suche berücksichtigt die 30 zuletzt gelisteten Veröffentlichungen. Ohne neuere passende Testausgabe erscheint „Keine neuere Testversion verfügbar“. Netzwerkfehler werden separat angezeigt. Vor jedem Kanalwechsel werden Angebot und Installationsbereitschaft zurückgesetzt.
 
 Die gleiche Android-Signatur und die Windows-Update-Signatur erhalten; niemals neue Herausgeberschlüssel für Folgeversionen erzeugen. Keine privaten Lernstände, Aufnahmen, Zugangsdaten oder Schlüssel in Releases aufnehmen.
+
+## Testversion 11 0 10
+
+Windows 11.0.10 und Android 11.0.10-android.1-test (11001001) ergänzen die ausdrücklich aufrufbare Auswahlhilfe nach drei erfolglosen Aufnahmen und verständliche Aufgabenansichten. Lernstände und vorhandene Signierschlüssel bleiben erhalten. [Prüfbericht](TESTBERICHT_11.0.10.md) und [Geräteprüfliste](GERAETEPRUEFUNG_11.0.10.md) unterscheiden Softwareprüfungen, synthetische Modelltests und offene menschliche Erprobung. Die frühere stabile 11.0.4 bleibt unverändert; eine Übernahme in den stabilen Kanal braucht eine neue Freigabe.

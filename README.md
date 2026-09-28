@@ -35,18 +35,17 @@ Der Update-Button erhält Lernstände und Sprachpaket. Details:
 [Android-Anleitung](mobile/INSTALLIEREN_ANDROID.md) und
 [Android-Technik und Build](mobile/README.md).
 
-### Neue Android Testansicht
+### Neue Testversion für Windows und Android
 
-[Android 11.0.9 Testversion](https://github.com/Priestkiller/JapanischTrainer/releases/tag/android-test-v11.0.9-1):
-Japan-Nachtszene, leuchtende Lernkarten, sichtbare Lehrkraft und Kiko sowie feste
-Hauptaktionen. Normales Üben benötigt kein vertikales Scrollen; lange Aufgaben und
-Erklärungen haben sichtbare Seitentasten. Über **Testversion suchen** erreichbar.
-Die Kurzlaut-Aufbereitung aus 11.0.8 bleibt erhalten; automatische Erkennung einzelner
-Laute bleibt unsicher. [Prüfbericht](TESTBERICHT_ANDROID_11.0.9.md) und
-[S24-Ultra-Prüfliste](GERAETEPRUEFUNG_ANDROID_11.0.9.md) trennen Software- und Menschentests.
-Die [öffentliche Nachkontrolle](VEROEFFENTLICHUNG_ANDROID_11.0.9_TEST.md) bestätigt
-Downloads, Prüfsummen, Signatur und Trennung vom stabilen Kanal.
-Windows-Testversion bleibt 11.0.7; stabil bleibt 11.0.4.
+[Windows 11.0.10](https://github.com/Priestkiller/JapanischTrainer/releases/tag/windows-test-v11.0.10)
+und [Android 11.0.10](https://github.com/Priestkiller/JapanischTrainer/releases/tag/android-test-v11.0.10-1):
+vollständige Nachsprechvorlage, verständliche Aufgaben und Auswahlhilfe nach drei
+erfolglosen Aufnahmeversuchen. Unterstützter Fortschritt wird getrennt gespeichert;
+Sprechen kann später freiwillig wiederholt werden. Lehrer begleiten Sprechaufgaben,
+Kiko den echten Abschluss. Lange Inhalte und große Schrift bleiben erreichbar.
+Über **Testversion suchen** verfügbar; stabil bleibt 11.0.4.
+[Prüfbericht](TESTBERICHT_11.0.10.md), [Geräteprüfung](GERAETEPRUEFUNG_11.0.10.md).
+Echte S24-Ultra-, Mikrofon-, Hör- und Anfängerprüfung bleiben offen.
 
 ## Lernen und Datenschutz
 
