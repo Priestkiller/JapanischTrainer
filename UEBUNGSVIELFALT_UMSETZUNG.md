@@ -14,7 +14,7 @@ Einstieg direkt in geeigneten Lektionen über „Abwechslungsreich üben“. Die
 
 Berührte Module: `study.py`, `lesson_ui.py`, `app.py`, die mobilen Lern-/UI-Adapter und Ressourcenexport; ergänzende gemeinsam beschriebene Aufgaben, Tests und Build-Manifeste. Bestehende Audioengines, Figuren, Modelle, Gesprächswege und Update-Vertrauensschlüssel bleiben erhalten. Der öffentliche Stand wurde abgefragt: nächste Testausgabe Windows 11.0.7 und Android 11.0.7-android.1-test, Code 11000701. Stabil bleibt 11.0.4.
 
-Dies ist die verlangte erste Übersicht, kein Abschlussnachweis. Implementierung, konkrete Aufgabenkennungen, ausgeführte Prüfungen, offene Punkte und Veröffentlichung werden während der Arbeit ergänzt.
+Der erste Abschnitt wurde vor der Implementierung als verlangte Übersicht angelegt. Die folgenden Abschnitte dokumentieren die tatsächlich umgesetzten Komponenten; ausgeführte Prüfungen und Grenzen stehen im TESTBERICHT_UEBUNGSVIELFALT.md.
 
 ## Produktive Umsetzung
 

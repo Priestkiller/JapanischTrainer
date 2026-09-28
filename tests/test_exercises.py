@@ -73,7 +73,16 @@ class ExerciseTests(unittest.TestCase):
     def test_restore_preserves_identity_inputs_help_and_results(self):
         r=self.new('5:0');r.start();r.state['index']=5;r.set('text','mi');r.help(1)
         state=copy.deepcopy(r.state);loaded=self.new('5:0');self.assertEqual(loaded.state,state)
-        exported=json.dumps(self.store.data);self.store.data=json.loads(exported);self.assertEqual(self.new('5:0').state,state)
+        # Use the actual Windows export/import handlers and a fresh disk load.
+        from app import TrainerApp
+        from types import SimpleNamespace
+        file=Path(self.tmp.name)/'export.json'
+        app=SimpleNamespace(root=None,store=self.store,notify=lambda *_:None,request_draw=lambda:None)
+        with patch('app.filedialog.asksaveasfilename',return_value=str(file)):TrainerApp.export_progress(app)
+        self.store.data['lesson_sessions']={};self.store.save()
+        with patch('app.filedialog.askopenfilename',return_value=str(file)),patch('app.messagebox.askyesno',return_value=True),patch('app.messagebox.showerror',side_effect=AssertionError('Import failed')):TrainerApp.import_progress(app)
+        self.store=ProgressStore();self.learning=Learning(ROOT,self.store)
+        self.assertEqual(self.new('5:0').state,state);self.assertTrue((Path(self.tmp.name)/'progress.before-import.json').exists())
         self.assertEqual(self.store.data['xp'],0)
     def test_audio_gate_and_technical_failures_never_pass(self):
         r=self.new('5:0');r.start();self.assertFalse(r.check(r.task['audio']));r.technical('Permission denied');self.assertFalse(r.advance());self.assertNotIn(r.task['card'],self.store.data['review'])
