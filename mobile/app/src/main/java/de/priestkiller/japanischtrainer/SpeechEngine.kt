@@ -141,7 +141,7 @@ class SpeechEngine(private val models: ModelStore, private val event: (String, M
                         if(rms>.0015) { lastSound=count;soundFrames++ }
                         event("speechLevel",mapOf("request" to request,"level" to minOf(1.0,rms*15),"seconds" to count/16000.0))
                         // Kana need only a short utterance. Leave a generous tail; manual stop remains.
-                        if(shortKana && soundFrames>=2 && count-lastSound>=16000 && count>=16000)recording=false
+                        if(shortKana && soundFrames>=1 && count-lastSound>=16000 && count>=16000)recording=false
                     }
                 } finally { runCatching { mic.stop() }; mic.release(); recorder=null; recording=false }
                 if(cancelRecording||destroyed||capture!=captureGeneration.get())return@Thread
