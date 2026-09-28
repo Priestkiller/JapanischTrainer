@@ -1,6 +1,6 @@
 # Prüfbericht Übungsvielfalt 11 0 7 Test
 
-Stand 28. September 2026. Testveröffentlichung ausdrücklich freigegeben. Builds und die nachfolgenden Software-/Paketprüfungen sind abgeschlossen. Die öffentliche Nachkontrolle wird nach Upload separat in VEROEFFENTLICHUNG_11.0.7_TEST.md dokumentiert.
+Stand 28. September 2026. Testveröffentlichung ausdrücklich freigegeben. Builds und die nachfolgenden Software-/Paketprüfungen sind abgeschlossen. Die nach Upload bestandene öffentliche Prüfung aller 28 Dateien und der getrennten Updatekanäle ist separat in [VEROEFFENTLICHUNG_11.0.7_TEST.md](VEROEFFENTLICHUNG_11.0.7_TEST.md) dokumentiert. Die unveränderten Downloadpakete enthalten die vor Veröffentlichung abgeschlossene Fassung dieses technischen Berichts.
 
 ## Bisher tatsächlich ausgeführt
 
