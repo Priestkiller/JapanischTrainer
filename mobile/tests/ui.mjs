@@ -36,7 +36,7 @@ try {
    assert.deepEqual(tiny,[],`${label}: touch targets too small`);
   }
   await noOverflow('home');
-  await page.locator('#hero-resume').click();await page.locator('#record').waitFor();await noOverflow('lesson');
+  await page.locator('#hero-resume').click();await page.locator('.focus-sheet-close').click();await page.locator('#record').waitFor();await noOverflow('lesson');
   assert.equal(await page.locator('#step-count').textContent(),'Schritt 1/6');
   assert.ok((await page.locator('.lesson-goal').innerText()).includes('Vokale'));
   assert.equal(await page.locator('.lesson-guide[open]').count(),1);
@@ -65,7 +65,7 @@ try {
   await page.locator('#show-hint').click();assert.equal(await page.locator('.exercise-hint').count(),1);
   assert.equal(await page.locator('#advance').isDisabled(),true,'Opening a hint does not solve the task');
   assert.equal(await page.evaluate(()=>JSON.parse(localStorage.getItem('jt-test-profile')).study_cards['0:0:0'].hints),1);
-  await noOverflow('exercise-hint');await page.locator('#show-hint').click();
+  await noOverflow('exercise-hint');await page.locator('.focus-sheet-close').click();
   assert.equal(await page.locator('.exercise-hint').count(),0);
   await page.evaluate(()=>{const old=window.testCalls.filter(c=>c.type==='speech').at(-1);window.JTNative('speechResult',{request:old.request,text:'あ'});});
   assert.equal(await page.locator('#advance').isDisabled(),true,'Late speech result cannot solve the next exercise');

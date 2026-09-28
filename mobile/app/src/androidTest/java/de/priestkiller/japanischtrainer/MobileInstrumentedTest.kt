@@ -89,7 +89,8 @@ class MobileInstrumentedTest {
             screenshot(scenario,"android-home")
             eval(scenario,"document.querySelector('#hero-resume').click()")
             waitFor(scenario,"!!document.querySelector('#record')")
-            assertEquals("true",eval(scenario,"document.body.innerText.includes('Aussprachehilfe:')"))
+            eval(scenario,"document.querySelector('.focus-sheet-close')?.click()")
+            assertEquals("true",eval(scenario,"document.body.innerText.includes('Aussprachehilfe')"))
             screenshot(scenario,"android-lesson")
             assertEquals("true",eval(scenario,"document.querySelector('#step-count').textContent === 'Schritt 1/6' && document.querySelector('#advance').disabled"))
             eval(scenario,"document.querySelector('#advance').click()")
@@ -356,6 +357,20 @@ class MobileInstrumentedTest {
                 (activity.getSystemService(android.content.Context.INPUT_METHOD_SERVICE) as android.view.inputmethod.InputMethodManager).hideSoftInputFromWindow(activity.web.windowToken,0)
                 activity.web.settings.textZoom=100
             }
+        }
+    }
+    @Test fun lessonStageAndPagedGuideDoNotRequireVerticalScrolling() {
+        ActivityScenario.launch(MainActivity::class.java).use { scenario ->
+            waitFor(scenario,"document.documentElement.dataset.ready === 'true'")
+            eval(scenario,"document.querySelector('#hero-resume').click()")
+            waitFor(scenario,"!!document.querySelector('.focus-sheet:not([hidden])')")
+            assertEquals("true",eval(scenario,"document.querySelector('.focus-sheet-reading').scrollHeight<=document.querySelector('.focus-sheet-reading').clientHeight+1"))
+            eval(scenario,"JTBack()")
+            waitFor(scenario,"document.querySelector('.focus-sheet').hidden")
+            assertEquals("true",eval(scenario,"document.querySelector('#advance').disabled && JSON.parse(AndroidTrainer.getProfile()).xp===0"))
+            assertEquals("true",eval(scenario,"(()=>{const w=document.querySelector('.focus-workspace');return w.scrollHeight<=w.clientHeight+1 && document.documentElement.scrollHeight<=innerHeight+1})()"))
+            assertEquals("true",eval(scenario,"(()=>{const t=document.querySelector('.focus-teacher').getBoundingClientRect(),w=document.querySelector('.focus-workspace').getBoundingClientRect();return t.top>=w.top && t.top<innerHeight-100 && t.width>100})()"))
+            screenshot(scenario,"android-stage-without-scroll")
         }
     }
     @Test fun recordingReplayRejectsWrongIdentityAndClearsOnCancel() {

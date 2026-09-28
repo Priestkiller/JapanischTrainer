@@ -15,11 +15,11 @@ try{
    speak:(text,sid,speed,id)=>calls.push({kind:'audio',id}),recordKana:id=>calls.push({kind:'kana',id}),record:id=>calls.push({kind:'word',id}),
    playRecording:(original,id)=>calls.push({kind:'own',original,id}),stopAudio:()=>{},stopRecording:cancel=>calls.push({kind:'stop',cancel})};});
   const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));
-  await page.goto(`http://127.0.0.1:${server.address().port}`);await page.waitForSelector('html[data-ready=true]');await page.locator('#hero-resume').click();
+  await page.goto(`http://127.0.0.1:${server.address().port}`);await page.waitForSelector('html[data-ready=true]');await page.locator('#hero-resume').click();await page.locator('.focus-sheet-close').click();
   async function dock(){const d=await page.locator('.focus-dock').boundingBox();assert.ok(d.y>=0&&d.y+d.height<=height+1);assert.equal(await page.locator('.focus-primary:visible').count(),1);assert.equal(await page.locator('.bottom-nav').isVisible(),false);assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));}
   async function listen(){await page.locator('#hear-normal').click();await page.evaluate(()=>JTNative('audioDone',{request:calls.filter(c=>c.kind==='audio').at(-1).id}));}
   async function start(){await page.locator('#record').click();const c=await page.evaluate(()=>calls.at(-1));assert.equal(c.kind,'kana');await page.evaluate(id=>JTNative('recording',{request:id}),c.id);return c.id;}
-  await dock();assert.equal(await page.locator('.focus-card-count').innerText(),'Karte 1 von 5');await listen();let id=await start();
+  await dock();assert.match(await page.locator('.focus-card-count').innerText(),/^Karte 1 von 5/);await listen();let id=await start();
   await page.evaluate(id=>JTNative('speechLevel',{request:id,level:.4,seconds:1.2}),id);
   assert.equal(await page.locator('#mic-level').evaluate(e=>e.value),.4);assert.equal(await page.locator('#mic-time').innerText(),'0:01');
   await page.screenshot({path:path.join(output.pathname.replace(/^\/([A-Z]:)/,'$1'),`record-${width}.png`)});

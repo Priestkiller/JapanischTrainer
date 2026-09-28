@@ -1,14 +1,14 @@
 import {Store,Course,Session,PHASES,LABELS,cleanProfile,compact,shuffle,reviewCard,isShortKana} from './core.mjs';
 import {createTalkUI} from './talk-ui.mjs';
 import {createExerciseUI} from './exercise-ui.mjs';
-import {focusLesson} from './focus-ui.mjs';
+import {focusLesson,closeFocusSheet} from './focus-ui.mjs';
 import {applyKanaRecognition} from './kana-recognition.mjs';
 
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const bridge=window.AndroidTrainer;
 const state={page:'home',session:null,query:'',stage:'Alle',libraryQuery:'',review:null,revealed:false,teacherDetail:null,
-  caps:{native:!!bridge,models:false,modelBytes:0,version:'11.0.8-android.1-test'},audio:null,speech:null,speechMessage:'',recording:'idle',
+  caps:{native:!!bridge,models:false,modelBytes:0,version:'11.0.9-android.1-test'},audio:null,speech:null,speechMessage:'',recording:'idle',
   modelStatus:'',modelPercent:0,modelBusy:false,updateStatus:'',updateAvailable:false,updateBusy:false,updateTest:false,licenseText:'',completeLesson:null};
 let course,store,catalog,talkUI,exerciseUI,blinkIndex,expressions,animationStop=()=>{},toastTimer,requestCounter=0,saveError='';
 const native=(name,...args)=> { if(bridge&&typeof bridge[name]==='function')return bridge[name](...args);return undefined; };
@@ -101,10 +101,10 @@ function task() {
 function options(s) {return `<div class="options">${s.answers().options.map((o,i)=>`<button class="option ${s.chosen===o?(s.success?'correct':'wrong'):''}" data-choice="${i}" ${s.success?'disabled':''}>${esc(o)}</button>`).join('')}</div>`;}
 function feedback(s) {return s.feedback?`<div class="feedback ${s.success?'correct':'wrong'}">${s.success?'✓ ':''}${esc(s.feedback)}</div>`:'';}
 function decorateLesson(){focusLesson({page:state.page,session:state.session,teacher:course.teacher(),store,esc});}
-function refreshTask() {const scroll=$('.focus-workspace')?.scrollTop??0;$('#task').innerHTML=task();decorateLesson();bindTask();bindNavigation();refreshAudio();if($('.focus-workspace'))$('.focus-workspace').scrollTop=scroll;}
+function refreshTask() {$('#app').innerHTML=lesson();decorateLesson();bindTask();bindNavigation();refreshAudio();}
 function bindTask() {
   const s=state.session;
-  if($('#show-hint'))$('#show-hint').onclick=()=>{s.hintOpen=!s.hintOpen;if(s.hintOpen){const m=s.metrics();m.hints=(Number.isInteger(m.hints)?m.hints:0)+1;s.snapshot();}refreshTask();};
+  if($('#show-hint'))$('#show-hint').onclick=()=>{s.hintOpen=!s.hintOpen;if(s.hintOpen){const m=s.metrics();m.hints=(Number.isInteger(m.hints)?m.hints:0)+1;}s.snapshot();refreshTask();};
   $$('[data-choice]').forEach(b=>b.onclick=()=>{s.choose(s.answers().options[Number(b.dataset.choice)]);refreshTask();});
   $$('[data-token]').forEach(b=>b.onclick=()=>{s.tokens.push(Number(b.dataset.token));s.snapshot();refreshTask();});
   $$('[data-remove-token]').forEach(b=>b.onclick=()=>{if(!s.success){s.tokens.splice(Number(b.dataset.removeToken),1);s.snapshot();refreshTask();}});
@@ -297,7 +297,7 @@ window.JTNative=(type,data={})=> {
     refreshAudio();
   }
 };
-window.JTBack=()=> {if(state.page==='home')native('closeApp');else navigate(state.page==='exercises'?'lesson':state.page==='lesson'?'course':state.page==='conversation'?'talk':state.page==='talk'?'review':state.page==='licenses'?'settings':'home');};
+window.JTBack=()=> {if(closeFocusSheet())return;if(state.page==='home')native('closeApp');else navigate(state.page==='exercises'?'lesson':state.page==='lesson'?'course':state.page==='conversation'?'talk':state.page==='talk'?'review':state.page==='licenses'?'settings':'home');};
 async function animateTeacher() {
   const canvas=$('#teacher-canvas');if(!canvas)return;
   const t=course.teacher(),ctx=canvas.getContext('2d');let alive=true,raf=0;
