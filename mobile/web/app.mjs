@@ -291,7 +291,7 @@ window.JTNative=(type,data={})=> {
     if(type==='speechLevel'){state.micLevel=data.level;state.micSeconds=data.seconds;}
     if(type==='recording'){state.recording='recording';state.speechMessage='Sprich jetzt. Nach spätestens 15 Sekunden endet die Aufnahme.';}
     if(type==='recognizing'){state.recording='recognizing';state.speechMessage='Dein Handy wertet die Aufnahme lokal aus …';}
-    if(type==='speechError'){state.recording='idle';state.speechMessage=data.message;state.speech.support?.finish(data.request,'technical');state.speech=null;if(state.page==='lesson')refreshTask();else if(state.page==='conversation')render();}
+    if(type==='speechError'){state.recording='idle';state.speechMessage=data.message;state.speech.support?.finish(data.request,'technical');state.speech=null;if(state.page==='lesson'){state.session.feedback=state.session.support.data.feedback;state.session.snapshot();refreshTask();}else if(state.page==='conversation')render();}
     if(type==='speechResult') {
       state.recording='idle';const s=state.session;
       if(state.speech.kind==='talk')talkUI?.recognized(data.text,state.speech.context);
@@ -301,8 +301,9 @@ window.JTNative=(type,data={})=> {
         const heard=data.text??'';
         if(!applyKanaRecognition(s,heard,data.audioQualified===true&&data.shortKana===true)&&heard.trim()&&!(data.shortKana===true&&data.audioQualified!==true))s.checkSpeech(heard);
         state.speech.support?.finish(data.request,s.success?'accepted':!heard.trim()||data.shortKana&&!data.audioQualified?'unreliable':'mismatch');
+        if(!s.success&&s.support.data.reason==='unreliable'){s.feedback=s.support.data.feedback;s.snapshot();}
         s.support.data.transcript=heard;s.support.save();
-        state.speechMessage=data.text?`Erkannt: „${data.text}“`:'Der kurze Laut konnte nicht sicher verschriftlicht werden.';
+        state.speechMessage=data.text?`Erkannt: „${data.text}“`:'Die Aufnahme konnte nicht sicher verschriftlicht werden.';
         refreshTask();
       }
       state.speech=null;
