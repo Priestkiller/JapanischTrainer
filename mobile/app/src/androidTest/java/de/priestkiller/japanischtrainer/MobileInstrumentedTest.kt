@@ -347,6 +347,7 @@ class MobileInstrumentedTest {
             }
             assertTrue("The real Android keyboard must be open for this test",keyboard)
             Thread.sleep(1000)
+            assertEquals("true",eval(scenario,"(()=>{const i=document.querySelector('#ex-input').getBoundingClientRect(),w=document.querySelector('.focus-workspace').getBoundingClientRect();return i.top>=w.top-1&&i.bottom<=w.bottom+1})()"))
             assertEquals("true",eval(scenario,"document.documentElement.scrollWidth<=innerWidth && document.querySelector('#ex-input').value==='mi'"))
             screenshot(scenario,"android-exercises-large-text-keyboard")
             eval(scenario,"document.querySelector('#ex-check').scrollIntoView({block:'center'});document.querySelector('#ex-check').click()")

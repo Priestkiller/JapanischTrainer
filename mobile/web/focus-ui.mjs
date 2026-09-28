@@ -1,4 +1,14 @@
 /* Presentation only. Existing task buttons, events, session and grading stay in use. */
+let resizeTimer;
+function revealInput(){
+ clearTimeout(resizeTimer);resizeTimer=setTimeout(()=>{
+  const input=document.activeElement;
+  if(document.body.classList.contains('focus-mode')&&input?.matches('input,textarea'))input.scrollIntoView({block:'center',behavior:'instant'});
+ },180);
+}
+window.addEventListener('resize',revealInput);
+window.visualViewport?.addEventListener('resize',revealInput);
+document.addEventListener('focusin',revealInput);
 export function focusLesson({page,session,round,teacher,store,esc}) {
  const active=['lesson','exercises'].includes(page);
  document.body.classList.toggle('focus-mode',active);
