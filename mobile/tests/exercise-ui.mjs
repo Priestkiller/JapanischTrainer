@@ -20,7 +20,7 @@ try{
   async function open(key,taskIndex=null){
    const profile={xp:321,completed:['0:0'],teacher_id:'ren',course_revision:11,motion_enabled:false,legacy_unlocked:[key],last_lesson:{key,card:0},lesson_sessions:{[key]:{flow_revision:2,index:0,phase:'speak',passed:[],mode:'learn'}}};
    if(taskIndex!==null){const pack=data.packs.find(p=>p.lesson===key);profile.lesson_sessions['exercises:'+key]={revision:1,queue:pack.tasks,index:taskIndex,stage:'main',review:[],review_index:0,reviewed:[],outcomes:[],task:{}};}
-   await page.evaluate(p=>localStorage.setItem('ex-seed',JSON.stringify(p)),profile);await page.reload();await page.waitForSelector('html[data-ready=true]');await page.locator('#hero-resume').click();await page.locator('#exercise-round').click();await page.locator('#ex-next').waitFor();
+   await page.evaluate(p=>localStorage.setItem('ex-seed',JSON.stringify(p)),profile);await page.reload();await page.waitForSelector('html[data-ready=true]');await page.locator('#hero-resume').click();await page.locator('#exercise-round').click();await page.locator('#ex-next').waitFor({state:'attached'});
   }
   async function state(key){return page.evaluate(key=>JSON.parse(localStorage.getItem('ex-profile')).lesson_sessions['exercises:'+key],key);}
   async function bounded(){assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth)<=width+1,'horizontal overflow');}

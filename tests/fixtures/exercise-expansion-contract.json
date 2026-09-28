@@ -5,7 +5,7 @@
     "study.py": "79542d89aca0c0b94bd6cd6c6c4ff69ec7ff9f79c49dd04ad8b699daf52e85b0",
     "mobile/web/core.mjs": "460268182c77090d595a8bf3e6bf7e0d5d09485b4d6e43556ee3e20fb21a388e",
     "mobile/web/styles.css": "8e72e3201f57880beb3c95cda1b8db3547736e2c99b86881310c2df80e8e5330",
-    "mobile/app/src/main/java/de/priestkiller/japanischtrainer/SpeechEngine.kt": "85aa1264a2a01044a4642c1c4bb00d8862a16c3e1c7d023c3b23a693b3a47702"
+    "mobile/app/src/main/java/de/priestkiller/japanischtrainer/SpeechEngine.kt": "e71b5edf33e6352468b315eef838c4e5f113b100ff104a2695767d858b782ead"
   },
   "unchanged_python": {
     "PracticeBook.__init__": "91cee9c2f17ed4cc1b04595878836534d2bfbaafdc1f9a152f966427f877cc95",
@@ -32,5 +32,7 @@
   "styles_prefix": "f03f107371f02a702d55069dc2f38e5008b3fa0636e5c63d3330bfaca6fa1ac4",
   "native_model_functions": "32df1a22e3567855c7dd7d12b6c2b0e5d99b707945c1cdcd2b2d4e0ce79c1a1b",
   "native_diagnostic": "3c9bded4213120c37633f3ddd848994528ea9f7cb5ad953207732624a09c1a45",
-  "course_without_version_sha256": "3e7e9f9913b038f3fad320fd8420ddb9d2af029fa9175879c5b198dfe0e58128"
+  "course_without_version_sha256": "3e7e9f9913b038f3fad320fd8420ddb9d2af029fa9175879c5b198dfe0e58128",
+  "native_tts_function": "9d89e4abdefdd1954a06331c929370898bd6c2b88b6e61847c905c36b0fbb420",
+  "android_1108_previous_speech_engine": "85aa1264a2a01044a4642c1c4bb00d8862a16c3e1c7d023c3b23a693b3a47702"
 }

@@ -12,6 +12,9 @@ class SpeechEngine(private val models: ModelStore, private val event: (String, M
     private val worker = Executors.newSingleThreadExecutor()
     private var tts: OfflineTts? = null
     private var recognizer: OfflineRecognizer? = null
+    private var recognizerShort=false
+    private val captureGeneration=AtomicLong()
+    @Volatile private var captureBusy=false
     private val generation=AtomicLong()
     @Volatile private var playback: AudioTrack? = null
     @Volatile private var recording=false
@@ -34,18 +37,20 @@ class SpeechEngine(private val models: ModelStore, private val event: (String, M
         }
         return tts!!
     }
-    private fun asr(): OfflineRecognizer {
+    private fun asr(shortKana:Boolean=false): OfflineRecognizer {
         check(models.ready()) { "Das lokale Sprachpaket fehlt." }
+        if(recognizer!=null && recognizerShort!=shortKana) { recognizer?.release();recognizer=null }
         if(recognizer==null) {
             tts?.release(); tts=null
             recognizer=OfflineRecognizer(config=OfflineRecognizerConfig(modelConfig=OfflineModelConfig(
-                senseVoice=OfflineSenseVoiceModelConfig(model=models.path("sensevoice/model.int8.onnx"),language="ja",useInverseTextNormalization=true),
+                senseVoice=OfflineSenseVoiceModelConfig(model=models.path("sensevoice/model.int8.onnx"),language="ja",useInverseTextNormalization=!shortKana),
                 tokens=models.path("sensevoice/tokens.txt"),numThreads=2)))
+            recognizerShort=shortKana
         }
         return recognizer!!
     }
     fun speak(text:String, sid:Int, speed:Float, request:String) {
-        if(recording || decoding) { event("audioError",mapOf("request" to request,"message" to "Bitte die Aufnahme zuerst beenden.")); return }
+        if(recording || decoding || captureBusy) { event("audioError",mapOf("request" to request,"message" to "Bitte die Aufnahme zuerst beenden.")); return }
         stopPlayback()
         val id=generation.get()
         worker.execute {
@@ -78,7 +83,7 @@ class SpeechEngine(private val models: ModelStore, private val event: (String, M
     /** Only the latest explicitly identified recording, in RAM, can be replayed. */
     fun playRecording(original:String, request:String) {
         val own=ownRecording
-        if(recording || decoding || own==null || own.first!=original) {
+        if(recording || decoding || captureBusy || own==null || own.first!=original) {
             event("audioError",mapOf("request" to request,"message" to "Diese Aufnahme ist nicht mehr verfügbar.")); return
         }
         stopPlayback(); val id=generation.get(); val samples=own.second
@@ -105,17 +110,18 @@ class SpeechEngine(private val models: ModelStore, private val event: (String, M
         }
     }
     @Suppress("MissingPermission")
-    fun startRecording(request:String) {
+    @Synchronized fun startRecording(request:String,shortKana:Boolean=false) {
         if(destroyed)return
-        if(recording||decoding) {
+        if(recording||decoding||captureBusy) {
             event("speechError",mapOf("request" to request,"message" to "Die vorherige Aufnahme wird noch beendet. Bitte gleich erneut versuchen."))
             return
         }
         stopPlayback()
         if(!models.ready()) { event("speechError",mapOf("request" to request,"message" to "Bitte zuerst das Sprachpaket laden.")); return }
-        ownRecording=null; cancelRecording=false; recording=true
+        ownRecording=null; cancelRecording=false; recording=true;captureBusy=true
+        val capture=captureGeneration.incrementAndGet()
         Thread({
-            val chunks=ArrayList<FloatArray>(); var count=0; var peak=0f; var sum=0.0; var voiced=0
+            val chunks=ArrayList<FloatArray>(); var count=0;var lastSound=0;var soundFrames=0;var dispatched=false
             try {
                 val size=maxOf(4096,AudioRecord.getMinBufferSize(16000,AudioFormat.CHANNEL_IN_MONO,AudioFormat.ENCODING_PCM_16BIT))
                 val mic=AudioRecord(MediaRecorder.AudioSource.VOICE_RECOGNITION,16000,AudioFormat.CHANNEL_IN_MONO,AudioFormat.ENCODING_PCM_16BIT,size)
@@ -130,33 +136,49 @@ class SpeechEngine(private val models: ModelStore, private val event: (String, M
                         if(n<0) { if(!recording)break; error("Mikrofon wurde unterbrochen.") }
                         if(n==0)continue
                         val chunk=FloatArray(n) { buffer[it]/32768f }
-                        chunk.forEach { peak=maxOf(peak,abs(it)); sum+=it*it; if(abs(it)>.015f)voiced++ }
                         chunks.add(chunk); count+=n
+                        val rms=sqrt(chunk.sumOf { (it*it).toDouble() }/chunk.size)
+                        if(rms>.0015) { lastSound=count;soundFrames++ }
+                        event("speechLevel",mapOf("request" to request,"level" to minOf(1.0,rms*15),"seconds" to count/16000.0))
+                        // Kana need only a short utterance. Leave a generous tail; manual stop remains.
+                        if(shortKana && soundFrames>=2 && count-lastSound>=16000 && count>=16000)recording=false
                     }
                 } finally { runCatching { mic.stop() }; mic.release(); recorder=null; recording=false }
-                if(cancelRecording||destroyed)return@Thread
-                check(count>=6400 && peak>.012 && sqrt(sum/maxOf(1,count))>.002 && voiced>600) {
-                    "Zu wenig Sprache erkannt. Bitte etwas näher ans Mikrofon sprechen und erneut versuchen." }
+                if(cancelRecording||destroyed||capture!=captureGeneration.get())return@Thread
                 val samples=FloatArray(count); var pos=0
                 chunks.forEach { it.copyInto(samples,pos); pos+=it.size }
                 ownRecording=request to samples
                 decoding=true; event("recognizing",mapOf("request" to request))
                 worker.execute {
                     try {
-                        if(cancelRecording||destroyed)return@execute
-                        val engine=asr(); val stream=engine.createStream()
-                        val text=try { stream.acceptWaveform(samples,16000); engine.decode(stream); engine.getResult(stream).text.trim() } finally { stream.release() }
-                        if(!cancelRecording&&!destroyed) {
-                            check(text.isNotBlank()) { "Keine verständliche Sprache erkannt. Bitte erneut versuchen." }
-                            event("speechResult",mapOf("request" to request,"text" to text))
+                        if(cancelRecording||destroyed||capture!=captureGeneration.get())return@execute
+                        val prepared=SpeechInput.prepare(samples,shortKana)
+                        check(detectSpeech(prepared.samples,shortKana)) { "Keine sichere Stimme erkannt. Versuche es etwas näher am Mikrofon und ohne Hintergrundgeräusch." }
+                        val engine=asr(shortKana); val stream=engine.createStream()
+                        val text=try { stream.acceptWaveform(SpeechInput.padded(prepared.samples),16000); engine.decode(stream); engine.getResult(stream).text.trim() } finally { stream.release() }
+                        if(!cancelRecording&&!destroyed&&capture==captureGeneration.get()) {
+                            if(!shortKana)check(text.isNotBlank()) { "Keine verständliche Sprache erkannt. Bitte erneut versuchen." }
+                            event("speechResult",mapOf("request" to request,"text" to text,"audioQualified" to true,"shortKana" to shortKana,
+                                "gain" to prepared.gain,"activeMs" to prepared.activeMs))
                         }
-                    } catch(e:Exception) { if(!cancelRecording&&!destroyed)event("speechError",mapOf("request" to request,"message" to (e.message?:"Erkennung fehlgeschlagen."))) }
-                    finally { decoding=false }
+                    } catch(e:Exception) { if(!cancelRecording&&!destroyed&&capture==captureGeneration.get())event("speechError",mapOf("request" to request,"message" to (e.message?:"Erkennung fehlgeschlagen."))) }
+                    finally { decoding=false;captureBusy=false }
                 }
-            } catch(e:Exception) { recording=false; if(!cancelRecording&&!destroyed)event("speechError",mapOf("request" to request,"message" to (e.message?:"Mikrofon nicht verfügbar."))) }
+                dispatched=true
+            } catch(e:Exception) { recording=false; if(!cancelRecording&&!destroyed&&capture==captureGeneration.get())event("speechError",mapOf("request" to request,"message" to (e.message?:"Mikrofon nicht verfügbar."))) }
+            finally { if(!dispatched){captureBusy=false;decoding=false} }
         },"JapaneseMicrophone").start()
     }
-    fun stopRecording(cancel:Boolean=false) { cancelRecording=cancel; recording=false; if(cancel)ownRecording=null; runCatching { recorder?.stop() } }
+    private fun detectSpeech(samples:FloatArray,shortKana:Boolean):Boolean {
+        val vad=Vad(assetManager=models.assets,config=VadModelConfig(sileroVadModelConfig=SileroVadModelConfig(
+            model="speech/silero_vad.onnx",threshold=.5f,minSpeechDuration=if(shortKana).064f else .128f,minSilenceDuration=.3f)))
+        return try { var offset=0
+            while(offset+512<=samples.size){vad.acceptWaveform(samples.copyOfRange(offset,offset+512));offset+=512}
+            if(offset<samples.size)vad.acceptWaveform(FloatArray(512).also { samples.copyInto(it,0,offset) })
+            vad.flush();!vad.empty()
+        } finally { vad.release() }
+    }
+    fun stopRecording(cancel:Boolean=false) { cancelRecording=cancel; recording=false; if(cancel){captureGeneration.incrementAndGet();ownRecording=null}; runCatching { recorder?.stop() } }
     fun stopAll() { stopPlayback(); stopRecording(true) }
     fun close() { destroyed=true; stopAll(); worker.execute { tts?.release(); recognizer?.release() }; worker.shutdown() }
     // Instrumented test: real synthesis and recognition, no microphone or speaker involved.

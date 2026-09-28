@@ -20,5 +20,6 @@ class PreservationTests(unittest.TestCase):
   css=(ROOT/'mobile/web/styles.css').read_text('utf8')
   self.assertEqual(sha(css[:base['styles_prefix_length']]),base['styles_prefix'])
   native=(ROOT/'mobile/app/src/main/java/de/priestkiller/japanischtrainer/SpeechEngine.kt').read_text('utf8')
-  self.assertEqual(sha(native[native.index('    private fun tts()'):native.index('    fun stopPlayback()')]),base['native_model_functions'])
+  # 11.0.8 intentionally changes Android ASR; the historical whole-block hash remains in the fixture.
+  self.assertEqual(sha(native[native.index('    private fun tts()'):native.index('    private fun asr(')]),base['native_tts_function'])
   self.assertEqual(sha(native[native.index('    // Instrumented test'):]),base['native_diagnostic'])

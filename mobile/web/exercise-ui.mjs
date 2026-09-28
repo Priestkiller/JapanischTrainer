@@ -1,6 +1,6 @@
 import {ExerciseBook,ExerciseRound,FAMILIES,order} from './exercises.mjs';
 
-export function createExerciseUI({data,state,store,course,native,navigate,render,stopMedia,toast,esc,nextRequest,explanation,lessonGuide}) {
+export function createExerciseUI({data,state,store,course,native,navigate,render,stopMedia,toast,esc,nextRequest,explanation,lessonGuide,focusLesson}) {
  const book=new ExerciseBook(data),$=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
  let round=null,epoch=0,composing=false,ownRequest=null;
  const card=key=>{const at=key.lastIndexOf(':');return course.byKey.get(key.slice(0,at)).cards[Number(key.slice(at+1))];};
@@ -87,7 +87,7 @@ export function createExerciseUI({data,state,store,course,native,navigate,render
    audioStatus();return true;
   }return false;
  }
- function bind(){if(state.page!=='exercises'||!round)return;const r=round,d=r.answer,t=r.task;
+ function bind(){if(state.page!=='exercises'||!round)return;focusLesson({page:state.page,round,teacher:course.teacher(),store,esc});const r=round,d=r.answer,t=r.task;
   const on=(id,fn)=>{if($('#'+id))$('#'+id).onclick=fn;};
   const back=()=>{r.technical('Freiwillig pausiert. Die Aufgabe und deine Eingabe bleiben erhalten.',true);stopMedia();navigate('lesson');};
   on('ex-back',back);on('ex-pause',back);

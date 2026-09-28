@@ -1,8 +1,9 @@
 {
-  "name": "11.0.7-android.1-test",
-  "code": 11000701,
+  "name": "11.0.8-android.1-test",
+  "code": 11000801,
   "course": "11.0.7",
   "package": "de.priestkiller.japanischtrainer",
-  "releasePage": "https://github.com/Priestkiller/JapanischTrainer/releases/tag/android-test-v11.0.7-1",
-  "notes": "TESTVERSION: 156 neue Zusatzaufgaben in 25 bereits vertieften Lektionen, acht Aufgabenfamilien, ausführliche Erklärungen und begrenzte Fehlerwiederholung. Menschliche Sprach-, Hör- und S24-Ultra-Mikrofonprüfung offen."
+  "releasePage": "https://github.com/Priestkiller/JapanischTrainer/releases/tag/android-test-v11.0.8-1",
+  "notes": "TESTVERSION: Handy-Lernansichten nach den Bildreferenzen, große Hauptaktionen, Mikrofonpegel und eigene Aufnahme. Verbesserte Aufbereitung kurzer/leiser Laute und ausdrücklich gekennzeichnete Kana-Selbstprüfung. Echte S24-Ultra-Mikrofon-, Hör- und Anfängerprüfung offen.",
+  "releaseVersion": "11.0.8"
 }

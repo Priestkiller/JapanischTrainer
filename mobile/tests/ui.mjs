@@ -81,8 +81,8 @@ try {
   await page.getByRole('button',{name:'a',exact:true}).click();await page.locator('#advance').click();
   assert.equal(await page.locator('#step-count').textContent(),'Schritt 5/6');
   for(const selector of ['#record','.romaji','details'])assert.equal(await page.locator(selector).count(),0);
-  await page.locator('#romaji-input').fill('wrong');await page.locator('#write-form button').click();assert.equal(await page.locator('#advance').isDisabled(),true);
-  await page.locator('#romaji-input').fill('a');await page.locator('#write-form button').click();assert.equal(await page.locator('#advance').isDisabled(),false);
+  await page.locator('#romaji-input').fill('wrong');await page.locator('#check-write').click();assert.equal(await page.locator('#advance').isDisabled(),true);
+  await page.locator('#romaji-input').fill('a');await page.locator('#check-write').click();assert.equal(await page.locator('#advance').isDisabled(),false);
   await page.locator('#advance').click();assert.equal(await page.locator('#step-count').textContent(),'Schritt 6/6');
   await page.getByRole('button',{name:'Ein Zeichen für den Laut a.',exact:true}).click();await page.locator('#advance').click();
   assert.equal(await page.locator('#step-count').textContent(),'Schritt 1/6');assert.equal(await page.locator('.romaji').first().innerText(),'i');assert.equal(await page.locator('#advance').isDisabled(),true);
@@ -90,7 +90,7 @@ try {
   assert.equal(await page.locator('#advance').isDisabled(),true);await page.locator('#confirm-short-speech').click();assert.equal(await page.locator('#advance').isDisabled(),false);
   assert.ok((await page.locator('#task-feedback').innerText()).includes('Selbstprüfung'));
   assert.equal(await page.evaluate(()=>JSON.parse(localStorage.getItem('jt-test-profile')).speech_scores['い'].last),0);
-  await page.locator('#settings-shortcut').click();await noOverflow('settings');
+  await page.getByRole('button',{name:'Übung pausieren und zurück',exact:true}).click();await page.locator('#settings-shortcut').click();await noOverflow('settings');
   await page.screenshot({path:path.join(output,`settings-${width}x${height}.png`),fullPage:true});
   await page.locator('[data-page=teachers]').click();await page.locator('[data-teacher=yuki]').click();await page.locator('#select-teacher').click();
   assert.equal(await page.locator('#select-teacher').innerText(),'✓ Ausgewählt');await noOverflow('teachers');

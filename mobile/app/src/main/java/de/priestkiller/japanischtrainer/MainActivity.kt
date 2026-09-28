@@ -32,6 +32,7 @@ class MainActivity:Activity() {
     private lateinit var profile:AtomicFile
     @Volatile private var downloading=false
     private var pendingRecording:String?=null
+    private var pendingShortKana=false
     private var availableUpdate:JSONObject?=null
     private var readyApk:File?=null
     private var exportText:String?=null
@@ -119,10 +120,12 @@ class MainActivity:Activity() {
         @JavascriptInterface fun playRecording(original:String,request:String) {
             if(original.length<=100 && request.length<=100)speech.playRecording(original,request)
         }
-        @JavascriptInterface fun record(request:String) { runOnUiThread {
+        @JavascriptInterface fun record(request:String) = recordForMode(request,false)
+        @JavascriptInterface fun recordKana(request:String) = recordForMode(request,true)
+        private fun recordForMode(request:String,shortKana:Boolean) { runOnUiThread {
             if(request.length>100)return@runOnUiThread
-            if(checkSelfPermission(Manifest.permission.RECORD_AUDIO)==PackageManager.PERMISSION_GRANTED) speech.startRecording(request)
-            else { pendingRecording=request; requestPermissions(arrayOf(Manifest.permission.RECORD_AUDIO),10) }
+            if(checkSelfPermission(Manifest.permission.RECORD_AUDIO)==PackageManager.PERMISSION_GRANTED) speech.startRecording(request,shortKana)
+            else { pendingRecording=request;pendingShortKana=shortKana;requestPermissions(arrayOf(Manifest.permission.RECORD_AUDIO),10) }
         } }
         @JavascriptInterface fun stopRecording(cancel:Boolean) { pendingRecording=null; speech.stopRecording(cancel) }
         @JavascriptInterface fun downloadModels() { runOnUiThread { askModels() } }
@@ -206,7 +209,7 @@ class MainActivity:Activity() {
         super.onRequestPermissionsResult(requestCode,permissions,grantResults)
         val request=pendingRecording; pendingRecording=null
         if(requestCode==10 && request!=null) {
-            if(grantResults.firstOrNull()==PackageManager.PERMISSION_GRANTED)speech.startRecording(request)
+            if(grantResults.firstOrNull()==PackageManager.PERMISSION_GRANTED)speech.startRecording(request,pendingShortKana)
             else emit("speechError",JSONObject().put("request",request).put("message","Mikrofonzugriff nicht erlaubt. Du kannst ihn in den Android-App-Einstellungen erlauben."))
         }
     }

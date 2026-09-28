@@ -13,6 +13,7 @@ parser.add_argument('--apk', type=Path, required=True)
 parser.add_argument('--commit', required=True, help='Exact source commit for this release')
 args = parser.parse_args()
 version = json.loads((MOBILE / 'android-version.json').read_text(encoding='utf-8'))
+release_version = version.get('releaseVersion', version['course'])
 out = MOBILE / 'release'
 out.mkdir(exist_ok=True)
 commit = subprocess.check_output(['git', 'rev-parse', '--verify', args.commit + '^{commit}'], cwd=ROOT, text=True).strip()
@@ -24,10 +25,10 @@ for name in tracked:
     if name.lower().endswith(('.p12', '.jks', '.keystore')) or 'signing-password' in name.lower():
         raise ValueError(f'Signing material in source tree: {name}')
 
-apk = out / f'JapanischTrainer-{version["course"]}-Android.apk'
+apk = out / f'JapanischTrainer-{release_version}-Android.apk'
 if args.apk.resolve() != apk.resolve():
     shutil.copy2(args.apk, apk)
-source = out / f'JapanischTrainer-{version["course"]}-Android-Quellcode.zip'
+source = out / f'JapanischTrainer-{release_version}-Android-Quellcode.zip'
 subprocess.run(['git', 'archive', '--format=zip', '--prefix=JapanischTrainer/', '-o', str(source), commit], cwd=ROOT, check=True)
 for name in ('INSTALLIEREN_ANDROID.md', 'TESTBERICHT_ANDROID.md'):
     shutil.copy2(MOBILE / name, out / name)

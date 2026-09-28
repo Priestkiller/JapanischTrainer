@@ -1,12 +1,14 @@
-import {Store,Course,Session,PHASES,LABELS,cleanProfile,compact,shuffle,reviewCard} from './core.mjs';
+import {Store,Course,Session,PHASES,LABELS,cleanProfile,compact,shuffle,reviewCard,isShortKana} from './core.mjs';
 import {createTalkUI} from './talk-ui.mjs';
 import {createExerciseUI} from './exercise-ui.mjs';
+import {focusLesson} from './focus-ui.mjs';
+import {applyKanaRecognition} from './kana-recognition.mjs';
 
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const bridge=window.AndroidTrainer;
 const state={page:'home',session:null,query:'',stage:'Alle',libraryQuery:'',review:null,revealed:false,teacherDetail:null,
-  caps:{native:!!bridge,models:false,modelBytes:0,version:'11.0.7-android.1-test'},audio:null,speech:null,speechMessage:'',recording:'idle',
+  caps:{native:!!bridge,models:false,modelBytes:0,version:'11.0.8-android.1-test'},audio:null,speech:null,speechMessage:'',recording:'idle',
   modelStatus:'',modelPercent:0,modelBusy:false,updateStatus:'',updateAvailable:false,updateBusy:false,updateTest:false,licenseText:'',completeLesson:null};
 let course,store,catalog,talkUI,exerciseUI,blinkIndex,expressions,animationStop=()=>{},toastTimer,requestCounter=0,saveError='';
 const native=(name,...args)=> { if(bridge&&typeof bridge[name]==='function')return bridge[name](...args);return undefined; };
@@ -17,7 +19,7 @@ function persist(text) {
 }
 function showSaveError() {let el=$('#save-error');if(!el){el=document.createElement('div');el.id='save-error';el.className='storage-error';el.role='alert';document.body.prepend(el);}el.textContent=saveError;}
 function save() {try{store.save();}catch(e){toast(e.message);}}
-function stopMedia() {native('stopAudio');native('stopRecording',true);state.audio=null;state.speech=null;state.recording='idle';talkUI?.refresh();}
+function stopMedia() {native('stopAudio');native('stopRecording',true);state.audio=null;state.speech=null;state.ownSpeech=null;state.recording='idle';talkUI?.refresh();}
 function navigate(page) {
   if(state.page==='exercises'&&page!==state.page)exerciseUI?.cancel();
   if(state.session&&state.page==='lesson')state.session.snapshot();
@@ -54,7 +56,7 @@ function openLesson(key) {
 function pronunciation(card) {return card.approx??card.pron_de??card.pron??card.pronunciation??card.hint??'';}
 function cardView(card) {
   return `<div class="speaking-card"><p class="sub" id="speak-instruction">Höre die Vorlage an und sprich sie danach nach.</p><p class="jp" lang="ja">${esc(card.jp)}</p><p class="romaji">${esc(card.romaji)}</p><p class="translation">${esc(card.de)}</p>${pronunciation(card)?`<p class="pronunciation">Aussprachehilfe: ${esc(pronunciation(card))}</p>`:''}<div class="audio-actions"><button id="hear-normal">▷ Anhören</button><button id="hear-slow">▷ Langsam</button></div><p id="audio-status" class="speech-message" role="status"></p>
-  <div class="speech-panel"><button id="record" class="record-button" disabled>Erst die Vorlage anhören</button><p id="speech-status" class="speech-message" aria-live="polite">${esc(state.speechMessage)}</p><p class="speech-caption">Sprich die Vorlage nach, um Schritt 2 freizuschalten. Die Erkennung vergleicht Text und vergibt keine Aussprache-Note.</p></div>${!state.caps.models?'<div class="info"><p>Für diesen Schritt brauchst du das lokale Sprachpaket.</p><button class="small ghost" data-nav="settings">Sprachpaket einrichten</button></div>':''}</div>`;
+  <div class="speech-panel"><button id="record" class="record-button" disabled>Erst die Vorlage anhören</button><div class="microphone-live" hidden><meter id="mic-level" min="0" max="1" value="0" aria-label="Mikrofonpegel"></meter><span id="mic-time">0:00</span></div><p id="speech-status" class="speech-message" aria-live="polite">${esc(state.speechMessage)}</p><p class="speech-caption">${isShortKana(card.jp)?'Einmal normal aussprechen. Nach einer kurzen Pause endet die Aufnahme automatisch.':'Sprich die Vorlage nach und tippe dann auf Aufnahme beenden.'} Lokale Erkennung, keine Aussprache-Note.</p><button id="lesson-own" hidden>▷ Meine Aufnahme</button><button id="lesson-cancel" hidden>Aufnahme abbrechen</button></div>${!state.caps.models?'<div class="info"><p>Für diesen Schritt brauchst du das lokale Sprachpaket.</p><button class="small ghost" data-nav="settings">Sprachpaket einrichten</button></div>':''}</div>`;
 }
 function explanation(card,lesson) {
   const p=course.profile(card,lesson),ex=course.example(card);
@@ -84,7 +86,7 @@ function task() {
   else if(s.phase==='build') {
     const parts=course.blocks(s.card,s.lesson);
     html=parts.length?`<p>Setze die Bausteine in die richtige Reihenfolge.</p><p class="build-meaning">${esc(s.card.de)}</p><div class="token-board" id="token-board">${s.tokens.length?s.tokens.map((v,i)=>`<button data-remove-token="${i}">${esc(parts[v])}</button>`).join(''):'<span class="sub">Tippe die Bausteine unten an.</span>'}</div><div class="tokens">${shuffle(parts.map((p,i)=>i),s.key).map(i=>`<button data-token="${i}" ${s.tokens.includes(i)||s.success?'disabled':''}>${esc(parts[i])}</button>`).join('')}</div><button class="ghost wide" id="check-build" ${s.success?'disabled':''}>Reihenfolge prüfen</button>`:`<p>Diese kurze Form hat keine getrennten Bausteine. Wähle ihre Lesung.</p><p class="jp exercise-prompt" lang="ja">${esc(s.card.jp)}</p>`+options(s);
-  } else if(s.phase==='write')html=`<p>Schreibe die Lesung aus dem Gedächtnis in Romaji.</p><p class="jp exercise-prompt" lang="ja">${esc(s.card.jp)}</p><form id="write-form"><label class="field"><span>Deine Lesung</span><input id="romaji-input" value="${esc(s.input_text??'')}" type="text" autocomplete="off" autocapitalize="none" spellcheck="false" enterkeyhint="done" placeholder="Romaji eingeben" ${s.success?'disabled':''}></label><button class="ghost wide" ${s.success?'disabled':''}>Lesung prüfen</button></form>`;
+  } else if(s.phase==='write')html=`<p>Schreibe die Lesung aus dem Gedächtnis in Romaji.</p><p class="jp exercise-prompt" lang="ja">${esc(s.card.jp)}</p><form id="write-form"><label class="field"><span>Deine Lesung</span><input id="romaji-input" value="${esc(s.input_text??'')}" type="text" autocomplete="off" autocapitalize="none" spellcheck="false" enterkeyhint="done" placeholder="Romaji eingeben" ${s.success?'disabled':''}></label><button id="check-write" class="ghost wide" ${s.success?'disabled':''}>Lesung prüfen</button></form>`;
   else if(s.phase==='apply') {
     const p=course.profile(s.card,s.lesson),q=p.scenario.question;
     html=`${p.kind==='Leseverständnis'?`<p class="jp exercise-prompt" lang="ja">${esc(s.card.jp)}</p>`:''}<p>${esc(q)}</p>${/dieser (Lern)?Karte/i.test(q)?`<p lang="ja">${esc(s.card.jp)} (${esc(s.card.romaji)})</p>`:''}${options(s)}`;
@@ -98,7 +100,8 @@ function task() {
 }
 function options(s) {return `<div class="options">${s.answers().options.map((o,i)=>`<button class="option ${s.chosen===o?(s.success?'correct':'wrong'):''}" data-choice="${i}" ${s.success?'disabled':''}>${esc(o)}</button>`).join('')}</div>`;}
 function feedback(s) {return s.feedback?`<div class="feedback ${s.success?'correct':'wrong'}">${s.success?'✓ ':''}${esc(s.feedback)}</div>`:'';}
-function refreshTask() {$('#task').innerHTML=task();bindTask();bindNavigation();refreshAudio();}
+function decorateLesson(){focusLesson({page:state.page,session:state.session,teacher:course.teacher(),store,esc});}
+function refreshTask() {const scroll=$('.focus-workspace')?.scrollTop??0;$('#task').innerHTML=task();decorateLesson();bindTask();bindNavigation();refreshAudio();if($('.focus-workspace'))$('.focus-workspace').scrollTop=scroll;}
 function bindTask() {
   const s=state.session;
   if($('#show-hint'))$('#show-hint').onclick=()=>{s.hintOpen=!s.hintOpen;if(s.hintOpen){const m=s.metrics();m.hints=(Number.isInteger(m.hints)?m.hints:0)+1;s.snapshot();}refreshTask();};
@@ -114,6 +117,8 @@ function bindTask() {
   if($('#hear-normal'))$('#hear-normal').onclick=()=>play(s.card.jp,true);
   if($('#hear-slow'))$('#hear-slow').onclick=()=>play(s.card.jp,true,true);
   if($('#record'))$('#record').onclick=record;
+  if($('#lesson-cancel'))$('#lesson-cancel').onclick=()=>{stopMedia();state.speechMessage='Aufnahme abgebrochen. Du kannst erneut versuchen.';refreshTask();};
+  if($('#lesson-own'))$('#lesson-own').onclick=()=>{if(!state.ownSpeech||state.recording!=='idle')return;native('stopAudio');const id=`own-${++requestCounter}`;state.audio={id,forListen:false,message:'Deine Aufnahme …'};native('playRecording',state.ownSpeech,id);refreshAudio();};
   if($('#confirm-short-speech'))$('#confirm-short-speech').onclick=()=>{if(state.recording==='idle'&&s.confirmShortSpeech())refreshTask();};
   if($('#hear-task'))$('#hear-task').onclick=()=>play(s.listenCard.jp,true);
   if($('#hear-example'))$('#hear-example').onclick=()=>play(course.example(s.card).jp);
@@ -155,10 +160,12 @@ function modelBox() {return state.caps.models?'<p class="info success">✓ Sprac
   `<p class="download-status">${esc(state.modelStatus||`Einmaliger Download: ca. ${Math.round(state.caps.modelBytes/1e6)} MB. Für spätere App-Updates wird das Paket weiterverwendet.`)}</p>${state.modelBusy?`<div class="progress"><span style="width:${state.modelPercent}%"></span></div><button class="ghost wide" id="cancel-models">Download abbrechen</button>`:`<button class="primary wide" id="download-models">Sprachpaket laden</button>`}`;}
 function updateBox() {return `<p class="download-status" role="status">${esc(state.updateStatus)}</p><button class="ghost wide" id="check-updates" ${state.updateBusy?'disabled':''}>Nach Updates suchen</button><button style="margin-top:10px" class="ghost wide" id="check-test-updates" ${state.updateBusy?'disabled':''}>Testversion suchen</button><p class="muted">Testversionen enthalten neue Funktionen zum Ausprobieren. Dein Lernstand und das Sprachpaket bleiben erhalten.</p>${state.updateAvailable?`<button style="margin-top:10px" class="primary wide" id="install-update" ${state.updateBusy?'disabled':''}>${state.updateTest?'Testversion herunterladen':'Update installieren'}</button>`:''}`;}
 function render() {
+  document.body.classList.toggle('focus-mode',['lesson','exercises'].includes(state.page));
   animationStop();document.body.classList.toggle('motion-off',!store.data.motion_enabled);
   const pages={home,course:courseList,lesson,complete,teachers,review,library,grammar,progress,more,settings,exercises:()=>exerciseUI.view(),talk:()=>talkUI.hub(),conversation:()=>talkUI.conversation(),
     licenses:()=>heading('Informationen','Lizenzen & Modellbedingungen')+`<button class="ghost" data-nav="settings">‹ Einstellungen</button><pre class="licenses">${esc(state.licenseText)}</pre>`};
   $('#app').innerHTML=(pages[state.page]??home)();
+  if(state.page==='lesson')decorateLesson();
   const active=['home','course','review','teachers'].includes(state.page)?state.page:['lesson','complete','exercises'].includes(state.page)?'course':['talk','conversation'].includes(state.page)?'review':'more';
   $$('.bottom-nav button').forEach(b=>b.setAttribute('aria-current',b.dataset.page===active?'page':'false'));
   bindNavigation();bindPage();if(saveError)showSaveError();
@@ -194,7 +201,7 @@ function bindPage() {
     $('#kiko').onchange=e=>{store.data.show_kiko=e.target.checked;save();};
     $('#export').onclick=()=>{save();if(bridge)native('exportProfile',JSON.stringify(store.data,null,2));else toast('Datei-Export ist in der installierten Android-App verfügbar.');};
     $('#import').onclick=()=>{if(bridge)native('importProfile');else toast('Datei-Import ist in der installierten Android-App verfügbar.');};
-    $('#licenses').onclick=async()=>{const paths=['ANDROID_NOTICES.txt','MODEL_LICENSES.txt','MODEL_ATTRIBUTION.txt','LICENSE.txt','licenses/android/sherpa-onnx-APACHE-2.0.txt','licenses/android/onnxruntime-MIT.txt','licenses/android/piper-phonemize-LICENSE.txt','licenses/android/espeak-ng-GPL-3.0.txt'];const texts=await Promise.all(paths.map(p=>fetch(p).then(r=>{if(!r.ok)throw Error('Lizenzdatei fehlt.');return r.text();})));state.licenseText=texts.join('\n\n');navigate('licenses');};
+    $('#licenses').onclick=async()=>{const paths=['ANDROID_NOTICES.txt','MODEL_LICENSES.txt','MODEL_ATTRIBUTION.txt','LICENSE.txt','licenses/android/sherpa-onnx-APACHE-2.0.txt','licenses/android/onnxruntime-MIT.txt','licenses/android/silero-vad-MIT.txt','licenses/android/piper-phonemize-LICENSE.txt','licenses/android/espeak-ng-GPL-3.0.txt'];const texts=await Promise.all(paths.map(p=>fetch(p).then(r=>{if(!r.ok)throw Error('Lizenzdatei fehlt.');return r.text();})));state.licenseText=texts.join('\n\n');navigate('licenses');};
     bindSettingsBoxes();
   }
 }
@@ -225,10 +232,10 @@ function record() {
   if(!s.audio_seen){toast('Höre die Vorlage zuerst vollständig an.');return;}
   native('stopAudio');state.audio=null;
   s.shortSpeechReady=false;
+  state.ownSpeech=null;state.micLevel=0;state.micSeconds=0;
   const id=`speech-${++requestCounter}`;
   state.speech={id,context:`${s.key}:${s.phase}`,target:course.speechTarget(s.card,s.lesson)};
-  state.recording='requesting';state.speechMessage='Mikrofon wird vorbereitet …';native('record',id);refreshAudio();
-  $('.exercise-card').scrollIntoView({block:'start',behavior:'instant'});
+  state.recording='requesting';state.speechMessage='Mikrofon wird vorbereitet …';native(isShortKana(s.card.jp)&&bridge?.recordKana?'recordKana':'record',id);refreshAudio();
 }
 function refreshAudio() {
   talkUI?.refresh();
@@ -238,6 +245,11 @@ function refreshAudio() {
   if(s?.phase==='listen')$$('[data-choice]').forEach(b=>b.disabled=s.success||!s.audio_seen);
   if($('#confirm-short-speech'))$('#confirm-short-speech').disabled=state.recording!=='idle'||!s.shortSpeechReady;
   if($('#speech-status'))$('#speech-status').textContent=state.speechMessage;
+  if($('#lesson-own')){$('#lesson-own').hidden=!state.ownSpeech;$('#lesson-own').disabled=state.recording!=='idle';}
+  if($('#lesson-cancel'))$('#lesson-cancel').hidden=state.recording==='idle';
+  if($('.microphone-live'))$('.microphone-live').hidden=state.recording!=='recording';
+  if($('#mic-level'))$('#mic-level').value=state.micLevel??0;
+  if($('#mic-time'))$('#mic-time').textContent=`0:${String(Math.floor(state.micSeconds??0)).padStart(2,'0')}`;
   if($('#audio-status'))$('#audio-status').textContent=state.audio?.message??'';
 }
 window.JTNative=(type,data={})=> {
@@ -267,6 +279,7 @@ window.JTNative=(type,data={})=> {
     if(type==='audioError'){toast(data.message);state.audio.message=data.message;}
     refreshAudio();
   } else if(data.request===state.speech?.id) {
+    if(type==='speechLevel'){state.micLevel=data.level;state.micSeconds=data.seconds;}
     if(type==='recording'){state.recording='recording';state.speechMessage='Sprich jetzt. Nach spätestens 15 Sekunden endet die Aufnahme.';}
     if(type==='recognizing'){state.recording='recognizing';state.speechMessage='Dein Handy wertet die Aufnahme lokal aus …';}
     if(type==='speechError'){state.recording='idle';state.speechMessage=data.message;state.speech=null;}
@@ -274,8 +287,9 @@ window.JTNative=(type,data={})=> {
       state.recording='idle';const s=state.session;
       if(state.speech.kind==='talk')talkUI?.recognized(data.text,state.speech.context);
       else if(state.page==='lesson'&&s&&s.mode==='learn'&&s.phase==='speak'&&state.speech.context===`${s.key}:${s.phase}`) {
-        s.checkSpeech(data.text);
-        state.speechMessage=`Erkannt: „${data.text}“`;
+        state.ownSpeech=state.speech.id;
+        if(!applyKanaRecognition(s,data.text??'',data.audioQualified===true&&data.shortKana===true))s.checkSpeech(data.text);
+        state.speechMessage=data.text?`Erkannt: „${data.text}“`:'Der kurze Laut konnte nicht sicher verschriftlicht werden.';
         refreshTask();
       }
       state.speech=null;
@@ -310,7 +324,7 @@ async function start() {
   catalog=c;blinkIndex=b;expressions=e;
   let profile={};try{profile=JSON.parse(bridge?native('getProfile'):localStorage.getItem('jt-mobile-profile')??'{}');}catch(error){toast('Lernstand ist nicht lesbar. Bitte eine Sicherung importieren.');}
   store=new Store(profile,persist);course=new Course(raw,c,d,store);
-  exerciseUI=createExerciseUI({data:exerciseData,state,store,course,native,navigate,render,stopMedia,toast,esc,nextRequest:()=>`exercise-${++requestCounter}`,explanation,lessonGuide});
+  exerciseUI=createExerciseUI({data:exerciseData,state,store,course,native,navigate,render,stopMedia,toast,esc,nextRequest:()=>`exercise-${++requestCounter}`,explanation,lessonGuide,focusLesson});
   talkUI=createTalkUI({state,store,course,native,play,stopMedia,navigate,render,toast,esc,nextRequest:()=>`talk-speech-${++requestCounter}`});
   if(bridge)state.caps={...state.caps,...JSON.parse(native('getCapabilities'))};
   else {const pack=await fetch('model-pack.json').then(r=>r.json());state.caps.modelBytes=pack.bytes;}

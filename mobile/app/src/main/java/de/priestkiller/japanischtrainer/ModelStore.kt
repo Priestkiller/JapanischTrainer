@@ -10,6 +10,7 @@ import java.util.zip.ZipFile
 
 /** Model identity is pinned inside the signed APK. No downloaded executable code. */
 class ModelStore(private val context: Context) {
+    val assets get() = context.assets
     val manifest = JSONObject(context.assets.open("model-pack.json").bufferedReader().use { it.readText() })
     val directory = File(context.filesDir, "models-${manifest.getInt("version")}")
     @Volatile var cancelled = false

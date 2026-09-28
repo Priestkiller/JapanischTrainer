@@ -381,4 +381,43 @@ class MobileInstrumentedTest {
             assertTrue("Real SenseVoice result: $result",result.contains("ありがとう"))
         } finally { engine.close() }
     }
+    @Test fun shortSpeechPreparationRejectsSilenceClicksClippingAndKeepsQuietSignal() {
+        val negatives=listOf(FloatArray(32000),FloatArray(16000){if(it==8000).5f else 0f},FloatArray(16000){if(it%2==0)1f else -1f},floatArrayOf(Float.NaN))
+        for(x in negatives) { var rejected=false;try{SpeechInput.prepare(x,true)}catch(e:IllegalArgumentException){rejected=true};assertTrue(rejected) }
+        val short=FloatArray(1600) { (.003*kotlin.math.sin(2*Math.PI*220*it/16000)).toFloat() }
+        val prepared=SpeechInput.prepare(short,true)
+        assertTrue(prepared.gain>1f);assertTrue(prepared.gain<=10f);assertEquals(100,prepared.samples.size*1000/16000)
+        assertEquals(prepared.samples.size+6400,SpeechInput.padded(prepared.samples).size)
+        var longRejected=false;try{SpeechInput.prepare(short,false)}catch(e:IllegalArgumentException){longRejected=true};assertTrue(longRejected)
+    }
+    @Test fun bundledVadAndShortRecognizerWorkOnActualSyntheticAudio() {
+        // Real native model execution on generated audio, explicitly no microphone.
+        val context=InstrumentationRegistry.getInstrumentation().targetContext
+        val models=ModelStore(context);models.install { _,_ -> }
+        val engine=SpeechEngine(models) { _,_ -> }
+        try {
+            val ttsMethod=SpeechEngine::class.java.getDeclaredMethod("tts").apply { isAccessible=true }
+            val tts=ttsMethod.invoke(engine) as com.k2fsa.sherpa.onnx.OfflineTts
+            val audio=tts.generateWithConfig("あ",com.k2fsa.sherpa.onnx.GenerationConfig(sid=2,speed=.95f,extra=mapOf("lang" to "ja")))
+            val x=FloatArray(audio.samples.size*16000/audio.sampleRate) { i ->
+                val position=i.toDouble()*audio.sampleRate/16000;val lo=position.toInt();val hi=minOf(lo+1,audio.samples.lastIndex)
+                (audio.samples[lo]*(1-(position-lo))+audio.samples[hi]*(position-lo)).toFloat()*.025f
+            }
+            val detect=SpeechEngine::class.java.getDeclaredMethod("detectSpeech",FloatArray::class.java,Boolean::class.javaPrimitiveType).apply { isAccessible=true }
+            val prepared=SpeechInput.prepare(x,true)
+            assertTrue("Quiet synthetic vowel must reach recognition",detect.invoke(engine,prepared.samples,true) as Boolean)
+            for(seed in listOf(1L,77L,123L)) {
+                val random=java.util.Random(seed);val noise=FloatArray(32000){(random.nextGaussian()*.01).toFloat()}
+                assertFalse("Noise must not enable the self-check",detect.invoke(engine,SpeechInput.prepare(noise,true).samples,true) as Boolean)
+            }
+            val method=SpeechEngine::class.java.getDeclaredMethod("asr",Boolean::class.javaPrimitiveType).apply { isAccessible=true }
+            val recognizer=method.invoke(engine,true) as com.k2fsa.sherpa.onnx.OfflineRecognizer
+            val stream=recognizer.createStream()
+            try { stream.acceptWaveform(SpeechInput.padded(prepared.samples),16000);recognizer.decode(stream)
+                val result=recognizer.getResult(stream).text
+                println("Native quiet synthetic あ, gain=${prepared.gain}, activeMs=${prepared.activeMs}, transcript=$result")
+                assertTrue("The model must produce actual output",result.isNotBlank())
+            } finally { stream.release() }
+        } finally { engine.close() }
+    }
 }

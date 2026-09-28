@@ -34,3 +34,8 @@ if not aar.exists() and args.download_library:
 if not aar.exists() or hashlib.sha256(aar.read_bytes()).hexdigest() != expected:
     raise RuntimeError('The official sherpa-onnx Android library is missing or corrupt.')
 print('Course, artwork, licenses and verified speech library are ready.')
+vad=MOBILE/'app/src/main/assets/speech/silero_vad.onnx'
+if hashlib.sha256(vad.read_bytes()).hexdigest()!='9e2449e1087496d8d4caba907f23e0bd3f78d91fa552479bb9c23ac09cbb1fd6':
+    raise RuntimeError('Bundled Silero VAD is missing or corrupt.')
+if not (MOBILE/'licenses/silero-vad-MIT.txt').is_file():
+    raise FileNotFoundError('Silero VAD license is missing.')
