@@ -94,7 +94,7 @@ export function focusLesson({page,session,round,teacher,store,esc}) {
   setTaskPage(presentation.page);
   const target=document.activeElement?.matches('input,textarea')?document.activeElement:revealResult?(flow.querySelector('#confirm-short-speech')?.closest('.info')??feedback):null;
   if(target&&taskPages>1){const r=target.getBoundingClientRect(),v=viewport.getBoundingClientRect();setTaskPage(Math.floor((r.left-v.left+viewport.scrollLeft+1)/stride));}revealResult=false;
-  root.classList.toggle('focus-short',innerHeight<550);
+  root.classList.toggle('focus-short',innerHeight<550);companions.classList.toggle('focus-companions-compact',companions.clientHeight<240);companions.classList.toggle('focus-companions-minimal',companions.clientHeight<155);
  }
  function closeSheet(){
   if(presentation.sheet==='help'&&helpOpen){document.getElementById(extra?'ex-help':'show-hint')?.click();return;}

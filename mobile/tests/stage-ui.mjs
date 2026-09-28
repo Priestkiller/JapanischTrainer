@@ -29,6 +29,7 @@ try{
    assert.ok(r.outer<=1&&r.horizontal<=1&&r.workspace<=1&&r.task<=1&&r.dockBottom<=height+1&&r.dockTop>=0,label+JSON.stringify(r));
    if(height>700)assert.ok(r.teacherTop<height-150&&r.teacherWidth>140,label+' companion is visible');
    for(const selector of ['.focus-fixed-record','.focus-fixed-audio']){const n=page.locator(selector);if(await n.count()){const r=await n.boundingBox();assert.ok(r.x>=0&&r.x+r.width<=width+1&&r.y>=0&&r.y+r.height<=height-40,label+' recording/listening remains in view');}}
+   const bubble=page.locator('.focus-coach-copy'),kiko=page.locator('.focus-kiko');if(await bubble.isVisible()&&await kiko.isVisible()){const a=await bubble.boundingBox(),b=await kiko.boundingBox();assert.ok(a.y+a.height<=b.y+1,label+' readable companion bubbles do not overlap');}
    const pager=page.locator('.focus-page-nav');if(await pager.isVisible()){
     for(let i=0;i<25&&!await pager.locator('button').last().isDisabled();i++)await pager.locator('button').last().click();
     assert.equal(await pager.locator('button').last().isDisabled(),true,label+' bounded page count');
