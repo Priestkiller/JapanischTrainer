@@ -1,6 +1,7 @@
 {
   "app": "JapanischTrainer",
   "version": "11.0.10",
+  "course_version": "11.0.7",
   "architecture": "x64",
   "update_format": 1
 }

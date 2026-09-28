@@ -165,7 +165,7 @@ function modelBox() {return state.caps.models?'<p class="info success">✓ Sprac
 function updateBox() {return `<p class="download-status" role="status">${esc(state.updateStatus)}</p><button class="ghost wide" id="check-updates" ${state.updateBusy?'disabled':''}>Nach Updates suchen</button><button style="margin-top:10px" class="ghost wide" id="check-test-updates" ${state.updateBusy?'disabled':''}>Testversion suchen</button><p class="muted">Testversionen enthalten neue Funktionen zum Ausprobieren. Dein Lernstand und das Sprachpaket bleiben erhalten.</p>${state.updateAvailable?`<button style="margin-top:10px" class="primary wide" id="install-update" ${state.updateBusy?'disabled':''}>${state.updateTest?'Testversion herunterladen':'Update installieren'}</button>`:''}`;}
 function render() {
   document.body.classList.toggle('focus-mode',['lesson','exercises'].includes(state.page));
-  animationStop();document.body.classList.toggle('motion-off',!store.data.motion_enabled);
+  animationStop();document.body.classList.toggle('motion-off',!store.data.motion_enabled||store.data.motion_preset==='off');
   const pages={home,course:courseList,lesson,complete,teachers,review,library,grammar,progress,more,settings,exercises:()=>exerciseUI.view(),talk:()=>talkUI.hub(),conversation:()=>talkUI.conversation(),
     licenses:()=>heading('Informationen','Lizenzen & Modellbedingungen')+`<button class="ghost" data-nav="settings">‹ Einstellungen</button><pre class="licenses">${esc(state.licenseText)}</pre>`};
   $('#app').innerHTML=(pages[state.page]??home)();
@@ -326,7 +326,7 @@ async function animateTeacher() {
   const start=performance.now();let last=-2;
   const draw=now=> {
     if(!alive)return;
-    const moving=!!blink?.frames?.length&&store.data.motion_enabled&&store.data.motion_preset!=='off'&&!matchMedia('(prefers-reduced-motion: reduce)').matches&&canvas.isConnected&&!document.hidden;
+    const moving=!!blink?.frames?.length&&store.data.motion_enabled&&store.data.motion_preset!=='off'&&!matchMedia('(prefers-reduced-motion: reduce)').matches&&canvas.isConnected&&canvas.getClientRects().length>0&&!canvas.closest('[inert]')&&!document.hidden;
     const tick=moving?(now-start)%5200:1000;const position=tick<320?Math.min(4,Math.floor((tick<160?tick:320-tick)/32)):-1;
     const happy=document.body.dataset.teacherMood==='praise'&&now-start<2650,mood=position+':'+happy;
     if(mood!==last){ctx.clearRect(0,0,512,768);ctx.drawImage(base,0,0,512,768);drawPatch(happy?praise:mouth,happy?expression.praise.bbox:expression.idle.bbox);if(position>=0)drawPatch(frames[position],blink.bbox);last=mood;}

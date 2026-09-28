@@ -26,12 +26,13 @@ class FoundationTests(unittest.TestCase):
         course=json.loads((ROOT/'data/course.json').read_text('utf-8'))
         release=json.loads((ROOT/'release.json').read_text('utf-8'))
         android=json.loads((ROOT/'mobile/android-version.json').read_text('utf-8'))
-        self.assertEqual(course['content_version'],release['version'])
+        self.assertLessEqual(tuple(map(int,course['content_version'].split('.'))),tuple(map(int,release['version'].split('.')))) # UI-only releases retain the course version.
+        self.assertEqual(release.get('course_version',release['version']),course['content_version'])
         import ast
         tree=ast.parse((ROOT/'app.py').read_text('utf-8'))
         installed=next(n.value.value for n in tree.body if isinstance(n,ast.Assign) and any(isinstance(t,ast.Name) and t.id=='VERSION' for t in n.targets))
         self.assertEqual(installed,release['version'])
-        self.assertEqual(android['course'],release['version'])
+        self.assertEqual(android['course'],course['content_version'])
         gradle=(ROOT/'mobile/app/build.gradle.kts').read_text('utf-8')
         self.assertIn(f'versionCode = {android["code"]}',gradle)
         self.assertIn(f'versionName = "{android["name"]}"',gradle)

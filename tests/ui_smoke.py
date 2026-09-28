@@ -69,7 +69,8 @@ with tempfile.TemporaryDirectory() as temp:
         app.engine=probe;app.speak('ありがとう',teacher_id='aiko');wait_audio();assert probe.calls[-1][3]==0
         checks.append('Existing voice profile dispatch (probe, not actual TTS)')
         app.open_lesson('1:0',1,True);refresh();pinned=app.pinned_rect;phase=app.flow.phase;click('speak')
-        assert app.view=='lesson' and app.inline_speech and app.pinned_rect==pinned and app.flow.phase==phase
+        assert app.view=='lesson' and app.inline_speech and app.pinned_rect[:2]==pinned[:2] and app.flow.phase==phase
+        pinned=app.pinned_rect # The speaking teacher takes an explicit column; the task alone uses full width.
         checks.append('Jetzt sprechen expands inline without page or lesson-phase change')
         for delta in (600,-200,1600,-3000):
             app.wheel(delta);refresh();assert app.pinned_rect==pinned;assert app.inline_rect[1]>pinned[1]+pinned[3]

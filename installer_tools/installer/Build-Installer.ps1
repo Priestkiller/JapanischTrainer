@@ -134,6 +134,19 @@ function Is-PrivatePath([string]$Relative) {
         $name -eq '.env' -or $name -eq 'uninstall.ps1' -or $name -like 'unins*.exe' -or $name -like 'unins*.dat')
 }
 
+function Assert-VersionMapping([Version]$AppVersion, [Version]$CourseVersion, $Metadata) {
+    $appText = '{0}.{1}.{2}' -f $AppVersion.Major,$AppVersion.Minor,$AppVersion.Build
+    $expected = $AppVersion
+    if ($null -ne $Metadata) {
+        $declared = [Version]$Metadata.version
+        $declaredText = '{0}.{1}.{2}' -f $declared.Major,$declared.Minor,$declared.Build
+        if ($Metadata.app -ne 'JapanischTrainer' -or $declaredText -ne $appText) { throw 'EXE und release.json passen nicht zusammen.' }
+        if ($Metadata.PSObject.Properties.Name -contains 'course_version') { $expected = [Version]$Metadata.course_version }
+    }
+    if ($CourseVersion.Major -ne $expected.Major -or $CourseVersion.Minor -ne $expected.Minor -or $CourseVersion.Build -ne $expected.Build -or $CourseVersion -gt $AppVersion) {
+        throw 'Kursdateien stimmen nicht mit der ausdruecklichen Versionszuordnung ueberein. Keine gemischte Installation verpacken.'
+    }
+}
 function Validate-App([string]$Source) {
     foreach ($relative in $Config.required_files) {
         Need-File (Join-Path $Source $relative)
@@ -179,13 +192,10 @@ function Validate-App([string]$Source) {
     if ($version -lt [Version]$Config.minimum_version) {
         throw "Hier ist noch Version $version installiert. Fuer den V11-Installer zuerst die V11 fertig bauen/installieren oder deren dist\JapanischTrainer-Ordner mit -AppDir angeben. Die alte Version wurde nicht veraendert."
     }
-    if ([Version]$course.content_version -ne $version) {
-        # .NET treats 11.0.0 and 11.0.0.0 differently; compare the three content components.
-        $cv = [Version]$course.content_version
-        if ($cv.Major -ne $version.Major -or $cv.Minor -ne $version.Minor -or $cv.Build -ne $version.Build) {
-            throw 'EXE und Kursdateien haben unterschiedliche Versionen. Keine gemischte Installation verpacken.'
-        }
-    }
+    $metadata = $null
+    $metadataPath = Join-Path $Source 'release.json'
+    if (Test-Path -LiteralPath $metadataPath -PathType Leaf) { $metadata = Get-Content -LiteralPath $metadataPath -Raw -Encoding UTF8 | ConvertFrom-Json }
+    Assert-VersionMapping $version $course.content_version $metadata
     $lessons = @($course.units | ForEach-Object { $_.lessons })
     $cards = @($lessons | ForEach-Object { $_.cards })
     if ($lessons.Count -lt $Config.minimum_lessons -or $cards.Count -lt $Config.minimum_cards) {

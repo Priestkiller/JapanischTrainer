@@ -28,9 +28,9 @@ with tempfile.TemporaryDirectory() as temp:
         root.update();refresh()
     def prepare(name):
         app.choose_teacher(name,True);app.open_lesson('1:0',1,True)
-        app.flow.phase='meaning';app.flow.reset_task();app.detail_open=True;app.message='';app.hover='';app.focus='';app.clear_reaction();refresh();pump(.04)
+        app.flow.phase='meaning';app.flow.reset_task();app.inline_speech=True;app.message='';app.hover='';app.focus='';app.clear_reaction();refresh();pump(.04)
     def correct():
-        opts,c=app.flow.answers();click('answer:'+str(opts.index(c)))
+        app.inline_speech=False;refresh();opts,c=app.flow.answers();click('answer:'+str(opts.index(c)));app.speak_card(app.current_card());refresh()
     def capture(name):
         refresh();root.update_idletasks();x=root.winfo_rootx();y=root.winfo_rooty()
         app.actors.composite(app.frame.image).convert('RGB').save(out/name)
@@ -48,7 +48,7 @@ with tempfile.TemporaryDirectory() as temp:
             log('Closed idle and real correct-answer teacher joy during an explicit explanation; no Kiko: '+name)
             seq=app.reactions.sequence;app.check_answer(app.flow.answers()[1]);assert app.reactions.sequence==seq
             app.flow.reset_task();app.clear_reaction();opts,c=app.flow.answers()
-            wrong=next(i for i,v in enumerate(opts) if v!=c);click('answer:'+str(wrong));pump(.05)
+            app.inline_speech=False;refresh();wrong=next(i for i,v in enumerate(opts) if v!=c);click('answer:'+str(wrong));app.speak_card(app.current_card());refresh();pump(.05)
             assert not app.flow.success and app.actor_mood()=='encourage',name
             log('Friendly encouragement and duplicate-answer guard: '+name)
         prepare('sakura');correct();app.choose_teacher('ren',True)
@@ -83,7 +83,7 @@ with tempfile.TemporaryDirectory() as temp:
         assert app.actor_mood()=='idle'
         app.skip_listening();app.check_answer(c);assert app.flow.success and app.actor_mood()=='idle'
         log('Unread and explicitly skipped audio are not celebrated')
-        prepare('sakura');app.flow.phase='write';app.flow.reset_task();refresh()
+        prepare('sakura');app.inline_speech=False;app.flow.phase='write';app.flow.reset_task();refresh()
         assert app.entry is not None;app.entry.insert(0,'arigatoo');app.entry.event_generate('<KeyRelease>');root.update()
         app.check_learn_text();assert app.actor_mood()=='praise';entry=app.entry;value=entry.get()
         pump(.4);assert app.entry is entry and entry.get()==value
@@ -93,7 +93,7 @@ with tempfile.TemporaryDirectory() as temp:
         app.navigate('review');app.reveal_review();app.rate_review(True)
         assert app.actor_mood()=='praise' and app.actor_feedback().source=='review-known'
         log('Self-rated review acknowledges memory without a fabricated pronunciation score')
-        prepare('sakura');click('speak');assert app.view=='lesson' and app.inline_speech
+        prepare('sakura');assert app.view=='lesson' and app.inline_speech
         pinned=app.pinned_rect;app.wheel(500);refresh();assert app.pinned_rect==pinned
         log('Inline speaking and pronunciation assistance stay on the lesson page')
         # UI-only figures screen captures have no simulated ASR results on screen.
@@ -102,7 +102,7 @@ with tempfile.TemporaryDirectory() as temp:
     finally:app.close()
 report={'passed':checks,'count':len(checks),'platform':sys.platform,
         'audio':'Callback probes only. No microphone/model inference.',
-        'windows':'Not executed. Installer builds the Windows executable on the target PC.',
+        'windows':'Native Windows UI executed with isolated test profile.' if sys.platform=='win32' else 'Windows not executed in this run.',
         'captures':'Live native app framebuffer with a temporary test profile; no desktop capture.'}
 (out/'reaction-ui-report.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf8')
 print('PASS',len(checks),flush=True)

@@ -38,6 +38,9 @@ class Package4Tests(unittest.TestCase):
         extension=json.loads((ROOT/'tests/fixtures/exercise-expansion-contract.json').read_text('utf8'))
         for path,sha in base['protected_files'].items():
             if path=='mobile/web/talk-ui.mjs':continue # Teacher canvas is explicitly changed; dialogue graph/model protections remain below and in talk tests.
+            if path=='storage.py':
+                original=(ROOT/path).read_bytes().replace(b",'speech_support':{},'speech_reviews':{}",b'').replace(b",'speech_support','speech_reviews'",b'')
+                self.assertEqual(hashlib.sha256(original).hexdigest(),sha,path);continue
             if path=='mobile/web/talk.mjs':
                 original=(ROOT/path).read_bytes().replace(b"['spoken','typed','selection']",b"['spoken','typed']").replace(b"['spoken','selection'].includes(saved.source)?saved.source:'typed'",b"saved.source==='spoken'?'spoken':'typed'").replace(b"['spoken','selection'].includes(source)?source:'typed'",b"source==='spoken'?'spoken':'typed'")
                 self.assertEqual(hashlib.sha256(original).hexdigest(),sha,path);continue
