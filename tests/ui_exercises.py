@@ -24,7 +24,7 @@ with tempfile.TemporaryDirectory() as tmp,patch.dict(os.environ,{'JAPANISCHTRAIN
   for key in app.exercise_book.packs:
    app.open_lesson(key,0,True);render();click('exercise-round');assert app.view=='exercises';assert app.exercise_round.state['stage']=='intro';click('ex-next');r=app.exercise_round
    assert r.state['stage']=='main';checks.append(key)
-   if key=='5:0':
+   if key in ('5:0','v11:read-plan'):
     for tid in r.state['queue']:
      assert r.task['id']==tid
      family=r.task['family'];render()
@@ -36,13 +36,35 @@ with tempfile.TemporaryDirectory() as tmp,patch.dict(os.environ,{'JAPANISCHTRAIN
      else:click('ex-help');assert r.answer['help']>=1;assert not r.answer['success'];click('ex-help')
      if family!='hear_gap':app.scroll=0
      render();capture(family)
-     assert solve(r);render();click('ex-next')
+     t=r.task
+     if family in ('echo','recall'):assert solve(r) # explicit synthetic speech result
+     else:
+      if family=='pairs':
+       # Replay completion is synthetic; selections/checking are actual UI actions.
+       for pair in t['pairs']:
+        r.heard(pair['id'])
+        with patch.object(app,'exercise_audio'):click('ex-pair-left-'+pair['id'])
+        click('ex-pair-right-'+pair['id'])
+      elif family in ('read','choice_gap'):click('ex-choice-'+t['answers'][0])
+      elif family=='hear_gap':
+       r.heard();app.scroll=0;render()
+       while not app.entry:app.wheel(120);render()
+       app.focus='';app.on_key(SimpleNamespace(widget=app.canvas,keysym='Tab',state=0,char=''));root.update();assert app.focus=='native-input'
+       app.entry.delete(0,'end');app.entry.insert(0,t['answers'][0]);root.update()
+      else:
+       pool=list(t['tokens'])
+       for j,word in enumerate(t['solutions'][0]):
+        token=next(v for v in pool if v['text']==word);pool.remove(token)
+        if family=='multi_gap':click('ex-slot-'+str(j))
+        click('ex-token-'+token['id'])
+      click('ex-check');assert r.answer['success'],t['id']
+     render();click('ex-next')
     assert r.state['stage']=='complete'
    app.exercise_return();render();assert app.view=='lesson';assert app.flow.phase=='understand'
-  app.open_lesson('v11:read-plan',0,True);app.open_exercises();r=app.exercise_round;r.start();r.state['index']=next(i for i,k in enumerate(r.state['queue']) if r.book.tasks[k]['family']=='read');r.state['task']={};r.sanitize();app.scroll=0;render();capture('read')
+  app.open_lesson('v11:read-plan',0,True);app.open_exercises();r=app.exercise_round;r.restart();r.start();r.state['index']=next(i for i,k in enumerate(r.state['queue']) if r.book.tasks[k]['family']=='read');r.state['task']={};r.sanitize();app.scroll=0;render();capture('read')
   for size in ['1080x700','1280x800','1920x1080']:
    root.geometry(size);root.update();render();click('ex-help');render();capture('window-'+size);click('ex-help')
   assert app.store.data['xp']==0 and app.store.data['completed']==[]
-  (out/'report.json').write_text(json.dumps({'passed':True,'lesson_entry_points':checks,'full_round':'5:0','native_window':True,'microphone':False,'simulated_audio_results':True},ensure_ascii=False,indent=2),'utf8')
+  (out/'report.json').write_text(json.dumps({'passed':True,'lesson_entry_points':checks,'full_rounds':['5:0','v11:read-plan'],'native_window':True,'microphone':False,'simulated_audio_results':True,'native_task_controls':True,'keyboard_focus':True},ensure_ascii=False,indent=2),'utf8')
   print('PASS native Windows:',len(checks),'entry points, full round, help and preserved input')
  finally:app.close()
