@@ -33,7 +33,13 @@ class Package4Tests(unittest.TestCase):
         old=copy.deepcopy(base['numbers_lesson']);changed=copy.deepcopy(raw['12:0'])
         changed['cards'][4]['detail']=old['cards'][4]['detail'];self.assertEqual(changed,old)
         for k,l in raw.items():self.assertEqual(digest({'xp':l['xp'],'cards':[[c['jp'],c['romaji'],c['de']] for c in l['cards']]}),base['identities'][k],k)
-        for path,sha in base['protected_files'].items():self.assertEqual(hashlib.sha256((ROOT/path).read_bytes()).hexdigest(),sha,path)
+        # Four explicitly requested extensions are pinned separately. Their
+        # unchanged assessment, course and model sections are independently tested.
+        extension=json.loads((ROOT/'tests/fixtures/exercise-expansion-contract.json').read_text('utf8'))
+        for path,sha in base['protected_files'].items():
+            if path in extension['authorized_files']:
+                self.assertEqual(hashlib.sha256((ROOT/path).read_text('utf8').encode()).hexdigest(),extension['authorized_files'][path],path)
+            else:self.assertEqual(hashlib.sha256((ROOT/path).read_bytes()).hexdigest(),sha,path)
     def test_inventory_explicit_prerequisites_and_no_duplicate_review_count(self):
         selected=[l for l in self.learning.lessons if l.get('study_guide',{}).get('package')==4]
         self.assertEqual({l['key'] for l in selected},set(authored.GUIDES));self.assertEqual(len(selected),25)

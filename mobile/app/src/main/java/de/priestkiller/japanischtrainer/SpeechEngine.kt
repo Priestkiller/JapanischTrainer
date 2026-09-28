@@ -19,6 +19,7 @@ class SpeechEngine(private val models: ModelStore, private val event: (String, M
     @Volatile private var decoding=false
     @Volatile private var destroyed=false
     private var recorder: AudioRecord? = null
+    @Volatile private var ownRecording: Pair<String,FloatArray>? = null
 
     private fun tts(): OfflineTts {
         check(models.ready()) { "Bitte zuerst das Sprachpaket unter Einstellungen laden." }
@@ -74,6 +75,35 @@ class SpeechEngine(private val models: ModelStore, private val event: (String, M
         }
     }
     fun stopPlayback() { generation.incrementAndGet(); runCatching { playback?.pause(); playback?.flush() } }
+    /** Only the latest explicitly identified recording, in RAM, can be replayed. */
+    fun playRecording(original:String, request:String) {
+        val own=ownRecording
+        if(recording || decoding || own==null || own.first!=original) {
+            event("audioError",mapOf("request" to request,"message" to "Diese Aufnahme ist nicht mehr verfügbar.")); return
+        }
+        stopPlayback(); val id=generation.get(); val samples=own.second
+        worker.execute {
+            try {
+                if(destroyed || id!=generation.get())return@execute
+                val track=AudioTrack.Builder().setAudioAttributes(AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_MEDIA)
+                    .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH).build())
+                    .setAudioFormat(AudioFormat.Builder().setEncoding(AudioFormat.ENCODING_PCM_FLOAT).setSampleRate(16000)
+                        .setChannelMask(AudioFormat.CHANNEL_OUT_MONO).build())
+                    .setTransferMode(AudioTrack.MODE_STREAM).setBufferSizeInBytes(maxOf(16384,
+                        AudioTrack.getMinBufferSize(16000,AudioFormat.CHANNEL_OUT_MONO,AudioFormat.ENCODING_PCM_FLOAT))).build()
+                playback=track
+                try {
+                    track.play();event("audioStarted",mapOf("request" to request));var offset=0
+                    while(offset<samples.size && id==generation.get() && !destroyed) {
+                        val n=track.write(samples,offset,minOf(4096,samples.size-offset),AudioTrack.WRITE_BLOCKING)
+                        check(n>0) { "Wiedergabe fehlgeschlagen." };offset+=n
+                    }
+                    while(id==generation.get()&&!destroyed&&track.playbackHeadPosition<offset)Thread.sleep(20)
+                    if(id==generation.get()&&!destroyed)event("audioDone",mapOf("request" to request))
+                } finally { playback=null;runCatching { track.stop() };track.release() }
+            } catch(e:Exception) { if(id==generation.get()&&!destroyed)event("audioError",mapOf("request" to request,"message" to (e.message?:"Wiedergabe fehlgeschlagen."))) }
+        }
+    }
     @Suppress("MissingPermission")
     fun startRecording(request:String) {
         if(destroyed)return
@@ -83,7 +113,7 @@ class SpeechEngine(private val models: ModelStore, private val event: (String, M
         }
         stopPlayback()
         if(!models.ready()) { event("speechError",mapOf("request" to request,"message" to "Bitte zuerst das Sprachpaket laden.")); return }
-        cancelRecording=false; recording=true
+        ownRecording=null; cancelRecording=false; recording=true
         Thread({
             val chunks=ArrayList<FloatArray>(); var count=0; var peak=0f; var sum=0.0; var voiced=0
             try {
@@ -109,6 +139,7 @@ class SpeechEngine(private val models: ModelStore, private val event: (String, M
                     "Zu wenig Sprache erkannt. Bitte etwas näher ans Mikrofon sprechen und erneut versuchen." }
                 val samples=FloatArray(count); var pos=0
                 chunks.forEach { it.copyInto(samples,pos); pos+=it.size }
+                ownRecording=request to samples
                 decoding=true; event("recognizing",mapOf("request" to request))
                 worker.execute {
                     try {
@@ -125,7 +156,7 @@ class SpeechEngine(private val models: ModelStore, private val event: (String, M
             } catch(e:Exception) { recording=false; if(!cancelRecording&&!destroyed)event("speechError",mapOf("request" to request,"message" to (e.message?:"Mikrofon nicht verfügbar."))) }
         },"JapaneseMicrophone").start()
     }
-    fun stopRecording(cancel:Boolean=false) { cancelRecording=cancel; recording=false; runCatching { recorder?.stop() } }
+    fun stopRecording(cancel:Boolean=false) { cancelRecording=cancel; recording=false; if(cancel)ownRecording=null; runCatching { recorder?.stop() } }
     fun stopAll() { stopPlayback(); stopRecording(true) }
     fun close() { destroyed=true; stopAll(); worker.execute { tts?.release(); recognizer?.release() }; worker.shutdown() }
     // Instrumented test: real synthesis and recognition, no microphone or speaker involved.

@@ -17,7 +17,7 @@ from learning import Learning
 from lesson_ui import LessonMixin
 from study import matches_romaji
 from motion import PRESETS,preset_name
-ROOT=app_root();VERSION='11.0.6'
+ROOT=app_root();VERSION='11.0.7'
 NAV=[('home','home','Startseite'),('path','book','Lernen'),('speaking','mic','Sprechen'),('listening','headphones','Hören'),('writing','pencil','Schreiben'),('vocab','cards','Vokabeln'),('grammar','layers','Grammatik'),('kanji','kanji','Kanji'),('review','repeat','Wiederholen'),('progress','chart','Fortschritt'),('teachers','teachers','Lehrer'),('settings','settings','Einstellungen')]
 
 class TrainerApp(LessonMixin):
@@ -69,13 +69,32 @@ class TrainerApp(LessonMixin):
         if new!=self.scroll:self.scroll=new;self.request_draw()
     def on_key(self,e):
         if e.widget is self.entry:
+            if e.keysym=='Tab':
+                self.canvas.focus_set();self.focus='ex-check' if self.entry_mode=='exercise' else self.focus;self.request_draw();return 'break'
+            if e.keysym=='Return' and self.entry_mode=='exercise':
+                # Native Windows IME composition is not a submitted answer.
+                composing=False
+                if os.name=='nt':
+                    import ctypes
+                    imm=ctypes.windll.imm32;imm.ImmGetContext.restype=ctypes.c_void_p
+                    imm.ImmGetContext.argtypes=[ctypes.c_void_p]
+                    imm.ImmGetCompositionStringW.argtypes=[ctypes.c_void_p,ctypes.c_uint,ctypes.c_void_p,ctypes.c_uint]
+                    imm.ImmReleaseContext.argtypes=[ctypes.c_void_p,ctypes.c_void_p]
+                    context=imm.ImmGetContext(self.entry.winfo_id())
+                    if context:
+                        composing=imm.ImmGetCompositionStringW(context,8,None,0)>0
+                        imm.ImmReleaseContext(self.entry.winfo_id(),context)
+                if not composing:self.exercise_check()
+                return
             if e.keysym=='Return' and self.entry_mode=='writing':self.check_writing()
             elif e.keysym=='Return' and self.entry_mode=='study':self.check_learn_text()
             return
         if e.keysym=='Tab':
             ids=[h.id for h in self.hits]
+            if self.entry is not None:ids.insert(0,'native-input')
             if ids:
                 i=ids.index(self.focus) if self.focus in ids else -1;self.focus=ids[(i+(-1 if e.state&1 else 1))%len(ids)];self.request_draw()
+                if self.focus=='native-input':self.entry.focus_set()
             return 'break'
         if e.keysym=='Return':
             h=next((h for h in self.hits if h.id==self.focus),None)
@@ -83,9 +102,11 @@ class TrainerApp(LessonMixin):
         if e.keysym=='Escape':
             if self.recording:self.stop_capture(False)
             elif self.view=='lesson' and self.inline_speech:self.speak_card(self.current_card())
+            elif self.view=='exercises':self.exercise_return()
             elif self.view in ('lesson','speaking','complete'):self.navigate('path')
         if e.keysym=='space':
-            if self.view=='speaking':self.toggle_recording()
+            if self.view=='exercises' and self.exercise_round.task['family'] in ('echo','recall'):self.exercise_record()
+            elif self.view=='speaking':self.toggle_recording()
             elif self.view=='lesson':
                 if self.inline_speech:self.toggle_recording()
                 else:self.speak(self.current_card()['jp'])
@@ -96,6 +117,7 @@ class TrainerApp(LessonMixin):
         if e.keysym in ('Next','Down'):self.wheel(120)
         if e.keysym in ('Prior','Up'):self.wheel(-120)
     def navigate(self,page):
+        if self.view=='exercises' and page!=self.view:self.cancel_exercise()
         if self.recording:self.stop_capture(False)
         if self.view=='lesson':self.flow.snapshot()
         if page!=self.view:self.speech_epoch+=1;self.inline_speech=False
@@ -146,6 +168,7 @@ class TrainerApp(LessonMixin):
             except Exception:pass
         self.request_draw()
     def stop_capture(self,grade=True):
+        if self.view=='exercises':self.exercise_stop(grade);return
         if not self.recording:return
         self.recording=False
         try:
@@ -179,8 +202,10 @@ class TrainerApp(LessonMixin):
                 if token!=self.task_token:continue
                 self.job=''
                 if error:
-                    self.speech_error=error
-                    if self.view!='speaking' and not (self.view=='lesson' and self.inline_speech):self.notify(error,10)
+                    if hasattr(cb,'on_error'):cb.on_error(error)
+                    else:
+                        self.speech_error=error
+                        if self.view!='speaking' and not (self.view=='lesson' and self.inline_speech):self.notify(error,10)
                 else:cb(value)
                 self.request_draw()
         except queue.Empty:pass
@@ -523,6 +548,7 @@ class TrainerApp(LessonMixin):
     def hide_entry(self):
         if self.entry:
             if self.entry_mode=='study' and hasattr(self,'flow'):self.flow.input_text=self.entry.get()
+            if self.entry_mode=='exercise' and self.exercise_round:self.exercise_round.set('text',self.entry.get())
             self.entry.destroy();self.entry=None;self.entry_mode=''
     def place_entry(self):
         if self.entry_target is None:self.hide_entry();return
@@ -531,9 +557,12 @@ class TrainerApp(LessonMixin):
             self.hide_entry();self.entry_mode=mode;self.entry=tk.Entry(self.root,relief='flat',bd=0,highlightthickness=0,insertbackground='#4b8bbe',bg='#f3f8ff' if mode in ('writing','study') else '#112840',fg='#163559' if mode in ('writing','study') else '#f3f7ff')
             if mode=='search':self.entry.insert(0,self.query);self.entry.bind('<KeyRelease>',self.search_changed)
             elif mode=='study':self.entry.insert(0,self.flow.input_text);self.entry.bind('<KeyRelease>',self.learn_text_changed)
+            elif mode=='exercise':
+                self.exercise_text=tk.StringVar(value=self.exercise_round.answer['text']);self.entry.configure(textvariable=self.exercise_text)
+                self.exercise_text.trace_add('write',self.exercise_input_changed)
         x,y,w,h=b;sc=self.render_scale;family='Yu Gothic UI' if os.name=='nt' and mode=='writing' and self.write_mode=='Japanisch' else 'Segoe UI' if os.name=='nt' else 'DejaVu Sans'
-        light=mode in ('writing','study') or (mode=='search' and self.view=='path')
-        self.entry.configure(font=(family,max(11,round(16*sc))),bg='#f3f8ff' if light else '#112840',fg='#163559' if light else '#f3f7ff');self.entry.place(x=round(x*sc),y=round(y*sc),width=round(w*sc),height=round(h*sc))
+        light=mode in ('writing','study','exercise') or (mode=='search' and self.view=='path')
+        self.entry.configure(font=(family,max(11,round(16*sc))),bg='#f3f8ff' if light else '#112840',fg='#163559' if light else '#f3f7ff',highlightthickness=2 if mode=='exercise' else 0,highlightcolor='#1682c2',highlightbackground='#b8cfdf');self.entry.place(x=round(x*sc),y=round(y*sc),width=round(w*sc),height=round(h*sc))
     def search_changed(self,e):
         if self.entry and self.entry_mode=='search':self.query=self.entry.get();self.scroll=0;self.request_draw()
     def capture_and_exit(self):

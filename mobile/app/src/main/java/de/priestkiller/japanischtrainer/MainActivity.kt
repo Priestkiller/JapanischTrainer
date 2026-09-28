@@ -116,6 +116,9 @@ class MainActivity:Activity() {
             speech.speak(text,sid,speed.toFloat(),request)
         }
         @JavascriptInterface fun stopAudio() { speech.stopPlayback() }
+        @JavascriptInterface fun playRecording(original:String,request:String) {
+            if(original.length<=100 && request.length<=100)speech.playRecording(original,request)
+        }
         @JavascriptInterface fun record(request:String) { runOnUiThread {
             if(request.length>100)return@runOnUiThread
             if(checkSelfPermission(Manifest.permission.RECORD_AUDIO)==PackageManager.PERMISSION_GRANTED) speech.startRecording(request)

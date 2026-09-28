@@ -105,13 +105,20 @@ export class Session {
       }
     }
     this.reset();
+    const draft=saved?.task;
+    if(restore&&record(draft)&&draft.identity===`${this.key}:${this.phase}:${this.mode}`){
+      for(const name of ['input_text','feedback'])if(typeof draft[name]==='string')this[name]=draft[name].slice(0,4000);
+      for(const name of ['hintOpen','audio_seen','audio_skipped'])if(typeof draft[name]==='boolean')this[name]=draft[name];
+      if(typeof draft.chosen==='string')this.chosen=draft.chosen;
+      this.tokens=Array.isArray(draft.tokens)?draft.tokens.filter(v=>Number.isInteger(v)&&v>=0&&v<this.course.blocks(this.card,this.lesson).length).slice(0,10):[];
+    }
     if(this.mode==='learn'&&this.passed.includes(this.phase)) {this.success=true;this.feedback='Diesen Schritt hast du bereits geschafft. Weiter geht’s!';}
     this.snapshot();
   }
   get card() {return this.lesson.cards[this.index];}
   get key() {return `${this.lesson.key}:${this.index}`;}
-  reset() { this.success=false;this.feedback='';this.hintOpen=false;this.tokens=[];this.audio_seen=false;this.audio_skipped=false;this.shortSpeechReady=false;this.skipped=false;this.chosen=null;this.listenCard=shuffle(this.lesson.cards.slice(0,this.index+1),`${this.key}:${this.phase}`)[0]; }
-  snapshot() {this.store.data.lesson_sessions[this.lesson.key]={flow_revision:FLOW_REVISION,passed:[...this.passed],index:this.index,phase:this.phase,mode:this.mode,recap:[...this.recap],recap_total:this.recap_total,recap_passed:this.recap_passed};this.store.data.last_lesson={key:this.lesson.key,card:this.index};this.store.save();}
+  reset() { this.success=false;this.feedback='';this.hintOpen=false;this.input_text='';this.tokens=[];this.audio_seen=false;this.audio_skipped=false;this.shortSpeechReady=false;this.skipped=false;this.chosen=null;this.listenCard=shuffle(this.lesson.cards.slice(0,this.index+1),`${this.key}:${this.phase}`)[0]; }
+  snapshot() {this.store.data.lesson_sessions[this.lesson.key]={flow_revision:FLOW_REVISION,passed:[...this.passed],index:this.index,phase:this.phase,mode:this.mode,recap:[...this.recap],recap_total:this.recap_total,recap_passed:this.recap_passed,task:{identity:`${this.key}:${this.phase}:${this.mode}`,input_text:this.input_text,tokens:[...this.tokens],chosen:this.chosen,hintOpen:this.hintOpen,audio_seen:this.audio_seen,audio_skipped:this.audio_skipped,feedback:this.feedback}};this.store.data.last_lesson={key:this.lesson.key,card:this.index};this.store.save();}
   metrics() { const existing=this.store.data.study_cards[this.key];const m=record(existing)?existing:{};this.store.data.study_cards[this.key]=m;for(const key of ['attempts','mistakes','speech_attempts','speech_skips'])if(!Number.isInteger(m[key]))m[key]=0;if(!Array.isArray(m.phases))m.phases=[];return m; }
   mark(ok,feedback,skipped=false) {
     if(this.success)return;this.success=!!ok;this.feedback=feedback;this.skipped=skipped;

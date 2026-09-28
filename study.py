@@ -83,6 +83,14 @@ class StudySession:
                 self.recap_total=int(saved.get('recap_total',len(lesson['cards'])))
                 self.recap_passed=int(saved.get('recap_passed',0))
         self.reset_task()
+        task=saved.get('task') if restore and isinstance(saved,dict) else None
+        if isinstance(task,dict) and task.get('identity')==self.card_key+':'+self.phase+':'+self.mode:
+            for name in ('input_text','feedback'):
+                if isinstance(task.get(name),str):setattr(self,name,task[name][:4000])
+            for name in ('success','audio_seen','audio_skipped','hint_used','skipped'):
+                if isinstance(task.get(name),bool):setattr(self,name,task[name])
+            if isinstance(task.get('chosen'),str):self.chosen=task['chosen']
+            self.tokens=[v for v in task.get('tokens',[]) if isinstance(v,int) and 0<=v<len(self.book.blocks(self.card,self.lesson)[0])][:10] if isinstance(task.get('tokens'),list) else []
     @property
     def card(self):return self.lesson['cards'][self.index]
     @property
@@ -96,7 +104,8 @@ class StudySession:
     def snapshot(self):
         self.store.data.setdefault('lesson_sessions',{})[self.lesson['key']]={
             'index':self.index,'phase':self.phase,'mode':self.mode,'recap':self.recap,
-            'recap_total':self.recap_total,'recap_passed':self.recap_passed}
+            'recap_total':self.recap_total,'recap_passed':self.recap_passed,
+            'task':{'identity':self.card_key+':'+self.phase+':'+self.mode,**{k:getattr(self,k) for k in ('input_text','feedback','success','audio_seen','audio_skipped','hint_used','skipped','chosen','tokens')}}}
         self.store.data['last_lesson']={'key':self.lesson['key'],'card':self.index}
         self.store.save()
     def metrics(self):

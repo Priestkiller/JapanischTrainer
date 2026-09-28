@@ -7,10 +7,12 @@ from reactions import ReactionController
 from motion import PRESETS,preset_name,preset_strength
 from study import PracticeBook,StudySession,PHASES,LABELS,matches_romaji
 from ui_renderer import WHITE,MUTED,INK,BLUE,PINK
+from exercise_ui import ExerciseMixin
 
-class LessonMixin:
+class LessonMixin(ExerciseMixin):
     def init_v8(self):
         self.book=PracticeBook(self.learning.root,self.learning)
+        self.init_exercises()
         self.flow=StudySession(self.lesson,self.store,self.book,self.card_index)
         self.inline_speech=False;self.detail_open=False;self.speech_epoch=0
         self.reactions=ReactionController();self.reaction_until=0.;self.reaction='idle';self.actor_specs=[]
@@ -109,7 +111,7 @@ class LessonMixin:
     def skip_listening(self):
         self.flow.audio_skipped=True;self.flow.feedback='Ohne Ton: Diese Aufgabe zählt als Leseübung, nicht als bestandener Hörtest.';self.request_draw()
     def learn_text_changed(self,e=None):
-        if self.entry and self.entry_mode=='study':self.flow.input_text=self.entry.get()
+        if self.entry and self.entry_mode=='study':self.flow.input_text=self.entry.get();self.flow.snapshot()
     def check_learn_text(self):
         if not self.entry or self.entry_mode!='study' or self.flow.success:return
         before=self.flow.metrics()['attempts'];text=self.entry.get()
@@ -123,9 +125,9 @@ class LessonMixin:
         self._react_to_step(before,'write');self.request_draw()
     def pick_block(self,index):
         if self.flow.success:return
-        if index not in self.flow.tokens:self.flow.tokens.append(index);self.request_draw()
+        if index not in self.flow.tokens:self.flow.tokens.append(index);self.flow.snapshot();self.request_draw()
     def clear_blocks(self):
-        if not self.flow.success:self.flow.tokens=[];self.flow.feedback='';self.request_draw()
+        if not self.flow.success:self.flow.tokens=[];self.flow.feedback='';self.flow.snapshot();self.request_draw()
     def check_blocks(self):
         if self.flow.success:return
         before=self.flow.metrics()['attempts'];self.flow.check_build()
@@ -270,10 +272,13 @@ class LessonMixin:
         q+=p.paragraph(32,q,jp,w-95,24,INK,True,lineheight=31,jp=True)
         q+=p.paragraph(32,q+3,roma,w-79,14,'#557399',lineheight=20)+6
         p.paragraph(32,q,de,w-70,14,INK,True,lineheight=20)
-        p.icon('speaker',w-64,o+65,24,'#1089ef');p.register('example:'+str(index),(w-75,o+56,42,42),lambda jp=jp:self.speak(jp))
+        p.icon('speaker',w-64,o+65,24,'#1089ef');p.register('example:'+str(index),(w-75,o+56,42,42),lambda jp=jp:self.exercise_audio(example_text=jp) if self.view=='exercises' else self.speak(jp))
         return o+h+15
     def draw_explanation(self,p,o,w):
         f=self.flow;c=f.card;profile=self.book.profile(c,self.lesson)
+        if self.lesson['key'] in self.exercise_book.packs:
+            p.button('exercise-round',(18,o,w-44,44),'Abwechslungsreich üben',self.open_exercises,'blue',size=14,enabled=not self.job and not self.recording)
+            o+=59
         guide=self.lesson.get('study_guide')
         if guide:
             o=self.text_block(p,o,w,'Dein Lernziel',self.lesson.get('goal',''))

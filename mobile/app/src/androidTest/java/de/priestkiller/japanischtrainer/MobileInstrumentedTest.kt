@@ -174,11 +174,11 @@ class MobileInstrumentedTest {
                 assertEquals("true",eval(scenario,"document.documentElement.scrollWidth <= innerWidth"))
                 screenshot(scenario,"android-package2-wrong-answer")
                 eval(scenario,"document.querySelector('#show-hint').click()")
-                assertEquals("true",eval(scenario,"!!document.querySelector('.exercise-hint') && document.querySelector('#advance').disabled && JSON.parse(AndroidTrainer.getProfile()).xp===321"))
+                assertEquals("true",eval(scenario,"!!!document.querySelector('.exercise-hint') && document.querySelector('#advance').disabled && JSON.parse(AndroidTrainer.getProfile()).xp===321"))
                 scenario.recreate();waitFor(scenario,"document.documentElement.dataset.ready === 'true'")
                 eval(scenario,"document.querySelector('#hero-resume').click()")
                 waitFor(scenario,"document.querySelector('#step-count')?.textContent === 'Schritt 6/6'")
-                assertEquals("true",eval(scenario,"!document.querySelector('.exercise-hint') && document.querySelector('#advance').disabled && JSON.parse(AndroidTrainer.getProfile()).teacher_id==='ren'"))
+                assertEquals("true",eval(scenario,"!!document.querySelector('.exercise-hint') && document.querySelector('#advance').disabled && JSON.parse(AndroidTrainer.getProfile()).teacher_id==='ren'"))
             } finally {
                 eval(scenario,"AndroidTrainer.saveProfile($previous)")
             }
@@ -215,11 +215,11 @@ class MobileInstrumentedTest {
                 assertEquals("true",eval(scenario,"document.documentElement.scrollWidth <= innerWidth"))
                 screenshot(scenario,"android-package3-wrong-answer")
                 eval(scenario,"document.querySelector('#show-hint').click()")
-                assertEquals("true",eval(scenario,"!!document.querySelector('.exercise-hint') && document.querySelector('#advance').disabled && JSON.parse(AndroidTrainer.getProfile()).xp===321"))
+                assertEquals("true",eval(scenario,"!!!document.querySelector('.exercise-hint') && document.querySelector('#advance').disabled && JSON.parse(AndroidTrainer.getProfile()).xp===321"))
                 scenario.recreate();waitFor(scenario,"document.documentElement.dataset.ready === 'true'")
                 eval(scenario,"document.querySelector('#hero-resume').click()")
                 waitFor(scenario,"document.querySelector('#step-count')?.textContent === 'Schritt 6/6'")
-                assertEquals("true",eval(scenario,"!document.querySelector('.exercise-hint') && document.querySelector('#advance').disabled && JSON.parse(AndroidTrainer.getProfile()).teacher_id==='ren'"))
+                assertEquals("true",eval(scenario,"!!document.querySelector('.exercise-hint') && document.querySelector('#advance').disabled && JSON.parse(AndroidTrainer.getProfile()).teacher_id==='ren'"))
             } finally {
                 eval(scenario,"AndroidTrainer.saveProfile($previous)")
             }
@@ -256,11 +256,11 @@ class MobileInstrumentedTest {
                 assertEquals("true",eval(scenario,"document.documentElement.scrollWidth <= innerWidth"))
                 screenshot(scenario,"android-package4-wrong-answer")
                 eval(scenario,"document.querySelector('#show-hint').click()")
-                assertEquals("true",eval(scenario,"!!document.querySelector('.exercise-hint') && document.querySelector('#advance').disabled && JSON.parse(AndroidTrainer.getProfile()).xp===321"))
+                assertEquals("true",eval(scenario,"!!!document.querySelector('.exercise-hint') && document.querySelector('#advance').disabled && JSON.parse(AndroidTrainer.getProfile()).xp===321"))
                 scenario.recreate();waitFor(scenario,"document.documentElement.dataset.ready === 'true'")
                 eval(scenario,"document.querySelector('#hero-resume').click()")
                 waitFor(scenario,"document.querySelector('#step-count')?.textContent === 'Schritt 6/6'")
-                assertEquals("true",eval(scenario,"!document.querySelector('.exercise-hint') && document.querySelector('#advance').disabled && JSON.parse(AndroidTrainer.getProfile()).teacher_id==='ren'"))
+                assertEquals("true",eval(scenario,"!!document.querySelector('.exercise-hint') && document.querySelector('#advance').disabled && JSON.parse(AndroidTrainer.getProfile()).teacher_id==='ren'"))
             } finally {
                 eval(scenario,"AndroidTrainer.saveProfile($previous)")
             }
@@ -288,9 +288,65 @@ class MobileInstrumentedTest {
                 scenario.recreate();waitFor(scenario,"document.documentElement.dataset.ready === 'true'")
                 eval(scenario,"document.querySelector('#hero-resume').click()")
                 waitFor(scenario,"document.querySelector('#step-count')?.textContent === 'Schritt 5/6'")
-                assertEquals("true",eval(scenario,"!document.querySelector('.exercise-hint') && document.querySelector('#advance').disabled && JSON.parse(AndroidTrainer.getProfile()).xp===321 && JSON.parse(AndroidTrainer.getProfile()).last_lesson.card===4"))
+                assertEquals("true",eval(scenario,"!!document.querySelector('.exercise-hint') && document.querySelector('#advance').disabled && JSON.parse(AndroidTrainer.getProfile()).xp===321 && JSON.parse(AndroidTrainer.getProfile()).last_lesson.card===4"))
             } finally { eval(scenario,"AndroidTrainer.saveProfile($previous)") }
         }
+    }
+    @Test fun exerciseVarietyNativeShellPreservesDraftRotationAndKeyboard() {
+        // Native WebView/AtomicFile and actual device keyboard. Audio outcomes
+        // are not manufactured here; all uncompleted speech phases stay open.
+        ActivityScenario.launch(MainActivity::class.java).use { scenario ->
+            waitFor(scenario,"document.documentElement.dataset.ready === 'true'")
+            eval(scenario,"""
+                (async()=>{const data=await fetch('data/exercises.json').then(r=>r.json());
+                  const pack=data.packs.find(p=>p.lesson==='5:0');
+                  const p=JSON.parse(AndroidTrainer.getProfile());p.xp=321;p.completed=['0:0'];p.legacy_unlocked=['5:0'];p.last_lesson={key:'5:0',card:0};
+                  p.lesson_sessions={'5:0':{flow_revision:2,index:0,phase:'speak',passed:[],mode:'learn'}};
+                  p.lesson_sessions['exercises:5:0']={revision:1,queue:pack.tasks,index:5,stage:'main',review:[],review_index:0,reviewed:[],outcomes:[],task:{}};
+                  AndroidTrainer.saveProfile(JSON.stringify(p));window.fixtureReady=true;})()
+            """.trimIndent())
+            waitFor(scenario,"window.fixtureReady === true")
+            scenario.recreate();waitFor(scenario,"document.documentElement.dataset.ready === 'true'")
+            eval(scenario,"document.querySelector('#hero-resume').click();document.querySelector('#exercise-round').click()")
+            waitFor(scenario,"!!document.querySelector('#ex-input')")
+            eval(scenario,"const input=document.querySelector('#ex-input');input.value='mi';input.dispatchEvent(new Event('input'));document.querySelector('#ex-help').click()")
+            assertEquals("true",eval(scenario,"document.querySelector('#ex-input').value==='mi' && document.querySelector('#ex-next').disabled"))
+            scenario.recreate();waitFor(scenario,"document.documentElement.dataset.ready === 'true'")
+            eval(scenario,"document.querySelector('#hero-resume').click();document.querySelector('#exercise-round').click()")
+            assertEquals("true",eval(scenario,"document.querySelector('#ex-input').value==='mi' && !!document.querySelector('.exercise-hint') && document.querySelector('#ex-next').disabled"))
+            scenario.onActivity { it.requestedOrientation=ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE }
+            waitFor(scenario,"innerWidth > innerHeight")
+            assertEquals("true",eval(scenario,"document.querySelector('#ex-input').value==='mi' && document.documentElement.scrollWidth<=innerWidth"))
+            screenshot(scenario,"android-exercises-landscape")
+            scenario.onActivity { it.requestedOrientation=ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;it.web.settings.textZoom=140 }
+            waitFor(scenario,"innerHeight > innerWidth")
+            eval(scenario,"document.querySelector('#ex-help').click();document.querySelector('#ex-input').scrollIntoView({block:'center'});document.querySelector('#ex-input').focus()")
+            scenario.onActivity { activity ->
+                (activity.getSystemService(android.content.Context.INPUT_METHOD_SERVICE) as android.view.inputmethod.InputMethodManager).showSoftInput(activity.web,android.view.inputmethod.InputMethodManager.SHOW_IMPLICIT)
+            }
+            Thread.sleep(1000)
+            assertEquals("true",eval(scenario,"document.documentElement.scrollWidth<=innerWidth && document.querySelector('#ex-input').value==='mi'"))
+            screenshot(scenario,"android-exercises-large-text-keyboard")
+            eval(scenario,"document.querySelector('#ex-check').scrollIntoView({block:'center'});document.querySelector('#ex-check').click()")
+            assertEquals("true",eval(scenario,"document.querySelector('#ex-next').disabled && JSON.parse(AndroidTrainer.getProfile()).xp===321 && JSON.parse(AndroidTrainer.getProfile()).lesson_sessions['5:0'].passed.length===0"))
+            scenario.onActivity { activity ->
+                (activity.getSystemService(android.content.Context.INPUT_METHOD_SERVICE) as android.view.inputmethod.InputMethodManager).hideSoftInputFromWindow(activity.web.windowToken,0)
+                activity.web.settings.textZoom=100
+            }
+        }
+    }
+    @Test fun recordingReplayRejectsWrongIdentityAndClearsOnCancel() {
+        val context=InstrumentationRegistry.getInstrumentation().targetContext
+        val events=java.util.concurrent.LinkedBlockingQueue<String>()
+        val engine=SpeechEngine(ModelStore(context)) { type,_ -> events.offer(type) }
+        try {
+            engine.playRecording("unknown","r1");assertEquals("audioError",events.poll(5,TimeUnit.SECONDS))
+            val field=SpeechEngine::class.java.getDeclaredField("ownRecording");field.isAccessible=true
+            field.set(engine,Pair("real-id",FloatArray(1600))) // Synthetic RAM buffer, not human speech.
+            engine.playRecording("old-id","r2");assertEquals("audioError",events.poll(5,TimeUnit.SECONDS))
+            engine.stopAll();assertNull(field.get(engine))
+            engine.playRecording("real-id","r3");assertEquals("audioError",events.poll(5,TimeUnit.SECONDS))
+        } finally { engine.close() }
     }
     @Test fun realAndroidSpeechModelInferenceWithoutMicrophone() {
         val context=InstrumentationRegistry.getInstrumentation().targetContext

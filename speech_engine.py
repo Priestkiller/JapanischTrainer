@@ -448,7 +448,8 @@ class LocalSpeechEngine:
                 text = str(result)
         return str(text or "").strip()
 
-    def speak(self, text: str, speed: float = 1.0, speaker_id: int = 0) -> None:
+    def speak(self, text: str, speed: float = 1.0, speaker_id: int = 0, cancelled=None) -> None:
+        if cancelled and cancelled():return
         if sd is None:
             raise RuntimeError("sounddevice ist nicht verfügbar.")
         tts = self._ensure_tts()
@@ -461,6 +462,7 @@ class LocalSpeechEngine:
         except Exception:
             gen.extra = {"lang": "ja"}
         audio = tts.generate(text, gen)
+        if cancelled and cancelled():return
         if audio is None or len(audio.samples) == 0:
             raise RuntimeError("Die Sprachsynthese hat kein Audio erzeugt.")
         sd.stop()

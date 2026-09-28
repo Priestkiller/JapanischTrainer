@@ -1,0 +1,36 @@
+{
+  "baseline": "56f0b4e34f142bb5f8dc6d23447b8ce251812460",
+  "reason": "Only draft retention, scoped exercise styles and RAM recording replay are authorized extensions. Course, assessment/completion methods and model/voice configuration stay protected.",
+  "authorized_files": {
+    "study.py": "79542d89aca0c0b94bd6cd6c6c4ff69ec7ff9f79c49dd04ad8b699daf52e85b0",
+    "mobile/web/core.mjs": "460268182c77090d595a8bf3e6bf7e0d5d09485b4d6e43556ee3e20fb21a388e",
+    "mobile/web/styles.css": "8e72e3201f57880beb3c95cda1b8db3547736e2c99b86881310c2df80e8e5330",
+    "mobile/app/src/main/java/de/priestkiller/japanischtrainer/SpeechEngine.kt": "85aa1264a2a01044a4642c1c4bb00d8862a16c3e1c7d023c3b23a693b3a47702"
+  },
+  "unchanged_python": {
+    "PracticeBook.__init__": "91cee9c2f17ed4cc1b04595878836534d2bfbaafdc1f9a152f966427f877cc95",
+    "PracticeBook.profile": "3bbf05285ad680c57dc51eeafce9f26a4d581bc247c12f6ae86c701fa59d7b89",
+    "PracticeBook.intro": "f18d74a8c676a20eaa8a20f534e40cc4698c00ecb9cde7e4a963f4371a57e5e3",
+    "PracticeBook.option_label": "15013c64f84388e1fb913ee6e23777c8da23f963797a2c7f193ac72305081932",
+    "PracticeBook.blocks": "32a374c532223699995b20c23057afb9482edaa71ee6ee2624cf72eaaf553880",
+    "StudySession.card": "6a58db49f43f8602d13b2db577c91eff586f93f905fe0f0b2aa7d752b9d8383c",
+    "StudySession.card_key": "785b2c10ad835300743d8e2f800c524b9b774cc383bd5e662f5da33fa6f85de7",
+    "StudySession.reset_task": "9b0f1fc96ba990c6d3e4ea4fb766496b1e8ec70bb9def5cd97f07514f96a866d",
+    "StudySession.metrics": "8aa473376fb0131805448bd02cac789a604e13a1df9c522f52db914ac7bde8cd",
+    "StudySession.mark": "43e95681679c34315e89859cd11e1f0a91663030d517a8b3e044a674ca9c9f9c",
+    "StudySession.answers": "d0b9bde18ba7d109cdbaa00b695acdcafbbf2dbe8c233ea35ee693a42e6cdba7",
+    "StudySession.choose": "06f71df1ac79da3964839905b282f9517926fa6a2bbd2e1f19da9502e63b724f",
+    "StudySession.wrong_choice": "49e1ff7868ddbb93e241c10eead3c2103a685cc0514e79d91c9bf639f90b0dec",
+    "StudySession.check_build": "53e585629009f79accdd98f1b0db281aac6b897835d6fd94f7a7553d08c2440b",
+    "StudySession.check_write": "9e0f316f1b87457bc3b379ccaacc666309afa2b86d5cd1527f4900b0641a993d",
+    "StudySession.advance": "2fab6841a9e8786fac4d9a62a62b4a542c561dbb6ae69dbd7c1ff52811b077a2"
+  },
+  "course_sha256": "2ed321092f1c22bd3af1dd0537f23bb2155b438a095f6e84e4e9ef3ea852ee1e",
+  "core_before_session": "9d54cbe643c8cb101a9b692ac78ae9df6dc3b1d93c38b3ed26a4988c2f20ff58",
+  "core_from_metrics": "326f3bf613445a500d4db51ba5650bb635eaba627508662961ecb9c6940c8819",
+  "styles_prefix_length": 19744,
+  "styles_prefix": "f03f107371f02a702d55069dc2f38e5008b3fa0636e5c63d3330bfaca6fa1ac4",
+  "native_model_functions": "32df1a22e3567855c7dd7d12b6c2b0e5d99b707945c1cdcd2b2d4e0ce79c1a1b",
+  "native_diagnostic": "3c9bded4213120c37633f3ddd848994528ea9f7cb5ad953207732624a09c1a45",
+  "course_without_version_sha256": "3e7e9f9913b038f3fad320fd8420ddb9d2af029fa9175879c5b198dfe0e58128"
+}

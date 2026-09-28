@@ -402,7 +402,8 @@ def upgrade():
             p['feedback']={'build':authored['build'],'write':c['note']+' Prüfe die erklärte Lesung und die Vokallänge.','listen':p['explain']}
             c['detail']=p
     improve_numbers(lessons)
-    data['content_version']='11.0.6'
+    # Reapplying this historical package must not downgrade later content metadata.
+    data['content_version']=max(data.get('content_version','0'), '11.0.6', key=lambda v:tuple(int(n) for n in v.split('.')))
     path.write_text(json.dumps(data,ensure_ascii=False,indent=2)+'\n','utf-8')
     print(json.dumps({'package':4,'lessons':len(GUIDES),'cards':sum(len(lessons[k]['cards']) for k in GUIDES),'applications':len(APPLICATIONS),'corrected_previous_cards':['12:0:4'],'new_lessons':0},ensure_ascii=False))
 

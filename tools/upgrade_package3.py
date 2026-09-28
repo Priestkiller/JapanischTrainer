@@ -265,7 +265,7 @@ def upgrade():
             p['scenario']=scenario
             p['feedback']={'build':authored['build'],'write':c['note']+' Prüfe die vollständige Lesung und ihre langen Vokale.','listen':p['explain']}
             c['detail']=p
-    data['content_version']='11.0.5'
+    data['content_version']=max(data.get('content_version','0'), '11.0.5', key=lambda v:tuple(int(n) for n in v.split('.')))
     path.write_text(json.dumps(data,ensure_ascii=False,indent=2)+'\n','utf-8')
     print(json.dumps({'package':3,'lessons':len(GUIDES),'cards':sum(len(lessons[k]['cards']) for k in GUIDES),'applications':len(APPLICATIONS),'new_lessons':0},ensure_ascii=False))
 
