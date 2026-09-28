@@ -37,12 +37,13 @@ Der Update-Button erhält Lernstände und Sprachpaket. Details:
 
 ### Neue Android Testansicht
 
-[Android 11.0.8 Testversion](https://github.com/Priestkiller/JapanischTrainer/releases/tag/android-test-v11.0.8-1):
-dunkle Lernkarten nach den Handyreferenzen, große Hauptaktionen, Mikrofonpegel,
-eigene Aufnahme und bessere Aufbereitung kurzer/leiser Kana. Über **Testversion suchen**
-erreichbar. Die automatische Erkennung einzelner Laute bleibt unsicher;
-[Prüfbericht](TESTBERICHT_ANDROID_11.0.8.md) und
-[S24-Ultra-Prüfliste](GERAETEPRUEFUNG_ANDROID_11.0.8.md) trennen Software- und Menschentests.
+[Android 11.0.9 Testversion](https://github.com/Priestkiller/JapanischTrainer/releases/tag/android-test-v11.0.9-1):
+Japan-Nachtszene, leuchtende Lernkarten, sichtbare Lehrkraft und Kiko sowie feste
+Hauptaktionen. Normales Üben benötigt kein vertikales Scrollen; lange Aufgaben und
+Erklärungen haben sichtbare Seitentasten. Über **Testversion suchen** erreichbar.
+Die Kurzlaut-Aufbereitung aus 11.0.8 bleibt erhalten; automatische Erkennung einzelner
+Laute bleibt unsicher. [Prüfbericht](TESTBERICHT_ANDROID_11.0.9.md) und
+[S24-Ultra-Prüfliste](GERAETEPRUEFUNG_ANDROID_11.0.9.md) trennen Software- und Menschentests.
 Windows-Testversion bleibt 11.0.7; stabil bleibt 11.0.4.
 
 ## Lernen und Datenschutz
