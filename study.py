@@ -6,6 +6,7 @@ Legacy identifiers remain the V6/V7 keys; additions have explicit v11:slug keys.
 from __future__ import annotations
 import json, random, re, time, unicodedata
 from pathlib import Path
+from adaptive import record_attempt, PHASE_SKILL
 
 PHASES = ('understand','meaning','listen','build','write','apply')
 LABELS = {'understand':'Verstehen','meaning':'Bedeutung','listen':'Hören',
@@ -123,6 +124,10 @@ class StudySession:
             self.store.data.setdefault('review',{})[self.card_key]={'box':0,'due':time.time()}
         elif not skipped and self.phase not in m['phases']:m['phases'].append(self.phase)
         if skipped:m.setdefault('skipped_phases',[]).append(self.phase)
+        skill=PHASE_SKILL.get(self.phase)
+        if skill:
+            index=self.listen_index if self.phase=='listen' and self.mode!='recap' else self.index
+            record_attempt(self.store.data, self.lesson['key']+':'+str(index), skill, ok, skipped or self.hint_used)
         self.store.touch_day();self.snapshot()
     def answers(self):
         if self.mode=='recap' or self.phase=='meaning':

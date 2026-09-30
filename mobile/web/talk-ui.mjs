@@ -4,7 +4,7 @@ import {supportView,bindSupport} from './speech-support-ui.mjs';
 
 export function createTalkUI({state,store,course,native,play,stopMedia,navigate,render,toast,esc,nextRequest}) {
  const $=selector=>document.querySelector(selector),$$=selector=>[...document.querySelectorAll(selector)];
- let session=null,showTranslation=false,showReading=false;
+ let session=null,showTranslation=false,showReading=false,preparation=-1;
  let currentSupport=null;
  const support=()=>{const key=`talk:${session.scene.id}:${session.node}`;if(currentSupport?.key!==key)currentSupport=new SpeechSupport(store,key,{kind:'talk',scene:session.scene.id,node:session.node});return currentSupport;};
  const deck=()=>{const hints=session.current.hints.map((h,i)=>({...h,key:`${session.node}:${i}`})),others=Object.entries(session.scene.nodes).flatMap(([node,v])=>(v.hints??[]).map((h,i)=>({...h,key:`${node}:${i}`})));return speechDeck(hints[0],[],[...hints,...others],'japanese');};
@@ -22,10 +22,12 @@ export function createTalkUI({state,store,course,native,play,stopMedia,navigate,
   stopMedia();const next=safely(()=>new TalkSession(store,sceneId,course.teacher().id,!restart));if(!next)return;
   session=next;if(session.done){session=safely(()=>new TalkSession(store,sceneId,course.teacher().id,false));if(!session)return;}
   currentSupport=null;if(restart)for(const key of Object.keys(store.data.speech_support??{}))if(key.startsWith(`talk:${sceneId}:`))delete store.data.speech_support[key];
-  navigate('conversation');if(state.caps.native&&state.caps.models)playReply();
+  preparation=session.scene.preparation?.length?0:-1;
+  navigate('conversation');if(preparation<0&&state.caps.native&&state.caps.models)playReply();
  }
  function conversation() {
   if(!session)return hub();const t=teacher();
+  if(preparation>=0){const p=session.scene.preparation[preparation];return `<section class="card daily-card"><p class="eyebrow">Vorbereitung ${preparation+1} / ${session.scene.preparation.length}</p><h1>${esc(session.scene.title)}</h1><p class="jp" lang="ja">${esc(p.jp)}</p><p class="romaji">${esc(p.romaji)}</p><p>${esc(p.de)}</p><p class="sub">${esc(p.why)}</p><button class="ghost wide" id="talk-prep-audio">▷ Anhören</button><button class="primary wide" id="talk-prep-next">${preparation===session.scene.preparation.length-1?'Gespräch beginnen':'Weiter'} →</button><button class="ghost wide" data-nav="talk">Zurück zu den Situationen</button></section>`;}
   return `<div class="talk-layout"><div class="lesson-header"><button class="back-button" data-nav="talk" aria-label="Zurück zu den Gesprächen">‹</button><div><h1>${esc(session.scene.title)}</h1><span class="sub">Geführtes Offline-Gespräch</span></div></div>
    <div class="talk-partner"><canvas id="teacher-canvas" data-teacher="${t.id}" width="512" height="768" aria-label="${esc(t.name)} hört dir zu"></canvas><div><strong>${esc(t.name)}</strong><p class="sub">${esc(session.scene.role)}</p></div><span class="pill">${session.done?'Geschafft':'Du & '+esc(t.name)}</span></div>
    <div class="talk-aids"><button class="small ghost" id="talk-translation" aria-pressed="${showTranslation}">Übersetzung ${showTranslation?'aus':'an'}</button><button class="small ghost" id="talk-reading" aria-pressed="${showReading}">Lesung ${showReading?'aus':'an'}</button></div>
@@ -43,6 +45,7 @@ export function createTalkUI({state,store,course,native,play,stopMedia,navigate,
  function bind() {
   $$('[data-talk-scene]').forEach(b=>b.onclick=()=>{const saved=store.data.talk.sessions[b.dataset.talkScene];open(b.dataset.talkScene,!!saved&&!!SCENES.find(s=>s.id===b.dataset.talkScene).nodes[saved.node].done);});
   if(state.page!=='conversation'||!session)return;
+  if(preparation>=0){$('#talk-prep-audio').onclick=()=>play(session.scene.preparation[preparation].jp,false,false,teacher());$('#talk-prep-next').onclick=()=>{stopMedia();preparation++;if(preparation>=session.scene.preparation.length)preparation=-1;render();};return;}
   document.dispatchEvent(new Event('jt-actors'));
   if(!session.done)bindSupport(support(),render,()=>{if(state.recording!=='idle')return;const d=deck();if(support().confirm(d)){session.setDraft(d.options.find(c=>c.id===d.correct).jp,'selection');const result=safely(()=>session.respond());session.feedback='Mit Auswahlhilfe geschafft. Du kannst diese Szene später wieder sprechen üben.';document.body.dataset.teacherMood='praise';if(result?.reply&&state.caps.models)playReply();}});
   $('#talk-translation').onclick=()=>{showTranslation=!showTranslation;render();};
@@ -60,7 +63,7 @@ export function createTalkUI({state,store,course,native,play,stopMedia,navigate,
   const history=$('.chat-history');if(history)history.scrollTop=history.scrollHeight;refresh();
  }
  function record() {
-  if(!session||session.done||state.page!=='conversation')return;
+  if(!session||session.done||preparation>=0||state.page!=='conversation')return;
   if(state.recording==='recording'){state.recording='recognizing';native('stopRecording',false);refresh();return;}
   if(state.recording!=='idle')return;
   if(!state.caps.native){toast('Das Mikrofon ist in der installierten Android-App verfügbar. Du kannst hier tippen.');return;}
@@ -70,7 +73,7 @@ export function createTalkUI({state,store,course,native,play,stopMedia,navigate,
   state.recording='requesting';state.speechMessage='Mikrofon wird vorbereitet …';native('record',id);refresh();
  }
  function recognized(value,context) {
-  if(state.page!=='conversation'||!session||context!==session.context||session.done)return;
+  if(state.page!=='conversation'||!session||preparation>=0||context!==session.context||session.done)return;
   support().finish(state.speech?.id,!String(value??'').trim()?'unreliable':session.current.routes.some(r=>r.pattern.test(normalizeTalk(value)))?'accepted':'mismatch');
   session.setDraft(value,'spoken');session.feedback='';safely(()=>session.save());state.speechMessage='Prüfe den erkannten Text und sende deine Antwort.';render();
  }

@@ -4,6 +4,7 @@ import json, math, os, shutil
 from datetime import date, timedelta, datetime
 from pathlib import Path
 from motion import preset_name
+from adaptive import clean_adaptive
 
 
 def data_dir():
@@ -27,6 +28,7 @@ class ProgressStore:
                    'show_kiko':True,'library_all':False,'motion_enabled':True,
                    'study_cards':{},'lesson_sessions':{},'speech_support':{},'speech_reviews':{},'motion_preset':'natural'}
         self.load()
+        self.data['adaptive']=clean_adaptive(self.data.get('adaptive'))
 
     def load(self):
         if not self.path.exists():return

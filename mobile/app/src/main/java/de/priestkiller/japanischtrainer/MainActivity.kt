@@ -33,6 +33,9 @@ class MainActivity:Activity() {
     @Volatile private var downloading=false
     private var pendingRecording:String?=null
     private var pendingShortKana=false
+    private var pendingComparison=false
+    private var pendingModelImport:String?=null
+    private lateinit var testModels:Map<String,ModelStore>
     private var availableUpdate:JSONObject?=null
     private var readyApk:File?=null
     private var exportText:String?=null
@@ -43,6 +46,9 @@ class MainActivity:Activity() {
         super.onCreate(savedInstanceState)
         profile=AtomicFile(File(filesDir,"progress.json")); models=ModelStore(this); updates=AppUpdates(this)
         speech=SpeechEngine(models) { type,data -> emit(type,JSONObject(data)) }
+        testModels=mapOf("reazonspeech" to ModelStore(this,"data/modelpacks/reazonspeech.json"),"qwen3" to ModelStore(this,"data/modelpacks/qwen3.json"))
+        speech.alternatives=testModels
+        speech.selectedRecognizer=getPreferences(MODE_PRIVATE).getString("recognizer","sensevoice")?.takeIf { it=="sensevoice"||testModels[it]?.ready()==true }?:"sensevoice"
         val root=FrameLayout(this); root.setBackgroundColor(Color.rgb(7,23,45)); setContentView(root)
         web=WebView(this); web.setBackgroundColor(Color.rgb(247,243,237))
         root.addView(web,FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT))
@@ -82,7 +88,9 @@ class MainActivity:Activity() {
         runOnUiThread { if(!closed) web.evaluateJavascript("window.JTNative && window.JTNative(${JSONObject.quote(type)},$data)",null) }
     }
     private fun capabilities()=JSONObject().put("native",true).put("models",models.ready())
+        .put("device","${Build.MANUFACTURER} ${Build.MODEL} / Android ${Build.VERSION.RELEASE}")
         .put("modelBytes",models.manifest.getLong("bytes")).put("version",BuildConfig.VERSION_NAME).put("profileWarning",profileWarning)
+        .put("recognizer",speech.selectedRecognizer).put("testModels",JSONObject(testModels.mapValues { (_,m)->mapOf("ready" to m.ready(),"bytes" to m.manifest.getLong("bytes")) }))
     private fun message(text:String) { emit("message",JSONObject().put("message",text)) }
     private fun save(text:String):Boolean {
         if(text.length>2_000_000)return false
@@ -122,14 +130,31 @@ class MainActivity:Activity() {
         }
         @JavascriptInterface fun record(request:String) = recordForMode(request,false)
         @JavascriptInterface fun recordKana(request:String) = recordForMode(request,true)
-        private fun recordForMode(request:String,shortKana:Boolean) { runOnUiThread {
+        @JavascriptInterface fun recordComparison(request:String,shortKana:Boolean) = recordForMode(request,shortKana,true)
+        private fun recordForMode(request:String,shortKana:Boolean,comparison:Boolean=false) { runOnUiThread {
             if(request.length>100)return@runOnUiThread
-            if(checkSelfPermission(Manifest.permission.RECORD_AUDIO)==PackageManager.PERMISSION_GRANTED) speech.startRecording(request,shortKana)
-            else { pendingRecording=request;pendingShortKana=shortKana;requestPermissions(arrayOf(Manifest.permission.RECORD_AUDIO),10) }
+            if(checkSelfPermission(Manifest.permission.RECORD_AUDIO)==PackageManager.PERMISSION_GRANTED) speech.startRecording(request,shortKana,comparison)
+            else { pendingRecording=request;pendingShortKana=shortKana;pendingComparison=comparison;requestPermissions(arrayOf(Manifest.permission.RECORD_AUDIO),10) }
         } }
         @JavascriptInterface fun stopRecording(cancel:Boolean) { pendingRecording=null; speech.stopRecording(cancel) }
         @JavascriptInterface fun downloadModels() { runOnUiThread { askModels() } }
         @JavascriptInterface fun cancelDownload() { models.cancelled=true }
+        @JavascriptInterface fun downloadTestModel(kind:String) {runOnUiThread {askTestModel(kind)}}
+        @JavascriptInterface fun importTestModel(kind:String) {runOnUiThread {
+            if(downloading||!testModels.containsKey(kind))return@runOnUiThread
+            pendingModelImport=kind
+            startActivityForResult(Intent(Intent.ACTION_OPEN_DOCUMENT).addCategory(Intent.CATEGORY_OPENABLE).setType("*/*"),23)
+        }}
+        @JavascriptInterface fun cancelTestModel() {testModels.values.forEach {it.cancelled=true}}
+        @JavascriptInterface fun selectRecognizer(kind:String) {runOnUiThread {
+            if(kind!="sensevoice"&&testModels[kind]?.ready()!=true){message("Testmodell zuerst vollständig laden.");return@runOnUiThread}
+            speech.stopAll();speech.selectedRecognizer=kind;getPreferences(MODE_PRIVATE).edit().putString("recognizer",kind).apply();emit("capabilities",capabilities())
+        }}
+        @JavascriptInterface fun exportSpeechReport(json:String) {runOnUiThread {
+            if(json.length>2_000_000)return@runOnUiThread
+            exportText=json
+            startActivityForResult(Intent(Intent.ACTION_CREATE_DOCUMENT).addCategory(Intent.CATEGORY_OPENABLE).setType("application/json").putExtra(Intent.EXTRA_TITLE,"JapanischTrainer-Sprachvergleich.json"),22)
+        }}
         @JavascriptInterface fun checkUpdates() { runOnUiThread { checkUpdate() } }
         @JavascriptInterface fun checkTestUpdates() { runOnUiThread { checkUpdate(true) } }
         @JavascriptInterface fun installUpdate() { runOnUiThread { this@MainActivity.installUpdate() } }
@@ -165,6 +190,21 @@ class MainActivity:Activity() {
                     try { models.install { done,total -> emit("modelProgress",JSONObject().put("done",done).put("total",total)) }; emit("modelsReady",capabilities()) }
                     catch(e:Exception) { emit("modelError",JSONObject().put("message",e.message?:"Sprachpaket konnte nicht geladen werden.")) }
                     finally { downloading=false }
+                }
+            }.show()
+    }
+    private fun askTestModel(kind:String) {
+        val model=testModels[kind]?:return
+        if(downloading||model.ready())return
+        val size=model.manifest.getLong("bytes")/1_000_000
+        AlertDialog.Builder(this).setTitle("Zusätzliches Testmodell laden")
+            .setMessage("${model.manifest.getString("name")}: ca. $size MB, zusätzlich zum bisherigen Sprachpaket. Am besten WLAN nutzen. Während Installation etwa ${size*3} MB freien Speicher vorhalten. Die Kurzlautqualität ist noch nicht mit menschlichen Stimmen bestätigt. Das Modell bleibt nach dem Laden offline. Lizenz: Apache 2.0; Details unter Lizenzen. SenseVoice bleibt ausgewählt.")
+            .setNegativeButton("Abbrechen",null).setPositiveButton("Laden") {_,_->
+                speech.stopAll();downloading=true
+                io.execute {
+                    try {model.install {done,total->emit("testModelProgress",JSONObject().put("kind",kind).put("done",done).put("total",total))};emit("testModelReady",capabilities())}
+                    catch(e:Exception){emit("testModelError",JSONObject().put("message",e.message?:"Download fehlgeschlagen."))}
+                    finally {downloading=false}
                 }
             }.show()
     }
@@ -209,18 +249,39 @@ class MainActivity:Activity() {
         super.onRequestPermissionsResult(requestCode,permissions,grantResults)
         val request=pendingRecording; pendingRecording=null
         if(requestCode==10 && request!=null) {
-            if(grantResults.firstOrNull()==PackageManager.PERMISSION_GRANTED)speech.startRecording(request,pendingShortKana)
+            if(grantResults.firstOrNull()==PackageManager.PERMISSION_GRANTED)speech.startRecording(request,pendingShortKana,pendingComparison)
             else emit("speechError",JSONObject().put("request",request).put("message","Mikrofonzugriff nicht erlaubt. Du kannst ihn in den Android-App-Einstellungen erlauben."))
         }
     }
     @Deprecated("Platform document picker callback")
     override fun onActivityResult(requestCode:Int,resultCode:Int,data:Intent?) {
         super.onActivityResult(requestCode,resultCode,data)
-        if(resultCode!=RESULT_OK) { exportText=null; return }
+        if(resultCode!=RESULT_OK) { exportText=null;pendingModelImport=null; return }
         val uri=data?.data?:return
         try {
             when(requestCode) {
                 20 -> { val text=exportText?:return; contentResolver.openOutputStream(uri,"wt")!!.bufferedWriter().use { it.write(text) }; message("Lernstand exportiert.") }
+                22 -> {val text=exportText?:return;contentResolver.openOutputStream(uri,"wt")!!.bufferedWriter().use {it.write(text)};message("Sprachvergleich exportiert. Kein automatischer Upload.")}
+                23 -> {
+                    val kind=pendingModelImport?:return;pendingModelImport=null
+                    val model=testModels[kind]?:return
+                    if(downloading)return
+                    downloading=true;model.cancelled=false
+                    io.execute {
+                        val archive=File(cacheDir,"model-import.zip")
+                        try {
+                            val size=model.manifest.getLong("bytes")
+                            require(filesDir.usableSpace>size+model.manifest.getLong("unpacked_bytes")+100_000_000L) {"Zu wenig freier Speicher."}
+                            contentResolver.openInputStream(uri)!!.use {input->archive.outputStream().use {output->
+                                val buffer=ByteArray(65536);var total=0L
+                                while(true){check(!model.cancelled);val n=input.read(buffer);if(n<0)break;total+=n;require(total<=size);output.write(buffer,0,n);if(total%1048576L<65536L)emit("testModelProgress",JSONObject().put("kind",kind).put("done",total).put("total",size))}
+                                require(total==size)
+                            }}
+                            check(!model.cancelled);model.install(archive) {_,_->};emit("testModelReady",capabilities())
+                        } catch(e:Exception){emit("testModelError",JSONObject().put("message",e.message?:"Modellimport fehlgeschlagen."))}
+                        finally{archive.delete();downloading=false}
+                    }
+                }
                 21 -> { val bytes=contentResolver.openInputStream(uri)!!.use { ModelStore.readLimited(it,2_000_000) }
                     require(bytes.size<=2_000_000); emit("profileCandidate",JSONObject().put("json",String(bytes,Charsets.UTF_8).removePrefix("\uFEFF"))) }
             }
@@ -229,7 +290,7 @@ class MainActivity:Activity() {
     }
     override fun onStop() { super.onStop(); pendingRecording=null; speech.stopAll(); emit("audioCancelled") }
     override fun onDestroy() {
-        closed=true; models.cancelled=true; speech.close(); io.shutdownNow()
+        closed=true; models.cancelled=true; testModels.values.forEach {it.cancelled=true};speech.close(); io.shutdownNow()
         web.removeJavascriptInterface("AndroidTrainer"); web.destroy(); super.onDestroy()
     }
 }

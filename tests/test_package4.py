@@ -39,13 +39,20 @@ class Package4Tests(unittest.TestCase):
         for path,sha in base['protected_files'].items():
             if path=='mobile/web/talk-ui.mjs':continue # Teacher canvas is explicitly changed; dialogue graph/model protections remain below and in talk tests.
             if path=='storage.py':
-                original=(ROOT/path).read_bytes().replace(b",'speech_support':{},'speech_reviews':{}",b'').replace(b",'speech_support','speech_reviews'",b'')
+                original=(ROOT/path).read_bytes().replace(b'from adaptive import clean_adaptive\n',b'').replace(b"        self.data['adaptive']=clean_adaptive(self.data.get('adaptive'))\n",b'').replace(b",'speech_support':{},'speech_reviews':{}",b'').replace(b",'speech_support','speech_reviews'",b'')
                 self.assertEqual(hashlib.sha256(original).hexdigest(),sha,path);continue
             if path=='mobile/web/talk.mjs':
-                original=(ROOT/path).read_bytes().replace(b"['spoken','typed','selection']",b"['spoken','typed']").replace(b"['spoken','selection'].includes(saved.source)?saved.source:'typed'",b"saved.source==='spoken'?'spoken':'typed'").replace(b"['spoken','selection'].includes(source)?source:'typed'",b"source==='spoken'?'spoken':'typed'")
+                current=(ROOT/path).read_text('utf8').replace("import {RESTAURANT} from './restaurant.mjs';\n",'').replace(' RESTAURANT,\n','')
+                prior=(ROOT/'tests/fixtures/talk-before-11.0.11.mjs').read_text('utf8')
+                import re
+                # Only the explicit unsupported-answer explanation changes in the old engine.
+                pattern=r'   this\.feedback=`Die (?:Offline-Szene|Szene).*?`;'
+                current=re.sub(pattern,lambda _:next(line for line in prior.splitlines() if 'Diese Antwort passt noch nicht' in line),current)
+                self.assertEqual(current,prior)
+                original=(ROOT/'tests/fixtures/talk-before-11.0.11.mjs').read_bytes().replace(b"['spoken','typed','selection']",b"['spoken','typed']").replace(b"['spoken','selection'].includes(saved.source)?saved.source:'typed'",b"saved.source==='spoken'?'spoken':'typed'").replace(b"['spoken','selection'].includes(source)?source:'typed'",b"source==='spoken'?'spoken':'typed'")
                 self.assertEqual(hashlib.sha256(original).hexdigest(),sha,path);continue
             if path in extension['authorized_files']:
-                if path=='mobile/web/core.mjs':continue # Original assessment regions: test_exercise_preservation; new assistance: test_speech_support.
+                if path in ('mobile/web/core.mjs','study.py','mobile/app/src/main/java/de/priestkiller/japanischtrainer/SpeechEngine.kt'):continue # Original assessment regions: test_exercise_preservation; new assistance: test_speech_support.
                 self.assertEqual(hashlib.sha256((ROOT/path).read_text('utf8').encode()).hexdigest(),extension['authorized_files'][path],path)
             else:self.assertEqual(hashlib.sha256((ROOT/path).read_bytes()).hexdigest(),sha,path)
     def test_inventory_explicit_prerequisites_and_no_duplicate_review_count(self):

@@ -1,3 +1,6 @@
+import {createSpeechLab} from './speech-lab.mjs';
+import {createPracticeUI} from './practice-ui.mjs';
+import {createDailyUI} from './daily-ui.mjs';
 import {Store,Course,Session,PHASES,LABELS,cleanProfile,compact,shuffle,reviewCard,isShortKana} from './core.mjs';
 import {createTalkUI} from './talk-ui.mjs';
 import {createExerciseUI} from './exercise-ui.mjs';
@@ -9,9 +12,9 @@ const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const bridge=window.AndroidTrainer;
 const state={page:'home',session:null,query:'',stage:'Alle',libraryQuery:'',review:null,revealed:false,teacherDetail:null,
-  caps:{native:!!bridge,models:false,modelBytes:0,version:'11.0.10-android.1-test'},audio:null,speech:null,speechMessage:'',recording:'idle',
+  caps:{native:!!bridge,models:false,modelBytes:0,version:'11.0.11-android.1-test'},audio:null,speech:null,speechMessage:'',recording:'idle',
   modelStatus:'',modelPercent:0,modelBusy:false,updateStatus:'',updateAvailable:false,updateBusy:false,updateTest:false,licenseText:'',completeLesson:null};
-let course,store,catalog,talkUI,exerciseUI,blinkIndex,expressions,animationStop=()=>{},toastTimer,requestCounter=0,saveError='';
+let speechLab,practiceUI,dailyUI,course,store,catalog,talkUI,exerciseUI,blinkIndex,expressions,animationStop=()=>{},toastTimer,requestCounter=0,saveError='';
 const native=(name,...args)=> { if(bridge&&typeof bridge[name]==='function')return bridge[name](...args);return undefined; };
 function toast(text) { $('#toast').textContent=text;$('#toast').classList.add('visible');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('#toast').classList.remove('visible'),4800); }
 function persist(text) {
@@ -20,7 +23,7 @@ function persist(text) {
 }
 function showSaveError() {let el=$('#save-error');if(!el){el=document.createElement('div');el.id='save-error';el.className='storage-error';el.role='alert';document.body.prepend(el);}el.textContent=saveError;}
 function save() {try{store.save();}catch(e){toast(e.message);}}
-function stopMedia() {state.speech?.support?.cancel();native('stopAudio');native('stopRecording',true);state.audio=null;state.speech=null;state.ownSpeech=null;if(state.session)state.session.shortSpeechReady=false;state.recording='idle';talkUI?.refresh();}
+function stopMedia() {speechLab?.cancel();state.speech?.support?.cancel();native('stopAudio');native('stopRecording',true);state.audio=null;state.speech=null;state.ownSpeech=null;if(state.session)state.session.shortSpeechReady=false;state.recording='idle';talkUI?.refresh();}
 function navigate(page) {
   if(state.page==='exercises'&&page!==state.page)exerciseUI?.cancel();
   if(state.session&&state.page==='lesson')state.session.snapshot();
@@ -32,7 +35,7 @@ function teacherStrip() {const t=course.teacher();return `<div class="coach"><im
 function home() {
   const t=course.teacher(),next=course.next(),done=course.lessons.filter(l=>store.data.completed.includes(l.key)).length;
   return `<p class="eyebrow">Dein kleiner Schritt nach Japan</p><section class="hero" aria-label="Willkommen"><div class="hero-copy"><span class="pill">${state.caps.models?'● Alles bereit · offline':`${course.lessons.length} Lektionen · offline lernen`}</span><h1 style="margin-top:16px">Ein bisschen<br>Japanisch.<br>Jeden Tag.</h1><p class="sub">${esc(t.name)} begleitet dich auf deinem Lernweg.</p><button class="primary" id="hero-resume">Weiterlernen →</button><p class="hero-quote">„${esc(t.de)}“</p></div><canvas id="teacher-canvas" width="512" height="768" role="img" aria-label="${esc(t.name)}"></canvas></section>
-  <div class="stats"><div class="stat accent"><strong>${store.data.streak} ${store.data.streak===1?'Tag':'Tage'}</strong><span>Lernserie</span></div><div class="stat"><strong>${store.data.xp} XP</strong><span>Level ${Math.floor(store.data.xp/250)+1}</span></div><div class="stat"><strong>${done} / ${course.lessons.length}</strong><span>Lektionen</span></div></div>
+  ${dailyUI.summary()}<div class="stats"><div class="stat accent"><strong>${store.data.streak} ${store.data.streak===1?'Tag':'Tage'}</strong><span>Lernserie</span></div><div class="stat"><strong>${store.data.xp} XP</strong><span>Level ${Math.floor(store.data.xp/250)+1}</span></div><div class="stat"><strong>${done} / ${course.lessons.length}</strong><span>Lektionen</span></div></div>
   <section class="section"><div class="section-title"><h2>Dein nächster Schritt</h2><button class="text-link" data-nav="course">Lernweg ansehen</button></div><article class="card next-card"><span class="pill">${esc(next.level)}</span><p class="lesson-title">${esc(next.title)}</p><p class="sub">${esc(next.goal??next.unit)}</p><div class="progress" aria-label="${done} von ${course.lessons.length} Lektionen"><span style="width:${done/course.lessons.length*100}%"></span></div><div class="row"><span class="sub">${next.cards.length} Lernkarten · ${next.xp??20} XP</span><button class="small primary" id="next-resume">${store.data.last_lesson.key===next.key?'Fortsetzen':'Loslegen'} →</button></div></article></section>
   <section class="card talk-home"><span class="pill">Neu · Gespräche offline</span><h2>Einfach mal miteinander reden.</h2><p class="sub">Mit ${esc(t.name)} im Café bestellen, jemanden kennenlernen oder das Wochenende planen.</p><button class="primary wide" data-nav="talk">Gespräche üben →</button></section>
   ${!state.caps.models?`<aside class="info"><strong>Deine Lehrer bekommen eine Stimme.</strong><p style="margin:5px 0 7px">Lade einmal das Sprachpaket für Stimmen und Sprechen. Danach funktioniert auch das offline.</p><button class="small ghost" data-nav="settings">Sprachpaket einrichten</button></aside>`:''}
@@ -153,7 +156,7 @@ function libraryRows() {const query=state.libraryQuery.normalize('NFKC').toLower
 function grammar() {return heading('Zum Nachlesen','Grammatik im Überblick','Kleine Erklärungen, die du jederzeit wieder aufschlagen kannst.')+catalog.GRAMMAR_TOPICS.map(([title,jp,romaji,text])=>`<article class="card library-card"><h2>${esc(title)}</h2><p class="jp" lang="ja">${esc(jp)}</p><p class="romaji">${esc(romaji)}</p><p class="sub">${esc(text)}</p></article>`).join('');}
 function progress() {const done=course.lessons.filter(l=>store.data.completed.includes(l.key));return heading('Dein Fortschritt','Jeder kleine Schritt zählt.')+
   `<div class="stats"><div class="stat"><strong>${done.length}/150</strong><span>Lektionen</span></div><div class="stat accent"><strong>${store.data.xp} XP</strong><span>Erfahrung</span></div><div class="stat"><strong>${store.data.streak}</strong><span>Tage in Folge</span></div></div><section class="section">${course.stages.map(stage=>{const lessons=course.lessons.filter(l=>l.level===stage),count=lessons.filter(l=>store.data.completed.includes(l.key)).length;return `<article class="card"><div class="row"><h3>${esc(stage)}</h3><span class="sub">${count} / ${lessons.length}</span></div><div class="progress"><span style="width:${count/lessons.length*100}%"></span></div></article>`;}).join('')}</section><div class="info">Der Kurs ist ein Lernweg und keine JLPT- oder GER-Zertifizierung.</div>`;}
-function more() {return heading('Alles an einem Ort','Mehr für deinen Lernweg')+`<div class="list-menu">${[['talk','Gespräche','Mit deinem Lehrer Alltagssituationen üben'],['library','Wörter & Sätze','Deine persönliche Bibliothek'],['grammar','Grammatik','Erklärungen zum Nachschlagen'],['progress','Fortschritt','Lektionen, XP und deine Lernserie'],['settings','Einstellungen','Stimmen, Updates und Lernstand sichern']].map(([page,title,desc])=>`<button class="menu-button" data-nav="${page}"><div>${title}<span>${desc}</span></div><b>›</b></button>`).join('')}</div>`;}
+function more() {return heading('Alles an einem Ort','Mehr für deinen Lernweg')+`<div class="list-menu">${[['speech-lab','Sprachvergleich','Freiwillige lokale Testrunde und Testmodelle'],['practice-lab','Hörsituationen & Zeichen','Bekanntes anwenden und Formen nachzeichnen'],['daily','Heute für dich','Deine persönliche kurze Übungsrunde'],['talk','Gespräche','Mit deinem Lehrer Alltagssituationen üben'],['library','Wörter & Sätze','Deine persönliche Bibliothek'],['grammar','Grammatik','Erklärungen zum Nachschlagen'],['progress','Fortschritt','Lektionen, XP und deine Lernserie'],['settings','Einstellungen','Stimmen, Updates und Lernstand sichern']].map(([page,title,desc])=>`<button class="menu-button" data-nav="${page}"><div>${title}<span>${desc}</span></div><b>›</b></button>`).join('')}</div>`;}
 function settings() {return heading('So passt es zu dir','Einstellungen')+
   `<section class="card"><h2>Offline-Stimmen & Sprechen</h2><p class="sub">Die acht Lehrer-Stimmen und japanische Erkennung arbeiten mit dem Sprachpaket direkt auf deinem Handy. Aufnahmen werden nicht hochgeladen.</p><div id="models-box">${modelBox()}</div></section>
   <section class="card"><h2>Lernen & Darstellung</h2><label class="field"><span>Sprechtempo · zusätzlich zum Lehrerprofil</span><select id="speed">${[.65,.8,.85,1,1.15].map(v=>`<option value="${v}" ${Math.abs(store.data.tts_speed-v)<.001?'selected':''}>${v.toLocaleString('de-DE')}× ${v===1?'· normal':''}</option>`).join('')}</select></label><label class="setting-row"><span>Sanfte Figurenbewegung</span><input id="motion" type="checkbox" ${store.data.motion_enabled?'checked':''}></label><label class="setting-row"><span>Kiko auf der Startseite</span><input id="kiko" type="checkbox" ${store.data.show_kiko?'checked':''}></label><p class="sub">Schriftgröße und Bildschirmzoom folgen zusätzlich deinen Android-Einstellungen.</p></section>
@@ -166,7 +169,7 @@ function updateBox() {return `<p class="download-status" role="status">${esc(sta
 function render() {
   document.body.classList.toggle('focus-mode',['lesson','exercises'].includes(state.page));
   animationStop();document.body.classList.toggle('motion-off',!store.data.motion_enabled||store.data.motion_preset==='off');
-  const pages={home,course:courseList,lesson,complete,teachers,review,library,grammar,progress,more,settings,exercises:()=>exerciseUI.view(),talk:()=>talkUI.hub(),conversation:()=>talkUI.conversation(),
+  const pages={home,'speech-lab':()=>speechLab.view(),daily:()=>dailyUI.view(),'practice-lab':()=>practiceUI.view(),course:courseList,lesson,complete,teachers,review,library,grammar,progress,more,settings,exercises:()=>exerciseUI.view(),talk:()=>talkUI.hub(),conversation:()=>talkUI.conversation(),
     licenses:()=>heading('Informationen','Lizenzen & Modellbedingungen')+`<button class="ghost" data-nav="settings">‹ Einstellungen</button><pre class="licenses">${esc(state.licenseText)}</pre>`};
   $('#app').innerHTML=(pages[state.page]??home)();
   if(state.page==='lesson')decorateLesson();
@@ -176,6 +179,7 @@ function render() {
 }
 function bindNavigation() {$$('[data-nav]').forEach(b=>b.onclick=()=>navigate(b.dataset.nav));$$('[data-lesson]').forEach(b=>b.onclick=()=>openLesson(b.dataset.lesson));}
 function bindPage() {
+  dailyUI?.bind();practiceUI?.bind();speechLab?.bind();
   talkUI?.bind();
   exerciseUI?.bind();
   if($('#exercise-round'))$('#exercise-round').onclick=()=>exerciseUI.open(state.session.lesson.key);
@@ -263,6 +267,9 @@ function refreshAudio() {
 }
 window.JTNative=(type,data={})=> {
   if(!course)return;
+  if(speechLab?.event(type,data))return;
+  practiceUI?.event(type,data);
+  if(dailyUI?.event(type,data))return;
   if(exerciseUI?.handle(type,data))return;
   if(type==='capabilities'){state.caps={...state.caps,...data};refreshSettingsBoxes();refreshAudio();}
   else if(type==='message')toast(data.message);
@@ -279,7 +286,7 @@ window.JTNative=(type,data={})=> {
     refreshSettingsBoxes();
   } else if(type==='profileCandidate') {
     try {const profile=cleanProfile(JSON.parse(data.json),true);native('confirmImport',JSON.stringify(profile));}catch(e){toast(e.message);}
-  } else if(type==='profileImported') {exerciseUI?.reset();store.data=cleanProfile(data,true);state.session=null;state.review=null;talkUI?.reset();navigate('home');toast('Lernstand übernommen.');}
+  } else if(type==='profileImported') {practiceUI?.reset();dailyUI?.reset();exerciseUI?.reset();store.data=cleanProfile(data,true);state.session=null;state.review=null;talkUI?.reset();navigate('home');toast('Lernstand übernommen.');}
   else if(type==='audioCancelled'){state.speech?.support?.cancel();state.audio=null;state.speech=null;state.ownSpeech=null;if(state.session)state.session.shortSpeechReady=false;state.recording='idle';state.speechMessage='';refreshAudio();}
   else if(type.startsWith('audio')&&data.request===state.audio?.id) {
     if(type==='audioLoading')state.audio.message='Stimme wird vorbereitet …';
@@ -336,14 +343,17 @@ async function animateTeacher() {
   draw(performance.now());
 }
 async function start() {
-  const files=['data/course.json','data/catalog.json','data/deep_lessons.json','assets/animation/blink_index.json','assets/animation/expressions.json','data/exercises.json'];
-  const [raw,c,d,b,e,exerciseData]=await Promise.all(files.map(p=>fetch(p).then(r=>{if(!r.ok)throw Error('Kursdatei fehlt: '+p);return r.json();})));
+  const files=['data/course.json','data/catalog.json','data/deep_lessons.json','assets/animation/blink_index.json','assets/animation/expressions.json','data/exercises.json','data/practice_content.json','data/speech_trial.json'];
+  const [raw,c,d,b,e,exerciseData,practiceData,trialData]=await Promise.all(files.map(p=>fetch(p).then(r=>{if(!r.ok)throw Error('Kursdatei fehlt: '+p);return r.json();})));
   catalog=c;blinkIndex=b;expressions=e;
   document.addEventListener('jt-actors',()=>animateTeacher());
   document.addEventListener('visibilitychange',()=>{if(document.hidden){animationStop();stopMedia();}else animateTeacher();});
   let profile={};try{profile=JSON.parse(bridge?native('getProfile'):localStorage.getItem('jt-mobile-profile')??'{}');}catch(error){toast('Lernstand ist nicht lesbar. Bitte eine Sicherung importieren.');}
   store=new Store(profile,persist);course=new Course(raw,c,d,store);
   exerciseUI=createExerciseUI({data:exerciseData,state,store,course,native,navigate,render,stopMedia,toast,esc,nextRequest:()=>`exercise-${++requestCounter}`,explanation,lessonGuide,focusLesson});
+  practiceUI=createPracticeUI({data:practiceData,state,store,course,play,stopMedia,navigate,render,esc,toast});
+  dailyUI=createDailyUI({state,store,course,native,play,stopMedia,navigate,render,toast,esc,nextRequest:()=>`daily-${++requestCounter}`});
+  speechLab=createSpeechLab({data:trialData,state,native,play,stopMedia,render,esc,toast,nextRequest:()=>`speech-lab-${++requestCounter}`});
   talkUI=createTalkUI({state,store,course,native,play,stopMedia,navigate,render,toast,esc,nextRequest:()=>`talk-speech-${++requestCounter}`});
   if(bridge)state.caps={...state.caps,...JSON.parse(native('getCapabilities'))};
   else {const pack=await fetch('model-pack.json').then(r=>r.json());state.caps.modelBytes=pack.bytes;}

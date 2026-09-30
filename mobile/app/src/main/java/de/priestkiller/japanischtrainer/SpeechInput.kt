@@ -5,6 +5,7 @@ import kotlin.math.sqrt
 
 /** Target-independent signal preparation. Never manufactures an expected answer. */
 object SpeechInput {
+    class NoVoice:IllegalArgumentException("Noch keine ausreichend hörbare Stimme. Sprich nach dem Mikrofonsignal in normaler Lautstärke.")
     data class Prepared(val samples:FloatArray,val gain:Float,val activeMs:Int,val clippedPercent:Float)
     fun prepare(raw:FloatArray,shortKana:Boolean):Prepared {
         require(raw.isNotEmpty() && raw.size<=16000*16 && raw.all { it.isFinite() }) { "Keine gültige Aufnahme. Bitte erneut sprechen." }
@@ -21,7 +22,7 @@ object SpeechInput {
         }
         val threshold=maxOf(.0006f,energy.maxOrNull()!!*.08f)
         val active=energy.indices.filter { energy[it]>=threshold }
-        require(peak>=.001f && active.size>=(if(shortKana)4 else 8)) { "Noch keine ausreichend hörbare Stimme. Sprich nach dem Mikrofonsignal in normaler Lautstärke." }
+        if(peak<.001f || active.size<(if(shortKana)4 else 8))throw NoVoice()
         // Keep consonant onsets and endings; silence padding happens only after VAD.
         val begin=maxOf(0,active.first()*frame-2400)
         val end=minOf(x.size,(active.last()+1)*frame+3200)

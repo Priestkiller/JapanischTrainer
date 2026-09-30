@@ -1,5 +1,6 @@
 /* GPL-3.0-or-later. Mobile port of learning.py and study.py; stable desktop IDs. */
 import {cleanTalk} from './talk.mjs';
+import {cleanAdaptive,recordAttempt,PHASE_SKILL} from './adaptive.mjs';
 import {SpeechSupport,speechDeck} from './speech-support.mjs';
 export const PHASES=['speak','meaning','listen','build','write','apply'];
 export const LABELS={speak:'Hören & Sprechen',meaning:'Bedeutung erkennen',listen:'Hörverstehen',build:'Bausteine ordnen',write:'Selbst schreiben',apply:'Anwenden'};
@@ -36,6 +37,7 @@ export function cleanProfile(input={},strict=false) {
   if(['natural','gentle','lively','subtle','off'].includes(input.motion_preset))out.motion_preset=input.motion_preset;
   if(/^\d{4}-\d{2}-\d{2}$/.test(input.last_active))out.last_active=input.last_active;
   out.tts_speed=number(input.tts_speed,.5,1.4,1);out.ui_scale=number(input.ui_scale,.8,1.2,1);
+  out.adaptive=cleanAdaptive(input.adaptive);
   return out;
 }
 export function localDate(date=new Date()) { return `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`; }
@@ -132,6 +134,8 @@ export class Session {
     const m=this.metrics();m.attempts++;if(!ok) {m.mistakes++;this.store.data.review[this.key]={box:0,due:Date.now()/1000};}
     else if(!skipped&&!m.phases.includes(this.phase))m.phases.push(this.phase);
     if(skipped) {if(!Array.isArray(m.skipped_phases))m.skipped_phases=[];m.skipped_phases.push(this.phase);}
+    const metricKey=this.phase==='listen'&&this.mode!=='recap'?`${this.lesson.key}:${this.lesson.cards.indexOf(this.listenCard)}`:this.key;
+    recordAttempt(this.store.data,metricKey,PHASE_SKILL[this.phase],ok,skipped||this.hintOpen||(this.phase==='speak'&&(this.support.data.assisted||m.last_speech_outcome==='self_check')));
     if(ok&&!skipped&&this.mode==='learn'&&PHASES[this.passed.length]===this.phase)this.passed.push(this.phase);
     this.store.touch();this.snapshot();
   }
@@ -164,6 +168,7 @@ export class Session {
     const target=this.course.speechTarget(this.card,this.lesson),matched=speechMatch(text,[target.target,...(target.accept??[])]);
     this.shortSpeechReady=!matched&&isShortKana(this.card.jp)&&compact(text).length>0;
     this.metrics().speech_attempts++;
+    this.metrics().last_speech_outcome=matched?'automatic':'mismatch';
     const old=this.store.data.speech_scores[target.target]??{};
     this.store.data.speech_scores[target.target]={best:Math.max(Number(old.best)||0,matched?100:0),last:matched?100:0,heard:text};
     this.mark(matched,matched?'Der erkannte Text passt. Schritt 1 ist geschafft!':'Der erkannte Text passt noch nicht. Höre die Vorlage erneut und sprich noch einmal.');

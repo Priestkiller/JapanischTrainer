@@ -1,0 +1,10 @@
+{
+  "revision": 1,
+  "stories": [
+    {"id":"practice:cafe","title":"Eine Bestellung verstehen","lesson":"v11:dialog-cafe","questions":[{"prompt":"Was wird bestellt?","correct":"Ein Kaffee","options":["Ein Tee","Ein Kaffee","Ein Wasser"],"evidence":1},{"prompt":"Welche Eigenschaft wird erfragt?","correct":"Ob das Getränk warm sein darf","options":["Ob es teuer ist","Ob es süß ist","Ob das Getränk warm sein darf"],"evidence":2}]},
+    {"id":"practice:meeting","title":"Eine Vorstellung verstehen","lesson":"v11:dialog-meeting","questions":[{"prompt":"Woher kommt die Person?","correct":"Aus Deutschland","options":["Aus Japan","Aus Deutschland","Aus der Schweiz"],"evidence":3},{"prompt":"Was wird am Ende vorgeschlagen?","correct":"Gemeinsam Japanisch lernen","options":["Zusammen essen","Morgen arbeiten","Gemeinsam Japanisch lernen"],"evidence":4}]},
+    {"id":"practice:directions","title":"Einen Weg verstehen","lesson":"v11:dialog-directions","questions":[{"prompt":"In welche Richtung soll man nach dem Geradeausgehen abbiegen?","correct":"Nach links","options":["Nach links","Nach rechts","Zurück"],"evidence":2},{"prompt":"Wo liegt der Bahnhof am Ende?","correct":"Auf der rechten Seite","options":["Auf der linken Seite","Auf der rechten Seite","Unter der Straße"],"evidence":3}]},
+    {"id":"practice:weekend","title":"Eine Verabredung verstehen","lesson":"v11:dialog-weekend","questions":[{"prompt":"Für welchen Tag wird der Parkbesuch vorgeschlagen?","correct":"Sonntag","options":["Samstag","Sonntag","Montag"],"evidence":0},{"prompt":"Wo möchte man sich treffen?","correct":"Vor dem Bahnhof","options":["Im Café","Vor dem Bahnhof","Im Park"],"evidence":3}]}
+  ],
+  "trace_note":"Formen nachzeichnen und selbst vergleichen. Keine automatische Bewertung von Strichfolge oder Handschrift."
+}

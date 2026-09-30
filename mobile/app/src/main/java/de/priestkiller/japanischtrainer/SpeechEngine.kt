@@ -13,6 +13,9 @@ class SpeechEngine(private val models: ModelStore, private val event: (String, M
     private var tts: OfflineTts? = null
     private var recognizer: OfflineRecognizer? = null
     private var recognizerShort=false
+    private var recognizerKind=""
+    var alternatives:Map<String,ModelStore> = emptyMap()
+    @Volatile var selectedRecognizer="sensevoice"
     private val captureGeneration=AtomicLong()
     @Volatile private var captureBusy=false
     private val generation=AtomicLong()
@@ -37,15 +40,24 @@ class SpeechEngine(private val models: ModelStore, private val event: (String, M
         }
         return tts!!
     }
-    private fun asr(shortKana:Boolean=false): OfflineRecognizer {
+    @JvmOverloads private fun asr(shortKana:Boolean=false,kind:String=selectedRecognizer): OfflineRecognizer {
         check(models.ready()) { "Das lokale Sprachpaket fehlt." }
-        if(recognizer!=null && recognizerShort!=shortKana) { recognizer?.release();recognizer=null }
+        if(recognizer!=null && (recognizerShort!=shortKana||recognizerKind!=kind)) { recognizer?.release();recognizer=null }
         if(recognizer==null) {
             tts?.release(); tts=null
-            recognizer=OfflineRecognizer(config=OfflineRecognizerConfig(modelConfig=OfflineModelConfig(
+            val extra=alternatives[kind]
+            if(kind!="sensevoice")check(extra?.ready()==true) { "Das gewählte Testmodell fehlt. Wähle SenseVoice oder lade das Testmodell vollständig." }
+            val model=when(kind) {
+                "reazonspeech" -> OfflineModelConfig(transducer=OfflineTransducerModelConfig(
+                    encoder=extra!!.path("encoder-epoch-99-avg-1.int8.onnx"),decoder=extra.path("decoder-epoch-99-avg-1.int8.onnx"),joiner=extra.path("joiner-epoch-99-avg-1.int8.onnx")),tokens=extra.path("tokens.txt"),numThreads=2)
+                "qwen3" -> OfflineModelConfig(qwen3Asr=OfflineQwen3AsrModelConfig(convFrontend=extra!!.path("conv_frontend.onnx"),encoder=extra.path("encoder.int8.onnx"),decoder=extra.path("decoder.int8.onnx"),tokenizer=extra.path("tokenizer"),maxNewTokens=80),numThreads=2)
+                else -> OfflineModelConfig(
                 senseVoice=OfflineSenseVoiceModelConfig(model=models.path("sensevoice/model.int8.onnx"),language="ja",useInverseTextNormalization=!shortKana),
-                tokens=models.path("sensevoice/tokens.txt"),numThreads=2)))
+                tokens=models.path("sensevoice/tokens.txt"),numThreads=2)
+            }
+            recognizer=OfflineRecognizer(config=OfflineRecognizerConfig(featConfig=FeatureConfig(featureDim=if(kind=="qwen3")128 else 80),modelConfig=model))
             recognizerShort=shortKana
+            recognizerKind=kind
         }
         return recognizer!!
     }
@@ -110,7 +122,7 @@ class SpeechEngine(private val models: ModelStore, private val event: (String, M
         }
     }
     @Suppress("MissingPermission")
-    @Synchronized fun startRecording(request:String,shortKana:Boolean=false) {
+    @Synchronized fun startRecording(request:String,shortKana:Boolean=false,comparison:Boolean=false) {
         if(destroyed)return
         if(recording||decoding||captureBusy) {
             event("speechError",mapOf("request" to request,"message" to "Die vorherige Aufnahme wird noch beendet. Bitte gleich erneut versuchen."))
@@ -153,15 +165,23 @@ class SpeechEngine(private val models: ModelStore, private val event: (String, M
                     try {
                         if(cancelRecording||destroyed||capture!=captureGeneration.get())return@execute
                         val prepared=SpeechInput.prepare(samples,shortKana)
-                        check(detectSpeech(prepared.samples,shortKana)) { "Keine sichere Stimme erkannt. Versuche es etwas näher am Mikrofon und ohne Hintergrundgeräusch." }
-                        val engine=asr(shortKana); val stream=engine.createStream()
-                        val text=try { stream.acceptWaveform(SpeechInput.padded(prepared.samples),16000); engine.decode(stream); engine.getResult(stream).text.trim() } finally { stream.release() }
+                        if(!detectSpeech(prepared.samples,shortKana)) {
+                            event("speechError",mapOf("request" to request,"reason" to "no_voice","message" to "Keine sichere Stimme erkannt. Bei der Stilleprobe ist das erwartbar."));return@execute
+                        }
+                        val results=ArrayList<Map<String,Any>>()
+                        val kinds=if(comparison) listOf("sensevoice")+alternatives.filterValues { it.ready() }.keys else listOf(selectedRecognizer)
+                        for(kind in kinds) {
+                            if(cancelRecording||destroyed||capture!=captureGeneration.get())return@execute
+                            try {results.add(decodeOne(prepared.samples,shortKana,kind))}
+                            catch(e:Exception){if(!comparison)throw e;results.add(mapOf("model" to kind,"text" to "","error" to (e.message?:"Modellfehler")))}
+                        }
+                        val text=results.first()["text"] as String
                         if(!cancelRecording&&!destroyed&&capture==captureGeneration.get()) {
-                            if(!shortKana)check(text.isNotBlank()) { "Keine verständliche Sprache erkannt. Bitte erneut versuchen." }
-                            event("speechResult",mapOf("request" to request,"text" to text,"audioQualified" to true,"shortKana" to shortKana,
+                            if(!comparison&&!shortKana)check(text.isNotBlank()) { "Keine verständliche Sprache erkannt. Bitte erneut versuchen." }
+                            event("speechResult",mapOf("request" to request,"text" to text,"results" to results,"comparison" to comparison,"audioQualified" to true,"shortKana" to shortKana,
                                 "gain" to prepared.gain,"activeMs" to prepared.activeMs))
                         }
-                    } catch(e:Exception) { if(!cancelRecording&&!destroyed&&capture==captureGeneration.get())event("speechError",mapOf("request" to request,"message" to (e.message?:"Erkennung fehlgeschlagen."))) }
+                    } catch(e:Exception) { if(!cancelRecording&&!destroyed&&capture==captureGeneration.get())event("speechError",mapOf("request" to request,"reason" to (if(e is SpeechInput.NoVoice)"no_voice" else "technical"),"message" to (e.message?:"Erkennung fehlgeschlagen."))) }
                     finally { decoding=false;captureBusy=false }
                 }
                 dispatched=true
@@ -181,6 +201,24 @@ class SpeechEngine(private val models: ModelStore, private val event: (String, M
     fun stopRecording(cancel:Boolean=false) { cancelRecording=cancel; recording=false; if(cancel){captureGeneration.incrementAndGet();ownRecording=null}; runCatching { recorder?.stop() } }
     fun stopAll() { stopPlayback(); stopRecording(true) }
     fun close() { destroyed=true; stopAll(); worker.execute { tts?.release(); recognizer?.release() }; worker.shutdown() }
+    private fun decodeOne(samples:FloatArray,shortKana:Boolean,kind:String):Map<String,Any> {
+        val started=System.nanoTime();val engine=asr(shortKana,kind);val loaded=System.nanoTime();val stream=engine.createStream()
+        val text=try {
+            if(kind=="qwen3")stream.setOption("language","Japanese")
+            stream.acceptWaveform(SpeechInput.padded(samples),16000);engine.decode(stream);engine.getResult(stream).text.trim()
+        } finally {stream.release()}
+        return mapOf("model" to kind,"text" to text,"loadMs" to (loaded-started)/1_000_000,"decodeMs" to (System.nanoTime()-loaded)/1_000_000)
+    }
+    // Test fixtures are generated locally. This does not access the microphone.
+    fun modelComparisonDiagnostic(kind:String):Map<String,Any> {
+        val a=tts().generateWithConfig("みずをのみます。",GenerationConfig(sid=2,speed=.95f,extra=mapOf("lang" to "ja")))
+        val raw=FloatArray(a.samples.size*16000/a.sampleRate) { i ->
+            val at=i.toDouble()*a.sampleRate/16000;val lo=at.toInt().coerceAtMost(a.samples.lastIndex);val hi=minOf(lo+1,a.samples.lastIndex)
+            (a.samples[lo]+(a.samples[hi]-a.samples[lo])*(at-lo)).toFloat()
+        }
+        val prepared=SpeechInput.prepare(raw,false);check(detectSpeech(prepared.samples,false))
+        return decodeOne(prepared.samples,false,kind)
+    }
     // Instrumented test: real synthesis and recognition, no microphone or speaker involved.
     fun diagnostic(): String {
         var first:GeneratedAudio?=null

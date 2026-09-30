@@ -735,3 +735,18 @@ FunASR 模型开源协议
 
 版权所有© [2023-2028] [阿里巴巴集团]。保留所有权利。
 
+
+Optional ASR comparison models added in 11.0.11 (never downloaded automatically):
+ReazonSpeech k2 v2: Reazon Holdings, Inc., Apache License 2.0.
+Original: https://huggingface.co/reazon-research/reazonspeech-k2-v2
+Training recipe: https://github.com/k2-fsa/icefall/tree/master/egs/reazonspeech/ASR
+INT8 ONNX conversion: k2-fsa/sherpa-onnx, sherpa-onnx-zipformer-ja-reazonspeech-2024-08-01.
+Qwen3-ASR 0.6B: Qwen Team / Alibaba, Apache License 2.0.
+Original: https://huggingface.co/Qwen/Qwen3-ASR-0.6B
+Source: https://github.com/QwenLM/Qwen3-ASR
+INT8 ONNX conversion: k2-fsa/sherpa-onnx, sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25.
+Conversion sources: https://github.com/k2-fsa/sherpa-onnx/tree/v1.13.8
+Converted weights are distributed unchanged; no further training or endorsements.
+License text: licenses/Optional-ASR-Apache-2.0.txt.
+Silero VAD 6.2: Silero Team, MIT. Windows test comparison now also uses the existing Android VAD file.
+Source and license: https://github.com/snakers4/silero-vad ; licenses/silero-vad-MIT.txt.

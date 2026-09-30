@@ -6,8 +6,8 @@ android {
         applicationId = "de.priestkiller.japanischtrainer"
         minSdk = 28
         targetSdk = 35
-        versionCode = 11001001
-        versionName = "11.0.10-android.1-test"
+        versionCode = 11001101
+        versionName = "11.0.11-android.1-test"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments["additionalTestOutputDir"] = "/sdcard/Android/media/de.priestkiller.japanischtrainer.test/test-evidence"
         ndk { abiFilters += listOf("arm64-v8a", "x86_64") }

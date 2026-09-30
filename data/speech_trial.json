@@ -1,0 +1,21 @@
+{
+  "revision": 1,
+  "notice": "Freiwilliger Vergleich. Sprich nur die vorgegebenen Beispiele. Audio bleibt bis zur nächsten Aufnahme im Arbeitsspeicher. Gespeichert werden erkannte Texte, Laufzeiten und deine Bestätigung. Kein Upload, keine Aussprache-Note und kein Kursfortschritt.",
+  "prompts": [
+    {"id":"kana-a","jp":"あ","romaji":"a","de":"wie a in Mann","short":true},
+    {"id":"kana-i","jp":"い","romaji":"i","de":"wie i in Kino","short":true},
+    {"id":"kana-u","jp":"う","romaji":"u","de":"kurzes u, Lippen wenig runden","short":true},
+    {"id":"kana-e","jp":"え","romaji":"e","de":"wie e in Bett","short":true},
+    {"id":"kana-o","jp":"お","romaji":"o","de":"kurzes o","short":true},
+    {"id":"kana-shi","jp":"し","romaji":"shi","de":"weiches schi","short":true},
+    {"id":"kana-tsu","jp":"つ","romaji":"tsu","de":"ts zusammen, dann kurzes u","short":true},
+    {"id":"kana-n","jp":"ん","romaji":"n","de":"nasaler Laut","short":true},
+    {"id":"kana-kya","jp":"きゃ","romaji":"kya","de":"ein gemeinsamer Laut, nicht ki-ya","short":true},
+    {"id":"word-ue","jp":"うえ","romaji":"ue","de":"oben","accept":["上"]},
+    {"id":"word-neko","jp":"ねこ","romaji":"neko","de":"Katze","accept":["猫"]},
+    {"id":"word-arigato","jp":"ありがとう","romaji":"arigatō","de":"Danke; langes o"},
+    {"id":"sentence-water","jp":"みずをのみます。","romaji":"mizu o nomimasu","de":"Ich trinke Wasser.","accept":["水を飲みます。"]},
+    {"id":"sentence-station","jp":"えきはどこですか。","romaji":"eki wa doko desu ka","de":"Wo ist der Bahnhof?","accept":["駅はどこですか。"]},
+    {"id":"negative-silence","jp":"","romaji":"Still bleiben","de":"Nimm drei Sekunden Stille auf. Nichts vorsprechen.","negative":true,"short":true}
+  ]
+}

@@ -1,4 +1,3 @@
-import {RESTAURANT} from './restaurant.mjs';
 /* GPL-3.0-or-later. Authored, branching offline conversations; no language model. */
 export const normalizeTalk=text=>String(text??'').normalize('NFKC').toLowerCase().replace(/[ァ-ヶ]/g,c=>String.fromCharCode(c.charCodeAt(0)-0x60)).replace(/[\s。、，,.！？!?「」『』"'・:：]/gu,'');
 const line=(jp,romaji,de)=>({jp,romaji,de});
@@ -14,7 +13,6 @@ const moneyRoutes=[route('card',/^(?:かーど|くれじっとかーど)(?:で)?
 const end=(say)=>({say,done:true});
 
 export const SCENES=[
- RESTAURANT,
  {id:'meeting',title:'Jemanden kennenlernen',icon:'✿',role:'Eine neue Bekanntschaft',goal:'Stell dich vor, erzähle etwas über dich und stelle selbst eine Frage.',start:'name',nodes:{
   name:{say:line('こんにちは。はじめまして。お名前は何ですか。','konnichiwa. hajimemashite. onamae wa nan desu ka.','Hallo, schön dich kennenzulernen. Wie heißt du?'),cue:'Stell dich mit deinem Namen vor.',hints:[hint('アレックスです。','Arekkusu desu.','Ich bin Alex.'),hint('私はマリアです。','watashi wa Maria desu.','Ich bin Maria.')],routes:[route('name',/^(?:はじめまして)?(?:私は|わたしは)?([ぁ-ん一-龯a-zー]{1,20})(?:です|と言います|といいます)(?:よろしくお願いします|よろしくおねがいします)?$/u,'country')]},
   country:{say:line('よろしくお願いします。どこから来ましたか。','yoroshiku onegai shimasu. doko kara kimashita ka.','Freut mich. Woher kommst du?'),cue:'Nenne dein Herkunftsland. Diese Szene kennt Deutschland, Österreich, die Schweiz und Japan.',hints:[hint('ドイツから来ました。','Doitsu kara kimashita.','Ich komme aus Deutschland.'),hint('オーストリアから来ました。','Ōsutoria kara kimashita.','Ich komme aus Österreich.'),hint('スイスから来ました。','Suisu kara kimashita.','Ich komme aus der Schweiz.'),hint('日本から来ました。','Nihon kara kimashita.','Ich komme aus Japan.')],routes:[
@@ -104,7 +102,7 @@ export class TalkSession {
    this.history.push(this.prompt);this.save();return {accepted:false,repeated:true,reply:this.prompt};
   }
   if(!picked) {
-   this.feedback=`Die Offline-Szene konnte deine Antwort noch nicht ihren vorbereiteten Wegen zuordnen. ${this.current.cue} Prüfe zuerst den erkannten Text. Unter Antwortideen findest du passende Beispiele; das ist keine automatische Grammatikbewertung.`;
+   this.feedback='Diese Antwort passt noch nicht zu den vorbereiteten Wegen dieser Offline-Szene. Prüfe den erkannten Text oder nutze eine Antwortidee.';
    this.draft=reply;this.save();return {accepted:false};
   }
   this.slots={...this.slots,...picked.slots};this.node=picked.next;this.replies.push(reply);this.feedback='';

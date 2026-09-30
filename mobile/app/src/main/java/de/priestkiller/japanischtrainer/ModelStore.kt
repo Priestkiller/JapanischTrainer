@@ -9,9 +9,9 @@ import java.security.MessageDigest
 import java.util.zip.ZipFile
 
 /** Model identity is pinned inside the signed APK. No downloaded executable code. */
-class ModelStore(private val context: Context) {
+class ModelStore(private val context: Context, assetName:String="model-pack.json") {
     val assets get() = context.assets
-    val manifest = JSONObject(context.assets.open("model-pack.json").bufferedReader().use { it.readText() })
+    val manifest = JSONObject(context.assets.open(assetName).bufferedReader().use { it.readText() })
     val directory = File(context.filesDir, "models-${manifest.getInt("version")}")
     @Volatile var cancelled = false
     fun ready(): Boolean = File(directory, "verified.sha256").let {
@@ -22,15 +22,17 @@ class ModelStore(private val context: Context) {
             }
     }
     fun path(name: String) = File(directory, name).absolutePath
-    fun install(progress: (Long, Long) -> Unit) {
+    fun install(progress: (Long, Long) -> Unit) = install(null,progress)
+    fun install(localArchive:File?,progress: (Long, Long) -> Unit) {
         if (ready()) return
         cancelled = false
-        val archive = File(context.cacheDir, "speech.zip.part")
-        val stage = File(context.filesDir, "models-staging")
+        val archive = localArchive?:File(context.cacheDir, "speech-${manifest.getInt("version")}.zip.part")
+        val stage = File(context.filesDir, "models-staging-${manifest.getInt("version")}")
         stage.deleteRecursively(); stage.mkdirs()
         try {
-            download(manifest.getString("url"), archive, manifest.getLong("bytes"), manifest.getString("sha256"),
-                { cancelled }, progress)
+            if(localArchive==null)download(manifest.getString("url"), archive, manifest.getLong("bytes"), manifest.getString("sha256"),
+                { cancelled }, progress, if(manifest.getInt("version")==3)1_500_000_000L else 600_000_000L)
+            else require(archive.length()==manifest.getLong("bytes")&&hash(archive)==manifest.getString("sha256")) { "Modellpaket passt nicht zur geprüften Ausgabe." }
             ZipFile(archive).use { zip ->
                 val records = manifest.getJSONArray("files")
                 require(zip.size() == records.length()) { "Unerwarteter Paketinhalt." }
@@ -59,7 +61,7 @@ class ModelStore(private val context: Context) {
             File(stage, "verified.sha256").writeText(manifest.getString("sha256"))
             if (directory.exists()) directory.deleteRecursively() // Only this app's incomplete model version.
             check(stage.renameTo(directory)) { "Sprachpaket konnte nicht gespeichert werden." }
-        } finally { archive.delete(); stage.deleteRecursively() }
+        } finally { if(localArchive==null)archive.delete(); stage.deleteRecursively() }
     }
     companion object {
         fun readLimited(input:java.io.InputStream,limit:Int):ByteArray {
@@ -90,8 +92,8 @@ class ModelStore(private val context: Context) {
             error("Zu viele Weiterleitungen.")
         }
         fun download(url: String, target: File, size: Long, sha: String, cancel: () -> Boolean,
-                     progress: (Long, Long) -> Unit) {
-            require(size in 1..600_000_000L && sha.matches(Regex("[a-f0-9]{64}")))
+                     progress: (Long, Long) -> Unit, maximumBytes:Long=600_000_000L) {
+            require(maximumBytes in 1..1_500_000_000L && size in 1..maximumBytes && sha.matches(Regex("[a-f0-9]{64}")))
             val connection=connection(url)
             try {
                 connection.inputStream.use { input -> target.outputStream().use { output ->

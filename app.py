@@ -15,12 +15,16 @@ from speech_engine import LocalSpeechEngine,app_root
 from storage import ProgressStore,data_dir
 from learning import Learning
 from lesson_ui import LessonMixin
+from daily_ui import DailyMixin
+from practice_ui import PracticeMixin
+from speech_lab_ui import SpeechLabMixin
+from adaptive import record_attempt
 from study import matches_romaji
 from motion import PRESETS,preset_name
-ROOT=app_root();VERSION='11.0.10'
+ROOT=app_root();VERSION='11.0.11'
 NAV=[('home','home','Startseite'),('path','book','Lernen'),('speaking','mic','Sprechen'),('listening','headphones','Hören'),('writing','pencil','Schreiben'),('vocab','cards','Vokabeln'),('grammar','layers','Grammatik'),('kanji','kanji','Kanji'),('review','repeat','Wiederholen'),('progress','chart','Fortschritt'),('teachers','teachers','Lehrer'),('settings','settings','Einstellungen')]
 
-class TrainerApp(LessonMixin):
+class TrainerApp(DailyMixin,PracticeMixin,SpeechLabMixin,LessonMixin):
     def __init__(self,root,args):
         self.root=root;self.args=args;self.store=ProgressStore();self.learning=Learning(ROOT,self.store);self.engine=LocalSpeechEngine()
         self.audio_status=self.engine.model_status();self.view=args.page or 'home';self.previous='home';self.scroll=0.;self.max_scroll=0.;self.hover='';self.focus='';self.hits=[]
@@ -40,6 +44,7 @@ class TrainerApp(LessonMixin):
         self.canvas=tk.Canvas(root,bg='#061426',highlightthickness=0,borderwidth=0,takefocus=1);self.canvas.pack(fill='both',expand=True)
         self.init_v8()
         self.canvas.bind('<Configure>',self.on_resize);self.canvas.bind('<Motion>',self.on_motion);self.canvas.bind('<Leave>',self.on_leave);self.canvas.bind('<Button-1>',self.on_click)
+        self.canvas.bind('<B1-Motion>',self.trace_event)
         self.canvas.bind('<MouseWheel>',lambda e:self.wheel(-e.delta/120*65));self.canvas.bind('<Button-4>',lambda e:self.wheel(-70));self.canvas.bind('<Button-5>',lambda e:self.wheel(70))
         root.bind('<Key>',self.on_key);root.protocol('WM_DELETE_WINDOW',self.close);self.canvas.focus_set()
         root.after(50,self.pump);root.after(120,self.redraw)
@@ -58,6 +63,7 @@ class TrainerApp(LessonMixin):
         if id!=self.hover:self.hover=id;self.canvas.configure(cursor='hand2' if h else '');self.request_draw()
     def on_leave(self,e):self.hover='';self.request_draw()
     def on_click(self,e):
+        if self.trace_event(e,True):return
         self.canvas.focus_set();h=self.hit_at(e.x/self.render_scale,e.y/self.render_scale)
         if h:
             self.focus=h.id
@@ -117,6 +123,7 @@ class TrainerApp(LessonMixin):
         if e.keysym in ('Next','Down'):self.wheel(120)
         if e.keysym in ('Prior','Up'):self.wheel(-120)
     def navigate(self,page):
+        if self.view=='speech_lab' and page!=self.view:self.lab_cancelled=True
         if page!=self.view and getattr(self,'active_speech_help',None):self.active_speech_help[0].cancel()
         if self.view=='exercises' and page!=self.view:self.cancel_exercise()
         if self.recording:self.stop_capture(False)
@@ -125,6 +132,9 @@ class TrainerApp(LessonMixin):
         if page!=self.view:self.clear_reaction()
         self.previous=self.view;self.view=page;self.scroll=0;self.hover='';self.focus='';self.query='';self.hide_entry()
         if page=='teachers':self.preview_teacher=self.learning.teacher()['id']
+        if page=='daily':self.daily_pick()
+        if page=='practice_lab':self.practice_back()
+        if page=='speech_lab':self.lab_open()
         if page=='writing':self.new_writing()
         if page=='review':self.next_review()
         if page=='settings':self.audio_status=self.engine.model_status();self.devices=[(None,'Windows-Standardmikrofon')]+self.engine.list_input_devices()
@@ -173,6 +183,7 @@ class TrainerApp(LessonMixin):
             except Exception:pass
         self.request_draw()
     def stop_capture(self,grade=True):
+        if self.view=='speech_lab':self.lab_stop(grade);return
         if self.view=='exercises':self.exercise_stop(grade);return
         if not self.recording:return
         self.recording=False
@@ -206,6 +217,10 @@ class TrainerApp(LessonMixin):
                        'speech-match' if reliable else 'speech-uncertain')
         if target and r.reliable and (not r.quality or r.quality.status!='bad'):
             self.store.set_speech_score(target,r.score,r.heard);self.store.touch_day()
+            key=(self.speech_item or {}).get('card_key')
+            if self.speech_return=='daily' and getattr(self,'daily_task',None) and self.daily_task['card']==key and self.daily_task['skill']=='speak':
+                self.daily_mark(r.score>=80,'Der erkannte Text passt.' if r.score>=80 else 'Der Text passt noch nicht sicher. Erneut versuchen oder Sprechen später üben.')
+            elif key:record_attempt(self.store.data,key,'speak',r.score>=80);self.store.save()
         self.request_draw()
     def play_recording(self):
         if self.recording or self.job:return
@@ -299,7 +314,7 @@ class TrainerApp(LessonMixin):
         if self.max_scroll>0:
             th=max(36,vh*vh/(vh+self.max_scroll));sy=y+(vh-th)*self.scroll/self.max_scroll;s.fill((x+p.width-4,y,3,vh),'#263e5a',2);s.fill((x+p.width-4,sy,3,th),'#6da9d4',2)
     def draw_home(self,s):
-        self.heading(s,'Willkommen zurück','Deine nächste kleine Etappe auf dem Weg nach Japan.');x=294;y=187;w=self.W-x-22;s.panel((x,y,w,116));s.text(x+18,y+15,'Deine Lehrkräfte',13,MUTED,True)
+        self.heading(s,'Willkommen zurück','Deine nächste kleine Etappe auf dem Weg nach Japan.');s.button('daily-open',(self.W-310,105,284,42),'Heute für dich →',lambda:self.navigate('daily'),'green');x=294;y=187;w=self.W-x-22;s.panel((x,y,w,116));s.text(x+18,y+15,'Deine Lehrkräfte',13,MUTED,True)
         for i,t in enumerate(self.learning.teachers):
             xx=x+19+i*min(126,(w-42)/8);sel=t['id']==self.learning.teacher()['id'];s.panel((xx,y+39,105,63),'soft',12,False,stroke=PINK if sel else '#376083');s.image_at(self.learning.asset(t,'avatar'),(xx+5,y+44,47,53),radius=10)
             s.text(xx+55,y+65,t['name'],10,WHITE,True,width=45);s.register('quick:'+t['id'],(xx,y+39,105,63),lambda id=t['id']:self.choose_teacher(id,True))
@@ -486,6 +501,7 @@ class TrainerApp(LessonMixin):
         c=self.review_card;r=self.store.data.setdefault('review',{});old=r.get(c['key'],{});box=min(5,int(old.get('box',0))+1) if known else 0
         r[c['key']]={'box':box,'due':time.time()+[60,600,86400,259200,604800,2592000][box]};self.store.touch_day();self.store.save();self.next_review();self.react('praise' if known else 'encourage','review-known' if known else 'review-again')
     def draw_review(self,s):
+        s.button('practice-open',(self.W-360,107,332,40),'Hörsituationen und Zeichen',lambda:self.navigate('practice_lab'),'blue')
         if self.review_card is None:self.review_card=self.learning.available_cards()[0]
         self.heading(s,'Wiederholen','Nur bereits eingeführte Wörter. Schwierige Wörter kommen früher wieder.');x=294;y=194;w=min(676,(self.W-x-40)*.62);rx=x+w+24;c=self.review_card;s.panel((x,y,w,470));s.icon('repeat',x+23,y+22,25);s.text(x+62,y+24,'Erinnerst du dich?',20,WHITE,True)
         s.panel((x+20,y+82,w-40,230),'white',16,False);s.fitted(x+40,y+106,c['jp'],w-80,47,25,INK,True,True);s.button('review-listen',(x+40,y+182,w-80,44),'Anhören',lambda:self.speak(c['jp']),'blue','speaker',15)
@@ -519,6 +535,7 @@ class TrainerApp(LessonMixin):
         self.heading(s,'Einstellungen','Stimmen, Mikrofon und Fortschritt bleiben lokal auf deinem Computer.');x=294;y=188;w=self.W-x-24;vh=self.H-y-24;p=self.make_pane(w,max(vh,1040));o=-self.scroll
         blocks=[('Sprechgeschwindigkeit',f"Aktuell: {float(self.store.data.get('tts_speed',1)):.2f}× · kombiniert mit dem Lehrerprofil.",'Tempo ändern',self.cycle_speed),('Mikrofon',next((n for i,n in self.devices if i==self.store.data.get('mic_device')),'Windows-Standardmikrofon'),'Mikrofon wählen',self.select_mic),('Oberflächengröße',f"Skalierung: {round(float(self.store.data.get('ui_scale',1))*100)} %",'Größe ändern',self.cycle_scale),('Figurenanimation','Dauerhafte Idle-Bewegung mit geschlossenem Mund. Lobreaktionen kommen zusätzlich dazu. Keine Lippensynchronisation.','Bewegung aus' if self.store.data.get('motion_enabled',True) else 'Bewegung an',self.toggle_motion),('Idle-Stärke',f"Aktuell: {PRESETS[preset_name(self.store.data.get('motion_preset'))][0]}. Atmen, Kopf, Haare und Kleidung; Kiko mit Ohren und Schwanz.",'Stärke: '+PRESETS[preset_name(self.store.data.get('motion_preset'))][0],self.cycle_motion_preset),('Kiko in der Seitenleiste','Ein Maskottchen, ein fester Platz. Keine doppelten Figuren.','Ausblenden' if self.store.data.get('show_kiko',True) else 'Einblenden',self.toggle_kiko),('Fortschritt sichern','Exportiert die Lerndaten. Sprachaufnahmen sind nicht enthalten.','Exportieren',self.export_progress),('Fortschritt wiederherstellen','Importiert eine vorher exportierte JSON-Sicherung.','Importieren',self.import_progress),('Offline-Modelle',('Stimmen vorhanden' if self.audio_status['tts'] else 'Stimmen fehlen')+' · '+('Erkennung vorhanden' if self.audio_status['asr'] else 'Erkennung fehlt'),'Modellordner öffnen',self.open_model_folder)]
         blocks.append(('Programm-Updates','Installierte Version: '+VERSION+' · Lernstand und Einstellungen bleiben erhalten.','Nach Updates suchen',self.open_updates))
+        blocks.insert(0,('Lokaler Sprachvergleich','Freiwillige Testrunde, getrennte Ergebnisse und optionale Modelle.','Sprachvergleich öffnen',lambda:self.navigate('speech_lab')))
         for i,(title,desc,label,action) in enumerate(blocks):
             if o+116>0 and o<vh:
                 p.panel((2,o+2,w-10,104),'dark',16);p.text(24,o+21,title,18,WHITE,True,width=w-260);p.paragraph(24,o+54,desc,w-279,13,MUTED,max_lines=2,lineheight=19);p.button('setting:'+str(i),(w-235,o+33,206,43),label,action,size=13)
@@ -581,6 +598,7 @@ class TrainerApp(LessonMixin):
         if self.entry is None or self.entry_mode!=mode:
             self.hide_entry();self.entry_mode=mode;self.entry=tk.Entry(self.root,relief='flat',bd=0,highlightthickness=0,insertbackground='#4b8bbe',bg='#f3f8ff' if mode in ('writing','study') else '#112840',fg='#163559' if mode in ('writing','study') else '#f3f7ff')
             if mode=='search':self.entry.insert(0,self.query);self.entry.bind('<KeyRelease>',self.search_changed)
+            elif mode=='daily':self.entry.insert(0,self.daily_input)
             elif mode=='study':self.entry.insert(0,self.flow.input_text);self.entry.bind('<KeyRelease>',self.learn_text_changed)
             elif mode=='exercise':
                 self.exercise_text=tk.StringVar(value=self.exercise_round.answer['text']);self.entry.configure(textvariable=self.exercise_text)

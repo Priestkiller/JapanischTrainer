@@ -18,6 +18,20 @@ import android.webkit.WebView
 
 @RunWith(AndroidJUnit4::class)
 class MobileInstrumentedTest {
+    @Test fun optionalModelsLoadAndDecodeJapaneseWithoutTargetPrompts() {
+        val context=InstrumentationRegistry.getInstrumentation().targetContext
+        val base=ModelStore(context);base.install {_,_->}
+        val extras=mapOf("reazonspeech" to ModelStore(context,"data/modelpacks/reazonspeech.json"),"qwen3" to ModelStore(context,"data/modelpacks/qwen3.json"))
+        val engine=SpeechEngine(base) {_,_->};engine.alternatives=extras
+        try {
+            for((kind,pack) in extras) {
+                pack.install {_,_->};assertTrue(pack.ready())
+                val result=engine.modelComparisonDiagnostic(kind)
+                assertTrue("Actual $kind recognizer output required",(result["text"] as String).isNotBlank())
+                println("Synthetic optional-model diagnostic: $result; not a microphone test")
+            }
+        } finally {engine.close()}
+    }
     private lateinit var testProfile:android.util.AtomicFile
     private var previousProfile:ByteArray?=null
     private fun writeProfile(bytes:ByteArray) {
