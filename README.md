@@ -46,6 +46,7 @@ Kiko den echten Abschluss. Lange Inhalte und große Schrift bleiben erreichbar.
 Über **Testversion suchen** verfügbar; stabil bleibt 11.0.4.
 [Prüfbericht](TESTBERICHT_11.0.10.md), [Geräteprüfung](GERAETEPRUEFUNG_11.0.10.md).
 Echte S24-Ultra-, Mikrofon-, Hör- und Anfängerprüfung bleiben offen.
+[Öffentliche Nachkontrolle](VEROEFFENTLICHUNG_11.0.10_TEST.md): alle Downloads, Signaturen und Updatekanäle geprüft.
 
 ## Lernen und Datenschutz
 
