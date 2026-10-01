@@ -37,6 +37,7 @@ try{
    assert.equal(await page.locator('.completion-xp').textContent(),repeat?'Wiederholung geschafft':'+25 XP');assert.equal(await page.evaluate(()=>profile.xp),45);
    assert.equal(await page.locator('#complete-next').isEnabled(),true);assert.equal(await page.locator('img.completion-kiko').count(),0);await page.waitForFunction(()=>document.querySelector('.kiko-actor').dataset.frame!==undefined);
    assert.equal(await page.locator('.completion').evaluate(n=>{const s=getComputedStyle(n);return s.color==='rgb(245, 248, 255)'&&!s.backgroundColor.startsWith('rgb(255');}),true);
+   for(const selector of ['#complete-next','.completion-actions [data-nav=course]'])assert.ok(await page.locator(selector).evaluate(n=>{const b=n.getBoundingClientRect(),nav=document.querySelector('.bottom-nav').getBoundingClientRect();return b.top>=0&&b.bottom<=nav.top+1&&b.left>=0&&b.right<=innerWidth+1}),selector+' visible above navigation without scrolling');
    await capture(repeat?'complete-repeat':'complete-first');await page.locator('#complete-next').click();await page.waitForSelector('#record');assert.equal(await page.locator('.kiko-actor').count(),0);
   }
   assert.deepEqual(errors,[]);report.formats.push({width,height,scale,reduced,oldProgressPreserved:true,actualSpritePixelsChanged:!reduced,repeatXp:0});await ctx.close();

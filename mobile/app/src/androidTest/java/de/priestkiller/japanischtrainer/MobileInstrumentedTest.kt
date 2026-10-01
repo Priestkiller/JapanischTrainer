@@ -25,6 +25,7 @@ class MobileInstrumentedTest {
             .put("streak",7).put("last_active",last).put("teacher_id","yuki").put("course_revision",11).toString().toByteArray())
         ActivityScenario.launch(MainActivity::class.java).use { scenario ->
             waitFor(scenario,"document.documentElement.dataset.ready === 'true'")
+            assertEquals("Native animation fixture must allow motion", "false",eval(scenario,"matchMedia('(prefers-reduced-motion: reduce)').matches"))
             assertEquals("true",eval(scenario,"document.querySelector('.home-stats').getBoundingClientRect().bottom < document.querySelector('.hero').getBoundingClientRect().top && document.querySelector('.home-stats').getBoundingClientRect().top>=0"))
             eval(scenario,"document.querySelector('[data-nav=calendar]').click()")
             waitFor(scenario,"!!document.querySelector('.calendar-grid')")
@@ -55,10 +56,13 @@ class MobileInstrumentedTest {
                 waitFor(scenario,"document.documentElement.dataset.ready === 'true'")
                 eval(scenario,"document.querySelector('[data-page=course]').click();document.querySelector('[data-lesson=\"0:1\"]').click()")
                 waitFor(scenario,"!!document.querySelector('[data-choice]')")
-                eval(scenario,"[...document.querySelectorAll('[data-choice]')].find(b=>b.dataset.choice==="+org.json.JSONObject.quote(answer)+").click();document.querySelector('#advance').click()")
+                eval(scenario,"[...document.querySelectorAll('[data-choice]')].find(b=>b.textContent.trim()==="+org.json.JSONObject.quote(answer)+").click()")
+                waitFor(scenario,"!!document.querySelector('#advance:not([disabled])')")
+                eval(scenario,"document.querySelector('#advance').click()")
                 waitFor(scenario,"!!document.querySelector('.completion')")
                 assertEquals("true",eval(scenario,"document.querySelector('.completion-xp').textContent==="+org.json.JSONObject.quote(if(done)"Wiederholung geschafft" else "+25 XP")+" && JSON.parse(AndroidTrainer.getProfile()).xp===45 && !document.querySelector('#complete-next').disabled && !document.querySelector('img.completion-kiko')"))
                 waitFor(scenario,"document.querySelector('.kiko-actor').dataset.frame!==undefined")
+                assertEquals("true",eval(scenario,"[...document.querySelectorAll('.completion-actions button')].every(n=>n.getBoundingClientRect().bottom<=document.querySelector('.bottom-nav').getBoundingClientRect().top+1)"))
                 screenshot(scenario,if(done)"android-completion-repeat" else "android-completion-first")
                 eval(scenario,"document.querySelector('#complete-next').click()")
                 waitFor(scenario,"!!document.querySelector('#record')")
@@ -176,7 +180,7 @@ class MobileInstrumentedTest {
     private fun waitFor(s:ActivityScenario<MainActivity>,condition:String) {
         val deadline=System.currentTimeMillis()+30000
         while(System.currentTimeMillis()<deadline) { if(eval(s,condition)=="true")return;Thread.sleep(200) }
-        fail("Condition did not become true: $condition")
+        fail("Condition did not become true: $condition; visible test content: "+eval(s,"document.body.innerText.slice(0,1800)"))
     }
     @Test fun nativeAppStartsAndKeepsTheLessonOnRestart() {
         ActivityScenario.launch(MainActivity::class.java).use { scenario ->

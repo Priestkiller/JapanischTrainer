@@ -44,7 +44,8 @@ jobs:
           profile: pixel_5
           ram-size: 4096M
           disk-size: 6000M
-          disable-animations: true
+          # Kiko's actual animation must run; reduced motion has separate tests.
+          disable-animations: false
           # The disposable emulator's Pixel Launcher can ANR over an otherwise
           # responsive app. Instrumentation starts our activity directly.
           script: |
