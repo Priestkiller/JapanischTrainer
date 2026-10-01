@@ -23,10 +23,14 @@ try{
   await page.waitForTimeout(150);await capture('speaking');
   const geometry=await page.evaluate(()=>{const t=document.querySelector('.focus-teacher').getBoundingClientRect(),p=document.querySelector('.focus-speaking-paper').getBoundingClientRect(),d=document.querySelector('.focus-dock').getBoundingClientRect(),tools=document.querySelector('.focus-tools').getBoundingClientRect();return {scene:document.querySelector('.focus-session').classList.contains('focus-coach-scene'),teacher:t.toJSON(),paper:p.toJSON(),dock:d.toJSON(),tools:tools.toJSON(),outer:document.documentElement.scrollHeight-innerHeight};});
   assert.ok(geometry.outer<=1&&geometry.dock.bottom<=height+1);
+  assert.ok(geometry.paper.right<=width+1&&geometry.dock.right<=width+1,'Task and action must fit even when overflow is hidden');
   assert.ok(geometry.teacher.top>=0&&geometry.teacher.bottom<=geometry.dock.top+1);
   if(geometry.scene){assert.ok(geometry.teacher.width>=120);assert.ok(geometry.teacher.top>=geometry.tools.bottom-1);}
   else assert.ok(geometry.teacher.bottom<=geometry.paper.top+1);
   assert.equal(await page.locator('.focus-kiko').count(),0);
+  for(const selector of ['#hear-normal','#hear-slow','#record','.focus-tools button'])for(const control of await page.locator(selector).all())if(await control.isVisible()){
+   await control.scrollIntoViewIfNeeded();const b=await control.boundingBox(),d=await page.locator('.focus-dock').boundingBox();assert.ok(b.x>=0&&b.x+b.width<=width+1&&b.y>=0&&b.y+b.height<=d.y+1,selector+' fully reachable before action dock');
+  }
   await page.locator('#hear-normal').click();await page.evaluate(()=>JTNative('audioDone',{request:calls.at(-1).id}));await page.locator('#record').click();await page.evaluate(()=>JTNative('speechResult',{request:calls.at(-1).id,text:'あ',audioQualified:true,shortKana:true}));await page.locator('#advance').click();
   assert.equal(await page.locator('.focus-teacher').count(),0);await capture('meaning');assert.equal(await page.evaluate(()=>JSON.parse(localStorage.getItem('night-profile')).xp),0);
   assert.deepEqual(errors,[]);report.formats.push({width,height,scale,geometry});await ctx.close();

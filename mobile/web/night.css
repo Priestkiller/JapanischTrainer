@@ -38,6 +38,9 @@ input,select{background:#0b2744;color:var(--ink);border-color:#6593b3}input::pla
 .daily-footer{background:#092741f7;border-color:#3a779e}.daily-layout .task-header{background:#0c2c47}.daily-card .pronunciation{background:#143853;color:#d9eaff}
 .kiko-note{color:#d9e8f5}.completion{color:#f5f8ff}.completion h1{color:#b5f3da}.storage-error{background:#4e2838;color:#ffe0e9}.model-comparison{background:#0a2542;color:#d7eaff}
 /* A spacious speaking scene uses the area below the task; compact views retain the cue. */
+.focus-session{min-width:0;grid-template-columns:minmax(0,1fr)}.focus-header,.focus-workspace,.focus-dock{min-width:0}
+.focus-mode .focus-task-title>div{min-width:0}.focus-mode .focus-task-title h2{min-width:0;overflow-wrap:anywhere}
+.focus-large-text .focus-brand{display:none!important}.focus-large-text .focus-task-title>div{flex-wrap:wrap}.focus-large-text .focus-companions{height:auto;min-height:68px}
 .focus-session.focus-coach-scene .focus-companions{height:var(--coach-height,180px);min-height:var(--coach-height,180px);margin-top:auto;position:relative;flex:none;display:block;overflow:hidden}
 .focus-session.focus-coach-scene .focus-teacher{position:absolute;right:0;bottom:0;width:43%;height:100%;min-height:0;object-fit:contain;object-position:right bottom;max-width:none}
 .focus-session.focus-coach-scene .focus-coach-copy{position:absolute;left:0;top:24px;max-width:58%;width:58%;padding:13px;font-size:.81rem;line-height:1.45;border-radius:17px;background:#fff3f2;color:#12314a;box-shadow:0 4px 15px #020b1f55}

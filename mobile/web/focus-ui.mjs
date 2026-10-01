@@ -91,6 +91,7 @@ export function focusLesson({page,session,round,teacher,store,esc}) {
  function setTaskPage(p){presentation.page=Math.max(0,Math.min(taskPages-1,p));viewport.scrollLeft=presentation.page*stride;count.textContent=`Ansicht ${presentation.page+1} / ${taskPages}`;prev.disabled=presentation.page===0;forward.disabled=presentation.page===taskPages-1;}
  function layout(){
   if(!root.isConnected)return;
+  root.classList.toggle('focus-large-text',parseFloat(getComputedStyle(document.documentElement).fontSize)>20);
   flow.classList.remove('focus-pagination');flow.style.height='';flow.style.columnWidth='';flow.style.columnGap='';flow.style.columnFill='';viewport.style.height='';viewport.scrollLeft=0;pager.hidden=true;
   // Give the speaker a scene only when the task still has usable space.
   const portrait=innerWidth>=360&&innerWidth<600&&innerHeight>=780&&parseFloat(getComputedStyle(document.documentElement).fontSize)<=20;
