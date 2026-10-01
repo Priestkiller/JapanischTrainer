@@ -15,14 +15,14 @@ Keine Änderungen an Kursdaten, Speicherung, Sprechbewertung, Sprachmodellen, St
 ## Ausgeführte Prüfungen im Quellstand
 
 - 192 Python-Regressionsprüfungen und 60 JavaScript-Prüfungen bestanden.
-- Neue UI-Prüfung: 75 Ansichten in fünf Bildschirm-/Schriftformaten bestanden, einschließlich Navigation, horizontaler Begrenzung, Platzierung der Lehrkraft, unverändertem XP-Stand und Übergang vom Sprechen zur Aufgabe ohne Figur.
+- Neue UI-Prüfung: 85 Ansichten in fünf Bildschirm-/Schriftformaten bestanden, einschließlich Navigation, horizontaler Begrenzung, Platzierung der Lehrkraft, unverändertem XP-Stand und Übergang vom Sprechen zur Aufgabe ohne Figur. Lizenztext und Gesprächsblase erfüllen im gerenderten Test einen Textkontrast von mindestens 4,5:1.
 - Bestehende Aufgabenprüfung: 300 Kernansichten und 156 Zusatzaufgaben in fünf Formaten bestanden. Zusammenbleibende Sprechvorlage, absichtliche Hilfen, Inhaltsseiten und Ausweichverhalten für langen Text wurden geprüft.
 - Die Sprechhilfe nach drei erfolglosen Versuchen, Wiederaufnahme, Auswahlhilfe und Abschluss bestanden in vier Formaten. Die verwendeten Audioereignisse waren simuliert; dies ist kein Mikrofontest.
-- Eigene Sichtprüfung der neuen Startseite, Sprechansichten und Einstellungen anhand tatsächlich gerenderter Browseransichten. Weitere Sichtprüfung und native Android-Prüfung folgen vor Veröffentlichung.
+- Eigene Sichtprüfung der neuen Startseite, Sprechansichten, Einstellungen, Bibliothek, Lehrerauswahl, Tagesrunde und Fortschrittsübersicht anhand tatsächlich gerenderter Browseransichten. Weitere Sichtprüfung und native Android-Prüfung folgen vor Veröffentlichung.
 
 Testprofile sind isoliert. Die native Suite erhält eine zusätzliche Prüfung für die fünf Hauptmenüs und die Übernahme eines älteren Profils einschließlich XP, Abschluss, Lehrkraft und zuletzt geöffneter Lektion. Die bisherige native Geometrieprüfung prüft nun die tatsächliche Anforderung: Die Lehrkraft überlappt weder Sprechaufgabe noch feste Hauptaktion. Ihre frühere feste Position oberhalb der Aufgabe ist keine fachliche Anforderung.
 
-Einzelne Testprozesse wurden zunächst durch Sandbox-Prozessbeschränkungen blockiert. Die Wiederholung außerhalb der Sandbox bestand. Beim ersten lokalen Gradle-Aufruf war der JDK-Verzeichnisname falsch angegeben; der vorhandene JDK wird anschließend mit seinem tatsächlichen Namen verwendet. Keine Toolchain oder Signierschlüssel wurden ersetzt.
+Einzelne Testprozesse wurden zunächst durch Sandbox-Prozessbeschränkungen blockiert. Die Wiederholung außerhalb der Sandbox bestand. Beim ersten lokalen Gradle-Aufruf war der JDK-Verzeichnisname falsch angegeben; der vorhandene JDK wird anschließend mit seinem tatsächlichen Namen verwendet. Ein Browseraufruf ohne Kanalvorgabe fand kein installiertes Chromium; die Wiederholung nutzte den bereits vorhandenen Edge. Die Sichtprüfung fand verbliebene helle Flächen im Gesprächsverlauf und Lizenztext; diese wurden korrigiert und in die Kontrastprüfung aufgenommen. Keine Toolchain oder Signierschlüssel wurden ersetzt.
 
 ## Vor der Veröffentlichung noch erforderlich
 
