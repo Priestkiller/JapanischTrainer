@@ -54,6 +54,21 @@ class MobileInstrumentedTest {
         InstrumentationRegistry.getInstrumentation().waitForIdleSync()
         previousProfile?.let { writeProfile(it) } ?: testProfile.delete()
     }
+    @Test fun nightThemePreservesMainNavigationAndOlderProfile() {
+        writeProfile("""{"xp":321,"completed":["0:0"],"teacher_id":"sakura","course_revision":11,"last_lesson":{"key":"0:1","card":0}}""".toByteArray(Charsets.UTF_8))
+        ActivityScenario.launch(MainActivity::class.java).use { scenario ->
+            waitFor(scenario,"document.documentElement.dataset.ready === 'true'")
+            for(page in listOf("home","course","review","teachers","more")) {
+                eval(scenario,"document.querySelector('[data-page=$page]').click()")
+                assertEquals("true",eval(scenario,"getComputedStyle(document.documentElement).colorScheme==='dark' && document.documentElement.scrollWidth<=innerWidth+1 && document.querySelector('.bottom-nav').getBoundingClientRect().bottom<=innerHeight+1"))
+                assertEquals("321",eval(scenario,"JSON.parse(AndroidTrainer.getProfile()).xp"))
+                assertEquals("true",eval(scenario,"JSON.parse(AndroidTrainer.getProfile()).completed.includes('0:0')"))
+                screenshot(scenario,"android-night-"+page)
+            }
+            scenario.recreate();waitFor(scenario,"document.documentElement.dataset.ready === 'true'")
+            assertEquals("true",eval(scenario,"JSON.parse(AndroidTrainer.getProfile()).xp===321 && JSON.parse(AndroidTrainer.getProfile()).teacher_id==='sakura' && JSON.parse(AndroidTrainer.getProfile()).last_lesson.key==='0:1'"))
+        }
+    }
     @Test fun regularAndTestUpdatesUseSeparateReleaseTags() {
         fun release(tag:String,preview:Boolean=false,draft:Boolean=false)=org.json.JSONObject()
             .put("tag_name",tag).put("prerelease",preview).put("draft",draft)
@@ -387,7 +402,7 @@ class MobileInstrumentedTest {
             waitFor(scenario,"document.querySelector('.focus-sheet').hidden")
             assertEquals("true",eval(scenario,"document.querySelector('#advance').disabled && JSON.parse(AndroidTrainer.getProfile()).xp===0"))
             assertEquals("true",eval(scenario,"(()=>{const w=document.querySelector('.focus-workspace');return w.scrollHeight<=w.clientHeight+1 && document.documentElement.scrollHeight<=innerHeight+1})()"))
-            assertEquals("true",eval(scenario,"(()=>{const t=document.querySelector('.focus-teacher').getBoundingClientRect(),w=document.querySelector('.focus-workspace').getBoundingClientRect();return t.bottom<=w.top+1 && t.top>=0 && t.width>=25 && !document.querySelector('.focus-kiko')})()"))
+            assertEquals("true",eval(scenario,"(()=>{const t=document.querySelector('.focus-teacher').getBoundingClientRect(),p=document.querySelector('.focus-speaking-paper').getBoundingClientRect(),d=document.querySelector('.focus-dock').getBoundingClientRect();return (t.bottom<=p.top+1||t.top>=p.bottom-1) && t.top>=0 && t.bottom<=d.top+1 && t.width>=25 && !document.querySelector('.focus-kiko')})()"))
             assertEquals("true",eval(scenario,"document.querySelector('.focus-page-nav').hidden"))
             println("Native stage viewport and type size: "+eval(scenario,"[innerWidth,innerHeight,getComputedStyle(document.documentElement).fontSize]"))
             screenshot(scenario,"android-stage-without-scroll")

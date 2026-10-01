@@ -50,7 +50,7 @@ class MainActivity:Activity() {
         speech.alternatives=testModels
         speech.selectedRecognizer=getPreferences(MODE_PRIVATE).getString("recognizer","sensevoice")?.takeIf { it=="sensevoice"||testModels[it]?.ready()==true }?:"sensevoice"
         val root=FrameLayout(this); root.setBackgroundColor(Color.rgb(7,23,45)); setContentView(root)
-        web=WebView(this); web.setBackgroundColor(Color.rgb(247,243,237))
+        web=WebView(this); web.setBackgroundColor(Color.rgb(6,23,44))
         root.addView(web,FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT))
         ViewCompat.setOnApplyWindowInsetsListener(root) { v,insets ->
             val bars=insets.getInsets(WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout() or WindowInsetsCompat.Type.ime())

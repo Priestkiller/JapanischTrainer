@@ -1,0 +1,47 @@
+/* Android presentation only. Existing course and interaction rules stay intact. */
+:root{color-scheme:dark;--ink:#f4f8ff;--muted:#b7cce3;--blue:#72d8ff;--blue-dark:#0872bf;--pink:#f5bdd9;--line:#427493;--paper:#06172c;--white:#102c48;--green:#91efc6;--red:#ffb8ca;--shadow:0 6px 22px #020b1f55;background:var(--paper)}
+body{background:#06172c;color:var(--ink)}
+body:not(.focus-mode)::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background:linear-gradient(#03142b66,#06152b88 65%,#06152bcc),url('artwork/lesson-night.png') center/cover}
+body:not(.focus-mode)>main{position:relative;z-index:1;padding-top:18px}
+.topbar{background:#04162be8;border-bottom:1px solid #2c6082;backdrop-filter:blur(12px);height:66px;padding:0 16px}
+.brand{font-size:1.05rem;letter-spacing:-.4px}.brand-light{color:#ff668a;font-weight:750}
+.brand-mark{font-size:0;background:transparent url('artwork/torii.svg') center/contain no-repeat;border:0;width:34px;height:40px;border-radius:0}
+.icon-button{border:1px solid #457b9d;border-radius:50%;width:42px;min-height:42px;font-size:1.35rem;padding:2px;background:#0b2949}
+.bottom-nav{background:#061a30f5;border-color:#3b7094;box-shadow:0 -6px 24px #020b1f77;backdrop-filter:blur(12px)}
+.bottom-nav button{color:#bdd1e9;border:1px solid transparent}.bottom-nav button[aria-current=page]{color:#87e6ff;background:#143c60;border:1px solid #3287b5}
+button{background:linear-gradient(140deg,#214c74,#102d4c);color:var(--ink);border:1px solid #598aaf}
+button.primary{background:linear-gradient(135deg,#008463,#006b54);border:1px solid #68e4b9;color:#fff;box-shadow:inset 0 0 12px #3aebad22,0 4px 14px #00132666}
+button.primary:active{background:#08745b}button.ghost{background:#0c2947;border-color:#578aaa;color:#e5f4ff}
+button.danger{background:#422339;color:#ffd2de;border-color:#b76080}
+button:focus-visible,a:focus-visible,summary:focus-visible{outline-color:#ffd488}
+.card,.learn-card,.stat,.lesson-row,.teacher-tile,.menu-button,.empty,.search-results,.daily-card{background:#092640f5;border-color:#398cb8;box-shadow:inset 0 0 15px #318bc518,var(--shadow);color:var(--ink)}
+.hero{background:#082342 url('artwork/lesson-night.png') center/cover;border-color:#39bafd;border-radius:20px;min-height:230px;box-shadow:inset 0 0 22px #0588c433,var(--shadow)}
+.hero::before{background:linear-gradient(95deg,#05213a 10%,#05213af0 40%,#09244366 75%,#05213a33)}
+.hero-copy{padding:18px;width:64%}.hero h1{font-size:1.6rem;margin-top:10px!important}.hero .sub{color:#d7e7f8;font-size:.78rem}.hero canvas{width:185px;height:277px;right:-24px;bottom:-26px}.hero-quote{font-size:.72rem;color:#e3edf7;margin-top:8px}
+.hero .pill,.pill,.coach .pill{background:#174d70;color:#b7f1ff;border:1px solid #4d8fae}.pill.success{background:#164936;color:#abf1d0;border-color:#508e74}
+.stat{padding:8px 4px}.stat.accent{background:#292a45;border-color:#a55c85}.stat strong{font-size:1.05rem}.stat span{color:#c9d9ea}.stats{gap:8px;margin-top:12px}
+.card{padding:16px;border-radius:18px}.daily-summary{margin-top:13px}.daily-summary h2{margin:7px 0}.daily-summary p{font-size:.85rem;margin-bottom:9px}.daily-summary .sub{font-size:.71rem;line-height:1.4;margin:8px 0 0}
+.next-card{border-top-color:#00da9f}.section{margin-top:18px}.section-title{margin-bottom:9px}.next-card .lesson-title{font-size:1.07rem;margin:7px 0}.progress{background:#334c68}.progress>span{background:linear-gradient(90deg,#03c88c,#37cfe8)}
+.info,.coach,.speech-panel,.chat-message.partner,.talk-cue,.exercise-frame,.exercise-reading,.explain .example,.feedback,.support-feedback{background:#123550;color:#d9eaff;border-color:#477e9f}
+.info.warning{background:#443822;border-color:#af8b43;color:#ffdf99}.info.success,.feedback.correct{background:#124936;border-color:#4fbc89;color:#bdffdb}.info.error,.feedback.wrong{background:#45273b;border-color:#ae6884;color:#ffceda}
+input,select{background:#0b2744;color:var(--ink);border-color:#6593b3}input::placeholder{color:#9cb6cf}input:focus,select:focus{outline-color:#73dcff}
+.lesson-number{background:#1b4769;color:#b6edff}.lesson-row.done .lesson-number{background:#174f3c;color:#a8f4cd}.lesson-row.locked{opacity:.7}.chevron{color:#9ec5e3}.course-group{color:#c6d6eb}
+.teacher-tile img,.teacher-detail img,.coach img{background:#163b5b}.teacher-tile.selected{border-color:#72e0ff}.selected-check{background:#0675af}
+.menu-button span,.muted,.sub,.speech-message,.speech-caption{color:var(--muted)}
+.jp{color:#f6faff}.romaji{color:#a6d3f8}.pronunciation{color:#c1d7ed}.back-button,.option,.tile,.word-bank button,.exercise-pairs button,.exercise-frame button,.exercise-gap-options button,.exercise-reading button{background:linear-gradient(135deg,#1b456c,#102d4c);border-color:#6691b4;color:#f1f7ff}
+.option.correct,.tile.correct,.exercise-pairs button.correct{background:#14523c;border-color:#63c594;color:#d0ffe7}.option.wrong,.tile.wrong{background:#4b2840;border-color:#cc86a3;color:#ffdbdf}
+.explain h3{color:#8ddeff}.exercise-variety mark{background:#766025;color:#fff0ba}.exercise-variety button[aria-pressed=true]{background:#255779}
+.record-button,.speech-panel .record-button{color:#fff;background:linear-gradient(135deg,#d9185b,#a30845);border-color:#ff9bbb}.record-button.recording{background:#9f144e;color:#fff;border-color:#ffd0de}
+.focus-mode .focus-controls .focus-primary{background:linear-gradient(135deg,#008463,#006b54)}
+.focus-mode .focus-fixed-audio button:first-child{background:linear-gradient(135deg,#076bc2,#0059a2)}
+.talk-partner{background:#0c2d4b;border-color:#588ba8}.chat-message.user{background:#14503f;color:#daffed}.talk-layout>.speech-alternative{background:#0b2947;color:#f4f8ff;border:1px solid #69cfff}
+.daily-footer{background:#092741f7;border-color:#3a779e}.daily-layout .task-header{background:#0c2c47}.daily-card .pronunciation{background:#143853;color:#d9eaff}
+.kiko-note{color:#d9e8f5}.completion{color:#f5f8ff}.completion h1{color:#b5f3da}.storage-error{background:#4e2838;color:#ffe0e9}.model-comparison{background:#0a2542;color:#d7eaff}
+/* A spacious speaking scene uses the area below the task; compact views retain the cue. */
+.focus-session.focus-coach-scene .focus-companions{height:var(--coach-height,180px);min-height:var(--coach-height,180px);margin-top:auto;position:relative;flex:none;display:block;overflow:hidden}
+.focus-session.focus-coach-scene .focus-teacher{position:absolute;right:0;bottom:0;width:43%;height:100%;min-height:0;object-fit:contain;object-position:right bottom;max-width:none}
+.focus-session.focus-coach-scene .focus-coach-copy{position:absolute;left:0;top:24px;max-width:58%;width:58%;padding:13px;font-size:.81rem;line-height:1.45;border-radius:17px;background:#fff3f2;color:#12314a;box-shadow:0 4px 15px #020b1f55}
+.focus-session.focus-coach-scene .focus-coach-copy strong{color:#c62d6b;font-size:.86rem;margin-bottom:5px}.focus-coach-scene .focus-coach-copy::after{content:'';position:absolute;right:-10px;top:32px;border-width:9px 0 9px 11px;border-style:solid;border-color:transparent transparent transparent #fff3f2}
+@media(min-height:780px) and (min-width:360px) and (max-width:599px){.is-speaking .focus-brand{display:flex}.focus-session .focus-header{padding-top:10px}.focus-cue .focus-word .jp{font-size:clamp(1.7rem,6.4vw,2.5rem)}}
+@media(max-width:370px){.hero{min-height:215px}.hero-copy{padding:14px;width:66%}.hero h1{font-size:1.4rem}.hero canvas{width:155px;height:233px;right:-24px}.card{padding:13px}.topbar{padding:0 12px}.brand{font-size:.98rem}}
+@media(max-height:550px) and (min-width:600px){.hero{min-height:190px}.hero h1{font-size:1.4rem}.hero-copy{width:72%}.hero canvas{right:5%;height:245px;width:163px}.hero .sub{max-width:70%}}

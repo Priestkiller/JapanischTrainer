@@ -92,7 +92,15 @@ export function focusLesson({page,session,round,teacher,store,esc}) {
  function layout(){
   if(!root.isConnected)return;
   flow.classList.remove('focus-pagination');flow.style.height='';flow.style.columnWidth='';flow.style.columnGap='';flow.style.columnFill='';viewport.style.height='';viewport.scrollLeft=0;pager.hidden=true;
-  const reserve=0;
+  // Give the speaker a scene only when the task still has usable space.
+  const portrait=innerWidth>=360&&innerWidth<600&&innerHeight>=780&&parseFloat(getComputedStyle(document.documentElement).fontSize)<=20;
+  const baseSpace=workspace.clientHeight-tools.offsetHeight-caption.offsetHeight-cue.offsetHeight-74-(recordingPanel?.offsetHeight??0)-(fixedAudio?.offsetHeight??0)+(companions.parentElement===header?companions.offsetHeight:0);
+  const sceneHeight=Math.max(130,Math.min(260,baseSpace-70));
+  const expanded=isSpeaking&&portrait&&baseSpace>=200;
+  root.style.setProperty('--coach-height',`${sceneHeight}px`);
+  root.classList.toggle('focus-coach-scene',expanded);
+  if(isSpeaking&&(expanded?workspace:header)!==companions.parentElement)(expanded?workspace:header).append(companions);
+  const reserve=expanded?companions.offsetHeight:0;
   const free=workspace.clientHeight-tools.offsetHeight-caption.offsetHeight-cue.offsetHeight-74-(recordingPanel?.offsetHeight??0)-(fixedAudio?.offsetHeight??0);
   let available=Math.max(110,free-reserve);
   // Short speech models stay on one view when they fit, before reserving decorative space.
