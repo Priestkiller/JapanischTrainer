@@ -58,8 +58,8 @@ class MobileInstrumentedTest {
                 // its state after a directly written next fixture. The existing
                 // import callback replaces both in-memory and native test state.
                 if(done)eval(scenario,"JTNative('profileImported',"+seed(true).toString()+")")
-                assertEquals("true",eval(scenario,"JSON.parse(AndroidTrainer.getProfile()).lesson_sessions['0:1'].mode==='recap'"))
                 eval(scenario,"document.querySelector('[data-page=course]').click();document.querySelector('[data-lesson=\"0:1\"]').click()")
+                assertEquals("true",eval(scenario,"JSON.parse(AndroidTrainer.getProfile()).lesson_sessions['0:1'].mode==='recap'"))
                 waitFor(scenario,"!!document.querySelector('[data-choice]')")
                 eval(scenario,"[...document.querySelectorAll('[data-choice]')].find(b=>b.textContent.trim()==="+org.json.JSONObject.quote(answer)+").click()")
                 waitFor(scenario,"!!document.querySelector('#advance:not([disabled])')")
