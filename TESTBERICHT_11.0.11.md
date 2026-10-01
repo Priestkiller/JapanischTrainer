@@ -51,3 +51,15 @@ Der lokale Android-Emulator kann ohne vorhandenen Hypervisor-Treiber nicht besch
 Windows **11.0.11**, Android **11.0.11-android.1-test / 11001101**. Lokale Testpakete und optionale Modelle: `F:/Japanischtool/Testpakete/11.0.11/`. Die praktische Geräteprüfliste steht in `ANLEITUNG_11.0.11_TEST.md`. Eine spätere stabile Veröffentlichung erfordert weiterhin die ausdrückliche Freigabe des Nutzers.
 
 Offen: GitHub-Anmeldung, Upload ausschließlich in den Testkanal, nativer Android-Emulatorlauf einschließlich optionaler Modelle, öffentliche vollständige Download-/Signaturprüfung und echte Updateerkennung gegen die neue öffentliche Ausgabe. Außerdem menschliche Fachprüfung des Restaurantdialogs und der deutschen Lernhinweise sowie die angekündigte echte S24-Testrunde. Bestehende Quellen und Lizenzen sind mitzuliefern; private Daten und Schlüssel bleiben ausgeschlossen.
+
+
+## Nachtrag zur Testveröffentlichung am 1. Oktober 2026
+
+Die GitHub-Anmeldung wurde erneuert. Der geprüfte Quellstand ist im separaten Branch test/11.0.11 verfügbar; main bleibt unverändert. Der neue Android-CI-Lauf bestand Build, Lint, 60 JavaScript-Tests und alle 15 nativen Emulatorprüfungen einschließlich realer Inferenz mit den beiden Zusatzmodellen. Das ist keine Prüfung auf dem S24 Ultra und kein Mikrofontest. CI: https://github.com/Priestkiller/JapanischTrainer/actions/runs/36835217123
+
+Die öffentliche Download-Abnahme wird erst nach dem Upload durchgeführt und als eigener Veröffentlichungsbericht ergänzt. Der erste native Lauf bestand 14 von 15 Prüfungen. Ein historischer Test erwartete fünf Gesprächsszenen statt der mit dem Restaurant beabsichtigten sechs. Die Prüfung wurde auf die sechs konkreten IDs korrigiert; produktive Dateien und Binärpakete blieben dabei unverändert. Die historische lokale Prüfung oben bleibt erhalten.
+
+
+## Öffentliche Abnahme abgeschlossen am 1. Oktober 2026
+
+Alle 41 öffentlichen Dateien einschließlich der nachträglich bereitgestellten Veröffentlichungsberichte und ihrer Hashdateien wurden erfolgreich über Erreichbarkeit, Größe und SHA-256 abgeglichen. Windows-Metadaten, APK-Signatur, Versionen und Paketzuordnung bestanden; stabil und Latest bleiben v11.0.4. Echte Windows-Schaltflächen bieten 11.0.10 die Testversion 11.0.11 an und lassen separate Profile unverändert. Androids Auswahl wurde mit öffentlichen Manifesten auf dem Prüfhost geprüft; die native Filterprüfung bestand im Emulator. Die tatsächliche S24-Ultra-Updatesuche, Installation, Mikrofon- und Hörprüfung bleiben offen. Details stehen in VEROEFFENTLICHUNG_11.0.11_TEST.md und validation/public-1111/result.json.

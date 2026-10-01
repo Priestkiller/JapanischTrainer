@@ -1,6 +1,6 @@
-# JapanischTrainer 11.0.11 lokal testen
+# JapanischTrainer 11.0.11 als Testversion installieren
 
-Diese Ausgabe erweitert Windows und Android. Der öffentliche Testkanal enthält diese Ausgabe noch nicht; die GitHub-Anmeldung für Upload und CI ist in der aktuellen Sitzung nicht verfügbar. Die reguläre Updatesuche bleibt unverändert. Nicht deinstallieren, sondern Setup beziehungsweise APK über die vorhandene Installation einspielen. Vorher bei Bedarf den Lernstand exportieren.
+Diese Ausgabe erweitert Windows und Android und wird ausschließlich als Testversion bereitgestellt. Auf 11.0.10 unter App-Updates beziehungsweise Programm-Updates „Testversion suchen“ wählen, danach den angebotenen Download ausdrücklich starten. Die reguläre Updatesuche bleibt bei 11.0.4. Nicht deinstallieren, sondern Setup beziehungsweise APK über die vorhandene Installation einspielen. Vorher bei Bedarf den Lernstand exportieren.
 
 ## Neu ausprobieren
 
@@ -11,7 +11,7 @@ Diese Ausgabe erweitert Windows und Android. Der öffentliche Testkanal enthält
 ## Freiwillige Testrunde auf dem S24 Ultra
 
 1. Mehr → Sprachvergleich öffnen. Das bestehende Grundsprachpaket muss eingerichtet sein.
-2. Optional ein Zusatzmodell über **ZIP vom Gerät wählen** importieren. Nur genau die mitgelieferten geprüften Modellpakete werden angenommen. Der öffentliche Modell-Download ist vor der ausstehenden Bereitstellung noch nicht erreichbar. Nichts wird automatisch geladen.
+2. Optional ein Zusatzmodell über **ZIP vom Gerät wählen** importieren. Nur genau die mitgelieferten geprüften Modellpakete werden angenommen. Die zusätzlichen Modelle sind über die vorgesehenen Modell-Downloads erreichbar. Nichts wird automatisch geladen.
 3. Im ruhigen Raum die 15 Beispiele nacheinander aufnehmen: neun Kana, drei Wörter, zwei Sätze und eine Stilleprobe. Ein Beispiel anhören, dann selbst sprechen. Bei Stille drei Sekunden still bleiben und stoppen.
 4. Nach jeder Aufnahme angeben, ob die Vorgabe tatsächlich gesprochen wurde oder ob es eine Störung beziehungsweise einen Versprecher gab. Bei Modellfehlern die Meldung notieren. Keine privaten Namen oder anderen freien Inhalte sprechen.
 5. Bei Bedarf die Runde mit etwas Abstand zum Mikrofon wiederholen. Derselbe Versuch wird allen installierten Modellen nacheinander gegeben. „Text passt“ ist keine Aussprache-Note.
