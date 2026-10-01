@@ -31,3 +31,15 @@ Android-Release-Build, Lint, native Emulatorprüfungen, Paketversion, Zertifikat
 ## Offene menschliche Prüfungen
 
 S24 Ultra mit echten Android-Schrift-/Zoom-Einstellungen, Mikrofon und Kopfhörer; Anfänger-Erprobung; menschliche Japanisch-Fachprüfung. Die größere Lehrkraft und Nachtfarben beweisen keine bessere Spracherkennung. Bestehende optionale Modelltests bleiben freiwillig und lokal.
+
+
+## Abschluss der Software- und Paketprüfung
+
+Der endgültige Quellstand acd234bc6f20dcf1c5c956b30bef39aa990f258b bestand die erneuten Aufgaben-, Kana- und Sprechhilfeprüfungen. Build und Lint bestanden; Lint meldet 0 Fehler und 11 Warnungen, überwiegend bestehende Abhängigkeits-/Werkzeughinweise. Die APK besteht v3-Signatur mit dem bisherigen Herausgeberzertifikat, Paketkennung, Code 11001201 und 16-KB-Alignment. 151 mitgelieferte Inhalte und Web-/Grafikdateien stimmen bytegleich mit den lokalen Quellen überein. Der Quellenumfang wurde auf private Schlüssel, Lernstände und Aufnahmen geprüft. Der CI-Lauf bestand alle 16 nativen Prüfungen einschließlich Menüwechsel, altem Profil, Neustart, Tastatur und realer Offline-Modellverarbeitung mit synthetischem Audio. Die neuen Darstellungsdateien stimmen auch im CI-Paket mit dem lokalen Paket überein. CI: https://github.com/Priestkiller/JapanischTrainer/actions/runs/36847704465
+
+Der erste und zweite Zwischenstand wurden ebenfalls geprüft; für die Veröffentlichung gilt ausschließlich dieser endgültige Stand. Die öffentliche Downloadprüfung folgt nach dem Upload. Mikrofon- und S24-Prüfung bleiben offen.
+
+
+## Öffentliche Abnahme abgeschlossen am 1. Oktober 2026
+
+Alle 16 öffentlichen Dateien einschließlich des nachträglich ergänzten Veröffentlichungsberichts und seiner Hashdatei wurden mit Größe und SHA-256 abgeglichen. APK-v3-Signatur, Herausgeber, Paketname, Versionscode 11001201 und 16-KB-Alignment bestanden. Die öffentlichen Quellen gehören zur APK. 11.0.11 erhält 11.0.12 ausschließlich im Android-Testkanal; auf 11.0.12 ist das Testangebot korrekt leer. Produktive Web-Schaltflächen wurden mit echten öffentlichen Manifestdaten, einer simulierten nativen Brücke und sechs separaten Profil-/Bildschirmkombinationen geprüft. Profile blieben unverändert; kein automatischer Download oder Installation. Die echte Handy-Suche und Installation bleiben offen. Die 23 älteren Veröffentlichungen mit 226 Dateien blieben unverändert. Windows bleibt 11.0.11; stabil und Latest bleiben 11.0.4.
