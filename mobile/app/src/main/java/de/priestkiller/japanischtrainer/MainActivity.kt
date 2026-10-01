@@ -214,7 +214,7 @@ class MainActivity:Activity() {
         downloading=true; emit("updateChecking",JSONObject().put("test",testChannel))
         io.execute {
             try { availableUpdate=updates.check(testChannel); emit(if(availableUpdate==null)"updateCurrent" else "updateAvailable",(availableUpdate?:JSONObject()).put("test",testChannel)) }
-            catch(e:Exception) { emit("updateError",JSONObject().put("message","Updates derzeit nicht erreichbar. Bitte später erneut versuchen.")) }
+            catch(e:Exception) { emit("updateError",JSONObject().put("message",AppUpdates.failureMessage(e))) }
             finally { downloading=false }
         }
     }

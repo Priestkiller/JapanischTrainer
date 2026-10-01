@@ -18,6 +18,73 @@ import android.webkit.WebView
 
 @RunWith(AndroidJUnit4::class)
 class MobileInstrumentedTest {
+    @Test fun calendarAndMascotKeepOlderProgressAndActuallyDrawDifferentFrames() {
+        val yesterday=java.util.Calendar.getInstance().apply { add(java.util.Calendar.DAY_OF_MONTH,-1) }
+        val last=java.text.SimpleDateFormat("yyyy-MM-dd",java.util.Locale.ROOT).format(yesterday.time)
+        writeProfile(org.json.JSONObject().put("xp",321).put("completed",JSONArray().put("0:0"))
+            .put("streak",7).put("last_active",last).put("teacher_id","yuki").put("course_revision",11).toString().toByteArray())
+        ActivityScenario.launch(MainActivity::class.java).use { scenario ->
+            waitFor(scenario,"document.documentElement.dataset.ready === 'true'")
+            assertEquals("true",eval(scenario,"document.querySelector('.home-stats').getBoundingClientRect().bottom < document.querySelector('.hero').getBoundingClientRect().top && document.querySelector('.home-stats').getBoundingClientRect().top>=0"))
+            eval(scenario,"document.querySelector('[data-nav=calendar]').click()")
+            waitFor(scenario,"!!document.querySelector('.calendar-grid')")
+            assertEquals("true",eval(scenario,"JSON.parse(AndroidTrainer.getProfile()).xp===321 && JSON.parse(AndroidTrainer.getProfile()).streak===7 && JSON.parse(AndroidTrainer.getProfile()).learning_days.length===1 && JSON.parse(AndroidTrainer.getProfile()).learning_days[0]==="+org.json.JSONObject.quote(last)))
+            screenshot(scenario,"android-streak-calendar")
+            scenario.recreate();waitFor(scenario,"document.documentElement.dataset.ready === 'true'")
+            assertEquals("true",eval(scenario,"JSON.parse(AndroidTrainer.getProfile()).learning_days.length===1 && JSON.parse(AndroidTrainer.getProfile()).teacher_id==='yuki'"))
+            eval(scenario,"document.querySelector('[data-page=home]').click();document.querySelector('.kiko-greeting').scrollIntoView()")
+            waitFor(scenario,"document.querySelector('.kiko-actor').dataset.frame!==undefined")
+            eval(scenario,"document.querySelector('.kiko-greeting').click()")
+            waitFor(scenario,"Number(document.querySelector('.kiko-actor').dataset.frame)>=8")
+            val first=eval(scenario,"document.querySelector('.kiko-actor').toDataURL()")
+            Thread.sleep(180)
+            assertNotEquals("Actual sprite pixels must change",first,eval(scenario,"document.querySelector('.kiko-actor').toDataURL()"))
+            screenshot(scenario,"android-kiko-greeting")
+        }
+    }
+    @Test fun completionShowsTheActualRewardWithCleanAnimatedArtAndRepeatNeverAwardsAgain() {
+        fun seed(done:Boolean) = org.json.JSONObject().put("xp",if(done)45 else 20)
+            .put("completed",if(done)JSONArray().put("0:0").put("0:1") else JSONArray().put("0:0"))
+            .put("course_revision",11).put("last_lesson",org.json.JSONObject().put("key","0:1").put("card",2))
+            .put("lesson_sessions",org.json.JSONObject().put("0:1",org.json.JSONObject().put("flow_revision",2).put("passed",JSONArray()).put("index",2).put("phase","meaning").put("mode","recap").put("recap",JSONArray().put(2)).put("recap_total",3).put("recap_passed",2)))
+        val raw=org.json.JSONObject(InstrumentationRegistry.getInstrumentation().targetContext.assets.open("data/course.json").bufferedReader().use {it.readText()})
+        val answer=raw.getJSONArray("units").getJSONObject(0).getJSONArray("lessons").getJSONObject(1).getJSONArray("cards").getJSONObject(2).getString("de")
+        for(done in listOf(false,true)) {
+            writeProfile(seed(done).toString().toByteArray())
+            ActivityScenario.launch(MainActivity::class.java).use { scenario ->
+                waitFor(scenario,"document.documentElement.dataset.ready === 'true'")
+                eval(scenario,"document.querySelector('[data-page=course]').click();document.querySelector('[data-lesson=\"0:1\"]').click()")
+                waitFor(scenario,"!!document.querySelector('[data-choice]')")
+                eval(scenario,"[...document.querySelectorAll('[data-choice]')].find(b=>b.dataset.choice==="+org.json.JSONObject.quote(answer)+").click();document.querySelector('#advance').click()")
+                waitFor(scenario,"!!document.querySelector('.completion')")
+                assertEquals("true",eval(scenario,"document.querySelector('.completion-xp').textContent==="+org.json.JSONObject.quote(if(done)"Wiederholung geschafft" else "+25 XP")+" && JSON.parse(AndroidTrainer.getProfile()).xp===45 && !document.querySelector('#complete-next').disabled && !document.querySelector('img.completion-kiko')"))
+                waitFor(scenario,"document.querySelector('.kiko-actor').dataset.frame!==undefined")
+                screenshot(scenario,if(done)"android-completion-repeat" else "android-completion-first")
+                eval(scenario,"document.querySelector('#complete-next').click()")
+                waitFor(scenario,"!!document.querySelector('#record')")
+            }
+        }
+    }
+    @Test fun realPublicUpdateSearchRunsWithAndroidHttpsAndLeavesProfileUntouched() {
+        val context=InstrumentationRegistry.getInstrumentation().targetContext
+        val before=testProfile.readFully()
+        for(test in listOf(false,true)) {
+            val result=AppUpdates(context).check(test)
+            if(result!=null) {
+                assertTrue(result.getInt("code")>BuildConfig.VERSION_CODE)
+                assertTrue(result.getString("url").contains(if(test)"/android-test-v" else "/android-v"))
+            }
+            println("Actual Android HTTPS public update search, test=$test: ${result?.optInt("code") ?: "no higher version"}")
+        }
+        assertArrayEquals(before,testProfile.readFully())
+    }
+    @Test fun updateFailureMessagesDistinguishNetworkAndServerFailuresWithoutExposingAddresses() {
+        assertTrue(AppUpdates.failureMessage(java.net.UnknownHostException("private value")).contains("DNS"))
+        assertFalse(AppUpdates.failureMessage(java.net.UnknownHostException("private value")).contains("private value"))
+        assertTrue(AppUpdates.failureMessage(java.net.SocketTimeoutException()).contains("Zeitüberschreitung"))
+        assertTrue(AppUpdates.failureMessage(javax.net.ssl.SSLHandshakeException("private value")).contains("TLS"))
+        assertTrue(AppUpdates.failureMessage(IllegalArgumentException("Download nicht erreichbar (403).")).contains("HTTP 403"))
+    }
     @Test fun optionalModelsLoadAndDecodeJapaneseWithoutTargetPrompts() {
         val context=InstrumentationRegistry.getInstrumentation().targetContext
         val base=ModelStore(context);base.install {_,_->}

@@ -1,0 +1,17 @@
+# Android Kalender und Kiko Prüfung 11 0 13
+
+Lokaler Umsetzungsstand vom 1. Oktober 2026. Android 11.0.13-android.1-test, Code 11001301. Dieser Quellbericht hält ausgeführte lokale Prüfungen fest. Native Emulatorprüfung, endgültige Paketierung und öffentliche Downloadprüfung folgen separat; sie sind hier noch nicht als bestanden ausgewiesen.
+
+Lernserie, XP und Kursfortschritt stehen oben auf der Startseite. Die Lernserie öffnet einen Monatskalender mit bekannten Lerntagen, Monatsnavigation und Markierung für heute. Tagesdaten werden zusätzlich gespeichert, ohne IDs, Kursrevision, XP-Regeln oder bisherige Abschlüsse zu verändern. Alte Profile behalten Serie und letzten bekannten Lerntag. Fehlende historische Tagesdaten werden ausdrücklich nicht erfunden. Eine abgelaufene Serie wird bei der Anzeige mit 0 dargestellt; der gespeicherte Bestand bleibt erhalten. Erst eine bearbeitete Lernaufgabe zählt, nicht ein Kalender- oder Appaufruf.
+
+Kiko verwendet eine neue transparente Grafik mit 16 Bildern: acht ruhige Bewegungsphasen mit Blinzeln und acht Jubelbilder mit Pfoten-/Schwanzbewegung. Antippen begrüßt. Jubel beim echten Abschluss bleibt auf etwa 2,65 Sekunden begrenzt und blockiert keine Schaltfläche. Unsichtbare Ansichten und reduzierte Bewegung halten an. Herkunft und vollständige Prompts: mobile/ARTWORK_11.0.13.md. Die alte fehlerhafte Jubelgrafik wird in Android nicht mehr verwendet. Windows-Grafiken bleiben unverändert.
+
+Die Abschlusskarte ist ausdrücklich dunkel, zeigt die tatsächlich erhaltenen XP und unterscheidet Wiederholung ohne erneute Belohnung. Der helle Nutzerscreenshot kann von einer älteren Ausgabe stammen; ihm wird keine sicher bestimmte installierte Version zugeschrieben. Die fehlerhafte Jubelgrafik wurde hingegen auch in den Quelldateien nachgewiesen.
+
+Die noch offene Handy-Updatesuche erhält unterscheidbare Meldungen für DNS, Zeitüberschreitung, TLS, Verbindungs-, HTTP- und Versionsdatenfehler. Die genaue Ursache auf dem S24 ist weiterhin nicht nachgewiesen. Filter, Quellen, Schlüssel, Paketkennung, Signatur- und Downgradeprüfungen bleiben erhalten; keine automatische Installation.
+
+65 JavaScript-Funktionstests bestanden, darunter Datums-/Schaltjahr-/Zeitumstellungsgrenzen, Migration alter Profile, Export/Import, Tageszählung, einmalige XP und alle Kurs-/Zusatzaufgaben. 30 Browseransichten in sechs Format-/Schrift-/Bewegungskombinationen bestanden: Kennzahlen vor Hero, Kalendernavigation, altes Profil, tatsächlich veränderte Sprite-Pixel, abgeschaltete Bewegung, erster Abschluss und Wiederholung. Die Sichtprüfung bestätigt dunkle Abschlusskarte und vollständige Kiko-Figur. Browserbrücke und Abschlussfixtures waren simuliert; keine menschliche Übung oder Mikrofonprüfung.
+
+Android Release-/Instrumentation-Build und Lint bestanden lokal zunächst; die endgültige Paketprüfung muss den abschließenden Quellstand prüfen. Der erste Node-Lauf war durch Sandbox-Prozessrechte blockiert; der Lauf ohne Prozessisolation bestand. Das ist kein Fehler der App. Die erste Grafikfassung wurde wegen zu enger Zellränder nicht ausgeliefert.
+
+Kurs unverändert: 150 Lektionen, 680 Karten, Revision 11, Inhaltsversion 11.0.7; 105 Lektionen mit 501 Karten vertieft, 156 Zusatzaufgaben. Windows bleibt Test 11.0.11; beide stabil bei 11.0.4. Noch offen: echter S24-Installations-/Mikrofon-/Hörtest, Anfänger-Erprobung und menschliche Sprachfachprüfung. Keine neue Sprachmodellqualität behauptet.

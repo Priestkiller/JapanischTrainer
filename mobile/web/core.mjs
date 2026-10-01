@@ -2,6 +2,7 @@
 import {cleanTalk} from './talk.mjs';
 import {cleanAdaptive,recordAttempt,PHASE_SKILL} from './adaptive.mjs';
 import {SpeechSupport,speechDeck} from './speech-support.mjs';
+import {cleanDays,validDay,dayKey} from './calendar.mjs';
 export const PHASES=['speak','meaning','listen','build','write','apply'];
 export const LABELS={speak:'Hören & Sprechen',meaning:'Bedeutung erkennen',listen:'Hörverstehen',build:'Bausteine ordnen',write:'Selbst schreiben',apply:'Anwenden'};
 export const FLOW_REVISION=2;
@@ -35,17 +36,20 @@ export function cleanProfile(input={},strict=false) {
   for(const key of ['motion_enabled','show_kiko','library_all'])if(typeof input[key]==='boolean')out[key]=input[key];
   if(typeof input.teacher_id==='string'&&/^[a-z]{2,15}$/.test(input.teacher_id))out.teacher_id=input.teacher_id;
   if(['natural','gentle','lively','subtle','off'].includes(input.motion_preset))out.motion_preset=input.motion_preset;
-  if(/^\d{4}-\d{2}-\d{2}$/.test(input.last_active))out.last_active=input.last_active;
+  if(validDay(input.last_active))out.last_active=input.last_active;
+  out.learning_days=cleanDays([...(Array.isArray(input.learning_days)?input.learning_days:[]),...(out.last_active?[out.last_active]:[])]);
+  out.learning_calendar_since=validDay(input.learning_calendar_since)?input.learning_calendar_since:null;
+  out.learning_calendar_partial=typeof input.learning_calendar_partial==='boolean'?input.learning_calendar_partial:!!out.last_active;
   out.tts_speed=number(input.tts_speed,.5,1.4,1);out.ui_scale=number(input.ui_scale,.8,1.2,1);
   out.adaptive=cleanAdaptive(input.adaptive);
   return out;
 }
 export function localDate(date=new Date()) { return `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`; }
 export class Store {
-  constructor(data={},persist=()=>true) { this.data=cleanProfile(data);this.persist=persist; }
+  constructor(data={},persist=()=>true) { this.data=cleanProfile(data);this.data.learning_calendar_since??=dayKey();this.persist=persist; }
   save() { if(this.persist(JSON.stringify(this.data))===false)throw Error('Lernstand konnte nicht gespeichert werden. Bitte Speicherplatz prüfen.'); }
   touch(date=new Date()) {
-    const today=localDate(date);if(this.data.last_active===today)return;
+    const today=localDate(date);this.data.learning_days=cleanDays([...this.data.learning_days,today]);if(this.data.last_active===today)return;
     const yesterday=new Date(date);yesterday.setDate(date.getDate()-1);
     this.data.streak=this.data.last_active===localDate(yesterday)?this.data.streak+1:1;this.data.last_active=today;
   }

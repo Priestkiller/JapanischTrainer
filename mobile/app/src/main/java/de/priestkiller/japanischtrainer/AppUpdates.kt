@@ -34,6 +34,19 @@ class AppUpdates(private val context: Context) {
         return newest
     }
     companion object {
+        fun failureMessage(error:Exception):String {
+            val reason=when(error) {
+                is java.net.UnknownHostException -> "GitHub-Adresse konnte nicht aufgelöst werden (DNS)."
+                is java.net.SocketTimeoutException -> "Die Verbindung hat zu lange gedauert (Zeitüberschreitung)."
+                is javax.net.ssl.SSLException -> "Die sichere Verbindung zu GitHub ist fehlgeschlagen (TLS)."
+                is java.net.ConnectException -> "Die Verbindung zu GitHub wurde nicht hergestellt."
+                is org.json.JSONException -> "Die empfangenen Versionsdaten konnten nicht gelesen werden."
+                else -> Regex("Download nicht erreichbar \\((\\d{3})\\)").find(error.message.orEmpty())?.let {
+                    "GitHub antwortet mit HTTP ${it.groupValues[1]}."
+                } ?: "Die Prüfung ist fehlgeschlagen (${error.javaClass.simpleName})."
+            }
+            return "Updates derzeit nicht erreichbar. $reason Bitte später erneut versuchen."
+        }
         fun acceptsRelease(release:JSONObject,testChannel:Boolean):Boolean {
             if(release.optBoolean("draft"))return false
             val prefix=if(testChannel)"android-test-v" else "android-v"

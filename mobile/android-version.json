@@ -1,9 +1,9 @@
 {
-  "name": "11.0.12-android.1-test",
-  "code": 11001201,
+  "name": "11.0.13-android.1-test",
+  "code": 11001301,
   "course": "11.0.7",
   "package": "de.priestkiller.japanischtrainer",
-  "releasePage": "https://github.com/Priestkiller/JapanischTrainer/releases/tag/android-test-v11.0.12-1",
-  "notes": "TESTVERSION: Einheitlicher Japan-Nachtstil auch auf Startseite, Lernweg und Menüs. Größere Lehrkraft unter der Sprechaufgabe bei ausreichend Platz; kompakte Ansicht bei kleiner Höhe, großer Schrift und Tastatur. Lernstände, Übungen und Sprachmodelle bleiben erhalten. Echte S24-Ultra-, Mikrofon-, Hör- und menschliche Prüfungen offen.",
-  "releaseVersion": "11.0.12"
+  "releasePage": "https://github.com/Priestkiller/JapanischTrainer/releases/tag/android-test-v11.0.13-1",
+  "notes": "TESTVERSION: Lernserie, XP und Fortschritt oben; Kalender mit bestätigten Lerntagen. Kiko blinzelt, bewegt Pfoten und Schwanz und jubelt mit neuen Bildfolgen. Dunkle Abschlusskarte ohne fehlerhaftes Grafikstück; tatsächliche XP und Wiederholungen getrennt. Alte Lernstände bleiben erhalten. Ältere unbekannte Lerntage werden nicht erfunden. Echte S24-, Mikrofon- und menschliche Prüfungen bleiben offen.",
+  "releaseVersion": "11.0.13"
 }

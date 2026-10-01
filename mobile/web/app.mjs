@@ -7,14 +7,16 @@ import {createExerciseUI} from './exercise-ui.mjs';
 import {focusLesson,closeFocusSheet} from './focus-ui.mjs';
 import {applyKanaRecognition} from './kana-recognition.mjs';
 import {supportView,bindSupport} from './speech-support-ui.mjs';
+import {calendarView,currentStreak,dayKey,shiftMonth} from './calendar.mjs';
+import {mascotMarkup,animateMascots} from './mascot.mjs';
 
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const bridge=window.AndroidTrainer;
 const state={page:'home',session:null,query:'',stage:'Alle',libraryQuery:'',review:null,revealed:false,teacherDetail:null,
-  caps:{native:!!bridge,models:false,modelBytes:0,version:'11.0.12-android.1-test'},audio:null,speech:null,speechMessage:'',recording:'idle',
+  caps:{native:!!bridge,models:false,modelBytes:0,version:'11.0.13-android.1-test'},audio:null,speech:null,speechMessage:'',recording:'idle',calendarMonth:dayKey().slice(0,7),completeXP:0,
   modelStatus:'',modelPercent:0,modelBusy:false,updateStatus:'',updateAvailable:false,updateBusy:false,updateTest:false,licenseText:'',completeLesson:null};
-let speechLab,practiceUI,dailyUI,course,store,catalog,talkUI,exerciseUI,blinkIndex,expressions,animationStop=()=>{},toastTimer,requestCounter=0,saveError='';
+let speechLab,practiceUI,dailyUI,course,store,catalog,talkUI,exerciseUI,blinkIndex,expressions,animationStop=()=>{},mascotStop=()=>{},toastTimer,requestCounter=0,saveError='';
 const native=(name,...args)=> { if(bridge&&typeof bridge[name]==='function')return bridge[name](...args);return undefined; };
 function toast(text) { $('#toast').textContent=text;$('#toast').classList.add('visible');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('#toast').classList.remove('visible'),4800); }
 function persist(text) {
@@ -33,13 +35,14 @@ function navigate(page) {
 function heading(eyebrow,title,description='') {return `<div class="page-heading"><p class="eyebrow">${esc(eyebrow)}</p><h1>${esc(title)}</h1>${description?`<p class="sub">${esc(description)}</p>`:''}</div>`;}
 function teacherStrip() {const t=course.teacher();return `<div class="coach"><img src="assets/teachers/${t.id}/avatar.png" alt=""><div class="coach-copy"><strong>${esc(t.name)} begleitet dich</strong><p class="sub">${esc(t.style)}</p></div><span class="pill">Schritt für Schritt</span></div>`;}
 function home() {
-  const t=course.teacher(),next=course.next(),done=course.lessons.filter(l=>store.data.completed.includes(l.key)).length;
-  return `<p class="eyebrow">Dein kleiner Schritt nach Japan</p><section class="hero" aria-label="Willkommen"><div class="hero-copy"><span class="pill">${state.caps.models?'● Alles bereit · offline':`${course.lessons.length} Lektionen · offline lernen`}</span><h1 style="margin-top:16px">Ein bisschen<br>Japanisch.<br>Jeden Tag.</h1><p class="sub">${esc(t.name)} begleitet dich auf deinem Lernweg.</p><button class="primary" id="hero-resume">Weiterlernen →</button><p class="hero-quote">„${esc(t.de)}“</p></div><canvas id="teacher-canvas" width="512" height="768" role="img" aria-label="${esc(t.name)}"></canvas></section>
-  ${dailyUI.summary()}<div class="stats"><div class="stat accent"><strong>${store.data.streak} ${store.data.streak===1?'Tag':'Tage'}</strong><span>Lernserie</span></div><div class="stat"><strong>${store.data.xp} XP</strong><span>Level ${Math.floor(store.data.xp/250)+1}</span></div><div class="stat"><strong>${done} / ${course.lessons.length}</strong><span>Lektionen</span></div></div>
+  const t=course.teacher(),next=course.next(),done=course.lessons.filter(l=>store.data.completed.includes(l.key)).length,streak=currentStreak(store.data);
+  return `<div class="stats home-stats" aria-label="Dein Lernfortschritt"><button class="stat accent" data-nav="calendar" aria-label="Lernserie: ${streak} ${streak===1?'Tag':'Tage'}. Kalender öffnen"><strong>${streak} ${streak===1?'Tag':'Tage'}</strong><span>Lernserie · Kalender ›</span></button><div class="stat"><strong>${store.data.xp} XP</strong><span>Level ${Math.floor(store.data.xp/250)+1}</span></div><div class="stat"><strong>${done} / ${course.lessons.length}</strong><span>Lektionen</span></div></div>
+  <p class="eyebrow">Dein kleiner Schritt nach Japan</p><section class="hero" aria-label="Willkommen"><div class="hero-copy"><span class="pill">${state.caps.models?'● Alles bereit · offline':`${course.lessons.length} Lektionen · offline lernen`}</span><h1 style="margin-top:16px">Ein bisschen<br>Japanisch.<br>Jeden Tag.</h1><p class="sub">${esc(t.name)} begleitet dich auf deinem Lernweg.</p><button class="primary" id="hero-resume">Weiterlernen →</button><p class="hero-quote">„${esc(t.de)}“</p></div><canvas id="teacher-canvas" width="512" height="768" role="img" aria-label="${esc(t.name)}"></canvas></section>
+  ${dailyUI.summary()}
   <section class="section"><div class="section-title"><h2>Dein nächster Schritt</h2><button class="text-link" data-nav="course">Lernweg ansehen</button></div><article class="card next-card"><span class="pill">${esc(next.level)}</span><p class="lesson-title">${esc(next.title)}</p><p class="sub">${esc(next.goal??next.unit)}</p><div class="progress" aria-label="${done} von ${course.lessons.length} Lektionen"><span style="width:${done/course.lessons.length*100}%"></span></div><div class="row"><span class="sub">${next.cards.length} Lernkarten · ${next.xp??20} XP</span><button class="small primary" id="next-resume">${store.data.last_lesson.key===next.key?'Fortsetzen':'Loslegen'} →</button></div></article></section>
   <section class="card talk-home"><span class="pill">Neu · Gespräche offline</span><h2>Einfach mal miteinander reden.</h2><p class="sub">Mit ${esc(t.name)} im Café bestellen, jemanden kennenlernen oder das Wochenende planen.</p><button class="primary wide" data-nav="talk">Gespräche üben →</button></section>
   ${!state.caps.models?`<aside class="info"><strong>Deine Lehrer bekommen eine Stimme.</strong><p style="margin:5px 0 7px">Lade einmal das Sprachpaket für Stimmen und Sprechen. Danach funktioniert auch das offline.</p><button class="small ghost" data-nav="settings">Sprachpaket einrichten</button></aside>`:''}
-  ${store.data.show_kiko?`<div class="kiko-note"><img src="assets/mascot/kiko_idle.png" alt="Kiko"><span>Lieber fünf Minuten mit Freude als gar nicht anfangen.</span></div>`:''}`;
+  ${store.data.show_kiko?`<div class="kiko-note"><button class="kiko-greeting" aria-label="Kiko begrüßen">${mascotMarkup()}</button><span>Lieber fünf Minuten mit Freude als gar nicht anfangen.<small>Tippe auf Kiko, um Hallo zu sagen.</small></span></div>`:''}`;
 }
 function courseList() {return heading('Dein Lernweg','Schritt für Schritt',`${course.lessons.length} Lektionen. Vom ersten Laut bis zum zusammenhängenden Text.`)+
   `<div class="filters"><label class="field"><span>Lektion oder Wort suchen</span><input id="course-search" type="search" placeholder="Zum Beispiel: Hiragana, Reisen …" value="${esc(state.query)}"></label><label class="field"><span>Abschnitt</span><select id="stage"><option>Alle</option>${course.stages.map(s=>`<option ${s===state.stage?'selected':''}>${esc(s)}</option>`).join('')}</select></label></div><div id="course-results">${courseRows()}</div>`;}
@@ -128,13 +131,13 @@ function bindTask() {
   if($('#hear-task'))$('#hear-task').onclick=()=>play(s.listenCard.jp,true);
   if($('#hear-example'))$('#hear-example').onclick=()=>play(course.example(s.card).jp);
   $('#advance').onclick=()=>{
-    const result=s.advance();if(result==='blocked')return;
+    const beforeXP=store.data.xp,result=s.advance();if(result==='blocked')return;
     stopMedia();state.speechMessage='';
-    if(result==='complete'){state.completeLesson=s.lesson;navigate('complete');}
+    if(result==='complete'){state.completeLesson=s.lesson;state.completeXP=store.data.xp-beforeXP;navigate('complete');}
     else {render();window.scrollTo({top:0,behavior:'instant'});}
   };
 }
-function complete() {const l=state.completeLesson;return `<div class="completion"><p class="eyebrow">Lektion abgeschlossen</p><h1>Gut gemacht!</h1><p>Du hast „${esc(l.title)}“ abgeschlossen.</p><p class="sub">${l.xp??20} XP einmalig beim ersten Abschluss.</p>${store.data.show_kiko?'<img class="completion-kiko" src="assets/mascot/kiko_cheer.png" alt="Kiko freut sich mit dir"><p>Kleine Schritte, große Fortschritte!</p>':''}<button class="primary wide" id="complete-next">Weiterlernen →</button><button class="ghost wide" data-nav="course">Zum Lernpfad</button></div>`;}
+function complete() {const l=state.completeLesson;return `<section class="card completion"><p class="eyebrow">Lektion abgeschlossen</p><h1>Gut gemacht!</h1><p>Du hast „${esc(l.title)}“ abgeschlossen.</p><p class="completion-xp">${state.completeXP?`+${state.completeXP} XP`:'Wiederholung geschafft'}</p><p class="sub">${state.completeXP?'Für deinen ersten Abschluss.':'Die XP für diese Lektion hast du bereits erhalten.'}</p>${store.data.show_kiko?`${mascotMarkup('cheer')}<p>Kleine Schritte, große Fortschritte!</p>`:''}<button class="primary wide" id="complete-next">Weiterlernen →</button><button class="ghost wide" data-nav="course">Zum Lernpfad</button></section>`;}
 function teachers() {
   const selected=course.teacher();const detail=catalog.TEACHERS.find(t=>t.id===state.teacherDetail)??selected;
   return heading('Deine Begleitung','Mit wem lernst du?','Acht Persönlichkeiten. Wähle die Begleitung, mit der du dich wohlfühlst.')+
@@ -155,7 +158,7 @@ function library() {return heading('Dein Nachschlagewerk','Wörter & Sätze','Le
 function libraryRows() {const query=state.libraryQuery.normalize('NFKC').toLowerCase();const cards=course.available(store.data.library_all).filter(c=>[c.jp,c.de,c.romaji].join(' ').normalize('NFKC').toLowerCase().includes(query));return `<p class="sub">${cards.length} Karten${cards.length>60?' · zeige die ersten 60; grenze die Suche ein':''}</p>`+cards.slice(0,60).map(c=>`<article class="card library-card"><span class="sub">${esc(c.lesson)}</span><p class="jp" lang="ja">${esc(c.jp)}</p><p class="romaji">${esc(c.romaji)}</p><p>${esc(c.de)}</p><button class="small ghost" data-library-audio="${esc(c.key)}">▷ Anhören</button></article>`).join('');}
 function grammar() {return heading('Zum Nachlesen','Grammatik im Überblick','Kleine Erklärungen, die du jederzeit wieder aufschlagen kannst.')+catalog.GRAMMAR_TOPICS.map(([title,jp,romaji,text])=>`<article class="card library-card"><h2>${esc(title)}</h2><p class="jp" lang="ja">${esc(jp)}</p><p class="romaji">${esc(romaji)}</p><p class="sub">${esc(text)}</p></article>`).join('');}
 function progress() {const done=course.lessons.filter(l=>store.data.completed.includes(l.key));return heading('Dein Fortschritt','Jeder kleine Schritt zählt.')+
-  `<div class="stats"><div class="stat"><strong>${done.length}/150</strong><span>Lektionen</span></div><div class="stat accent"><strong>${store.data.xp} XP</strong><span>Erfahrung</span></div><div class="stat"><strong>${store.data.streak}</strong><span>Tage in Folge</span></div></div><section class="section">${course.stages.map(stage=>{const lessons=course.lessons.filter(l=>l.level===stage),count=lessons.filter(l=>store.data.completed.includes(l.key)).length;return `<article class="card"><div class="row"><h3>${esc(stage)}</h3><span class="sub">${count} / ${lessons.length}</span></div><div class="progress"><span style="width:${count/lessons.length*100}%"></span></div></article>`;}).join('')}</section><div class="info">Der Kurs ist ein Lernweg und keine JLPT- oder GER-Zertifizierung.</div>`;}
+  `<div class="stats"><div class="stat"><strong>${done.length}/150</strong><span>Lektionen</span></div><div class="stat accent"><strong>${store.data.xp} XP</strong><span>Erfahrung</span></div><button class="stat" data-nav="calendar"><strong>${currentStreak(store.data)}</strong><span>Lernserie · Kalender ›</span></button></div><section class="section">${course.stages.map(stage=>{const lessons=course.lessons.filter(l=>l.level===stage),count=lessons.filter(l=>store.data.completed.includes(l.key)).length;return `<article class="card"><div class="row"><h3>${esc(stage)}</h3><span class="sub">${count} / ${lessons.length}</span></div><div class="progress"><span style="width:${count/lessons.length*100}%"></span></div></article>`;}).join('')}</section><div class="info">Der Kurs ist ein Lernweg und keine JLPT- oder GER-Zertifizierung.</div>`;}
 function more() {return heading('Alles an einem Ort','Mehr für deinen Lernweg')+`<div class="list-menu">${[['speech-lab','Sprachvergleich','Freiwillige lokale Testrunde und Testmodelle'],['practice-lab','Hörsituationen & Zeichen','Bekanntes anwenden und Formen nachzeichnen'],['daily','Heute für dich','Deine persönliche kurze Übungsrunde'],['talk','Gespräche','Mit deinem Lehrer Alltagssituationen üben'],['library','Wörter & Sätze','Deine persönliche Bibliothek'],['grammar','Grammatik','Erklärungen zum Nachschlagen'],['progress','Fortschritt','Lektionen, XP und deine Lernserie'],['settings','Einstellungen','Stimmen, Updates und Lernstand sichern']].map(([page,title,desc])=>`<button class="menu-button" data-nav="${page}"><div>${title}<span>${desc}</span></div><b>›</b></button>`).join('')}</div>`;}
 function settings() {return heading('So passt es zu dir','Einstellungen')+
   `<section class="card"><h2>Offline-Stimmen & Sprechen</h2><p class="sub">Die acht Lehrer-Stimmen und japanische Erkennung arbeiten mit dem Sprachpaket direkt auf deinem Handy. Aufnahmen werden nicht hochgeladen.</p><div id="models-box">${modelBox()}</div></section>
@@ -168,14 +171,14 @@ function modelBox() {return state.caps.models?'<p class="info success">✓ Sprac
 function updateBox() {return `<p class="download-status" role="status">${esc(state.updateStatus)}</p><button class="ghost wide" id="check-updates" ${state.updateBusy?'disabled':''}>Nach Updates suchen</button><button style="margin-top:10px" class="ghost wide" id="check-test-updates" ${state.updateBusy?'disabled':''}>Testversion suchen</button><p class="muted">Testversionen enthalten neue Funktionen zum Ausprobieren. Dein Lernstand und das Sprachpaket bleiben erhalten.</p>${state.updateAvailable?`<button style="margin-top:10px" class="primary wide" id="install-update" ${state.updateBusy?'disabled':''}>${state.updateTest?'Testversion herunterladen':'Update installieren'}</button>`:''}`;}
 function render() {
   document.body.classList.toggle('focus-mode',['lesson','exercises'].includes(state.page));
-  animationStop();document.body.classList.toggle('motion-off',!store.data.motion_enabled||store.data.motion_preset==='off');
-  const pages={home,'speech-lab':()=>speechLab.view(),daily:()=>dailyUI.view(),'practice-lab':()=>practiceUI.view(),course:courseList,lesson,complete,teachers,review,library,grammar,progress,more,settings,exercises:()=>exerciseUI.view(),talk:()=>talkUI.hub(),conversation:()=>talkUI.conversation(),
+  animationStop();mascotStop();document.body.classList.toggle('motion-off',!store.data.motion_enabled||store.data.motion_preset==='off');
+  const pages={home,calendar:()=>calendarView(store.data,state.calendarMonth,esc),'speech-lab':()=>speechLab.view(),daily:()=>dailyUI.view(),'practice-lab':()=>practiceUI.view(),course:courseList,lesson,complete,teachers,review,library,grammar,progress,more,settings,exercises:()=>exerciseUI.view(),talk:()=>talkUI.hub(),conversation:()=>talkUI.conversation(),
     licenses:()=>heading('Informationen','Lizenzen & Modellbedingungen')+`<button class="ghost" data-nav="settings">‹ Einstellungen</button><pre class="licenses">${esc(state.licenseText)}</pre>`};
   $('#app').innerHTML=(pages[state.page]??home)();
   if(state.page==='lesson')decorateLesson();
-  const active=['home','course','review','teachers'].includes(state.page)?state.page:['lesson','complete','exercises'].includes(state.page)?'course':['talk','conversation'].includes(state.page)?'review':'more';
+  const active=state.page==='calendar'?'home':['home','course','review','teachers'].includes(state.page)?state.page:['lesson','complete','exercises'].includes(state.page)?'course':['talk','conversation'].includes(state.page)?'review':'more';
   $$('.bottom-nav button').forEach(b=>b.setAttribute('aria-current',b.dataset.page===active?'page':'false'));
-  bindNavigation();bindPage();if(saveError)showSaveError();
+  bindNavigation();bindPage();mascotStop=animateMascots(()=>store.data.motion_enabled&&store.data.motion_preset!=='off');if(saveError)showSaveError();
 }
 function bindNavigation() {$$('[data-nav]').forEach(b=>b.onclick=()=>navigate(b.dataset.nav));$$('[data-lesson]').forEach(b=>b.onclick=()=>openLesson(b.dataset.lesson));}
 function bindPage() {
@@ -185,6 +188,7 @@ function bindPage() {
   if($('#exercise-round'))$('#exercise-round').onclick=()=>exerciseUI.open(state.session.lesson.key);
   if(state.page==='home') {$('#hero-resume').onclick=$('#next-resume').onclick=()=>openLesson(course.next().key);animateTeacher();}
   if(state.page==='complete')$('#complete-next').onclick=()=>openLesson(course.next().key);
+  if(state.page==='calendar')for(const [id,offset] of [['calendar-prev',-1],['calendar-next',1]])$('#'+id).onclick=()=>{state.calendarMonth=shiftMonth(state.calendarMonth,offset);render();};
   if(state.page==='course') {const update=()=>{$('#course-results').innerHTML=courseRows();bindNavigation();};$('#course-search').oninput=e=>{state.query=e.target.value;update();};$('#stage').onchange=e=>{state.stage=e.target.value;update();};}
   if(state.page==='lesson') {bindTask();refreshAudio();}
   if(state.page==='teachers') {
@@ -207,7 +211,7 @@ function bindPage() {
   }
   if(state.page==='settings') {
     $('#speed').onchange=e=>{store.data.tts_speed=Number(e.target.value);save();};
-    $('#motion').onchange=e=>{store.data.motion_enabled=e.target.checked;save();document.body.classList.toggle('motion-off',!e.target.checked);};
+    $('#motion').onchange=e=>{store.data.motion_enabled=e.target.checked;save();document.body.classList.toggle('motion-off',!e.target.checked);animationStop();mascotStop();if(e.target.checked){animateTeacher();mascotStop=animateMascots(()=>store.data.motion_enabled&&store.data.motion_preset!=='off');}};
     $('#kiko').onchange=e=>{store.data.show_kiko=e.target.checked;save();};
     $('#export').onclick=()=>{save();if(bridge)native('exportProfile',JSON.stringify(store.data,null,2));else toast('Datei-Export ist in der installierten Android-App verfügbar.');};
     $('#import').onclick=()=>{if(bridge)native('importProfile');else toast('Datei-Import ist in der installierten Android-App verfügbar.');};
@@ -347,7 +351,7 @@ async function start() {
   const [raw,c,d,b,e,exerciseData,practiceData,trialData]=await Promise.all(files.map(p=>fetch(p).then(r=>{if(!r.ok)throw Error('Kursdatei fehlt: '+p);return r.json();})));
   catalog=c;blinkIndex=b;expressions=e;
   document.addEventListener('jt-actors',()=>animateTeacher());
-  document.addEventListener('visibilitychange',()=>{if(document.hidden){animationStop();stopMedia();}else animateTeacher();});
+  document.addEventListener('visibilitychange',()=>{animationStop();mascotStop();if(document.hidden)stopMedia();else {animateTeacher();mascotStop=animateMascots(()=>store.data.motion_enabled&&store.data.motion_preset!=='off');}});
   let profile={};try{profile=JSON.parse(bridge?native('getProfile'):localStorage.getItem('jt-mobile-profile')??'{}');}catch(error){toast('Lernstand ist nicht lesbar. Bitte eine Sicherung importieren.');}
   store=new Store(profile,persist);course=new Course(raw,c,d,store);
   exerciseUI=createExerciseUI({data:exerciseData,state,store,course,native,navigate,render,stopMedia,toast,esc,nextRequest:()=>`exercise-${++requestCounter}`,explanation,lessonGuide,focusLesson});
