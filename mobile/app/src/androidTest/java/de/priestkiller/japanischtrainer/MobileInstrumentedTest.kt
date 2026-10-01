@@ -50,10 +50,15 @@ class MobileInstrumentedTest {
             .put("lesson_sessions",org.json.JSONObject().put("0:1",org.json.JSONObject().put("flow_revision",2).put("passed",JSONArray()).put("index",2).put("phase","meaning").put("mode","recap").put("recap",JSONArray().put(2)).put("recap_total",3).put("recap_passed",2)))
         val raw=org.json.JSONObject(InstrumentationRegistry.getInstrumentation().targetContext.assets.open("data/course.json").bufferedReader().use {it.readText()})
         val answer=raw.getJSONArray("units").getJSONObject(0).getJSONArray("lessons").getJSONObject(1).getJSONArray("cards").getJSONObject(2).getString("de")
-        for(done in listOf(false,true)) {
-            writeProfile(seed(done).toString().toByteArray())
-            ActivityScenario.launch(MainActivity::class.java).use { scenario ->
-                waitFor(scenario,"document.documentElement.dataset.ready === 'true'")
+        writeProfile(seed(false).toString().toByteArray())
+        ActivityScenario.launch(MainActivity::class.java).use { scenario ->
+            waitFor(scenario,"document.documentElement.dataset.ready === 'true'")
+            for(done in listOf(false,true)) {
+                // Keep one Activity: closing the previous WebView may still save
+                // its state after a directly written next fixture. The existing
+                // import callback replaces both in-memory and native test state.
+                if(done)eval(scenario,"JTNative('profileImported',"+seed(true).toString()+")")
+                assertEquals("true",eval(scenario,"JSON.parse(AndroidTrainer.getProfile()).lesson_sessions['0:1'].mode==='recap'"))
                 eval(scenario,"document.querySelector('[data-page=course]').click();document.querySelector('[data-lesson=\"0:1\"]').click()")
                 waitFor(scenario,"!!document.querySelector('[data-choice]')")
                 eval(scenario,"[...document.querySelectorAll('[data-choice]')].find(b=>b.textContent.trim()==="+org.json.JSONObject.quote(answer)+").click()")
