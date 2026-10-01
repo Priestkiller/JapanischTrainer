@@ -139,7 +139,8 @@ class MobileInstrumentedTest {
         ActivityScenario.launch(MainActivity::class.java).use { scenario ->
             waitFor(scenario,"document.documentElement.dataset.ready === 'true'")
             eval(scenario,"document.querySelector('[data-nav=talk]').click()")
-            waitFor(scenario,"document.querySelectorAll('[data-talk-scene]').length === 5")
+            waitFor(scenario,"document.querySelectorAll('[data-talk-scene]').length === 6")
+            assertEquals("true",eval(scenario,"Array.from(document.querySelectorAll('[data-talk-scene]'),e=>e.dataset.talkScene).sort().join(',') === 'cafe,directions,meeting,restaurant,shopping,weekend'"))
             screenshot(scenario,"android-talk-hub")
             eval(scenario,"document.querySelector('[data-talk-scene=cafe]').click()")
             waitFor(scenario,"!!document.querySelector('#talk-draft')")
