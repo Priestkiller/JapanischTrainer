@@ -26,7 +26,14 @@ class MobileInstrumentedTest {
             waitFor(scenario,"!!document.querySelector('.focus-sheet:not([hidden])')")
             eval(scenario,"JTBack()")
             waitFor(scenario,"!!document.querySelector('#teacher-canvas').dataset.frame")
-            assertEquals("true",eval(scenario,"document.querySelector('.focus-coach-copy strong').textContent==='Ren' && document.querySelector('#teacher-canvas').dataset.fullBody==='true' && document.querySelector('#teacher-canvas').getBoundingClientRect().height>=100 && document.querySelector('#record').disabled && JSON.parse(AndroidTrainer.getProfile()).xp===77"))
+            screenshot(scenario,"android-selected-speech-coach-ready")
+            assertEquals("Selected teacher is retained", "Ren",eval(scenario,"document.querySelector('.focus-coach-copy strong').textContent"))
+            assertEquals("Complete figure is loaded", "true",eval(scenario,"document.querySelector('#teacher-canvas').dataset.fullBody==='true'"))
+            assertEquals("Figure has usable height", "true",eval(scenario,"document.querySelector('#teacher-canvas').getBoundingClientRect().height>=100"))
+            // With no speech package, the existing technical-attempt button is
+            // deliberately available. With models present, first hear the example.
+            assertEquals("Existing recording gate follows actual model availability", "true",eval(scenario,"document.querySelector('#record').disabled === JSON.parse(AndroidTrainer.getCapabilities()).models"))
+            assertEquals("XP is retained", "77",eval(scenario,"JSON.parse(AndroidTrainer.getProfile()).xp"))
             eval(scenario,"document.body.dataset.coachState='speaking'")
             waitFor(scenario,"Number(document.querySelector('#teacher-canvas').dataset.frame)>=4 && Number(document.querySelector('#teacher-canvas').dataset.frame)<8")
             val speaking=eval(scenario,"document.querySelector('#teacher-canvas').toDataURL()")
