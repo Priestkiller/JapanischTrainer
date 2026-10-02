@@ -1,4 +1,4 @@
-/* GPL-3.0-or-later. Reuse the selected teacher and local expression assets. */
+/* GPL-3.0-or-later. Full-body poses follow actual local audio/recording events. */
 export function coachState({recording='idle',audio=null,mood='idle'}={}) {
   if(recording==='recording')return ['listening','Ich höre dir zu. Sprich in deinem Tempo.'];
   if(recording==='requesting')return ['preparing','Das Mikrofon wird vorbereitet.'];
@@ -17,30 +17,34 @@ export function syncCoach(state) {
   document.querySelectorAll('[data-coach-message]').forEach(n=>{if(n.textContent!==text)n.textContent=text;});
 }
 const images=new Map();
-const load=src=>{if(!images.has(src))images.set(src,new Promise(resolve=>{const img=new Image();img.onload=()=>resolve(img);img.onerror=()=>resolve(null);img.src=src;}));return images.get(src);};
-export function animateTeacher({teacher,blinkIndex,expressions,enabled}) {
+const load=src=>{if(!images.has(src)){images.set(src,new Promise(resolve=>{const img=new Image();img.onload=()=>resolve(img);img.onerror=()=>resolve(null);img.src=src;}));if(images.size>2)images.delete(images.keys().next().value);}return images.get(src);};
+export function teacherPose(mode,step=0,moving=true) {
+  const row=mode==='happy'?3:mode==='listening'||mode==='thinking'?2:mode==='speaking'?1:0;
+  const sequence=row===0?[0,0,0,1,2,3,2,1]:[0,1,2,3,2,1];
+  return row*4+(moving?sequence[step%sequence.length]:0);
+}
+export function animateTeacher({teacher,enabled}) {
   const canvas=document.querySelector('#teacher-canvas');if(!canvas)return ()=>{};
   const ctx=canvas.getContext('2d'),media=matchMedia('(prefers-reduced-motion: reduce)');
-  let alive=true,timer=0,visible=true,step=0,last='',assets;
+  let alive=true,timer=0,visible=true,step=0,last=-1,previousMode='',atlas,geometry;
   const stop=()=>{alive=false;clearTimeout(timer);observer.disconnect();changes.disconnect();media.removeEventListener('change',draw);document.removeEventListener('visibilitychange',draw);};
   const observer=new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;draw();});observer.observe(canvas);
-  const changes=new MutationObserver(()=>{last='';draw();});changes.observe(document.body,{attributes:true,attributeFilter:['data-coach-state','class']});changes.observe(document.querySelector('#app'),{attributes:true,subtree:true,attributeFilter:['inert']});
-  const patch=(image,box)=>{if(image&&box)ctx.drawImage(image,box[0]/2,box[1]/2,(box[2]-box[0])/2,(box[3]-box[1])/2);};
+  const changes=new MutationObserver(draw);changes.observe(document.body,{attributes:true,attributeFilter:['data-coach-state','class']});changes.observe(document.querySelector('#app'),{attributes:true,subtree:true,attributeFilter:['inert']});
   function draw(){
-    clearTimeout(timer);if(!alive||!assets||!canvas.isConnected)return;
+    clearTimeout(timer);if(!alive||!atlas||!canvas.isConnected)return;
     const moving=enabled()&&!media.matches&&!document.hidden&&visible&&!canvas.closest('[inert]');
     const mode=canvas.classList.contains('voice-actor')||canvas.closest('.voice-companion')?document.body.dataset.coachState:'ready';
-    const blink=moving&&step%27<5?step%27:-1;
-    const mouth=mode==='happy'?'praise':mode==='speaking'&&moving&&step%2?'encourage':'idle';
-    const key=blink+':'+mouth;
-    if(key!==last){ctx.clearRect(0,0,512,768);ctx.drawImage(assets.base,0,0,512,768);patch(assets[mouth],assets.expression[mouth]?.bbox);if(blink>=0)patch(assets.frames[blink],assets.blink?.bbox);last=key;canvas.dataset.frame=key;}
-    canvas.style.animationPlayState=moving?'running':'paused';canvas.dataset.mode=mode;canvas.dataset.playing=String(moving);if(moving){step++;timer=setTimeout(draw,blink>=0?65:180);}
+    if(mode!==previousMode){step=0;previousMode=mode;}
+    const frame=teacherPose(mode,step,moving),[x,y,w,h,center]=geometry.frames[frame],s=geometry.scale;
+    if(frame!==last){ctx.clearRect(0,0,canvas.width,canvas.height);ctx.drawImage(atlas,x,y,w,h,canvas.width/2+(x-center)*s,canvas.height-20-h*s,w*s,h*s);last=frame;canvas.dataset.frame=String(frame);}
+    canvas.style.animationPlayState=moving?'running':'paused';canvas.dataset.mode=mode;canvas.dataset.playing=String(moving);canvas.dataset.fullBody='true';if(moving){step++;timer=setTimeout(draw,mode==='ready'?420:200);}
   }
   media.addEventListener('change',draw);document.addEventListener('visibilitychange',draw);
   (async()=>{
-    const expression=expressions.expressions[teacher.id],blink=blinkIndex[teacher.id];
-    const base=await load(`assets/teachers/${teacher.id}/full.png`);
-    const [idle,praise,encourage,...frames]=await Promise.all(['idle','praise','encourage'].map(k=>load(`assets/animation/${teacher.id}/${expression[k].file}`)).concat((blink?.frames??[]).map(f=>load(`assets/animation/${teacher.id}/${f}`))));
-    if(!alive)return;if(!base){canvas.dataset.error='true';return;}assets={base,idle,praise,encourage,frames,expression,blink};draw();
+    try{
+      const metadata=await fetch('artwork/teacher-bodies-1114.json').then(r=>{if(!r.ok)throw Error('Teacher geometry missing');return r.json();});
+      geometry=metadata[teacher.id];const image=await load(`artwork/${geometry.file}`);
+      if(!alive)return;if(!image||geometry.frames.length!==16){canvas.dataset.error='true';return;}atlas=image;draw();
+    }catch{if(alive)canvas.dataset.error='true';}
   })();return stop;
 }

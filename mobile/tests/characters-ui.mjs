@@ -26,14 +26,17 @@ try{
    const ctx=await open({xp:77,teacher_id:teacher.id,course_revision:11,motion_enabled:true},formats[f]);const errors=[];page.on('pageerror',e=>errors.push(e.message));
    await page.locator('#hero-resume').click();await page.waitForSelector('.focus-sheet:not([hidden])');await page.evaluate(()=>JTBack());
    await page.waitForFunction(()=>document.querySelector('#teacher-canvas')?.dataset.frame);
+   assert.equal(await page.locator('#teacher-canvas').getAttribute('data-full-body'),'true');
    if(!formats[f][3])await page.waitForFunction(()=>document.querySelector('#teacher-canvas').dataset.playing==='true');
    assert.equal(await page.locator('.focus-coach-copy strong').textContent(),teacher.name);await visible('#teacher-canvas');await visible('.focus-coach-copy');await visible('#record');await visible('#hear-normal');
    assert.ok(await page.locator('#teacher-canvas').evaluate(n=>n.getBoundingClientRect().height)>= (formats[f][1]<550?68:formats[f][2]>1?82:100));
    assert.equal(await page.locator('#record').isDisabled(),true);await page.locator('#hear-normal').click();assert.equal(await page.locator('body').getAttribute('data-coach-state'),'preparing');
-   await page.evaluate(()=>JTNative('audioStarted',{request:audioRequest}));assert.equal(await page.locator('body').getAttribute('data-coach-state'),'speaking');await visible('#record');for(const b of await page.locator('.focus-tools button').all())assert.ok(await b.evaluate(n=>n.getBoundingClientRect().bottom<=document.querySelector('.focus-dock').getBoundingClientRect().top+1),'Learning aid remains above the action dock');await capture(`${teacher.id}-${f}-speaking`);
+   await page.evaluate(()=>JTNative('audioStarted',{request:audioRequest}));assert.equal(await page.locator('body').getAttribute('data-coach-state'),'speaking');assert.equal(Math.floor(Number(await page.locator('#teacher-canvas').getAttribute('data-frame'))/4),1);if(f===0){const pixels=await page.locator('#teacher-canvas').evaluate(n=>n.toDataURL());await page.waitForTimeout(230);assert.notEqual(await page.locator('#teacher-canvas').evaluate(n=>n.toDataURL()),pixels);report.poseFramesChanged=(report.poseFramesChanged??0)+1;}await visible('#record');for(const b of await page.locator('.focus-tools button').all())assert.ok(await b.evaluate(n=>n.getBoundingClientRect().bottom<=document.querySelector('.focus-dock').getBoundingClientRect().top+1),'Learning aid remains above the action dock');await capture(`${teacher.id}-${f}-speaking`);
    await page.evaluate(()=>JTNative('audioDone',{request:audioRequest}));await page.locator('#record').click();await page.evaluate(()=>JTNative('recording',{request:speechRequest}));assert.equal(await page.locator('body').getAttribute('data-coach-state'),'listening');
    await page.evaluate(()=>JTNative('recognizing',{request:speechRequest}));assert.equal(await page.locator('body').getAttribute('data-coach-state'),'thinking');await visible('#record');
+   assert.equal(Math.floor(Number(await page.locator('#teacher-canvas').getAttribute('data-frame'))/4),2);
    await page.evaluate(()=>JTNative('speechResult',{request:speechRequest,text:'あ',shortKana:true,audioQualified:true}));assert.equal(await page.locator('body').getAttribute('data-coach-state'),'happy');assert.equal(await page.evaluate(()=>profile.xp),77);await visible('#advance');
+   assert.equal(Math.floor(Number(await page.locator('#teacher-canvas').getAttribute('data-frame'))/4),3);
    await page.locator('#advance').click();assert.equal(await page.locator('#teacher-canvas').count(),0);assert.deepEqual(errors,[]);await ctx.close();
   }report.teachers.push(teacher.id);
  }

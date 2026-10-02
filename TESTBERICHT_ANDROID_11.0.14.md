@@ -13,8 +13,12 @@ stehen Figur und Ergebnis nebeneinander. Wiederholungen vergeben keine zweiten X
 Auch ohne Kiko bleibt das tatsächliche Ergebnis sichtbar.
 
 Der gewählte Lehrer begleitet den ersten Lernschritt, zusätzliche Sprechaufgaben,
-Offline-Gespräche und den freiwilligen lokalen Modellvergleich. Die bestehenden
-Figuren, Blink- und Mundbilder werden verwendet. Sprechblase und Darstellung
+Offline-Gespräche und den freiwilligen lokalen Modellvergleich. Alle acht Lehrer
+erhalten neue vollständige Figuren mit Kopf, Händen, Beinen und Schuhen. Jeweils
+16 gezeichnete Posen bilden vier Folgen: ruhig stehen/blinzeln, sprechen/erklären,
+zuhören/nicken und lächeln/winken. Die Gesichter, Kleidung und Zubehör orientieren
+sich an den bisherigen Figuren; die Originalbilder bleiben erhalten.
+Sprechblase und Darstellung
 wechseln anhand von Wiedergabe, Mikrofonvorbereitung, Aufnahme, Erkennung und
 tatsächlichem Aufgabenabschluss. Reaktion und Blinzeln sind Animationen, keine
 phonetisch ausgerichtete Lippensynchronisation. Es entstehen keine neuen Stimmen,
@@ -32,13 +36,15 @@ Lerntage und Sprachpakete bleiben im bestehenden Verfahren erhalten.
 
 ## Nachweise vor der nativen Abschlussprüfung
 
-65 bestehende JavaScript-Funktionsprüfungen und eine zusätzliche Zustandsprüfung
-bestanden. Die bisherigen 85 Menü-/Lernansichten und 30 Kalender-/Abschlussansichten
-bestanden nach den Layoutkorrekturen. Die spezielle Figurenprüfung prüft alle acht
+Nach der Ergänzung vollständiger Körper bestanden 67 JavaScript-Prüfungen sowie
+63 Figuren-, 85 Menü-/Lern- und 30 Kalender-/Abschlussansichten. Alle acht Bilddateien
+wurden unverändert übernommen und insgesamt 128 Körperposen anhand ihrer
+Alpha-Umrisse auf getrennte, vollständige Quellrechtecke geprüft.
+Die spezielle Figurenprüfung prüft alle acht
 Lehrer in sechs Formaten mit separaten Profilen, Zustandswechseln, Aufnahme-Gate,
-unveränderten XP und zwölf Abschlussansichten. Bestanden: 63 Ansichten (48 Lehrer-/Formatkombinationen, zwölf Abschlüsse und
-drei Gesprächs-/Modellvergleichsansichten). Bewegung nach geschlossenen Hilfen,
-endlicher Jubel und ausgeschaltete Bewegung wurden ebenfalls geprüft.
+unveränderten XP und zwölf Abschlussansichten: 63 Ansichten (48 Lehrer-/Formatkombinationen,
+zwölf Abschlüsse und drei Gesprächs-/Modellvergleichsansichten). Zusätzlich prüft
+sie tatsächlich wechselnde Körperbilder für jeden Lehrer und die vier Posenfolgen.
 
 Diese Browserprüfungen verwenden eine simulierte native Brücke und sind keine
 Mikrofontests. Die finalen nativen Emulator-, Paket-, Signatur- und öffentlichen
@@ -78,5 +84,8 @@ Eigene Figuren und Gestaltung; Duolingo dient als Funktionsreferenz:
 [Figuren als Lernbegleiter](https://blog.duolingo.com/building-character/) und
 [getrennte Körper-/Mundzustände](https://blog.duolingo.com/world-character-visemes/).
 Es wurden keine Duolingo-Grafiken oder -Stimmen übernommen. Die bestehenden
-Kiko-Erzeugungsangaben bleiben in mobile/ARTWORK_11.0.13.md erhalten; für diese
-Ausgabe wurde kein neues Rasterbild erzeugt.
+Kiko-Erzeugungsangaben bleiben in mobile/ARTWORK_11.0.13.md erhalten. Neue
+Lehrerbilder, Referenzen, Generierungsaufträge und Pose-Geometrie sind in
+mobile/ARTWORK_11.0.14.md beschrieben. Es handelt sich um gezeichnete Bildfolgen,
+kein 3D-Rig. Die Bilddateien werden unverändert übernommen; tatsächliche Umrisse
+statt eines angenommenen gleichmäßigen Rasters verhindern abgeschnittene Posen.

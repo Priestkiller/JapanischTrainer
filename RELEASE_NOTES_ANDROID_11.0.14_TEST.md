@@ -4,9 +4,11 @@ Kiko feiert abgeschlossene Lektionen mit Bewegungsbildern, Sprüngen, Sternen un
 Konfetti. Du kannst sofort weiterlernen; die Feier endet nach 3,2 Sekunden.
 Wiederholungen vergeben keine zweiten Abschluss-XP.
 
-Dein gewählter Lehrer begleitet die Sprechübungen sichtbar mit einer Sprechblase.
-Er reagiert auf Vorlesen, Aufnahme und Aufgabenabschluss. Auch Offline-Gespräche
-und der freiwillige Sprachvergleich nutzen die vorhandenen Figuren. Bewegung lässt
+Alle acht Lehrer bekommen vollständige Körper einschließlich Füßen und je 16
+gezeichnete Posen für ruhiges Stehen, Erklären, Zuhören und Winken. Dein gewählter
+Lehrer begleitet die Sprechübungen sichtbar mit einer Sprechblase und reagiert
+auf Vorlesen, Aufnahme und Aufgabenabschluss. Auch Offline-Gespräche und der
+freiwillige Sprachvergleich nutzen diese Figuren. Bewegung lässt
 sich abschalten; die Android-Einstellung für reduzierte Bewegung wird beachtet.
 
 Kurs, Lernstand, Modelle und Stimmen behalten das bestehende Verfahren. Die
