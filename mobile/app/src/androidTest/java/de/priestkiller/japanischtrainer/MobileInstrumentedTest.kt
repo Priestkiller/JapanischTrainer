@@ -18,6 +18,24 @@ import android.webkit.WebView
 
 @RunWith(AndroidJUnit4::class)
 class MobileInstrumentedTest {
+    @Test fun selectedTeacherIsVisibleDuringSpeechAndMotionSettingKeepsThePictureStill() {
+        writeProfile(org.json.JSONObject().put("xp",77).put("teacher_id","ren").put("course_revision",11).toString().toByteArray())
+        ActivityScenario.launch(MainActivity::class.java).use { scenario ->
+            waitFor(scenario,"document.documentElement.dataset.ready === 'true'")
+            eval(scenario,"document.querySelector('#hero-resume').click()")
+            waitFor(scenario,"!!document.querySelector('.focus-sheet:not([hidden])')")
+            eval(scenario,"JTBack()")
+            waitFor(scenario,"!!document.querySelector('#teacher-canvas').dataset.frame")
+            assertEquals("true",eval(scenario,"document.querySelector('.focus-coach-copy strong').textContent==='Ren' && document.querySelector('#teacher-canvas').getBoundingClientRect().height>=100 && document.querySelector('#record').disabled && JSON.parse(AndroidTrainer.getProfile()).xp===77"))
+            screenshot(scenario,"android-selected-speech-coach")
+            eval(scenario,"JTBack();document.querySelector('#settings-shortcut').click();document.querySelector('#motion').click();document.querySelector('[data-page=home]').click();document.querySelector('#hero-resume').click()")
+            waitFor(scenario,"!!document.querySelector('#teacher-canvas').dataset.frame")
+            val first=eval(scenario,"document.querySelector('#teacher-canvas').toDataURL()")
+            Thread.sleep(350)
+            assertEquals(first,eval(scenario,"document.querySelector('#teacher-canvas').toDataURL()"))
+            assertEquals("true",eval(scenario,"JSON.parse(AndroidTrainer.getProfile()).xp===77 && JSON.parse(AndroidTrainer.getProfile()).teacher_id==='ren' && !JSON.parse(AndroidTrainer.getProfile()).motion_enabled"))
+        }
+    }
     @Test fun calendarAndMascotKeepOlderProgressAndActuallyDrawDifferentFrames() {
         val yesterday=java.util.Calendar.getInstance().apply { add(java.util.Calendar.DAY_OF_MONTH,-1) }
         val last=java.text.SimpleDateFormat("yyyy-MM-dd",java.util.Locale.ROOT).format(yesterday.time)
@@ -67,6 +85,9 @@ class MobileInstrumentedTest {
                 waitFor(scenario,"!!document.querySelector('.completion')")
                 assertEquals("true",eval(scenario,"document.querySelector('.completion-xp').textContent==="+org.json.JSONObject.quote(if(done)"Wiederholung geschafft" else "+25 XP")+" && JSON.parse(AndroidTrainer.getProfile()).xp===45 && !document.querySelector('#complete-next').disabled && !document.querySelector('img.completion-kiko')"))
                 waitFor(scenario,"document.querySelector('.kiko-actor').dataset.frame!==undefined")
+                val confetti=eval(scenario,"document.querySelector('.reward-confetti').toDataURL()")
+                Thread.sleep(120)
+                assertNotEquals("Real confetti pixels change",confetti,eval(scenario,"document.querySelector('.reward-confetti').toDataURL()"))
                 assertEquals("true",eval(scenario,"[...document.querySelectorAll('.completion-actions button')].every(n=>n.getBoundingClientRect().bottom<=document.querySelector('.bottom-nav').getBoundingClientRect().top+1)"))
                 screenshot(scenario,if(done)"android-completion-repeat" else "android-completion-first")
                 eval(scenario,"document.querySelector('#complete-next').click()")

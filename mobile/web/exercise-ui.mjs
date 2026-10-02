@@ -1,6 +1,7 @@
 import {ExerciseBook,ExerciseRound,FAMILIES,INSTRUCTIONS,order} from './exercises.mjs';
 import {speechDeck} from './speech-support.mjs';
 import {supportView,bindSupport} from './speech-support-ui.mjs';
+import {syncCoach} from './characters.mjs';
 
 export function createExerciseUI({data,state,store,course,native,navigate,render,stopMedia,toast,esc,nextRequest,explanation,lessonGuide,focusLesson}) {
  const book=new ExerciseBook(data),$=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
@@ -67,7 +68,7 @@ export function createExerciseUI({data,state,store,course,native,navigate,render
   return `<div class="lesson-layout exercise-variety"><div class="lesson-header"><button id="ex-back" class="back-button" aria-label="Pause und zurück zur Lektion">‹</button><div><h1>${esc(r.lesson.title)}</h1><p class="sub">${esc(count)}</p></div></div><div class="coach"><img src="assets/teachers/${teacher.id}/avatar.png" alt=""><div><strong>${esc(teacher.name)} begleitet dich</strong><p class="sub">Fragen und Nachschauen sind erlaubt.</p></div></div><section class="card" id="exercise-content" data-family="${t.family}">${content}<div class="task-footer">${button('ex-next',nextLabel,!['intro','complete'].includes(s.stage)&&!d.success)}</div>${button('ex-pause','Kann gerade nicht hören / sprechen · Pause')}</section></div>`;
  }
  function refresh(){if(state.page==='exercises'){const focused=document.activeElement?.id,selection=focused==='ex-input'?[$('#ex-input').selectionStart,$('#ex-input').selectionEnd]:null,scroll=window.scrollY;$('#app').innerHTML=view();bind();window.scrollTo(0,scroll);if(selection&&$('#ex-input')){$('#ex-input').focus({preventScroll:true});$('#ex-input').setSelectionRange(...selection);}audioStatus();}}
- function audioStatus(){if($('#ex-audio-status'))$('#ex-audio-status').textContent=state.recording==='idle'?(state.audio?.message??''):state.speechMessage;const b=$('#ex-record');if(b){b.textContent=state.recording==='recording'?'■ Aufnahme beenden':state.recording==='recognizing'?'Wird lokal erkannt …':'◉ Jetzt sprechen';b.disabled=round.answer.success||!['idle','recording'].includes(state.recording);}}
+ function audioStatus(){syncCoach(state);if($('#ex-audio-status'))$('#ex-audio-status').textContent=state.recording==='idle'?(state.audio?.message??''):state.speechMessage;const b=$('#ex-record');if(b){b.textContent=state.recording==='recording'?'■ Aufnahme beenden':state.recording==='recognizing'?'Wird lokal erkannt …':'◉ Jetzt sprechen';b.disabled=round.answer.success||!['idle','recording'].includes(state.recording);}}
  function play(identity='target',slow=false,own=false,sourceKey=null){if(!round||state.recording!=='idle'||!audioReady())return;const t=round.task,teacher=course.teacher(),id=nextRequest();
   if(t.family==='recall'&&!own)round.help(2);
   const text=sourceKey?card(sourceKey).jp:t.family==='pairs'?t.pairs.find(p=>p.id===identity).jp:(t.text??t.audio);
@@ -86,7 +87,7 @@ export function createExerciseUI({data,state,store,course,native,navigate,render
  function handle(type,data){
   if(type==='audioCancelled'){ownRequest=null;epoch++;return false;}
   if(state.audio?.kind==='exercise'&&data.request===state.audio.id){const a=state.audio;if(state.page!=='exercises'||a.context!==context()){state.audio=null;return true;}
-   if(type==='audioLoading')a.message='Stimme wird vorbereitet …';if(type==='audioStarted')a.message='Wiedergabe läuft …';
+   if(type==='audioLoading')a.message='Stimme wird vorbereitet …';if(type==='audioStarted'){a.message='Wiedergabe läuft …';a.started=true;}
    if(type==='audioDone'){if(!a.own&&!a.sourceKey)round.heard(a.identity,round.task.family==='read');state.audio=null;}
    if(type==='audioError'){round.technical(data.message??'Audio nicht verfügbar. Du kannst erneut versuchen oder pausieren.');state.audio=null;refresh();}
    audioStatus();return true;

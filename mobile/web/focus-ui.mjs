@@ -77,7 +77,7 @@ export function focusLesson({page,session,round,teacher,store,esc}) {
  document.body.dataset.teacherMood=success?'praise':'idle';
  root.classList.toggle('is-speaking',isSpeaking);
  companions.hidden=!isSpeaking;
- if(isSpeaking)companions.innerHTML=`<canvas id="teacher-canvas" class="focus-teacher" width="512" height="768" role="img" aria-label="${esc(teacher.name)} hört dir zu"></canvas><p class="focus-coach-copy"><strong>${esc(teacher.name)}</strong><span>${esc(encouragement)}</span></p>`;
+ if(isSpeaking)companions.innerHTML=`<canvas id="teacher-canvas" class="focus-teacher voice-actor" width="512" height="768" role="img" aria-label="${esc(teacher.name)} hört dir zu"></canvas><p class="focus-coach-copy"><strong>${esc(teacher.name)}</strong><span data-coach-message>${esc(encouragement)}</span><small>Dein Sprachbegleiter</small></p>`;
  const cue=el('div','focus-cue');
  if(isSpeaking){for(const n of [flow.querySelector('#speak-instruction'),flow.querySelector('.answer-format'),flow.querySelector('#ex-prompt'),flow.querySelector('.focus-model')].filter(Boolean))cue.append(n);}
  else {const first=flow.querySelector(':scope > p');if(first)cue.append(first);for(const n of [...flow.querySelectorAll(':scope > #ex-prompt,:scope > .exercise-prompt,:scope > .build-meaning,:scope > .exercise-reading,:scope > .exercise-frame')])cue.append(n);}
@@ -90,18 +90,14 @@ export function focusLesson({page,session,round,teacher,store,esc}) {
  let restoreFocus=null,taskPages=1,stride=0;
  function setTaskPage(p){presentation.page=Math.max(0,Math.min(taskPages-1,p));viewport.scrollLeft=presentation.page*stride;count.textContent=`Ansicht ${presentation.page+1} / ${taskPages}`;prev.disabled=presentation.page===0;forward.disabled=presentation.page===taskPages-1;}
  function layout(){
+  root.classList.toggle('coach-compact',parseFloat(getComputedStyle(document.documentElement).fontSize)>20);
   if(!root.isConnected)return;
   root.classList.toggle('focus-large-text',parseFloat(getComputedStyle(document.documentElement).fontSize)>20);
   flow.classList.remove('focus-pagination');flow.style.height='';flow.style.columnWidth='';flow.style.columnGap='';flow.style.columnFill='';viewport.style.height='';viewport.scrollLeft=0;pager.hidden=true;
-  // Give the speaker a scene only when the task still has usable space.
-  const portrait=innerWidth>=360&&innerWidth<600&&innerHeight>=780&&parseFloat(getComputedStyle(document.documentElement).fontSize)<=20;
-  const baseSpace=workspace.clientHeight-tools.offsetHeight-caption.offsetHeight-cue.offsetHeight-74-(recordingPanel?.offsetHeight??0)-(fixedAudio?.offsetHeight??0)+(companions.parentElement===header?companions.offsetHeight:0);
-  const sceneHeight=Math.max(130,Math.min(260,baseSpace-70));
-  const expanded=isSpeaking&&portrait&&baseSpace>=200;
-  root.style.setProperty('--coach-height',`${sceneHeight}px`);
-  root.classList.toggle('focus-coach-scene',expanded);
-  if(isSpeaking&&(expanded?workspace:header)!==companions.parentElement)(expanded?workspace:header).append(companions);
-  const reserve=expanded?companions.offsetHeight:0;
+  // Reserve the visible coach before paging feedback; never cover controls.
+  root.classList.remove('focus-coach-scene');
+  if(isSpeaking&&companions.parentElement!==header)header.append(companions);
+  const reserve=0;
   const free=workspace.clientHeight-tools.offsetHeight-caption.offsetHeight-cue.offsetHeight-74-(recordingPanel?.offsetHeight??0)-(fixedAudio?.offsetHeight??0);
   let available=Math.max(110,free-reserve);
   // Short speech models stay on one view when they fit, before reserving decorative space.

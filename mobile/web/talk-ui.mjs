@@ -1,6 +1,7 @@
 import {SCENES,TalkSession,normalizeTalk} from './talk.mjs';
 import {SpeechSupport,speechDeck} from './speech-support.mjs';
 import {supportView,bindSupport} from './speech-support-ui.mjs';
+import {coachMarkup,syncCoach} from './characters.mjs';
 
 export function createTalkUI({state,store,course,native,play,stopMedia,navigate,render,toast,esc,nextRequest}) {
  const $=selector=>document.querySelector(selector),$$=selector=>[...document.querySelectorAll(selector)];
@@ -29,7 +30,7 @@ export function createTalkUI({state,store,course,native,play,stopMedia,navigate,
   if(!session)return hub();const t=teacher();
   if(preparation>=0){const p=session.scene.preparation[preparation];return `<section class="card daily-card"><p class="eyebrow">Vorbereitung ${preparation+1} / ${session.scene.preparation.length}</p><h1>${esc(session.scene.title)}</h1><p class="jp" lang="ja">${esc(p.jp)}</p><p class="romaji">${esc(p.romaji)}</p><p>${esc(p.de)}</p><p class="sub">${esc(p.why)}</p><button class="ghost wide" id="talk-prep-audio">▷ Anhören</button><button class="primary wide" id="talk-prep-next">${preparation===session.scene.preparation.length-1?'Gespräch beginnen':'Weiter'} →</button><button class="ghost wide" data-nav="talk">Zurück zu den Situationen</button></section>`;}
   return `<div class="talk-layout"><div class="lesson-header"><button class="back-button" data-nav="talk" aria-label="Zurück zu den Gesprächen">‹</button><div><h1>${esc(session.scene.title)}</h1><span class="sub">Geführtes Offline-Gespräch</span></div></div>
-   <div class="talk-partner"><canvas id="teacher-canvas" data-teacher="${t.id}" width="512" height="768" aria-label="${esc(t.name)} hört dir zu"></canvas><div><strong>${esc(t.name)}</strong><p class="sub">${esc(session.scene.role)}</p></div><span class="pill">${session.done?'Geschafft':'Du & '+esc(t.name)}</span></div>
+   ${coachMarkup(t,esc)}
    <div class="talk-aids"><button class="small ghost" id="talk-translation" aria-pressed="${showTranslation}">Übersetzung ${showTranslation?'aus':'an'}</button><button class="small ghost" id="talk-reading" aria-pressed="${showReading}">Lesung ${showReading?'aus':'an'}</button></div>
    <div class="chat-history" role="log" aria-label="Gesprächsverlauf" aria-live="polite">${session.history.map(m=>`<div class="chat-bubble ${m.role==='user'?'from-user':'from-teacher'}"><span class="chat-speaker">${m.role==='user'?'Du'+(m.source==='spoken'?' · gesprochen':m.source==='selection'?' · Mit Auswahlhilfe geschafft':' · Text'):esc(t.name)}</span><p class="chat-jp" lang="ja">${esc(m.jp)}</p>${m.role==='teacher'&&showReading&&m.romaji?`<p class="chat-reading">${esc(m.romaji)}</p>`:''}${m.role==='teacher'&&showTranslation&&m.de?`<p class="chat-translation">${esc(m.de)}</p>`:''}</div>`).join('')}</div>
    <div class="talk-audio"><button class="small ghost" id="talk-replay">▷ Noch einmal</button><button class="small ghost" id="talk-slow">▷ Langsam</button><button class="small ghost" id="talk-stop" aria-label="Stimme stoppen">■ Stopp</button></div><p id="talk-audio-status" class="speech-message" role="status"></p>
@@ -79,6 +80,7 @@ export function createTalkUI({state,store,course,native,play,stopMedia,navigate,
  }
  function refresh() {
   if(state.page!=='conversation'||!session)return;
+  syncCoach(state);
   const busy=state.recording!=='idle',record=$('#talk-record');
   if($('#talk-cancel'))$('#talk-cancel').hidden=!busy;
   if(record){record.textContent={idle:'◉ Antwort aufnehmen',requesting:'Mikrofon wird vorbereitet …',recording:'■ Aufnahme beenden',recognizing:'Sprache wird erkannt …'}[state.recording];record.disabled=!['idle','recording'].includes(state.recording);record.classList.toggle('recording',state.recording==='recording');}

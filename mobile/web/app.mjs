@@ -9,14 +9,16 @@ import {applyKanaRecognition} from './kana-recognition.mjs';
 import {supportView,bindSupport} from './speech-support-ui.mjs';
 import {calendarView,currentStreak,dayKey,shiftMonth} from './calendar.mjs';
 import {mascotMarkup,animateMascots} from './mascot.mjs';
+import {animateTeacher as runTeacher,syncCoach,coachMarkup} from './characters.mjs';
+import {rewardMarkup,animateReward} from './reward.mjs';
 
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const bridge=window.AndroidTrainer;
 const state={page:'home',session:null,query:'',stage:'Alle',libraryQuery:'',review:null,revealed:false,teacherDetail:null,
-  caps:{native:!!bridge,models:false,modelBytes:0,version:'11.0.13-android.1-test'},audio:null,speech:null,speechMessage:'',recording:'idle',calendarMonth:dayKey().slice(0,7),completeXP:0,
+  caps:{native:!!bridge,models:false,modelBytes:0,version:'11.0.14-android.1-test'},audio:null,speech:null,speechMessage:'',recording:'idle',calendarMonth:dayKey().slice(0,7),completeXP:0,
   modelStatus:'',modelPercent:0,modelBusy:false,updateStatus:'',updateAvailable:false,updateBusy:false,updateTest:false,licenseText:'',completeLesson:null};
-let speechLab,practiceUI,dailyUI,course,store,catalog,talkUI,exerciseUI,blinkIndex,expressions,animationStop=()=>{},mascotStop=()=>{},toastTimer,requestCounter=0,saveError='';
+let speechLab,practiceUI,dailyUI,course,store,catalog,talkUI,exerciseUI,blinkIndex,expressions,animationStop=()=>{},mascotStop=()=>{},rewardStop=()=>{},toastTimer,requestCounter=0,saveError='';
 const native=(name,...args)=> { if(bridge&&typeof bridge[name]==='function')return bridge[name](...args);return undefined; };
 function toast(text) { $('#toast').textContent=text;$('#toast').classList.add('visible');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('#toast').classList.remove('visible'),4800); }
 function persist(text) {
@@ -30,7 +32,7 @@ function navigate(page) {
   if(state.page==='exercises'&&page!==state.page)exerciseUI?.cancel();
   if(state.session&&state.page==='lesson')state.session.snapshot();
   if(state.page==='conversation')talkUI?.save();
-  stopMedia();animationStop();state.page=page;state.speechMessage='';render();window.scrollTo(0,0);$('#app').focus({preventScroll:true});
+  stopMedia();animationStop();state.page=page;document.body.dataset.teacherMood='idle';state.speechMessage='';render();window.scrollTo(0,0);$('#app').focus({preventScroll:true});
 }
 function heading(eyebrow,title,description='') {return `<div class="page-heading"><p class="eyebrow">${esc(eyebrow)}</p><h1>${esc(title)}</h1>${description?`<p class="sub">${esc(description)}</p>`:''}</div>`;}
 function teacherStrip() {const t=course.teacher();return `<div class="coach"><img src="assets/teachers/${t.id}/avatar.png" alt=""><div class="coach-copy"><strong>${esc(t.name)} begleitet dich</strong><p class="sub">${esc(t.style)}</p></div><span class="pill">Schritt für Schritt</span></div>`;}
@@ -137,7 +139,7 @@ function bindTask() {
     else {render();window.scrollTo({top:0,behavior:'instant'});}
   };
 }
-function complete() {const l=state.completeLesson;return `<div class="completion-scene"><section class="card completion"><p class="eyebrow">Lektion abgeschlossen</p><h1>Gut gemacht!</h1><p>Du hast „${esc(l.title)}“ abgeschlossen.</p><p class="completion-xp">${state.completeXP?`+${state.completeXP} XP`:'Wiederholung geschafft'}</p><p class="sub">${state.completeXP?'Für deinen ersten Abschluss.':'Die XP für diese Lektion hast du bereits erhalten.'}</p>${store.data.show_kiko?`${mascotMarkup('cheer')}<p>Kleine Schritte, große Fortschritte!</p>`:''}</section><div class="completion-actions"><button class="primary wide" id="complete-next">Weiterlernen →</button><button class="ghost wide" data-nav="course">Zum Lernpfad</button></div></div>`;}
+function complete() {const l=state.completeLesson;return `<div class="completion-scene"><section class="card completion"><p class="eyebrow">Lektion abgeschlossen</p><h1>Gut gemacht!</h1><p>Du hast „${esc(l.title)}“ abgeschlossen.</p><p class="completion-xp">${state.completeXP?`+${state.completeXP} XP`:'Wiederholung geschafft'}</p><p class="sub">${state.completeXP?'Für deinen ersten Abschluss.':'Die XP für diese Lektion hast du bereits erhalten.'}</p>${rewardMarkup(store.data.show_kiko)}<p>Kleine Schritte, große Fortschritte!</p></section><div class="completion-actions"><button class="primary wide" id="complete-next">Weiterlernen →</button><button class="ghost wide" data-nav="course">Zum Lernpfad</button></div></div>`;}
 function teachers() {
   const selected=course.teacher();const detail=catalog.TEACHERS.find(t=>t.id===state.teacherDetail)??selected;
   return heading('Deine Begleitung','Mit wem lernst du?','Acht Persönlichkeiten. Wähle die Begleitung, mit der du dich wohlfühlst.')+
@@ -172,14 +174,15 @@ function updateBox() {return `<p class="download-status" role="status">${esc(sta
 function render() {
   document.body.classList.toggle('focus-mode',['lesson','exercises'].includes(state.page));
   document.body.classList.toggle('completion-mode',state.page==='complete');
-  animationStop();mascotStop();document.body.classList.toggle('motion-off',!store.data.motion_enabled||store.data.motion_preset==='off');
+  animationStop();mascotStop();rewardStop();document.body.classList.toggle('motion-off',!store.data.motion_enabled||store.data.motion_preset==='off');
   const pages={home,calendar:()=>calendarView(store.data,state.calendarMonth,esc),'speech-lab':()=>speechLab.view(),daily:()=>dailyUI.view(),'practice-lab':()=>practiceUI.view(),course:courseList,lesson,complete,teachers,review,library,grammar,progress,more,settings,exercises:()=>exerciseUI.view(),talk:()=>talkUI.hub(),conversation:()=>talkUI.conversation(),
     licenses:()=>heading('Informationen','Lizenzen & Modellbedingungen')+`<button class="ghost" data-nav="settings">‹ Einstellungen</button><pre class="licenses">${esc(state.licenseText)}</pre>`};
   $('#app').innerHTML=(pages[state.page]??home)();
   if(state.page==='lesson')decorateLesson();
+  if(state.page==='speech-lab')document.querySelector('.daily-card')?.insertAdjacentHTML('afterbegin',coachMarkup(course.teacher(),esc));
   const active=state.page==='calendar'?'home':['home','course','review','teachers'].includes(state.page)?state.page:['lesson','complete','exercises'].includes(state.page)?'course':['talk','conversation'].includes(state.page)?'review':'more';
   $$('.bottom-nav button').forEach(b=>b.setAttribute('aria-current',b.dataset.page===active?'page':'false'));
-  bindNavigation();bindPage();mascotStop=animateMascots(()=>store.data.motion_enabled&&store.data.motion_preset!=='off');if(saveError)showSaveError();
+  bindNavigation();bindPage();syncCoach(state);animateTeacher();rewardStop=animateReward(()=>store.data.motion_enabled&&store.data.motion_preset!=='off');mascotStop=animateMascots(()=>store.data.motion_enabled&&store.data.motion_preset!=='off');if(saveError)showSaveError();
 }
 function bindNavigation() {$$('[data-nav]').forEach(b=>b.onclick=()=>navigate(b.dataset.nav));$$('[data-lesson]').forEach(b=>b.onclick=()=>openLesson(b.dataset.lesson));}
 function bindPage() {
@@ -269,6 +272,7 @@ function refreshAudio() {
   if($('#mic-level'))$('#mic-level').value=state.micLevel??0;
   if($('#mic-time'))$('#mic-time').textContent=`0:${String(Math.floor(state.micSeconds??0)).padStart(2,'0')}`;
   if($('#audio-status'))$('#audio-status').textContent=state.audio?.message??'';
+  syncCoach(state);
 }
 window.JTNative=(type,data={})=> {
   if(!course)return;
@@ -295,9 +299,9 @@ window.JTNative=(type,data={})=> {
   else if(type==='audioCancelled'){state.speech?.support?.cancel();state.audio=null;state.speech=null;state.ownSpeech=null;if(state.session)state.session.shortSpeechReady=false;state.recording='idle';state.speechMessage='';refreshAudio();}
   else if(type.startsWith('audio')&&data.request===state.audio?.id) {
     if(type==='audioLoading')state.audio.message='Stimme wird vorbereitet …';
-    if(type==='audioStarted')state.audio.message='Wiedergabe läuft …';
+    if(type==='audioStarted'){state.audio.message='Wiedergabe läuft …';state.audio.started=true;}
     if(type==='audioDone') {if(state.audio.forListen&&state.session&&state.audio.context===`${state.session.key}:${state.session.phase}`)state.session.audio_seen=true;state.audio=null;}
-    if(type==='audioError'){toast(data.message);state.audio.message=data.message;}
+    if(type==='audioError'){toast(data.message);state.audio=null;}
     refreshAudio();
   } else if(data.request===state.speech?.id) {
     if(type==='speechLevel'){state.micLevel=data.level;state.micSeconds=data.seconds;}
@@ -324,35 +328,20 @@ window.JTNative=(type,data={})=> {
   }
 };
 window.JTBack=()=> {if(closeFocusSheet())return;if(state.page==='home')native('closeApp');else navigate(state.page==='exercises'?exerciseUI.backPage():state.page==='lesson'?'course':state.page==='conversation'?'talk':state.page==='talk'?'review':state.page==='licenses'?'settings':'home');};
-async function animateTeacher() {
-  animationStop();
-  const canvas=$('#teacher-canvas');if(!canvas)return;
-  const t=catalog.TEACHERS.find(t=>t.id===canvas.dataset.teacher)??course.teacher(),ctx=canvas.getContext('2d');let alive=true,raf=0,restTimer=0;
-  animationStop=()=>{alive=false;cancelAnimationFrame(raf);clearTimeout(restTimer);};
-  const load=src=>new Promise(resolve=>{const image=new Image();image.onload=()=>resolve(image);image.onerror=()=>resolve(null);image.src=src;});
-  const base=await load(`assets/teachers/${t.id}/full.png`);if(!alive||!base)return;
-  const expression=expressions.expressions[t.id],blink=blinkIndex[t.id];
-  const mouth=await load(`assets/animation/${t.id}/${expression.idle.file}`);
-  const praise=await load(`assets/animation/${t.id}/${expression.praise.file}`);
-  const frames=await Promise.all((blink?.frames??[]).map(file=>load(`assets/animation/${t.id}/${file}`)));
-  const drawPatch=(image,box)=>{if(image)ctx.drawImage(image,box[0]/2,box[1]/2,(box[2]-box[0])/2,(box[3]-box[1])/2);};
-  const start=performance.now();let last=-2;
-  const draw=now=> {
-    if(!alive)return;
-    const moving=!!blink?.frames?.length&&store.data.motion_enabled&&store.data.motion_preset!=='off'&&!matchMedia('(prefers-reduced-motion: reduce)').matches&&canvas.isConnected&&canvas.getClientRects().length>0&&!canvas.closest('[inert]')&&!document.hidden;
-    const tick=moving?(now-start)%5200:1000;const position=tick<320?Math.min(4,Math.floor((tick<160?tick:320-tick)/32)):-1;
-    const happy=document.body.dataset.teacherMood==='praise'&&now-start<2650,mood=position+':'+happy;
-    if(mood!==last){ctx.clearRect(0,0,512,768);ctx.drawImage(base,0,0,512,768);drawPatch(happy?praise:mouth,happy?expression.praise.bbox:expression.idle.bbox);if(position>=0)drawPatch(frames[position],blink.bbox);last=mood;}
-    if(moving)raf=requestAnimationFrame(draw);else if(happy)restTimer=setTimeout(()=>draw(performance.now()),2700);
-  };
-  draw(performance.now());
+function animateTeacher() {
+  animationStop();const canvas=$('#teacher-canvas');if(!canvas)return;
+  const teacher=catalog.TEACHERS.find(t=>t.id===canvas.dataset.teacher)??course.teacher();
+  animationStop=runTeacher({teacher,blinkIndex,expressions,enabled:()=>store.data.motion_enabled&&store.data.motion_preset!=='off'});
 }
+// Even handlers that consume comparison/exercise events update the visible coach.
+const handleNative=window.JTNative;
+window.JTNative=(type,data)=>{try{return handleNative(type,data);}finally{syncCoach(state);}};
 async function start() {
   const files=['data/course.json','data/catalog.json','data/deep_lessons.json','assets/animation/blink_index.json','assets/animation/expressions.json','data/exercises.json','data/practice_content.json','data/speech_trial.json'];
   const [raw,c,d,b,e,exerciseData,practiceData,trialData]=await Promise.all(files.map(p=>fetch(p).then(r=>{if(!r.ok)throw Error('Kursdatei fehlt: '+p);return r.json();})));
   catalog=c;blinkIndex=b;expressions=e;
   document.addEventListener('jt-actors',()=>animateTeacher());
-  document.addEventListener('visibilitychange',()=>{animationStop();mascotStop();if(document.hidden)stopMedia();else {animateTeacher();mascotStop=animateMascots(()=>store.data.motion_enabled&&store.data.motion_preset!=='off');}});
+  document.addEventListener('visibilitychange',()=>{document.body.dataset.actorsPaused=String(document.hidden);animationStop();mascotStop();if(document.hidden)stopMedia();else {syncCoach(state);animateTeacher();mascotStop=animateMascots(()=>store.data.motion_enabled&&store.data.motion_preset!=='off');}});
   let profile={};try{profile=JSON.parse(bridge?native('getProfile'):localStorage.getItem('jt-mobile-profile')??'{}');}catch(error){toast('Lernstand ist nicht lesbar. Bitte eine Sicherung importieren.');}
   store=new Store(profile,persist);course=new Course(raw,c,d,store);
   exerciseUI=createExerciseUI({data:exerciseData,state,store,course,native,navigate,render,stopMedia,toast,esc,nextRequest:()=>`exercise-${++requestCounter}`,explanation,lessonGuide,focusLesson});
