@@ -1,4 +1,5 @@
 """Package 03 contracts and behavior; no claim of human language/audio testing."""
+from vowel_clarity_contract import before_vowel_clarity
 import copy, hashlib, json, os, tempfile, unittest
 from pathlib import Path
 from unittest.mock import patch
@@ -26,7 +27,7 @@ class Package3Tests(unittest.TestCase):
         for k,expected in base['lessons'].items():
             # Package 04 is checked against its newer full 11.0.5 contract.
             # All other original 11.0.4 hashes remain enforced here.
-            if k not in authored.GUIDES and k not in following.GUIDES:self.assertEqual(digest(raw[k]),expected,k)
+            if k not in authored.GUIDES and k not in following.GUIDES:self.assertEqual(digest(before_vowel_clarity(k,raw[k])),expected,k)
         for k,l in raw.items():self.assertEqual(digest({'xp':l['xp'],'cards':[[c['jp'],c['romaji'],c['de']] for c in l['cards']]}),base['identities'][k],k)
     def test_inventory_prerequisites_solutions_and_feedback(self):
         lessons=[l for l in self.learning.lessons if l.get('study_guide',{}).get('package')==3]
@@ -67,6 +68,6 @@ class Package3Tests(unittest.TestCase):
         # Reapply the one explicit later correction (12:0:4), never bless new
         # hashes wholesale or let an older authoring script downgrade content.
         with patch.object(following,'ROOT',temp):following.upgrade()
-        self.assertEqual((temp/'data/course.json').read_bytes(),before)
+        self.assertEqual((temp/'data/course.json').read_bytes().replace(b'\r\n',b'\n'),before.replace(b'\r\n',b'\n'))
 
 if __name__=='__main__':unittest.main()

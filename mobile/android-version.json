@@ -1,9 +1,9 @@
 {
-  "name": "11.0.14-android.1-test",
-  "code": 11001401,
+  "name": "11.0.15-android.1-test",
+  "code": 11001501,
   "course": "11.0.7",
   "package": "de.priestkiller.japanischtrainer",
-  "releasePage": "https://github.com/Priestkiller/JapanischTrainer/releases/tag/android-test-v11.0.14-1",
-  "notes": "TESTVERSION: Alle acht Lehrer haben vollständige Körper mit Füßen und je 16 Posen für ruhiges Stehen, Sprechen, Zuhören und Winken. Kiko feiert den Lektionsabschluss mit Sprüngen und Konfetti. Die Figuren reagieren auf Wiedergabe, Aufnahme und Ergebnis. Weiterlernen bleibt sofort möglich; reduzierte Bewegung wird beachtet. Lernstand, Kurs, Stimmen und Modelle bleiben erhalten. Echte Geräte-, Mikrofon- und menschliche Prüfungen bleiben offen.",
-  "releaseVersion": "11.0.14"
+  "releasePage": "https://github.com/Priestkiller/JapanischTrainer/releases/tag/android-test-v11.0.15-1",
+  "notes": "TESTVERSION: Ganze, erreichbare Antwortfelder statt abgeschnittener Textspalten. Sichtbare Auswahlhilfe nach drei erfolglosen Sprechversuchen, auch nach Neustart. Falsch beantwortete Aufgaben werden in ihrer ursprünglichen Form am Lektionsende wiederholt; Abschluss und XP erst nach gelöster Wiederholung. Klarere Fragen zu kurzen und langen Vokalen in zehn Karten. Kurs-IDs, Lernstände, Figuren, Stimmen, Modelle und Update-Sicherheit bleiben erhalten. Echte S24-, Mikrofon-, Anfänger- und Fachprüfungen bleiben offen.",
+  "releaseVersion": "11.0.15"
 }

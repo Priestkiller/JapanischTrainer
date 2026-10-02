@@ -63,3 +63,8 @@ body.focus-mode:before{content:'';position:fixed;inset:0;pointer-events:none;bac
 .speech-alternative #speech-confirm{margin-top:16px;background:#067f65}
 @media(max-height:850px){.is-speaking .focus-brand{display:none}}
 .talk-layout>.speech-alternative{position:fixed;inset:10px;z-index:40;background:#f0f5ff;color:#092641;padding:18px;overflow-y:auto;max-width:760px;margin:auto}
+/* Explicit views preserve complete clickable answers and reachable assistance. */
+.focus-content-page{display:flow-root;overflow-y:auto;overscroll-behavior:contain;scrollbar-gutter:stable}
+.focus-content-page[hidden]{display:none!important}.focus-flow .focus-option-item{margin:0}.focus-option-item button{margin-top:0}
+.focus-controls .focus-support-action{flex-basis:100%;border-color:#7de5bd;color:#c9ffe8;font-size:.82rem;min-height:44px;background:#124c43}
+.focus-controls #defer-task{font-size:.9rem}.answer-count{color:#c3d9ef;font-size:.73rem;margin:4px 0}

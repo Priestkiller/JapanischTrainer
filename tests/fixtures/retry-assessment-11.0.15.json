@@ -1,0 +1,47 @@
+[
+  {
+    "method": "mark",
+    "before": "  mark(ok,feedback,skipped=false) {\n    if(this.success)return;this.success=!!ok;this.feedback=feedback;this.skipped=skipped;\n    const m=this.metrics();m.attempts++;if(!ok) {m.mistakes++;this.store.data.review[this.key]={box:0,due:Date.now()/1000};}\n    else if(!skipped&&!m.phases.includes(this.phase))m.phases.push(this.phase);\n    if(skipped) {if(!Array.isArray(m.skipped_phases))m.skipped_phases=[];m.skipped_phases.push(this.phase);}\n    const metricKey=this.phase==='listen'&&this.mode!=='recap'?`${this.lesson.key}:${this.lesson.cards.indexOf(this.listenCard)}`:this.key;\n    recordAttempt(this.store.data,metricKey,PHASE_SKILL[this.phase],ok,skipped||this.hintOpen||(this.phase==='speak'&&(this.support.data.assisted||m.last_speech_outcome==='self_check')));\n    if(ok&&!skipped&&this.mode==='learn'&&PHASES[this.passed.length]===this.phase)this.passed.push(this.phase);\n    this.store.touch();this.snapshot();\n  }\n",
+    "after": "  mark(ok,feedback,skipped=false) {\n    if(this.success)return;this.success=!!ok;this.feedback=feedback;this.skipped=skipped;\n    this.failedAttempt=!ok&&this.phase!=='speak';\n    if(!ok&&this.mode==='learn'&&this.phase!=='speak'&&!skipped){const t={index:this.index,phase:this.phase,...(this.phase==='listen'?{listen_index:this.lesson.cards.indexOf(this.listenCard)}:{})};if(!this.retryTasks.some(old=>JSON.stringify(old)===JSON.stringify(t))){this.retryTasks.push(t);this.retry_total++;}}\n    const m=this.metrics();m.attempts++;if(!ok) {m.mistakes++;this.store.data.review[this.key]={box:0,due:Date.now()/1000};}\n    else if(!skipped&&!m.phases.includes(this.phase))m.phases.push(this.phase);\n    if(skipped) {if(!Array.isArray(m.skipped_phases))m.skipped_phases=[];m.skipped_phases.push(this.phase);}\n    const metricKey=this.phase==='listen'&&this.mode!=='recap'?`${this.lesson.key}:${this.lesson.cards.indexOf(this.listenCard)}`:this.key;\n    recordAttempt(this.store.data,metricKey,PHASE_SKILL[this.phase],ok,skipped||this.hintOpen||(this.phase==='speak'&&(this.support.data.assisted||m.last_speech_outcome==='self_check')));\n    if(ok&&!skipped&&this.mode==='learn'&&this.settledBefore())this.passed=PHASES.filter(p=>this.passed.includes(p)||p===this.phase);\n    this.store.touch();this.snapshot();\n  }\n"
+  },
+  {
+    "method": "wrongChoice",
+    "before": "  wrongChoice(value) {\n    let reason;\n    if(this.phase==='apply'&&this.mode!=='recap') {const p=this.course.profile(this.card,this.lesson);reason=p.scenario.feedback?.[value]??p.explain;}\n    else if(this.phase==='build'&&this.mode!=='recap') {const p=this.course.profile(this.card,this.lesson);reason=p.feedback?.write??p.pitfall;}\n    else {const target=this.phase==='listen'&&this.mode!=='recap'?this.listenCard:this.card,other=this.lesson.cards.find(c=>c.de===value);\n      reason=(other?`Deine Auswahl gehört zu ${other.jp} (${other.romaji}). `:'')+this.course.profile(target,this.lesson).explain;}\n    return `Noch nicht. ${reason} Die Aufgabe bleibt offen.`;\n  }\n",
+    "after": "  wrongChoice(value) {\n    let reason;\n    if(this.phase==='apply'&&this.mode!=='recap') {const p=this.course.profile(this.card,this.lesson);reason=p.scenario.feedback?.[value]??p.explain;}\n    else if(this.phase==='build'&&this.mode!=='recap') {const p=this.course.profile(this.card,this.lesson);reason=p.feedback?.write??p.pitfall;}\n    else {const target=this.phase==='listen'&&this.mode!=='recap'?this.listenCard:this.card,other=this.lesson.cards.find(c=>c.de===value);\n      reason=(other?`Deine Auswahl gehört zu ${other.jp} (${other.romaji}). `:'')+this.course.profile(target,this.lesson).explain;}\n    return `Noch nicht. ${reason} Du kannst es erneut versuchen oder die Aufgabe am Ende wiederholen.`;\n  }\n"
+  },
+  {
+    "method": "checkWrite",
+    "before": "  checkWrite(text) {if(this.mode!=='learn'||this.phase!=='write')return;const ok=[this.card.romaji,...(this.card.romaji_aliases??[])].some(r=>matchesRomaji(text,r)),p=this.course.profile(this.card,this.lesson);this.mark(ok,ok?'Richtig geschrieben. Auch die Vokallängen stimmen.':`Noch nicht passend. ${p.feedback?.write??p.pitfall} Für ō sind ou oder oo möglich; fehlende Vokallänge bleibt ein Fehler.`);}\n",
+    "after": "  checkWrite(text) {if(!['learn','retry'].includes(this.mode)||this.phase!=='write')return;const ok=[this.card.romaji,...(this.card.romaji_aliases??[])].some(r=>matchesRomaji(text,r)),p=this.course.profile(this.card,this.lesson);this.mark(ok,ok?'Richtig geschrieben. Auch die Vokallängen stimmen.':`Noch nicht passend. ${p.feedback?.write??p.pitfall} Für ō sind ou oder oo möglich; fehlende Vokallänge bleibt ein Fehler.`);}\n"
+  },
+  {
+    "method": "checkBuild",
+    "before": "  checkBuild() {if(this.mode!=='learn'||this.phase!=='build')return;const parts=this.course.blocks(this.card,this.lesson);if(!parts.length)return;const ok=this.tokens.length===parts.length&&this.tokens.map(i=>parts[i]).every((v,i)=>v===parts[i]),p=this.course.profile(this.card,this.lesson);this.mark(ok,ok?'Richtig zusammengesetzt.':`Die Reihenfolge stimmt noch nicht. ${p.feedback?.build??('Die Bausteine müssen vollständig sein. '+p.explain)}`);}\n",
+    "after": "  checkBuild() {if(!['learn','retry'].includes(this.mode)||this.phase!=='build')return;const parts=this.course.blocks(this.card,this.lesson);if(!parts.length)return;const ok=this.tokens.length===parts.length&&this.tokens.map(i=>parts[i]).every((v,i)=>v===parts[i]),p=this.course.profile(this.card,this.lesson);this.mark(ok,ok?'Richtig zusammengesetzt.':`Die Reihenfolge stimmt noch nicht. ${p.feedback?.build??('Die Bausteine müssen vollständig sein. '+p.explain)}`);}\n"
+  },
+  {
+    "method": "settledBefore",
+    "before": "",
+    "after": "  settledBefore(){return PHASES.slice(0,PHASES.indexOf(this.phase)).every(p=>this.passed.includes(p)||this.deferred.includes(p));}\n"
+  },
+  {
+    "method": "canDefer",
+    "before": "",
+    "after": "  get canDefer(){return this.failedAttempt&&!this.success&&!this.skipped&&this.phase!=='speak';}\n"
+  },
+  {
+    "method": "defer",
+    "before": "",
+    "after": "  defer(){\n    if(!this.canDefer)return 'blocked';\n    if(this.mode==='learn'){if(!this.settledBefore())return 'blocked';if(!this.deferred.includes(this.phase))this.deferred.push(this.phase);return this.advance(true);}\n    if(this.mode==='retry'){this.retryTasks.push(this.retryTasks.shift());this.index=this.retryTasks[0].index;this.phase=this.retryTasks[0].phase;}\n    else if(this.mode==='recap'){this.recap.push(this.recap.shift());this.index=this.recap[0];}\n    else return 'blocked';\n    this.reset();this.snapshot();return 'next';\n  }\n"
+  },
+  {
+    "method": "startRecap",
+    "before": "",
+    "after": "  startRecap(){this.mode='recap';this.phase='meaning';this.recap=shuffle(this.lesson.cards.map((_,i)=>i),this.lesson.key);this.recap.push(...this.recap.filter(i=>(this.store.data.study_cards[`${this.lesson.key}:${i}`]?.mistakes??0)>0));this.recap_total=this.recap.length;this.index=this.recap[0];}\n"
+  },
+  {
+    "method": "advance",
+    "before": "  advance() {\n    if(!this.success||this.skipped)return 'blocked';\n    if(this.mode==='learn'&&!PHASES.slice(0,PHASES.indexOf(this.phase)+1).every((p,i)=>this.passed[i]===p))return 'blocked';\n    if(this.mode==='recap') {this.recap.shift();this.recap_passed++;if(!this.recap.length){this.store.complete(this.lesson);delete this.store.data.lesson_sessions[this.lesson.key];this.store.save();return 'complete';}this.index=this.recap[0];}\n    else {const index=PHASES.indexOf(this.phase);\n      if(index<PHASES.length-1)this.phase=PHASES[index+1];\n      else if(this.index<this.lesson.cards.length-1){this.index++;this.phase='speak';this.passed=[];}\n      else {this.mode='recap';this.phase='meaning';this.recap=shuffle(this.lesson.cards.map((_,i)=>i),this.lesson.key);this.recap.push(...this.recap.filter(i=>(this.store.data.study_cards[`${this.lesson.key}:${i}`]?.mistakes??0)>0));this.recap_total=this.recap.length;this.index=this.recap[0];}\n    }\n    this.reset();this.snapshot();return 'next';\n  }",
+    "after": "  advance(deferred=false) {\n    if((!this.success&&!(deferred&&this.canDefer&&this.deferred.includes(this.phase)))||this.skipped)return 'blocked';\n    if(this.mode==='learn'&&!PHASES.slice(0,PHASES.indexOf(this.phase)+1).every(p=>this.passed.includes(p)||this.deferred.includes(p)))return 'blocked';\n    if(this.mode==='retry'){this.retryTasks.shift();this.retry_passed++;if(this.retryTasks.length){this.index=this.retryTasks[0].index;this.phase=this.retryTasks[0].phase;}else this.startRecap();}\n    else if(this.mode==='recap') {this.recap.shift();this.recap_passed++;if(!this.recap.length){this.store.complete(this.lesson);delete this.store.data.lesson_sessions[this.lesson.key];this.store.save();return 'complete';}this.index=this.recap[0];}\n    else {const index=PHASES.indexOf(this.phase);\n      if(index<PHASES.length-1)this.phase=PHASES[index+1];\n      else if(this.index<this.lesson.cards.length-1){this.index++;this.phase='speak';this.passed=[];this.deferred=[];}\n      else if(this.retryTasks.length){this.mode='retry';this.index=this.retryTasks[0].index;this.phase=this.retryTasks[0].phase;}\n      else this.startRecap();\n    }\n    this.reset();this.snapshot();return 'next';\n  }"
+  }
+]

@@ -2,6 +2,7 @@
 
 These are software/content-structure tests, not human language acceptance.
 """
+from vowel_clarity_contract import before_vowel_clarity
 import copy, hashlib, json, os, tempfile, unittest
 from pathlib import Path
 from unittest.mock import patch
@@ -26,7 +27,7 @@ class Package4Tests(unittest.TestCase):
         self.assertEqual(len(base['reviewed']),80);self.assertTrue(set(base['reviewed']).isdisjoint(authored.GUIDES))
         self.assertEqual(data['learning_order'],base['order']);self.assertEqual(data['revision'],base['revision'])
         for k,expected in base['lessons'].items():
-            if k not in authored.GUIDES and k!='12:0':self.assertEqual(digest(raw[k]),expected,k)
+            if k not in authored.GUIDES and k!='12:0':self.assertEqual(digest(before_vowel_clarity(k,raw[k])),expected,k)
         expected=copy.deepcopy(base['numbers_lesson']);authored.improve_numbers({'12:0':expected})
         self.assertEqual(raw['12:0'],expected)
         # No other old card, lesson metadata or speech target in that lesson may change.
@@ -37,6 +38,10 @@ class Package4Tests(unittest.TestCase):
         # unchanged assessment, course and model sections are independently tested.
         extension=json.loads((ROOT/'tests/fixtures/exercise-expansion-contract.json').read_text('utf8'))
         for path,sha in base['protected_files'].items():
+            if path=='mobile/app/src/main/java/de/priestkiller/japanischtrainer/AppUpdates.kt':
+                # 11.0.13 added only specific network-failure messages (6b8ab67).
+                # Pin that already shipped file; 11.0.15 must not alter update safety.
+                self.assertEqual(hashlib.sha256((ROOT/path).read_text('utf8').encode()).hexdigest(),'c35387bbaccda0c01da1af1d0b68b2a40988b9886162988120116448fce3bd6c',path);continue
             if path=='mobile/web/talk-ui.mjs':continue # Teacher canvas is explicitly changed; dialogue graph/model protections remain below and in talk tests.
             if path=='storage.py':
                 original=(ROOT/path).read_bytes().replace(b'from adaptive import clean_adaptive\n',b'').replace(b"        self.data['adaptive']=clean_adaptive(self.data.get('adaptive'))\n",b'').replace(b",'speech_support':{},'speech_reviews':{}",b'').replace(b",'speech_support','speech_reviews'",b'')
@@ -116,6 +121,6 @@ class Package4Tests(unittest.TestCase):
         for name in ['course.json','deep_lessons.json']:(temp/'data'/name).write_bytes((ROOT/'data'/name).read_bytes())
         before=(temp/'data/course.json').read_bytes()
         with patch.object(authored,'ROOT',temp):authored.upgrade()
-        self.assertEqual((temp/'data/course.json').read_bytes(),before)
+        self.assertEqual((temp/'data/course.json').read_bytes().replace(b'\r\n',b'\n'),before.replace(b'\r\n',b'\n'))
 
 if __name__=='__main__':unittest.main()

@@ -101,3 +101,16 @@ bleiben kann. Es gibt keinen automatischen Abgleich zwischen PC und Handy.
 Die Android-Ausgabe ist als Vorschau gekennzeichnet. Quellcode und
 Lizenztexte sind auf derselben Downloadseite verfügbar. Die bestehende
 Windows-Version verwendet weiterhin ihren eigenen Update-Kanal.
+
+## Android-Testversion 11.0.15
+
+Zahnrad → App-Updates → **Testversion suchen**. Die Testausgabe wird nur dort
+angeboten, nicht über die reguläre Suche. Erst dein Tippen lädt die APK.
+Alternativ die APK aus android-test-v11.0.15-1 über die vorhandene App installieren;
+nicht vorher deinstallieren. Paketkennung und Signierschlüssel bleiben gleich.
+Nach drei erfolglosen Sprechversuchen erscheint unten **Antwort stattdessen
+auswählen**. Passende Antwort wählen und **Auswahl bestätigen** drücken.
+Bei falschen Lernantworten kannst du erneut versuchen oder **Weiter · am Ende
+wiederholen** wählen. Die Aufgabe wird vor dem Abschluss erneut gestellt.
+Die Zeile „Wähle eine von … Antworten“ zeigt die tatsächliche Anzahl.
+Falls mehrere Ansichten benötigt werden, mit **Weiterlesen** und **Zurück** wechseln.

@@ -2,6 +2,7 @@
 
 These tests validate contracts, not natural Japanese or microphone recognition.
 """
+from vowel_clarity_contract import before_vowel_clarity
 import copy,hashlib,json,os,tempfile,unittest
 from pathlib import Path
 from unittest.mock import patch
@@ -25,7 +26,7 @@ class Package2Tests(unittest.TestCase):
         data=json.loads((ROOT/'data/course.json').read_text('utf8'))
         raw={l.get('id',f'{u}:{i}'):l for u,unit in enumerate(data['units']) for i,l in enumerate(unit['lessons'])}
         self.assertEqual(data['revision'],baseline['revision']);self.assertEqual(data['learning_order'],baseline['order'])
-        for key,expected in baseline['foundation_hashes'].items():self.assertEqual(digest(raw[key]),expected,key)
+        for key,expected in baseline['foundation_hashes'].items():self.assertEqual(digest(before_vowel_clarity(key,raw[key])),expected,key)
         for key,expected in baseline['identity_hashes'].items():
             l=raw[key];self.assertEqual(digest({'xp':l['xp'],'cards':[[c['jp'],c['romaji'],c['de']] for c in l['cards']]}),expected,key)
     def test_selected_package_is_noncontiguous_and_all_wrong_options_are_explained(self):

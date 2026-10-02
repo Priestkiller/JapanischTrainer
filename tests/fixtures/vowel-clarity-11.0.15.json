@@ -1,0 +1,849 @@
+{
+  "0:0": [
+    {
+      "path": [
+        "study_guide",
+        "points",
+        0
+      ],
+      "existed": true,
+      "before": "Hiragana sind japanische Lautzeichen. あ = a, い = i, う = u, え = e, お = o. Romaji schreibt die Lesung mit lateinischen Buchstaben.",
+      "after": "Du lernst die fünf Vokale a, i, u, e und o und ihre Hiragana-Zeichen. Ein Sprechtakt ist hier ein kurzer Zählschritt beim Sprechen, keine feste Sekundenzahl. Klopfe gleichmäßig mit: Ein kurzer Vokal dauert einen Schritt; ein langer Vokal wird über zwei Schritte gehalten. Der Klang bleibt dabei gleich. Der Fachbegriff für diese Sprecheinheit ist Mora."
+    },
+    {
+      "path": [
+        "cards",
+        0,
+        "detail",
+        "explain"
+      ],
+      "existed": true,
+      "before": "Öffne den Mund entspannt und sprich ein kurzes, klares a. Das Zeichen あ steht für einen Sprechtakt. In der ersten Runde darfst du die Form und die Lesung immer ablesen.",
+      "after": "Öffne den Mund entspannt und sprich ein kurzes a. あ ist hier ein einzelner kurzer Vokal, kein ganzer Satz und kein Doppellaut. Ein Sprechtakt ist hier ein kurzer Zählschritt beim Sprechen, keine feste Sekundenzahl. Klopfe gleichmäßig mit: Ein kurzer Vokal dauert einen Schritt; ein langer Vokal wird über zwei Schritte gehalten. Der Klang bleibt dabei gleich. Der Fachbegriff für diese Sprecheinheit ist Mora."
+    },
+    {
+      "path": [
+        "cards",
+        0,
+        "detail",
+        "scenario",
+        "question"
+      ],
+      "existed": true,
+      "before": "Was lernst du mit あ gerade?",
+      "after": "Wie sprichst du hier あ (a) aus?"
+    },
+    {
+      "path": [
+        "cards",
+        0,
+        "detail",
+        "scenario",
+        "feedback"
+      ],
+      "existed": false,
+      "after": {
+        "Du sprichst ai, also zwei verschiedene Vokale.": "Diese Auswahl passt nicht zur Vorlage. Öffne den Mund entspannt und sprich ein kurzes a. あ ist hier ein einzelner kurzer Vokal, kein ganzer Satz und kein Doppellaut. Ein Sprechtakt ist hier ein kurzer Zählschritt beim Sprechen, keine feste Sekundenzahl. Klopfe gleichmäßig mit: Ein kurzer Vokal dauert einen Schritt; ein langer Vokal wird über zwei Schritte gehalten. Der Klang bleibt dabei gleich. Der Fachbegriff für diese Sprecheinheit ist Mora.",
+        "Du hältst das a immer lang wie aa.": "Diese Auswahl passt nicht zur Vorlage. Öffne den Mund entspannt und sprich ein kurzes a. あ ist hier ein einzelner kurzer Vokal, kein ganzer Satz und kein Doppellaut. Ein Sprechtakt ist hier ein kurzer Zählschritt beim Sprechen, keine feste Sekundenzahl. Klopfe gleichmäßig mit: Ein kurzer Vokal dauert einen Schritt; ein langer Vokal wird über zwei Schritte gehalten. Der Klang bleibt dabei gleich. Der Fachbegriff für diese Sprecheinheit ist Mora."
+      }
+    },
+    {
+      "path": [
+        "cards",
+        0,
+        "detail",
+        "scenario",
+        "explanation"
+      ],
+      "existed": false,
+      "after": "Öffne den Mund entspannt und sprich ein kurzes a. あ ist hier ein einzelner kurzer Vokal, kein ganzer Satz und kein Doppellaut. Ein Sprechtakt ist hier ein kurzer Zählschritt beim Sprechen, keine feste Sekundenzahl. Klopfe gleichmäßig mit: Ein kurzer Vokal dauert einen Schritt; ein langer Vokal wird über zwei Schritte gehalten. Der Klang bleibt dabei gleich. Der Fachbegriff für diese Sprecheinheit ist Mora."
+    },
+    {
+      "path": [
+        "cards",
+        0,
+        "detail",
+        "scenario",
+        "wrong",
+        0
+      ],
+      "existed": true,
+      "before": "Das Wort für Deutschland.",
+      "after": "Du sprichst ai, also zwei verschiedene Vokale."
+    },
+    {
+      "path": [
+        "cards",
+        0,
+        "detail",
+        "scenario",
+        "wrong",
+        1
+      ],
+      "existed": true,
+      "before": "Einen ganzen Fragesatz.",
+      "after": "Du hältst das a immer lang wie aa."
+    },
+    {
+      "path": [
+        "cards",
+        0,
+        "detail",
+        "scenario",
+        "correct"
+      ],
+      "existed": true,
+      "before": "Ein Zeichen für den Laut a.",
+      "after": "Du sprichst ein kurzes, klares a."
+    },
+    {
+      "path": [
+        "cards",
+        1,
+        "detail",
+        "explain"
+      ],
+      "existed": true,
+      "before": "Die Zunge liegt relativ weit vorn; der Klang ist ungefähr der klare i-Laut in „Liebe“, hier aber kurz. Später unterscheidest du ein kurzes い von einem langen いい.",
+      "after": "Sprich ein klares, kurzes i. い steht in dieser Vorlage für einen kurzen i-Laut. Ein langes ii hältst du länger; ei verändert den Klang und passt hier nicht. Ein Sprechtakt ist hier ein kurzer Zählschritt beim Sprechen, keine feste Sekundenzahl. Klopfe gleichmäßig mit: Ein kurzer Vokal dauert einen Schritt; ein langer Vokal wird über zwei Schritte gehalten. Der Klang bleibt dabei gleich. Der Fachbegriff für diese Sprecheinheit ist Mora."
+    },
+    {
+      "path": [
+        "cards",
+        1,
+        "detail",
+        "scenario",
+        "question"
+      ],
+      "existed": true,
+      "before": "Worauf achtest du bei einem einzelnen い?",
+      "after": "Wie sprichst du das einzelne Zeichen い (i) in dieser Vorlage?"
+    },
+    {
+      "path": [
+        "cards",
+        1,
+        "detail",
+        "scenario",
+        "feedback"
+      ],
+      "existed": false,
+      "after": {
+        "Du hältst das i lang wie ii (zwei Zählschritte).": "Diese Auswahl passt nicht zur Vorlage. Sprich ein klares, kurzes i. い steht in dieser Vorlage für einen kurzen i-Laut. Ein langes ii hältst du länger; ei verändert den Klang und passt hier nicht. Ein Sprechtakt ist hier ein kurzer Zählschritt beim Sprechen, keine feste Sekundenzahl. Klopfe gleichmäßig mit: Ein kurzer Vokal dauert einen Schritt; ein langer Vokal wird über zwei Schritte gehalten. Der Klang bleibt dabei gleich. Der Fachbegriff für diese Sprecheinheit ist Mora.",
+        "Du sprichst den Doppellaut ei statt i.": "Diese Auswahl passt nicht zur Vorlage. Sprich ein klares, kurzes i. い steht in dieser Vorlage für einen kurzen i-Laut. Ein langes ii hältst du länger; ei verändert den Klang und passt hier nicht. Ein Sprechtakt ist hier ein kurzer Zählschritt beim Sprechen, keine feste Sekundenzahl. Klopfe gleichmäßig mit: Ein kurzer Vokal dauert einen Schritt; ein langer Vokal wird über zwei Schritte gehalten. Der Klang bleibt dabei gleich. Der Fachbegriff für diese Sprecheinheit ist Mora."
+      }
+    },
+    {
+      "path": [
+        "cards",
+        1,
+        "detail",
+        "scenario",
+        "explanation"
+      ],
+      "existed": false,
+      "after": "Sprich ein klares, kurzes i. い steht in dieser Vorlage für einen kurzen i-Laut. Ein langes ii hältst du länger; ei verändert den Klang und passt hier nicht. Ein Sprechtakt ist hier ein kurzer Zählschritt beim Sprechen, keine feste Sekundenzahl. Klopfe gleichmäßig mit: Ein kurzer Vokal dauert einen Schritt; ein langer Vokal wird über zwei Schritte gehalten. Der Klang bleibt dabei gleich. Der Fachbegriff für diese Sprecheinheit ist Mora."
+    },
+    {
+      "path": [
+        "cards",
+        1,
+        "detail",
+        "scenario",
+        "wrong",
+        0
+      ],
+      "existed": true,
+      "before": "Den Laut wie ei sprechen.",
+      "after": "Du hältst das i lang wie ii (zwei Zählschritte)."
+    },
+    {
+      "path": [
+        "cards",
+        1,
+        "detail",
+        "scenario",
+        "wrong",
+        1
+      ],
+      "existed": true,
+      "before": "Immer ein langes ii sprechen.",
+      "after": "Du sprichst den Doppellaut ei statt i."
+    },
+    {
+      "path": [
+        "cards",
+        1,
+        "detail",
+        "scenario",
+        "correct"
+      ],
+      "existed": true,
+      "before": "Ein klares, kurzes i.",
+      "after": "Du sprichst ein kurzes i (ein Zählschritt)."
+    },
+    {
+      "path": [
+        "cards",
+        2,
+        "detail",
+        "explain"
+      ],
+      "existed": true,
+      "before": "Sprich ein kurzes u mit entspannten Lippen. Sie werden weniger stark nach vorn gerundet als beim deutschen u. Die Umschrift u ist eine Annäherung und keine perfekte Lautschrift.",
+      "after": "Die deutsche Aussprachehilfe ist eine Annäherung: Sprich ein kurzes u mit weniger stark gerundeten Lippen als beim deutschen u. Erzwinge kein deutsches ü."
+    },
+    {
+      "path": [
+        "cards",
+        2,
+        "detail",
+        "scenario",
+        "question"
+      ],
+      "existed": true,
+      "before": "Welche Mundhaltung ist eine hilfreiche Annäherung?",
+      "after": "Wie hältst du die Lippen beim japanischen う (u)?"
+    },
+    {
+      "path": [
+        "cards",
+        2,
+        "detail",
+        "scenario",
+        "feedback"
+      ],
+      "existed": false,
+      "after": {
+        "Du spitzt die Lippen besonders stark.": "Diese Auswahl passt nicht zur Vorlage. Die deutsche Aussprachehilfe ist eine Annäherung: Sprich ein kurzes u mit weniger stark gerundeten Lippen als beim deutschen u. Erzwinge kein deutsches ü.",
+        "Du sprichst ein deutsches ü statt u.": "Diese Auswahl passt nicht zur Vorlage. Die deutsche Aussprachehilfe ist eine Annäherung: Sprich ein kurzes u mit weniger stark gerundeten Lippen als beim deutschen u. Erzwinge kein deutsches ü."
+      }
+    },
+    {
+      "path": [
+        "cards",
+        2,
+        "detail",
+        "scenario",
+        "explanation"
+      ],
+      "existed": false,
+      "after": "Die deutsche Aussprachehilfe ist eine Annäherung: Sprich ein kurzes u mit weniger stark gerundeten Lippen als beim deutschen u. Erzwinge kein deutsches ü."
+    },
+    {
+      "path": [
+        "cards",
+        2,
+        "detail",
+        "scenario",
+        "wrong",
+        0
+      ],
+      "existed": true,
+      "before": "Die Lippen besonders stark spitzen.",
+      "after": "Du spitzt die Lippen besonders stark."
+    },
+    {
+      "path": [
+        "cards",
+        2,
+        "detail",
+        "scenario",
+        "wrong",
+        1
+      ],
+      "existed": true,
+      "before": "Ein deutsches ü erzwingen.",
+      "after": "Du sprichst ein deutsches ü statt u."
+    },
+    {
+      "path": [
+        "cards",
+        2,
+        "detail",
+        "scenario",
+        "correct"
+      ],
+      "existed": true,
+      "before": "Weniger stark gerundete Lippen als beim deutschen u.",
+      "after": "Du rundest die Lippen weniger stark als beim deutschen u."
+    },
+    {
+      "path": [
+        "cards",
+        3,
+        "detail",
+        "explain"
+      ],
+      "existed": true,
+      "before": "Sprich einen gleichbleibenden e-Laut, ungefähr wie in „Bett“. Lass ihn nicht zu einem ei gleiten. Klangvergleiche mit Deutsch sind nur eine Starthilfe.",
+      "after": "Sprich ein kurzes e, ohne am Ende zu i zu wechseln. Ein Doppellaut wie ei hat zwei verschiedene Vokalklänge; die Vorlage え bleibt beim e-Klang."
+    },
+    {
+      "path": [
+        "cards",
+        3,
+        "detail",
+        "scenario",
+        "question"
+      ],
+      "existed": true,
+      "before": "Welche Veränderung solltest du vermeiden?",
+      "after": "Wie sprichst du den Vokal え (e) in dieser Vorlage?"
+    },
+    {
+      "path": [
+        "cards",
+        3,
+        "detail",
+        "scenario",
+        "feedback"
+      ],
+      "existed": false,
+      "after": {
+        "Du wechselst von e zu i und sprichst ei.": "Diese Auswahl passt nicht zur Vorlage. Sprich ein kurzes e, ohne am Ende zu i zu wechseln. Ein Doppellaut wie ei hat zwei verschiedene Vokalklänge; die Vorlage え bleibt beim e-Klang.",
+        "Du hältst das e immer lang wie ee.": "Diese Auswahl passt nicht zur Vorlage. Sprich ein kurzes e, ohne am Ende zu i zu wechseln. Ein Doppellaut wie ei hat zwei verschiedene Vokalklänge; die Vorlage え bleibt beim e-Klang."
+      }
+    },
+    {
+      "path": [
+        "cards",
+        3,
+        "detail",
+        "scenario",
+        "explanation"
+      ],
+      "existed": false,
+      "after": "Sprich ein kurzes e, ohne am Ende zu i zu wechseln. Ein Doppellaut wie ei hat zwei verschiedene Vokalklänge; die Vorlage え bleibt beim e-Klang."
+    },
+    {
+      "path": [
+        "cards",
+        3,
+        "detail",
+        "scenario",
+        "wrong",
+        0
+      ],
+      "existed": true,
+      "before": "Den Vokal kurz sprechen.",
+      "after": "Du wechselst von e zu i und sprichst ei."
+    },
+    {
+      "path": [
+        "cards",
+        3,
+        "detail",
+        "scenario",
+        "wrong",
+        1
+      ],
+      "existed": true,
+      "before": "Den Klang gleichmäßig halten.",
+      "after": "Du hältst das e immer lang wie ee."
+    },
+    {
+      "path": [
+        "cards",
+        3,
+        "detail",
+        "scenario",
+        "correct"
+      ],
+      "existed": true,
+      "before": "Aus e einen Doppellaut ei machen.",
+      "after": "Du sprichst ein kurzes, gleichbleibendes e."
+    },
+    {
+      "path": [
+        "cards",
+        4,
+        "detail",
+        "explain"
+      ],
+      "existed": true,
+      "before": "Sprich o mit gleichbleibender Mundstellung. Ein einzelnes お dauert einen Sprechtakt. Später kommen lange o-Laute hinzu; die Länge kann Wörter unterscheiden.",
+      "after": "Sprich ein kurzes o mit gleichbleibendem Klang. Das einzelne お wird hier hörbar ausgesprochen und dauert einen Zählschritt. Ein langes o wird länger gehalten; diese Unterscheidung lernst du später. Ein Sprechtakt ist hier ein kurzer Zählschritt beim Sprechen, keine feste Sekundenzahl. Klopfe gleichmäßig mit: Ein kurzer Vokal dauert einen Schritt; ein langer Vokal wird über zwei Schritte gehalten. Der Klang bleibt dabei gleich. Der Fachbegriff für diese Sprecheinheit ist Mora."
+    },
+    {
+      "path": [
+        "cards",
+        4,
+        "detail",
+        "scenario",
+        "question"
+      ],
+      "existed": true,
+      "before": "Wie lange ist ein einzelnes お in dieser Übung?",
+      "after": "Ein einzelnes お (o): Wie lange hältst du den Laut in dieser Vorlage?"
+    },
+    {
+      "path": [
+        "cards",
+        4,
+        "detail",
+        "scenario",
+        "feedback"
+      ],
+      "existed": false,
+      "after": {
+        "Du hältst o lang über zwei Zählschritte.": "Diese Auswahl passt nicht zur Vorlage. Sprich ein kurzes o mit gleichbleibendem Klang. Das einzelne お wird hier hörbar ausgesprochen und dauert einen Zählschritt. Ein langes o wird länger gehalten; diese Unterscheidung lernst du später. Ein Sprechtakt ist hier ein kurzer Zählschritt beim Sprechen, keine feste Sekundenzahl. Klopfe gleichmäßig mit: Ein kurzer Vokal dauert einen Schritt; ein langer Vokal wird über zwei Schritte gehalten. Der Klang bleibt dabei gleich. Der Fachbegriff für diese Sprecheinheit ist Mora.",
+        "Du sprichst das Zeichen gar nicht aus; es bleibt stumm.": "Diese Auswahl passt nicht zur Vorlage. Sprich ein kurzes o mit gleichbleibendem Klang. Das einzelne お wird hier hörbar ausgesprochen und dauert einen Zählschritt. Ein langes o wird länger gehalten; diese Unterscheidung lernst du später. Ein Sprechtakt ist hier ein kurzer Zählschritt beim Sprechen, keine feste Sekundenzahl. Klopfe gleichmäßig mit: Ein kurzer Vokal dauert einen Schritt; ein langer Vokal wird über zwei Schritte gehalten. Der Klang bleibt dabei gleich. Der Fachbegriff für diese Sprecheinheit ist Mora."
+      }
+    },
+    {
+      "path": [
+        "cards",
+        4,
+        "detail",
+        "scenario",
+        "explanation"
+      ],
+      "existed": false,
+      "after": "Sprich ein kurzes o mit gleichbleibendem Klang. Das einzelne お wird hier hörbar ausgesprochen und dauert einen Zählschritt. Ein langes o wird länger gehalten; diese Unterscheidung lernst du später. Ein Sprechtakt ist hier ein kurzer Zählschritt beim Sprechen, keine feste Sekundenzahl. Klopfe gleichmäßig mit: Ein kurzer Vokal dauert einen Schritt; ein langer Vokal wird über zwei Schritte gehalten. Der Klang bleibt dabei gleich. Der Fachbegriff für diese Sprecheinheit ist Mora."
+    },
+    {
+      "path": [
+        "cards",
+        4,
+        "detail",
+        "scenario",
+        "wrong",
+        0
+      ],
+      "existed": true,
+      "before": "Immer zwei Sprechtakte.",
+      "after": "Du hältst o lang über zwei Zählschritte."
+    },
+    {
+      "path": [
+        "cards",
+        4,
+        "detail",
+        "scenario",
+        "wrong",
+        1
+      ],
+      "existed": true,
+      "before": "Es ist eine stumme Schreibweise.",
+      "after": "Du sprichst das Zeichen gar nicht aus; es bleibt stumm."
+    },
+    {
+      "path": [
+        "cards",
+        4,
+        "detail",
+        "scenario",
+        "correct"
+      ],
+      "existed": true,
+      "before": "Ein Sprechtakt.",
+      "after": "Du sprichst ein kurzes o (ein Zählschritt)."
+    }
+  ],
+  "v11:long-vowels": [
+    {
+      "path": [
+        "study_guide",
+        "points",
+        0
+      ],
+      "existed": true,
+      "before": "Neue Zeichen in diesen Wörtern: ば = ba, じ = ji, さ = sa, ん = n, き = ki. Die vollständigen Reihen folgen später; nutze hier die Lesung als Stütze.",
+      "after": "Vergleiche kurze und lange Vokale: おばさん (obasan, Tante) und おばあさん (obaasan, Großmutter), おじさん (ojisan, Onkel) und おじいさん (ojiisan, Großvater). Ein Sprechtakt ist hier ein kurzer Zählschritt beim Sprechen, keine feste Sekundenzahl. Klopfe gleichmäßig mit: Ein kurzer Vokal dauert einen Schritt; ein langer Vokal wird über zwei Schritte gehalten. Der Klang bleibt dabei gleich. Der Fachbegriff für diese Sprecheinheit ist Mora."
+    },
+    {
+      "path": [
+        "cards",
+        0,
+        "detail",
+        "scenario",
+        "question"
+      ],
+      "existed": true,
+      "before": "Du meinst die Tante. Welche Form hat dafür die passende Vokallänge?",
+      "after": "Du möchtest „Tante“ sagen. Welche japanische Form hat dafür die passende Vokallänge?"
+    },
+    {
+      "path": [
+        "cards",
+        0,
+        "detail",
+        "scenario",
+        "feedback"
+      ],
+      "existed": false,
+      "after": {
+        "おばあさん": "Gemeint ist hier: Tante / Frau mittleren Alters. Alle drei Vokale sind kurz. Hier ist kein langes aa in der Mitte. Ein langer Vokal erhält etwa zwei Sprechtakte. Die Schreibung aa/ii macht die Länge sichtbar; sie ist keine besonders starke Betonung.",
+        "おじいさん": "Gemeint ist hier: Tante / Frau mittleren Alters. Alle drei Vokale sind kurz. Hier ist kein langes aa in der Mitte. Ein langer Vokal erhält etwa zwei Sprechtakte. Die Schreibung aa/ii macht die Länge sichtbar; sie ist keine besonders starke Betonung."
+      }
+    },
+    {
+      "path": [
+        "cards",
+        0,
+        "detail",
+        "scenario",
+        "explanation"
+      ],
+      "existed": false,
+      "after": "Alle drei Vokale sind kurz. Hier ist kein langes aa in der Mitte. Ein langer Vokal erhält etwa zwei Sprechtakte. Die Schreibung aa/ii macht die Länge sichtbar; sie ist keine besonders starke Betonung."
+    },
+    {
+      "path": [
+        "cards",
+        1,
+        "detail",
+        "scenario",
+        "question"
+      ],
+      "existed": true,
+      "before": "In welcher Situation passt „おばあさん“ (obaasan)?",
+      "after": "Welche Person meinst du mit おばあさん (obaasan)?"
+    },
+    {
+      "path": [
+        "cards",
+        1,
+        "detail",
+        "scenario",
+        "feedback"
+      ],
+      "existed": false,
+      "after": {
+        "Eine Tante; das a in ba bleibt kurz.": "Gemeint ist hier: Großmutter / ältere Frau. Das zusätzliche あ verlängert den a-Laut. o-ba-a-sa-n hat fünf Sprechtakte. Ein langer Vokal erhält etwa zwei Sprechtakte. Die Schreibung aa/ii macht die Länge sichtbar; sie ist keine besonders starke Betonung.",
+        "Einen Onkel; das i in ji bleibt kurz.": "Gemeint ist hier: Großmutter / ältere Frau. Das zusätzliche あ verlängert den a-Laut. o-ba-a-sa-n hat fünf Sprechtakte. Ein langer Vokal erhält etwa zwei Sprechtakte. Die Schreibung aa/ii macht die Länge sichtbar; sie ist keine besonders starke Betonung.",
+        "Einen Großvater; das i in jii wird länger gehalten.": "Gemeint ist hier: Großmutter / ältere Frau. Das zusätzliche あ verlängert den a-Laut. o-ba-a-sa-n hat fünf Sprechtakte. Ein langer Vokal erhält etwa zwei Sprechtakte. Die Schreibung aa/ii macht die Länge sichtbar; sie ist keine besonders starke Betonung."
+      }
+    },
+    {
+      "path": [
+        "cards",
+        1,
+        "detail",
+        "scenario",
+        "explanation"
+      ],
+      "existed": false,
+      "after": "Das zusätzliche あ verlängert den a-Laut. o-ba-a-sa-n hat fünf Sprechtakte. Ein langer Vokal erhält etwa zwei Sprechtakte. Die Schreibung aa/ii macht die Länge sichtbar; sie ist keine besonders starke Betonung."
+    },
+    {
+      "path": [
+        "cards",
+        1,
+        "detail",
+        "scenario",
+        "wrong",
+        0
+      ],
+      "existed": true,
+      "before": "Du benennst eine Tante, nicht eine Großmutter.",
+      "after": "Eine Tante; das a in ba bleibt kurz."
+    },
+    {
+      "path": [
+        "cards",
+        1,
+        "detail",
+        "scenario",
+        "wrong",
+        1
+      ],
+      "existed": true,
+      "before": "Du benennst einen Onkel, nicht einen Großvater.",
+      "after": "Einen Onkel; das i in ji bleibt kurz."
+    },
+    {
+      "path": [
+        "cards",
+        1,
+        "detail",
+        "scenario",
+        "wrong",
+        2
+      ],
+      "existed": true,
+      "before": "Du sprichst von einem Großvater mit langem ii.",
+      "after": "Einen Großvater; das i in jii wird länger gehalten."
+    },
+    {
+      "path": [
+        "cards",
+        1,
+        "detail",
+        "scenario",
+        "correct"
+      ],
+      "existed": true,
+      "before": "Du sprichst von einer Großmutter und hältst das aa länger.",
+      "after": "Eine Großmutter; das a in baa wird länger gehalten."
+    },
+    {
+      "path": [
+        "cards",
+        2,
+        "detail",
+        "scenario",
+        "question"
+      ],
+      "existed": true,
+      "before": "In welcher Situation passt „おじさん“ (ojisan)?",
+      "after": "Welche Person meinst du mit おじさん (ojisan)?"
+    },
+    {
+      "path": [
+        "cards",
+        2,
+        "detail",
+        "scenario",
+        "feedback"
+      ],
+      "existed": false,
+      "after": {
+        "Eine Tante; das a in ba bleibt kurz.": "Gemeint ist hier: Onkel / Mann mittleren Alters. Das i in ji bleibt kurz. Nicht mit ojiisan verwechseln. Ein langer Vokal erhält etwa zwei Sprechtakte. Die Schreibung aa/ii macht die Länge sichtbar; sie ist keine besonders starke Betonung.",
+        "Eine Großmutter; das a in baa wird länger gehalten.": "Gemeint ist hier: Onkel / Mann mittleren Alters. Das i in ji bleibt kurz. Nicht mit ojiisan verwechseln. Ein langer Vokal erhält etwa zwei Sprechtakte. Die Schreibung aa/ii macht die Länge sichtbar; sie ist keine besonders starke Betonung.",
+        "Einen Großvater; das i in jii wird länger gehalten.": "Gemeint ist hier: Onkel / Mann mittleren Alters. Das i in ji bleibt kurz. Nicht mit ojiisan verwechseln. Ein langer Vokal erhält etwa zwei Sprechtakte. Die Schreibung aa/ii macht die Länge sichtbar; sie ist keine besonders starke Betonung."
+      }
+    },
+    {
+      "path": [
+        "cards",
+        2,
+        "detail",
+        "scenario",
+        "explanation"
+      ],
+      "existed": false,
+      "after": "Das i in ji bleibt kurz. Nicht mit ojiisan verwechseln. Ein langer Vokal erhält etwa zwei Sprechtakte. Die Schreibung aa/ii macht die Länge sichtbar; sie ist keine besonders starke Betonung."
+    },
+    {
+      "path": [
+        "cards",
+        2,
+        "detail",
+        "scenario",
+        "wrong",
+        0
+      ],
+      "existed": true,
+      "before": "Du benennst eine Tante, nicht eine Großmutter.",
+      "after": "Eine Tante; das a in ba bleibt kurz."
+    },
+    {
+      "path": [
+        "cards",
+        2,
+        "detail",
+        "scenario",
+        "wrong",
+        1
+      ],
+      "existed": true,
+      "before": "Du sprichst von einer Großmutter und hältst das aa länger.",
+      "after": "Eine Großmutter; das a in baa wird länger gehalten."
+    },
+    {
+      "path": [
+        "cards",
+        2,
+        "detail",
+        "scenario",
+        "wrong",
+        2
+      ],
+      "existed": true,
+      "before": "Du sprichst von einem Großvater mit langem ii.",
+      "after": "Einen Großvater; das i in jii wird länger gehalten."
+    },
+    {
+      "path": [
+        "cards",
+        2,
+        "detail",
+        "scenario",
+        "correct"
+      ],
+      "existed": true,
+      "before": "Du benennst einen Onkel, nicht einen Großvater.",
+      "after": "Einen Onkel; das i in ji bleibt kurz."
+    },
+    {
+      "path": [
+        "cards",
+        3,
+        "detail",
+        "scenario",
+        "question"
+      ],
+      "existed": true,
+      "before": "In welcher Situation passt „おじいさん“ (ojiisan)?",
+      "after": "Welche Person meinst du mit おじいさん (ojiisan)?"
+    },
+    {
+      "path": [
+        "cards",
+        3,
+        "detail",
+        "scenario",
+        "feedback"
+      ],
+      "existed": false,
+      "after": {
+        "Eine Tante; das a in ba bleibt kurz.": "Gemeint ist hier: Großvater / älterer Mann. Das zweite い verlängert ji zu jii. Die Bedeutung unterscheidet sich von おじさん. Ein langer Vokal erhält etwa zwei Sprechtakte. Die Schreibung aa/ii macht die Länge sichtbar; sie ist keine besonders starke Betonung.",
+        "Eine Großmutter; das a in baa wird länger gehalten.": "Gemeint ist hier: Großvater / älterer Mann. Das zweite い verlängert ji zu jii. Die Bedeutung unterscheidet sich von おじさん. Ein langer Vokal erhält etwa zwei Sprechtakte. Die Schreibung aa/ii macht die Länge sichtbar; sie ist keine besonders starke Betonung.",
+        "Einen Onkel; das i in ji bleibt kurz.": "Gemeint ist hier: Großvater / älterer Mann. Das zweite い verlängert ji zu jii. Die Bedeutung unterscheidet sich von おじさん. Ein langer Vokal erhält etwa zwei Sprechtakte. Die Schreibung aa/ii macht die Länge sichtbar; sie ist keine besonders starke Betonung."
+      }
+    },
+    {
+      "path": [
+        "cards",
+        3,
+        "detail",
+        "scenario",
+        "explanation"
+      ],
+      "existed": false,
+      "after": "Das zweite い verlängert ji zu jii. Die Bedeutung unterscheidet sich von おじさん. Ein langer Vokal erhält etwa zwei Sprechtakte. Die Schreibung aa/ii macht die Länge sichtbar; sie ist keine besonders starke Betonung."
+    },
+    {
+      "path": [
+        "cards",
+        3,
+        "detail",
+        "scenario",
+        "wrong",
+        0
+      ],
+      "existed": true,
+      "before": "Du benennst eine Tante, nicht eine Großmutter.",
+      "after": "Eine Tante; das a in ba bleibt kurz."
+    },
+    {
+      "path": [
+        "cards",
+        3,
+        "detail",
+        "scenario",
+        "wrong",
+        1
+      ],
+      "existed": true,
+      "before": "Du sprichst von einer Großmutter und hältst das aa länger.",
+      "after": "Eine Großmutter; das a in baa wird länger gehalten."
+    },
+    {
+      "path": [
+        "cards",
+        3,
+        "detail",
+        "scenario",
+        "wrong",
+        2
+      ],
+      "existed": true,
+      "before": "Du benennst einen Onkel, nicht einen Großvater.",
+      "after": "Einen Onkel; das i in ji bleibt kurz."
+    },
+    {
+      "path": [
+        "cards",
+        3,
+        "detail",
+        "scenario",
+        "correct"
+      ],
+      "existed": true,
+      "before": "Du sprichst von einem Großvater mit langem ii.",
+      "after": "Einen Großvater; das i in jii wird länger gehalten."
+    },
+    {
+      "path": [
+        "cards",
+        4,
+        "detail",
+        "scenario",
+        "question"
+      ],
+      "existed": true,
+      "before": "In welcher Situation passt „おおきい“ (ōkii)?",
+      "after": "Was sagst du mit おおきい (ōkii) über einen Gegenstand?"
+    },
+    {
+      "path": [
+        "cards",
+        4,
+        "detail",
+        "scenario",
+        "feedback"
+      ],
+      "existed": false,
+      "after": {
+        "Er ist klein.": "Gemeint ist hier: groß. Sowohl der o-Laut als auch das abschließende i sind lang. Schreibhilfe: ookii. Ein langer Vokal erhält etwa zwei Sprechtakte. Die Schreibung aa/ii macht die Länge sichtbar; sie ist keine besonders starke Betonung.",
+        "Du nennst damit einen Onkel.": "Gemeint ist hier: groß. Sowohl der o-Laut als auch das abschließende i sind lang. Schreibhilfe: ookii. Ein langer Vokal erhält etwa zwei Sprechtakte. Die Schreibung aa/ii macht die Länge sichtbar; sie ist keine besonders starke Betonung.",
+        "Du nennst damit eine Tante.": "Gemeint ist hier: groß. Sowohl der o-Laut als auch das abschließende i sind lang. Schreibhilfe: ookii. Ein langer Vokal erhält etwa zwei Sprechtakte. Die Schreibung aa/ii macht die Länge sichtbar; sie ist keine besonders starke Betonung."
+      }
+    },
+    {
+      "path": [
+        "cards",
+        4,
+        "detail",
+        "scenario",
+        "explanation"
+      ],
+      "existed": false,
+      "after": "Sowohl der o-Laut als auch das abschließende i sind lang. Schreibhilfe: ookii. Ein langer Vokal erhält etwa zwei Sprechtakte. Die Schreibung aa/ii macht die Länge sichtbar; sie ist keine besonders starke Betonung."
+    },
+    {
+      "path": [
+        "cards",
+        4,
+        "detail",
+        "scenario",
+        "wrong",
+        0
+      ],
+      "existed": true,
+      "before": "Du benennst eine Tante, nicht eine Großmutter.",
+      "after": "Er ist klein."
+    },
+    {
+      "path": [
+        "cards",
+        4,
+        "detail",
+        "scenario",
+        "wrong",
+        1
+      ],
+      "existed": true,
+      "before": "Du sprichst von einer Großmutter und hältst das aa länger.",
+      "after": "Du nennst damit einen Onkel."
+    },
+    {
+      "path": [
+        "cards",
+        4,
+        "detail",
+        "scenario",
+        "wrong",
+        2
+      ],
+      "existed": true,
+      "before": "Du benennst einen Onkel, nicht einen Großvater.",
+      "after": "Du nennst damit eine Tante."
+    },
+    {
+      "path": [
+        "cards",
+        4,
+        "detail",
+        "scenario",
+        "correct"
+      ],
+      "existed": true,
+      "before": "Du beschreibst die Größe und übst zwei lange Vokale.",
+      "after": "Er ist groß; oo und ii werden länger gehalten."
+    }
+  ]
+}

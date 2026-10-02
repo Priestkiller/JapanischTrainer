@@ -26,11 +26,17 @@ Normalerweise erfordert das einen passenden erkannten Text; für kurze Kana gilt
 die unten beschriebene Selbstprüfung. Danach folgen **3/6 Hörverstehen**, **4/6 Bausteine**, **5/6 Schreiben** und
 **6/6 Anwenden**. Die vollständige Vorlage und das Mikrofon erscheinen nur im
 ersten Schritt. Spätere Aufgaben zeigen nur die nötige Frage; Erklärungen mit
-Lösungen werden dort erst nach einer richtigen Antwort angeboten.
+Lösungen bleiben in bewusst aufrufbaren Hilfen verborgen; Hilfe allein gibt nichts frei.
 
 Für diesen Ablauf ist das Sprachpaket erforderlich. Fehlende Wiedergabe,
-fehlgeschlagene Aufnahmen, falsche Antworten und Überspringen geben keinen
-Folgeschritt frei. Kursübersicht und Nachschlagewerk bleiben ohne Modelle nutzbar.
+fehlgeschlagene Aufnahmen und bloßes Überspringen geben keinen Folgeschritt frei.
+Nach einer echten falschen Antwort kannst du erneut antworten oder die Aufgabe
+mit „Weiter · am Ende wiederholen“ vormerken. Am Ende folgt dieselbe Aufgabe
+in einer Fehlerwiederholung. Erst nach deren Lösung und der Abschlussrunde
+wird die Lektion abgeschlossen. Nach drei erfolglosen Sprechversuchen bleibt
+„Antwort stattdessen auswählen“ fest unten erreichbar; die Auswahl erfordert
+eine passende Antwort und ausdrückliche Bestätigung. Freiwilliges Sprechen
+wird dabei separat für später gespeichert. Kursübersicht und Nachschlagewerk bleiben ohne Modelle nutzbar.
 Erfolge und Voraussetzungen werden je Karte gespeichert und beim Fortsetzen
 geprüft. Bei älteren Lernständen beginnt nur die noch angefangene Karte mit dem
 neuen ersten Schritt; abgeschlossene Lektionen, XP und Abschlussrunden bleiben

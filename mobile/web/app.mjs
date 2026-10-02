@@ -16,7 +16,7 @@ const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const bridge=window.AndroidTrainer;
 const state={page:'home',session:null,query:'',stage:'Alle',libraryQuery:'',review:null,revealed:false,teacherDetail:null,
-  caps:{native:!!bridge,models:false,modelBytes:0,version:'11.0.14-android.1-test'},audio:null,speech:null,speechMessage:'',recording:'idle',calendarMonth:dayKey().slice(0,7),completeXP:0,
+  caps:{native:!!bridge,models:false,modelBytes:0,version:'11.0.15-android.1-test'},audio:null,speech:null,speechMessage:'',recording:'idle',calendarMonth:dayKey().slice(0,7),completeXP:0,
   modelStatus:'',modelPercent:0,modelBusy:false,updateStatus:'',updateAvailable:false,updateBusy:false,updateTest:false,licenseText:'',completeLesson:null};
 let speechLab,practiceUI,dailyUI,course,store,catalog,talkUI,exerciseUI,blinkIndex,expressions,animationStop=()=>{},mascotStop=()=>{},rewardStop=()=>{},toastTimer,requestCounter=0,saveError='';
 const native=(name,...args)=> { if(bridge&&typeof bridge[name]==='function')return bridge[name](...args);return undefined; };
@@ -83,8 +83,8 @@ function lesson() {
   const phase=PHASES.indexOf(s.phase);
   return `<div class="lesson-layout"><div class="lesson-header"><button class="back-button" data-nav="course" aria-label="Zurück zum Lernweg">‹</button><div><h1>${esc(s.lesson.title)}</h1><span class="sub">${esc(s.lesson.level)} · Karte ${s.index+1} von ${s.lesson.cards.length}</span></div></div>
   ${s.mode==='learn'&&s.phase==='speak'&&s.lesson.goal?`<p class="lesson-goal"><strong>Dein Lernziel:</strong> ${esc(s.lesson.goal)}</p>`:''}
-  ${s.mode==='recap'?`<div class="info">Noch ${s.recap.length} Zuordnungen in der Abschlussrunde. Schwierige Karten kommen noch einmal dran.</div>`:`<div class="phase-track" aria-label="Schritt ${phase+1} von 6">${PHASES.map((p,i)=>`<span class="${i===phase?'current':i<phase?'past':''}"></span>`).join('')}</div>`}
-  <section class="card exercise-card" data-step="${s.mode==='recap'?'recap':s.phase}"><div class="task-header"><div><p class="eyebrow" id="step-count">${s.mode==='recap'?`Abschlussrunde · ${s.recap_passed+1}/${s.recap_total}`:`Schritt ${phase+1}/6`}</p><h2>${s.mode==='recap'?'Zum Abschluss':LABELS[s.phase]}</h2></div></div><div id="task">${task()}</div></section>${exerciseUI?.has(s.lesson.key)?'<button id="exercise-round" class="ghost wide">Abwechslungsreich üben</button>':''}</div>`;
+  ${s.mode==='retry'?`<div class="info">Noch ${s.retryTasks.length} Aufgaben aus dieser Runde. Du wiederholst dieselbe Aufgabe; falsche Antworten kommen erneut ans Ende.</div>`:s.mode==='recap'?`<div class="info">Noch ${s.recap.length} Zuordnungen in der Abschlussrunde. Schwierige Karten kommen noch einmal dran.</div>`:`<div class="phase-track" aria-label="Schritt ${phase+1} von 6">${PHASES.map((p,i)=>`<span class="${i===phase?'current':i<phase?'past':''}"></span>`).join('')}</div>`}
+  <section class="card exercise-card" data-step="${s.mode==='recap'?'recap':s.phase}"><div class="task-header"><div><p class="eyebrow" id="step-count">${s.mode==='retry'?`Fehlerwiederholung · ${s.retry_passed+1}/${s.retry_total}`:s.mode==='recap'?`Abschlussrunde · ${s.recap_passed+1}/${s.recap_total}`:`Schritt ${phase+1}/6`}</p><h2>${s.mode==='recap'?'Zum Abschluss':LABELS[s.phase]}</h2></div></div><div id="task">${task()}</div></section>${exerciseUI?.has(s.lesson.key)?'<button id="exercise-round" class="ghost wide">Abwechslungsreich üben</button>':''}</div>`;
 }
 function task() {
   const s=state.session;let html='';
@@ -103,11 +103,11 @@ function task() {
   if(s.mode==='recap'||s.phase!=='speak')html+=`<button id="show-hint" class="ghost wide">${s.hintOpen?'Hilfe schließen':'Ich brauche einen Hinweis'}</button>${s.hintOpen?`<aside class="exercise-hint"><p class="sub">Nachgeschaut · Hilfe gibt den nächsten Schritt nicht frei.</p><p class="jp" lang="ja">${esc(s.card.jp)}</p><p class="romaji">${esc(s.card.romaji)}</p><p>${esc(s.card.de)}</p>${lessonGuide(s.lesson)}${explanation(s.card,s.lesson)}</aside>`:''}`;
   html+=`<div id="task-feedback" aria-live="polite">${feedback(s)}</div>`;
   if(s.mode==='learn'&&s.phase==='speak'&&s.shortSpeechReady&&!s.success)html+='<div class="info"><strong>Einzellaut selbst prüfen</strong><p>Bei kurzen Kana kann die Erkennung abweichen. Vergleiche mit der Vorlage: Hast du den Laut nachgesprochen?</p><button id="confirm-short-speech" class="ghost wide">Ja, selbst geprüft</button><p class="sub" style="margin-top:8px">Als Selbstprüfung gespeichert, nicht als automatisch erkannte Übereinstimmung.</p></div>';
-  html+=`<div class="task-footer"><button id="advance" class="primary" ${s.success?'':'disabled'}>${s.mode==='recap'?(s.recap.length===1?'Lektion abschließen':'Weiter →'):PHASES.indexOf(s.phase)<5?`Weiter zu ${PHASES.indexOf(s.phase)+2}/6 →`:s.index<s.lesson.cards.length-1?'Nächste Karte →':'Zur Abschlussrunde →'}</button></div>`;
-  if(s.mode!=='recap'&&(s.phase==='speak'||s.success))html+=`<details><summary>Erklärung und Beispiel ansehen ＋</summary>${explanation(s.card,s.lesson)}</details>`;
+  html+=`<div class="task-footer"><button id="advance" class="primary" ${s.success?'':'disabled'}>${s.mode==='retry'?(s.retryTasks.length===1?'Zur Abschlussrunde →':'Nächste Wiederholung →'):s.mode==='recap'?(s.recap.length===1?'Lektion abschließen':'Weiter →'):PHASES.indexOf(s.phase)<5?`Weiter zu ${PHASES.indexOf(s.phase)+2}/6 →`:s.index<s.lesson.cards.length-1?'Nächste Karte →':s.retryTasks.length?'Fehler wiederholen →':'Zur Abschlussrunde →'}</button>${s.canDefer?'<button id="defer-task" class="primary">Weiter · am Ende wiederholen →</button>':''}</div>`;
+  if(s.mode!=='recap')html+=`<details><summary>Erklärung und Beispiel ansehen ＋</summary>${explanation(s.card,s.lesson)}</details>`;
   return html;
 }
-function options(s) {return `<div class="options">${s.answers().options.map((o,i)=>`<button class="option ${s.chosen===o?(s.success?'correct':'wrong'):''}" data-choice="${i}" ${s.success?'disabled':''}>${esc(o)}</button>`).join('')}</div>`;}
+function options(s) {const choices=s.answers().options;return `<p class="answer-count">Wähle eine von ${choices.length} Antworten.</p><div class="options">${choices.map((o,i)=>`<button class="option ${s.chosen===o?(s.success?'correct':'wrong'):''}" data-choice="${i}" ${s.success?'disabled':''}>${esc(o)}</button>`).join('')}</div>`;}
 function feedback(s) {return s.feedback?`<div class="feedback ${s.success?'correct':'wrong'}">${s.success?'✓ ':''}${esc(s.feedback)}</div>`:'';}
 function decorateLesson(){focusLesson({page:state.page,session:state.session,teacher:course.teacher(),store,esc});}
 function refreshTask() {$('#app').innerHTML=lesson();decorateLesson();bindTask();bindNavigation();refreshAudio();}
@@ -132,12 +132,14 @@ function bindTask() {
   if($('#confirm-short-speech'))$('#confirm-short-speech').onclick=()=>{if(state.recording==='idle'&&s.confirmShortSpeech())refreshTask();};
   if($('#hear-task'))$('#hear-task').onclick=()=>play(s.listenCard.jp,true);
   if($('#hear-example'))$('#hear-example').onclick=()=>play(course.example(s.card).jp);
-  $('#advance').onclick=()=>{
-    const beforeXP=store.data.xp,result=s.advance();if(result==='blocked')return;
+  const continueLesson=defer=>{
+    const beforeXP=store.data.xp,result=defer?s.defer():s.advance();if(result==='blocked')return;
     stopMedia();state.speechMessage='';
     if(result==='complete'){state.completeLesson=s.lesson;state.completeXP=store.data.xp-beforeXP;navigate('complete');}
     else {render();window.scrollTo({top:0,behavior:'instant'});}
   };
+  $('#advance').onclick=()=>continueLesson(false);
+  if($('#defer-task'))$('#defer-task').onclick=()=>continueLesson(true);
 }
 function complete() {const l=state.completeLesson;return `<div class="completion-scene"><section class="card completion"><p class="eyebrow">Lektion abgeschlossen</p><h1>Gut gemacht!</h1><p>Du hast „${esc(l.title)}“ abgeschlossen.</p><p class="completion-xp">${state.completeXP?`+${state.completeXP} XP`:'Wiederholung geschafft'}</p><p class="sub">${state.completeXP?'Für deinen ersten Abschluss.':'Die XP für diese Lektion hast du bereits erhalten.'}</p>${rewardMarkup(store.data.show_kiko)}<p>Kleine Schritte, große Fortschritte!</p></section><div class="completion-actions"><button class="primary wide" id="complete-next">Weiterlernen →</button><button class="ghost wide" data-nav="course">Zum Lernpfad</button></div></div>`;}
 function teachers() {

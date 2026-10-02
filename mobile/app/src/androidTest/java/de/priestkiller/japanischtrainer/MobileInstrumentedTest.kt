@@ -529,6 +529,7 @@ class MobileInstrumentedTest {
                 assertEquals((attempt==3).toString(),eval(scenario,"!!document.querySelector('#speech-alternative')"))
                 assertEquals("true",eval(scenario,"document.querySelector('#advance').disabled"))
             }
+            waitFor(scenario,"(()=>{const b=document.querySelector('#speech-alternative'),r=b.getBoundingClientRect(),h=document.elementFromPoint(r.x+r.width/2,r.y+r.height/2);return r.width>0&&r.height>=44&&r.top>=0&&r.bottom<=innerHeight&&(h===b||b.contains(h))})()")
             screenshot(scenario,"android-speech-three-attempts")
             eval(scenario,"document.querySelector('#speech-alternative').click();document.querySelector('#speech-prepare').click()")
             eval(scenario,"document.querySelector('[data-support-choice=\"0:0:1\"]').click();document.querySelector('#speech-confirm').click()")
@@ -545,6 +546,46 @@ class MobileInstrumentedTest {
             eval(scenario,"document.querySelector('#advance').click()")
             assertEquals("true",eval(scenario,"document.querySelector('.focus-session').dataset.family==='meaning' && !document.querySelector('#teacher-canvas') && !document.querySelector('.focus-kiko')"))
             screenshot(scenario,"android-meaning-without-figures")
+        }
+    }
+    @Test fun wrongTaskRepeatsAtLessonEndAndItsFourChoicesRemainReachableAfterRestart() {
+        val key="v11:long-vowels"
+        val seed=org.json.JSONObject().put("completed",JSONArray()).put("xp",45).put("teacher_id","ren").put("course_revision",11)
+            .put("legacy_unlocked",JSONArray().put(key)).put("last_lesson",org.json.JSONObject().put("key",key).put("card",4))
+            .put("lesson_sessions",org.json.JSONObject().put(key,org.json.JSONObject().put("flow_revision",2).put("index",4).put("phase","apply").put("mode","learn")
+                .put("passed",JSONArray().put("speak").put("meaning").put("listen").put("build").put("write"))))
+        writeProfile(seed.toString().toByteArray())
+        ActivityScenario.launch(MainActivity::class.java).use { scenario ->
+            waitFor(scenario,"document.documentElement.dataset.ready==='true'")
+            eval(scenario,"document.querySelector('#hero-resume').click()")
+            waitFor(scenario,"document.querySelectorAll('[data-choice]').length===4")
+            waitFor(scenario,"[...document.querySelectorAll('[data-choice]')].some(b=>{const r=b.getBoundingClientRect();return r.width>0&&r.height>0&&document.elementFromPoint(r.x+r.width/2,r.y+r.height/2)===b})")
+            eval(scenario,"window.visibleChoices=new Set()")
+            for (page in 1..10) {
+                eval(scenario,"document.querySelectorAll('[data-choice]').forEach(b=>{const r=b.getBoundingClientRect(),h=document.elementFromPoint(r.x+r.width/2,r.y+r.height/2);if(r.width>0&&r.height>0&&(h===b||b.contains(h)))visibleChoices.add(b.dataset.choice)})")
+                if(eval(scenario,"document.querySelector('.focus-page-nav').hidden || document.querySelector('.focus-page-nav button:last-child').disabled")=="true")break
+                eval(scenario,"document.querySelector('.focus-page-nav button:last-child').click()")
+            }
+            assertEquals("Every complete choice can actually be touched","4",eval(scenario,"visibleChoices.size"))
+            val raw=org.json.JSONObject(InstrumentationRegistry.getInstrumentation().targetContext.assets.open("data/course.json").bufferedReader().use {it.readText()})
+            var answer=""
+            for(u in 0 until raw.getJSONArray("units").length()) {
+                val lessons=raw.getJSONArray("units").getJSONObject(u).getJSONArray("lessons")
+                for(l in 0 until lessons.length())if(lessons.getJSONObject(l).optString("id")==key)answer=lessons.getJSONObject(l).getJSONArray("cards").getJSONObject(4).getJSONObject("detail").getJSONObject("scenario").getString("correct")
+            }
+            assertTrue(answer.isNotEmpty())
+            eval(scenario,"[...document.querySelectorAll('[data-choice]')].find(b=>b.textContent!=="+org.json.JSONObject.quote(answer)+").click()")
+            waitFor(scenario,"!!document.querySelector('#defer-task')")
+            assertEquals("true",eval(scenario,"document.querySelectorAll('[data-choice]').length===4 && document.querySelector('.answer-count').textContent==='Wähle eine von 4 Antworten.'"))
+            waitFor(scenario,"(()=>{const b=document.querySelector('#defer-task'),r=b.getBoundingClientRect();return document.elementFromPoint(r.x+r.width/2,r.y+r.height/2)===b})()")
+            eval(scenario,"document.querySelector('#defer-task').click()")
+            assertEquals("true",eval(scenario,"JSON.parse(AndroidTrainer.getProfile()).lesson_sessions['v11:long-vowels'].mode==='retry' && JSON.parse(AndroidTrainer.getProfile()).xp===45 && JSON.parse(AndroidTrainer.getProfile()).completed.length===0"))
+            screenshot(scenario,"android-exact-error-repeated")
+            scenario.recreate();waitFor(scenario,"document.documentElement.dataset.ready==='true'")
+            eval(scenario,"document.querySelector('#hero-resume').click()")
+            assertEquals("true",eval(scenario,"document.querySelector('#step-count').textContent==='Fehlerwiederholung · 1/1' && document.querySelector('.focus-session').dataset.family==='apply'"))
+            eval(scenario,"[...document.querySelectorAll('[data-choice]')].find(b=>b.textContent==="+org.json.JSONObject.quote(answer)+").click();document.querySelector('#advance').click()")
+            assertEquals("true",eval(scenario,"JSON.parse(AndroidTrainer.getProfile()).lesson_sessions['v11:long-vowels'].mode==='recap' && JSON.parse(AndroidTrainer.getProfile()).xp===45 && JSON.parse(AndroidTrainer.getProfile()).teacher_id==='ren' && JSON.parse(AndroidTrainer.getProfile()).completed.length===0"))
         }
     }
     @Test fun recordingReplayRejectsWrongIdentityAndClearsOnCancel() {
