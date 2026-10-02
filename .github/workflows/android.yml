@@ -44,7 +44,7 @@ jobs:
       - name: Android UI, persistence and real offline speech inference
         uses: reactivecircus/android-emulator-runner@v2
         env:
-          JT_NATIVE_TEST: ${{ inputs.native_test || 'all' }}
+          JT_NATIVE_ARGS: ${{ inputs.native_test == 'coach' && '-Pandroid.testInstrumentationRunnerArguments.class=de.priestkiller.japanischtrainer.MobileInstrumentedTest#selectedTeacherIsVisibleDuringSpeechAndMotionSettingKeepsThePictureStill' || '' }}
         with:
           api-level: 35
           target: google_apis
@@ -58,12 +58,7 @@ jobs:
           # responsive app. Instrumentation starts our activity directly.
           script: |
             adb shell pm disable-user --user 0 com.google.android.apps.nexuslauncher
-            cd mobile
-            if [ "$JT_NATIVE_TEST" = coach ]; then
-              gradle --no-daemon :app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=de.priestkiller.japanischtrainer.MobileInstrumentedTest#selectedTeacherIsVisibleDuringSpeechAndMotionSettingKeepsThePictureStill
-            else
-              gradle --no-daemon :app:connectedDebugAndroidTest
-            fi
+            cd mobile && gradle --no-daemon :app:connectedDebugAndroidTest $JT_NATIVE_ARGS
       - name: Upload APKs and actual test evidence
         if: always()
         uses: actions/upload-artifact@v4
