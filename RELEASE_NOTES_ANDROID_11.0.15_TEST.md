@@ -25,3 +25,10 @@ Echte S24-Ultra-/Mikrofon-/Hörtests, menschliche Anfänger-Erprobung und Japani
 Fachprüfung sind offen. Automatisierte Software-, Paket- und Veröffentlichungs-
 prüfungen werden im mitgelieferten Prüfbericht konkret ausgewiesen. Eine Übernahme
 in den stabilen Kanal braucht eine eigene Freigabe.
+# Ergänzende Korrektur der Eingabe
+
+Aktive Schreibfelder bleiben bei Layout- und Tastaturänderungen verbunden;
+Fokus, Cursor und Entwurf gehen nicht durch den Seitenaufbau verloren. Haupt- und
+Zusatzaufgaben wurden in zwölf zusätzlichen Browserfällen geprüft. Die vorhandenen
+670 Browseransichten bestanden nach dieser Korrektur erneut. Der endgültige native
+Tastaturnachweis wird mit seinem tatsächlichen Ergebnis ergänzt.

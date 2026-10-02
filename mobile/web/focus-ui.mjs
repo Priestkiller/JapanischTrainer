@@ -101,8 +101,11 @@ export function focusLesson({page,session,round,teacher,store,esc}) {
  function layout(){
   root.classList.toggle('coach-compact',parseFloat(getComputedStyle(document.documentElement).fontSize)>20);
   if(!root.isConnected)return;
+  // Reparenting an active editor blurs WebView and immediately closes Android's
+  // IME. Keep its current pages attached while resizing around the keyboard.
+  const focused=document.activeElement?.matches('input,textarea')&&flow.contains(document.activeElement)?document.activeElement:null,keepEditor=!!focused&&!!taskPager;
   root.classList.toggle('focus-large-text',parseFloat(getComputedStyle(document.documentElement).fontSize)>20);
-  flowObserver?.disconnect();flow.classList.remove('focus-pagination');flow.replaceChildren(...items);flow.style.height='';flow.style.columnWidth='';flow.style.columnGap='';flow.style.columnFill='';viewport.style.height='';viewport.scrollLeft=0;pager.hidden=true;
+  flowObserver?.disconnect();flow.classList.remove('focus-pagination');if(!keepEditor)flow.replaceChildren(...items);flow.style.height='';flow.style.columnWidth='';flow.style.columnGap='';flow.style.columnFill='';viewport.style.height='';viewport.scrollLeft=0;pager.hidden=true;
   // Reserve the visible coach before paging feedback; never cover controls.
   root.classList.remove('focus-coach-scene');
   if(isSpeaking&&companions.parentElement!==header)header.append(companions);
@@ -112,11 +115,12 @@ export function focusLesson({page,session,round,teacher,store,esc}) {
   // Short speech models stay on one view when they fit, before reserving decorative space.
   if(record&&!extra&&session.card.jp.trim().length<=2&&flow.scrollHeight<=free-50)available=flow.scrollHeight+2;
   if(isSpeaking){taskPager=null;viewport.style.height=`${Math.max(0,Math.min(flow.scrollHeight,free))}px`;viewport.classList.add('speech-feedback-scroll');taskPages=1;}
-  else {const needed=flow.scrollHeight>available+2,height=needed?Math.max(100,available-50):available;taskPager=paginateContent(flow,items,height);taskPages=taskPager.count;pager.hidden=taskPages===1;viewport.style.maxHeight=height+'px';}
+  else {const needed=keepEditor?taskPages>1:flow.scrollHeight>available+2,height=needed?Math.max(100,available-50):available;if(keepEditor)for(const p of taskPager.pages)p.style.maxHeight=height+'px';else {taskPager=paginateContent(flow,items,height);taskPages=taskPager.count;}pager.hidden=taskPages===1;viewport.style.maxHeight=height+'px';}
   setTaskPage(presentation.page);
   const target=document.activeElement?.matches('input,textarea')?document.activeElement:null;
   if(target&&taskPages>1){const at=taskPager.containing(target);if(at>=0)setTaskPage(at);}
   root.classList.toggle('focus-short',innerHeight<550);root.classList.toggle('focus-overflow',free<80);
+  if(focused){const p=focused.closest('.focus-content-page');if(p){const r=focused.getBoundingClientRect(),v=p.getBoundingClientRect();p.scrollTop+=r.bottom>v.bottom?r.bottom-v.bottom:r.top<v.top?r.top-v.top:0;}const r=focused.getBoundingClientRect(),w=workspace.getBoundingClientRect();workspace.scrollTop+=r.bottom>w.bottom?r.bottom-w.bottom:r.top<w.top?r.top-w.top:0;}
   flowObserver?.observe(flow,{childList:true,subtree:true,characterData:true});if(recordingPanel)flowObserver?.observe(recordingPanel,{childList:true,subtree:true,characterData:true,attributes:true,attributeFilter:['hidden']});
  }
  function closeSheet(){

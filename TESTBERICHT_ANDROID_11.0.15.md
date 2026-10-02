@@ -107,6 +107,28 @@ Implementierungs-/Testfehlversuche, keine bestandenen Prüfungen des vorherigen 
 
 ## Praktische Geräteprüfung, noch offen
 
+Die ergänzende Tastaturprüfung fand einen tatsächlichen Fokusfehler: Beim erneuten
+Seitenaufbau wurde das aktive Eingabefeld kurz aus dem DOM genommen. Die isolierte
+Reproduktion verlor den Fokus bereits bei normaler Layoutberechnung und blendete
+das Feld nach simulierter Tastaturverkleinerung aus. Aktive Eingabeseiten bleiben
+jetzt verbunden; nur ihre Höhe und begrenzten Scrollpositionen werden angepasst.
+Zwölf neue Browserfälle bestehen Haupt-/Zusatzaufgaben in sechs Formaten:
+Fokus, vom Nutzer gesetzter Cursor, sichtbares Feld, Entwurf nach Neustart,
+keine Freischaltung und unveränderte XP. Die bisherigen 670 Ansichten wurden nach
+dieser Produktkorrektur vollständig erneut geprüft und bestanden: zusammen 682.
+mobile/tests/keyboard-ui.mjs erhält die neue Regressionsprüfung dauerhaft.
+
+Der zweite vollständige native Lauf auf 7459f85 bestand 20/22 Fälle, einschließlich
+der sechs angepassten Hinweis-/Sichtbarkeitstests und echter öffentlicher HTTPS-Suche.
+Der frühere HTTP-403-Fehler trat dort nicht auf; seine Ursache bleibt unbekannt.
+Offen waren echte Android-Tastatur und Konfettimessung. Letztere verglich zwei
+späte leere Momentaufnahmen der nur 3,2 Sekunden laufenden Szene. Der Test beobachtet
+jetzt ab dem tatsächlichen Abschlussklick zwei verschiedene, nicht leere reale
+Canvasbilder innerhalb der Szene. Animation und Dauer bleiben unverändert.
+Der Tastaturtest wartet zusätzlich auf das tatsächlich treffbare Eingabefeld.
+Ein vollständiger erneuter nativer Lauf muss diese Produktkorrektur bestätigen.
+Der 20/22-Lauf zählt nicht als bestandene Abschlussprüfung.
+
 Der vollständige native Erstlauf auf Quellstand 35193f2e besteht 15 von 22 Fällen.
 Sechs ältere Fälle prüfen inzwischen absichtlich verdeckt gespeicherte Romaji
 auf vollständige Abwesenheit im DOM oder erwarten den früheren Hinweis-Container.

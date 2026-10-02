@@ -93,13 +93,21 @@ class MobileInstrumentedTest {
                 waitFor(scenario,"!!document.querySelector('[data-choice]')")
                 eval(scenario,"[...document.querySelectorAll('[data-choice]')].find(b=>b.textContent.trim()==="+org.json.JSONObject.quote(answer)+").click()")
                 waitFor(scenario,"!!document.querySelector('#advance:not([disabled])')")
-                eval(scenario,"document.querySelector('#advance').click()")
+                // Observe real nonempty confetti frames from the moment of the
+                // click; slow JNI polling must not start after the 3.2 s scene.
+                eval(scenario,"""
+                    (()=>{window.nativeConfetti={changed:false,nonemptyFrames:0};let first=null;
+                      const until=performance.now()+5000;
+                      function observe(){const c=document.querySelector('.reward-confetti');if(c){
+                        const pixels=c.getContext('2d').getImageData(0,0,c.width,c.height).data;
+                        if(pixels.some((v,i)=>i%4===3&&v>0)){const frame=c.toDataURL();nativeConfetti.nonemptyFrames++;if(first===null)first=frame;else if(frame!==first)nativeConfetti.changed=true;}
+                      }if(!nativeConfetti.changed&&performance.now()<until)requestAnimationFrame(observe);}
+                      document.querySelector('#advance').click();requestAnimationFrame(observe);})()
+                """.trimIndent())
                 waitFor(scenario,"!!document.querySelector('.completion')")
                 assertEquals("true",eval(scenario,"document.querySelector('.completion-xp').textContent==="+org.json.JSONObject.quote(if(done)"Wiederholung geschafft" else "+25 XP")+" && JSON.parse(AndroidTrainer.getProfile()).xp===45 && !document.querySelector('#complete-next').disabled && !document.querySelector('img.completion-kiko')"))
                 waitFor(scenario,"document.querySelector('.kiko-actor').dataset.frame!==undefined")
-                val confetti=eval(scenario,"document.querySelector('.reward-confetti').toDataURL()")
-                Thread.sleep(120)
-                assertNotEquals("Real confetti pixels change",confetti,eval(scenario,"document.querySelector('.reward-confetti').toDataURL()"))
+                waitFor(scenario,"window.nativeConfetti.changed && window.nativeConfetti.nonemptyFrames>=2")
                 assertEquals("true",eval(scenario,"[...document.querySelectorAll('.completion-actions button')].every(n=>n.getBoundingClientRect().bottom<=document.querySelector('.bottom-nav').getBoundingClientRect().top+1)"))
                 screenshot(scenario,if(done)"android-completion-repeat" else "android-completion-first")
                 eval(scenario,"document.querySelector('#complete-next').click()")
@@ -480,13 +488,14 @@ class MobileInstrumentedTest {
             screenshot(scenario,"android-exercises-landscape")
             scenario.onActivity { it.requestedOrientation=ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;it.web.settings.textZoom=140 }
             waitFor(scenario,"innerHeight > innerWidth")
-            eval(scenario,"document.querySelector('#ex-help').click()")
+            eval(scenario,"JTBack()")
+            waitFor(scenario,"!document.querySelector('.focus-sheet:not([hidden])')")
             // A programmatic JS focus alone need not open the Android IME.
             // Tap the real WebView input and verify native keyboard visibility.
             Thread.sleep(700)
             // Use the same visible page controls as a learner; do not scroll a hidden column into view.
             eval(scenario,"(()=>{const input=document.querySelector('#ex-input'),view=document.querySelector('.focus-task-viewport');for(let i=0;i<20;i++){const r=input.getBoundingClientRect(),v=view.getBoundingClientRect();if(r.left>=v.left-1&&r.right<=v.right+1)break;document.querySelector('.focus-page-nav button:last-child').click();}})()")
-            assertEquals("true",eval(scenario,"(()=>{const r=document.querySelector('#ex-input').getBoundingClientRect(),v=document.querySelector('.focus-task-viewport').getBoundingClientRect();return r.left>=v.left-1&&r.right<=v.right+1&&r.top>=v.top-1&&r.bottom<=v.bottom+1})()"))
+            waitFor(scenario,"(()=>{const input=document.querySelector('#ex-input'),r=input.getBoundingClientRect(),v=document.querySelector('.focus-task-viewport').getBoundingClientRect(),hit=document.elementFromPoint(r.left+r.width/2,r.top+r.height/2);return r.width>0&&r.height>0&&hit===input&&r.left>=v.left-1&&r.right<=v.right+1&&r.top>=v.top-1&&r.bottom<=v.bottom+1})()")
             val point=JSONArray(eval(scenario,"(()=>{const r=document.querySelector('#ex-input').getBoundingClientRect();return [r.left+r.width/2,r.top+r.height/2,innerWidth]})()"))
             var tapX=0f;var tapY=0f
             scenario.onActivity { activity ->
