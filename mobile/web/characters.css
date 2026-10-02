@@ -20,6 +20,9 @@ body[data-actors-paused=true] .voice-actor,body[data-actors-paused=true] .voice-
 @media(max-width:350px){.voice-companion canvas{width:85px;height:128px}.voice-bubble{font-size:.78rem;padding:10px}.focus-session .focus-companions .focus-coach-copy{font-size:.72rem;padding:9px}}
 /* Keep audio and microphone in view when Android scales the font up. */
 .focus-session.coach-compact .focus-companions{height:82px;margin-top:4px}.focus-session.coach-compact .focus-companions .focus-coach-copy{font-size:.7rem;padding:8px}.focus-session.coach-compact .focus-coach-copy small{display:none}
+.focus-session .focus-companions .focus-coach-copy{display:block}.focus-session.is-speaking .speech-feedback-scroll{min-height:0}
 @media(max-height:550px) and (min-width:600px){
+ .focus-session .focus-header{row-gap:0;padding-top:4px}.focus-session .focus-header .focus-companions{grid-row:1/3;align-self:center}.focus-session .focus-lesson-title{grid-row:2;margin:0}
+ .focus-session .focus-speaking-paper{row-gap:2px!important;padding:7px!important}
  body.completion-mode>main{padding:8px 18px}.completion-actions{grid-template-columns:1fr 1fr;gap:10px}.completion.card{display:grid;grid-template-columns:minmax(0,1fr) 160px;gap:3px 10px;padding:10px!important;align-content:center}.completion.card>*{grid-column:1}.completion.card .reward-stage{grid-column:2;grid-row:1/7;height:150px;width:160px;margin:0}.completion.card .reward-stage .kiko-actor{width:160px!important}.completion.card h1{font-size:1.15rem;margin:0}.completion.card p{font-size:.8rem;margin:0}.completion.card .eyebrow{font-size:.55rem}.completion.card .sub,.completion.card>p:last-child{display:none}.completion.card .completion-xp{font-size:.9rem;margin:3px auto;padding:4px 14px}
 }

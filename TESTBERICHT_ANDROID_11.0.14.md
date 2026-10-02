@@ -36,8 +36,9 @@ Lerntage und Sprachpakete bleiben im bestehenden Verfahren erhalten.
 bestanden. Die bisherigen 85 Menü-/Lernansichten und 30 Kalender-/Abschlussansichten
 bestanden nach den Layoutkorrekturen. Die spezielle Figurenprüfung prüft alle acht
 Lehrer in sechs Formaten mit separaten Profilen, Zustandswechseln, Aufnahme-Gate,
-unveränderten XP und zwölf Abschlussansichten. Zusätzliche Gesprächs- und
-Modellvergleichsansichten werden im finalen Nachweis gesondert gezählt.
+unveränderten XP und zwölf Abschlussansichten. Bestanden: 63 Ansichten (48 Lehrer-/Formatkombinationen, zwölf Abschlüsse und
+drei Gesprächs-/Modellvergleichsansichten). Bewegung nach geschlossenen Hilfen,
+endlicher Jubel und ausgeschaltete Bewegung wurden ebenfalls geprüft.
 
 Diese Browserprüfungen verwenden eine simulierte native Brücke und sind keine
 Mikrofontests. Die finalen nativen Emulator-, Paket-, Signatur- und öffentlichen
@@ -45,7 +46,9 @@ Prüfungen stehen bei Erstellung dieses Quellberichts noch aus. Ihre tatsächlic
 Ergebnisse werden dem ausgelieferten Bericht und der Chronik angefügt.
 
 Die Sichtprüfung fand zunächst einen verdeckten Jubel im Querformat und eine nach
-unten gedrängte Aufnahme bei großer Schrift. Die Szene wurde im Querformat
+unten gedrängte Aufnahme bei großer Schrift. Die strengere Prüfung fand außerdem
+eine ausgeblendete Querformat-Sprechblase und knapp verdeckte Lernhilfen. Beide
+wurden mit einer kompakteren Kopfzeile und angepassten Abständen korrigiert. Die Szene wurde im Querformat
 zweispaltig; bei großer Schrift wird der Lehrer kompakter. Ein Browser-Testadapter
 hatte zunächst seine Capabilities-Methode nicht bereitgestellt; das war kein
 Produktfehler. Eine Asset-Vorbereitung wurde zuerst aus dem falschen Arbeitsordner
