@@ -1,6 +1,12 @@
 name: Android
 on:
   workflow_dispatch:
+    inputs:
+      native_test:
+        description: Native test scope after test-only fixture corrections
+        type: choice
+        options: [all, coach]
+        default: all
   push:
     paths: ['mobile/**', 'data/**', 'assets/**', 'licenses/**', '.github/workflows/android.yml']
 permissions:
@@ -37,6 +43,8 @@ jobs:
           sudo udevadm trigger --name-match=kvm
       - name: Android UI, persistence and real offline speech inference
         uses: reactivecircus/android-emulator-runner@v2
+        env:
+          JT_NATIVE_TEST: ${{ inputs.native_test || 'all' }}
         with:
           api-level: 35
           target: google_apis
@@ -50,7 +58,12 @@ jobs:
           # responsive app. Instrumentation starts our activity directly.
           script: |
             adb shell pm disable-user --user 0 com.google.android.apps.nexuslauncher
-            cd mobile && gradle --no-daemon :app:connectedDebugAndroidTest
+            cd mobile
+            if [ "$JT_NATIVE_TEST" = coach ]; then
+              gradle --no-daemon :app:connectedDebugAndroidTest -Pandroid.testInstrumentationRunnerArguments.class=de.priestkiller.japanischtrainer.MobileInstrumentedTest#selectedTeacherIsVisibleDuringSpeechAndMotionSettingKeepsThePictureStill
+            else
+              gradle --no-daemon :app:connectedDebugAndroidTest
+            fi
       - name: Upload APKs and actual test evidence
         if: always()
         uses: actions/upload-artifact@v4

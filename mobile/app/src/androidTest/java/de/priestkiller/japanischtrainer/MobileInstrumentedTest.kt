@@ -19,15 +19,16 @@ import android.webkit.WebView
 @RunWith(AndroidJUnit4::class)
 class MobileInstrumentedTest {
     @Test fun selectedTeacherIsVisibleDuringSpeechAndMotionSettingKeepsThePictureStill() {
-        writeProfile(org.json.JSONObject().put("xp",77).put("teacher_id","ren").put("course_revision",11).toString().toByteArray())
+        writeProfile(org.json.JSONObject().put("xp",77).put("completed",JSONArray()).put("teacher_id","ren").put("course_revision",11).toString().toByteArray())
         ActivityScenario.launch(MainActivity::class.java).use { scenario ->
             waitFor(scenario,"document.documentElement.dataset.ready === 'true'")
+            assertEquals("Valid native fixture retains teacher and XP", "true",eval(scenario,"JSON.parse(AndroidTrainer.getProfile()).teacher_id==='ren' && JSON.parse(AndroidTrainer.getProfile()).xp===77"))
             eval(scenario,"document.querySelector('#hero-resume').click()")
             waitFor(scenario,"!!document.querySelector('.focus-sheet:not([hidden])')")
             eval(scenario,"JTBack()")
             waitFor(scenario,"!!document.querySelector('#teacher-canvas').dataset.frame")
             screenshot(scenario,"android-selected-speech-coach-ready")
-            assertEquals("Selected teacher is retained", "Ren",eval(scenario,"document.querySelector('.focus-coach-copy strong').textContent"))
+            assertEquals("Selected teacher is retained", "true",eval(scenario,"document.querySelector('.focus-coach-copy strong').textContent==='Ren'"))
             assertEquals("Complete figure is loaded", "true",eval(scenario,"document.querySelector('#teacher-canvas').dataset.fullBody==='true'"))
             assertEquals("Figure has usable height", "true",eval(scenario,"document.querySelector('#teacher-canvas').getBoundingClientRect().height>=100"))
             // With no speech package, the existing technical-attempt button is
@@ -37,8 +38,7 @@ class MobileInstrumentedTest {
             eval(scenario,"document.body.dataset.coachState='speaking'")
             waitFor(scenario,"Number(document.querySelector('#teacher-canvas').dataset.frame)>=4 && Number(document.querySelector('#teacher-canvas').dataset.frame)<8")
             val speaking=eval(scenario,"document.querySelector('#teacher-canvas').toDataURL()")
-            Thread.sleep(250)
-            assertNotEquals(speaking,eval(scenario,"document.querySelector('#teacher-canvas').toDataURL()"))
+            waitFor(scenario,"document.querySelector('#teacher-canvas').toDataURL()!=="+speaking)
             screenshot(scenario,"android-selected-speech-coach")
             eval(scenario,"JTBack();document.querySelector('#settings-shortcut').click();document.querySelector('#motion').click();document.querySelector('[data-page=home]').click();document.querySelector('#hero-resume').click()")
             waitFor(scenario,"!!document.querySelector('#teacher-canvas').dataset.frame")
