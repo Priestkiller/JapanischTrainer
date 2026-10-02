@@ -220,6 +220,14 @@ class MobileInstrumentedTest {
         while(System.currentTimeMillis()<deadline) { if(eval(s,condition)=="true")return;Thread.sleep(200) }
         fail("Condition did not become true: $condition; visible test content: "+eval(s,"document.body.innerText.slice(0,1800)"))
     }
+    // Explanations now remain deliberately hidden in the sheet storage, rather
+    // than being absent from the DOM. Test the learner-visible solution gate.
+    private val noVisibleRomaji="![...document.querySelectorAll('.romaji')].some(n=>n.getClientRects().length>0)"
+    private val hintSheetOpen="document.querySelector('.focus-sheet:not([hidden]) #focus-sheet-title')?.textContent === 'Hinweis & Erklärung'"
+    private fun waitForHint(s:ActivityScenario<MainActivity>) {
+        waitFor(s,hintSheetOpen+" && !!document.querySelector('.focus-sheet-reading .focus-content-page:not([hidden])')")
+        assertEquals("Hint has a real readable page", "true",eval(s,"(()=>{const p=document.querySelector('.focus-sheet-reading .focus-content-page:not([hidden])'),r=p.getBoundingClientRect();return r.width>0&&r.height>0&&p.textContent.trim().length>0})()"))
+    }
     @Test fun nativeAppStartsAndKeepsTheLessonOnRestart() {
         ActivityScenario.launch(MainActivity::class.java).use { scenario ->
             waitFor(scenario,"document.documentElement.dataset.ready === 'true'")
@@ -239,7 +247,7 @@ class MobileInstrumentedTest {
             waitFor(scenario,"document.documentElement.dataset.ready === 'true'")
             eval(scenario,"document.querySelector('#hero-resume').click()")
             waitFor(scenario,"!!document.querySelector('[data-choice]')")
-            assertEquals("true",eval(scenario,"document.querySelector('#step-count').textContent === 'Schritt 2/6' && !document.querySelector('#record') && !document.querySelector('.romaji')"))
+            assertEquals("true",eval(scenario,"document.querySelector('#step-count').textContent === 'Schritt 2/6' && !document.querySelector('#record') && "+noVisibleRomaji))
             assertEquals("true",eval(scenario,"document.documentElement.scrollWidth <= innerWidth"))
             screenshot(scenario,"android-meaning")
             eval(scenario,"document.querySelector('#settings-shortcut').click()")
@@ -311,17 +319,19 @@ class MobileInstrumentedTest {
                 scenario.recreate();waitFor(scenario,"document.documentElement.dataset.ready === 'true'")
                 eval(scenario,"document.querySelector('#hero-resume').click()")
                 waitFor(scenario,"document.querySelector('#step-count')?.textContent === 'Schritt 6/6'")
-                assertEquals("true",eval(scenario,"!document.querySelector('.romaji') && document.querySelector('#advance').disabled"))
+                assertEquals("true",eval(scenario,noVisibleRomaji+" && document.querySelector('#advance').disabled"))
                 eval(scenario,"Array.from(document.querySelectorAll('[data-choice]')).find(b=>b.textContent==='In beiden Sätzen nur ein Verkehrsmittel.').click()")
                 assertEquals("true",eval(scenario,"document.querySelector('#task-feedback').textContent.includes('えき ist der Bahnhof') && document.querySelector('#advance').disabled"))
                 assertEquals("true",eval(scenario,"document.documentElement.scrollWidth <= innerWidth"))
                 screenshot(scenario,"android-package2-wrong-answer")
                 eval(scenario,"document.querySelector('#show-hint').click()")
-                assertEquals("true",eval(scenario,"!!document.querySelector('.exercise-hint') && document.querySelector('#advance').disabled && JSON.parse(AndroidTrainer.getProfile()).xp===321"))
+                waitForHint(scenario)
+                assertEquals("true",eval(scenario,hintSheetOpen+" && document.querySelector('#advance').disabled && JSON.parse(AndroidTrainer.getProfile()).xp===321"))
                 scenario.recreate();waitFor(scenario,"document.documentElement.dataset.ready === 'true'")
                 eval(scenario,"document.querySelector('#hero-resume').click()")
                 waitFor(scenario,"document.querySelector('#step-count')?.textContent === 'Schritt 6/6'")
-                assertEquals("true",eval(scenario,"!!document.querySelector('.exercise-hint') && document.querySelector('#advance').disabled && JSON.parse(AndroidTrainer.getProfile()).teacher_id==='ren'"))
+                waitForHint(scenario)
+                assertEquals("true",eval(scenario,hintSheetOpen+" && document.querySelector('#advance').disabled && JSON.parse(AndroidTrainer.getProfile()).teacher_id==='ren'"))
             } finally {
                 eval(scenario,"AndroidTrainer.saveProfile($previous)")
             }
@@ -352,17 +362,19 @@ class MobileInstrumentedTest {
                 scenario.recreate();waitFor(scenario,"document.documentElement.dataset.ready === 'true'")
                 eval(scenario,"document.querySelector('#hero-resume').click()")
                 waitFor(scenario,"document.querySelector('#step-count')?.textContent === 'Schritt 6/6'")
-                assertEquals("true",eval(scenario,"!document.querySelector('.romaji') && document.querySelector('#advance').disabled"))
+                assertEquals("true",eval(scenario,noVisibleRomaji+" && document.querySelector('#advance').disabled"))
                 eval(scenario,"Array.from(document.querySelectorAll('[data-choice]')).find(b=>b.textContent==='ここでおねがいします。').click()")
                 assertEquals("true",eval(scenario,"document.querySelector('#task-feedback').textContent.includes('hier vor Ort') && document.querySelector('#advance').disabled"))
                 assertEquals("true",eval(scenario,"document.documentElement.scrollWidth <= innerWidth"))
                 screenshot(scenario,"android-package3-wrong-answer")
                 eval(scenario,"document.querySelector('#show-hint').click()")
-                assertEquals("true",eval(scenario,"!!document.querySelector('.exercise-hint') && document.querySelector('#advance').disabled && JSON.parse(AndroidTrainer.getProfile()).xp===321"))
+                waitForHint(scenario)
+                assertEquals("true",eval(scenario,hintSheetOpen+" && document.querySelector('#advance').disabled && JSON.parse(AndroidTrainer.getProfile()).xp===321"))
                 scenario.recreate();waitFor(scenario,"document.documentElement.dataset.ready === 'true'")
                 eval(scenario,"document.querySelector('#hero-resume').click()")
                 waitFor(scenario,"document.querySelector('#step-count')?.textContent === 'Schritt 6/6'")
-                assertEquals("true",eval(scenario,"!!document.querySelector('.exercise-hint') && document.querySelector('#advance').disabled && JSON.parse(AndroidTrainer.getProfile()).teacher_id==='ren'"))
+                waitForHint(scenario)
+                assertEquals("true",eval(scenario,hintSheetOpen+" && document.querySelector('#advance').disabled && JSON.parse(AndroidTrainer.getProfile()).teacher_id==='ren'"))
             } finally {
                 eval(scenario,"AndroidTrainer.saveProfile($previous)")
             }
@@ -393,17 +405,19 @@ class MobileInstrumentedTest {
                 scenario.recreate();waitFor(scenario,"document.documentElement.dataset.ready === 'true'")
                 eval(scenario,"document.querySelector('#hero-resume').click()")
                 waitFor(scenario,"document.querySelector('#step-count')?.textContent === 'Schritt 6/6'")
-                assertEquals("true",eval(scenario,"!document.querySelector('.romaji') && document.querySelector('#advance').disabled"))
+                assertEquals("true",eval(scenario,noVisibleRomaji+" && document.querySelector('#advance').disabled"))
                 eval(scenario,"Array.from(document.querySelectorAll('[data-choice]')).find(b=>b.textContent==='さんじはん').click()")
                 assertEquals("true",eval(scenario,"document.querySelector('#task-feedback').textContent.includes('3:30') && document.querySelector('#advance').disabled"))
                 assertEquals("true",eval(scenario,"document.documentElement.scrollWidth <= innerWidth"))
                 screenshot(scenario,"android-package4-wrong-answer")
                 eval(scenario,"document.querySelector('#show-hint').click()")
-                assertEquals("true",eval(scenario,"!!document.querySelector('.exercise-hint') && document.querySelector('#advance').disabled && JSON.parse(AndroidTrainer.getProfile()).xp===321"))
+                waitForHint(scenario)
+                assertEquals("true",eval(scenario,hintSheetOpen+" && document.querySelector('#advance').disabled && JSON.parse(AndroidTrainer.getProfile()).xp===321"))
                 scenario.recreate();waitFor(scenario,"document.documentElement.dataset.ready === 'true'")
                 eval(scenario,"document.querySelector('#hero-resume').click()")
                 waitFor(scenario,"document.querySelector('#step-count')?.textContent === 'Schritt 6/6'")
-                assertEquals("true",eval(scenario,"!!document.querySelector('.exercise-hint') && document.querySelector('#advance').disabled && JSON.parse(AndroidTrainer.getProfile()).teacher_id==='ren'"))
+                waitForHint(scenario)
+                assertEquals("true",eval(scenario,hintSheetOpen+" && document.querySelector('#advance').disabled && JSON.parse(AndroidTrainer.getProfile()).teacher_id==='ren'"))
             } finally {
                 eval(scenario,"AndroidTrainer.saveProfile($previous)")
             }
@@ -423,15 +437,17 @@ class MobileInstrumentedTest {
                 scenario.recreate();waitFor(scenario,"document.documentElement.dataset.ready === 'true'")
                 eval(scenario,"document.querySelector('#hero-resume').click()")
                 waitFor(scenario,"document.querySelector('#step-count')?.textContent === 'Schritt 5/6'")
-                assertEquals("true",eval(scenario,"!document.querySelector('.exercise-hint') && document.querySelector('#advance').disabled"))
+                assertEquals("true",eval(scenario,"!("+hintSheetOpen+") && document.querySelector('#advance').disabled"))
                 eval(scenario,"document.querySelector('#show-hint').click()")
-                assertEquals("true",eval(scenario,"document.querySelector('.exercise-hint').textContent.includes('drei Paaren') && document.querySelector('.exercise-hint').textContent.includes('Miniübung 3') && document.querySelector('#advance').disabled"))
+                waitForHint(scenario)
+                assertEquals("true",eval(scenario,"document.querySelector('.focus-sheet-reading').textContent.includes('drei Paaren') && document.querySelector('.focus-sheet-reading').textContent.includes('Miniübung 3') && document.querySelector('#advance').disabled"))
                 assertEquals("true",eval(scenario,"document.documentElement.scrollWidth <= innerWidth"))
                 screenshot(scenario,"android-numbers-preparation")
                 scenario.recreate();waitFor(scenario,"document.documentElement.dataset.ready === 'true'")
                 eval(scenario,"document.querySelector('#hero-resume').click()")
                 waitFor(scenario,"document.querySelector('#step-count')?.textContent === 'Schritt 5/6'")
-                assertEquals("true",eval(scenario,"!!document.querySelector('.exercise-hint') && document.querySelector('#advance').disabled && JSON.parse(AndroidTrainer.getProfile()).xp===321 && JSON.parse(AndroidTrainer.getProfile()).last_lesson.card===4"))
+                waitForHint(scenario)
+                assertEquals("true",eval(scenario,hintSheetOpen+" && document.querySelector('#advance').disabled && JSON.parse(AndroidTrainer.getProfile()).xp===321 && JSON.parse(AndroidTrainer.getProfile()).last_lesson.card===4"))
             } finally { eval(scenario,"AndroidTrainer.saveProfile($previous)") }
         }
     }
@@ -456,7 +472,8 @@ class MobileInstrumentedTest {
             assertEquals("true",eval(scenario,"document.querySelector('#ex-input').value==='mi' && document.querySelector('#ex-next').disabled"))
             scenario.recreate();waitFor(scenario,"document.documentElement.dataset.ready === 'true'")
             eval(scenario,"document.querySelector('#hero-resume').click();document.querySelector('#exercise-round').click()")
-            assertEquals("true",eval(scenario,"document.querySelector('#ex-input').value==='mi' && !!document.querySelector('.exercise-hint') && document.querySelector('#ex-next').disabled"))
+            waitForHint(scenario)
+            assertEquals("true",eval(scenario,"document.querySelector('#ex-input').value==='mi' && ("+hintSheetOpen+") && document.querySelector('#ex-next').disabled"))
             scenario.onActivity { it.requestedOrientation=ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE }
             waitFor(scenario,"innerWidth > innerHeight")
             assertEquals("true",eval(scenario,"document.querySelector('#ex-input').value==='mi' && document.documentElement.scrollWidth<=innerWidth"))

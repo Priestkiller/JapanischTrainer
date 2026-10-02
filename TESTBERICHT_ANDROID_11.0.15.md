@@ -107,6 +107,17 @@ Implementierungs-/Testfehlversuche, keine bestandenen Prüfungen des vorherigen 
 
 ## Praktische Geräteprüfung, noch offen
 
+Der vollständige native Erstlauf auf Quellstand 35193f2e besteht 15 von 22 Fällen.
+Sechs ältere Fälle prüfen inzwischen absichtlich verdeckt gespeicherte Romaji
+auf vollständige Abwesenheit im DOM oder erwarten den früheren Hinweis-Container.
+Die Prüfungen werden auf tatsächlich sichtbare Lösungen und den bedienbaren
+Hinweisdialog mit erhaltenen Aufgaben-/Profil-Gates umgestellt; Produktdateien
+bleiben dabei unverändert. Der siebte Fehler ist ein HTTP 403 am öffentlichen
+GitHub-API-Einstieg der nativen Updatesuche. Seine Ursache ist nicht nachgewiesen.
+Ein neuer vollständiger Lauf muss einschließlich echter Updatesuche bestehen.
+Der 15/22-Lauf zählt nicht als erfolgreiche Abschlussprüfung und gibt keine
+Veröffentlichung frei. Nachweis: GitHub-Actions-Lauf 37055483430.
+
 S24 Ultra: 11.0.15 über die vorhandene App installieren, XP, Lehrer und Sprachpaket
 vergleichen. Lange-Vokale-Karte mit vier Antworten öffnen, jede erreichen, bewusst
 falsch antworten, Weiter zur Endwiederholung wählen. App schließen, fortsetzen,
