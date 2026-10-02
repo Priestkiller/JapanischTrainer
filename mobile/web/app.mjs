@@ -89,7 +89,7 @@ function lesson() {
 function task() {
   const s=state.session;let html='';
   if(s.mode==='recap')html=`<p>Welche Bedeutung passt?</p><p class="jp exercise-prompt" lang="ja">${esc(s.card.jp)}</p>`+options(s);
-  else if(s.phase==='speak')html=cardView(s.card)+supportView(s.support,s.supportDeck(),esc)+lessonGuide(s.lesson,s.index===0);
+  else if(s.phase==='speak')html=cardView(s.card)+(s.success?'':supportView(s.support,s.supportDeck(),esc))+lessonGuide(s.lesson,s.index===0);
   else if(s.phase==='meaning')html=`<p>Was bedeutet die japanische Form?</p><p class="jp exercise-prompt" lang="ja">${esc(s.card.jp)}</p>`+options(s);
   else if(s.phase==='listen')html=`<p>Höre eine bereits geübte Form. Welche Bedeutung passt?</p><button class="primary wide" id="hear-task">▷ Hörbeispiel abspielen</button><p id="audio-status" class="speech-message" role="status"></p>${options(s)}`;
   else if(s.phase==='build') {
@@ -129,7 +129,7 @@ function bindTask() {
   if($('#record'))$('#record').onclick=record;
   if($('#lesson-cancel'))$('#lesson-cancel').onclick=()=>{stopMedia();state.speechMessage='Aufnahme abgebrochen. Du kannst erneut versuchen.';refreshTask();};
   if($('#lesson-own'))$('#lesson-own').onclick=()=>{if(!state.ownSpeech||state.recording!=='idle')return;native('stopAudio');const id=`own-${++requestCounter}`;state.audio={id,forListen:false,message:'Deine Aufnahme …'};native('playRecording',state.ownSpeech,id);refreshAudio();};
-  if($('#confirm-short-speech'))$('#confirm-short-speech').onclick=()=>{if(state.recording==='idle'&&s.confirmShortSpeech())refreshTask();};
+  if($('#confirm-short-speech'))$('#confirm-short-speech').onclick=()=>{if(state.recording==='idle'&&s.confirmShortSpeech()){s.support.data.open=false;s.support.save();refreshTask();}};
   if($('#hear-task'))$('#hear-task').onclick=()=>play(s.listenCard.jp,true);
   if($('#hear-example'))$('#hear-example').onclick=()=>play(course.example(s.card).jp);
   const continueLesson=defer=>{

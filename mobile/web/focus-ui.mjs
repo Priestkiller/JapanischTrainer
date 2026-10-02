@@ -52,6 +52,8 @@ export function focusLesson({page,session,round,teacher,store,esc}) {
  const hint=query(extra?'#ex-help':'#show-hint');if(hint){hint.textContent='💡 Hinweis';tools.append(hint);}
  const alternative=query('#speech-alternative');if(alternative){controls.querySelector('.focus-tap-tip')?.remove();controls.append(alternative);alternative.classList.add('focus-support-action');}
  const supportPanel=flow.querySelector('.speech-alternative');supportPanel?.remove();
+ const kanaConfirm=query('#confirm-short-speech');
+ if(kanaConfirm){const kanaPanel=kanaConfirm.closest('.info');if(supportPanel)supportPanel.querySelector('.support-top').after(kanaPanel);else{storeSheet('kana','Einzellaut selbst prüfen',[kanaPanel]);if(!alternative){controls.querySelector('.focus-tap-tip')?.remove();const open=button('Kana-Selbstprüfung öffnen',()=>openSheet('kana'),'focus-support-action');open.id='focus-kana-help';controls.append(open);}}}
  const lessonGoal=query('.lesson-goal');if(lessonGoal){const body=sheets.get('guide')?.body;if(body)body.prepend(lessonGoal);else storeSheet('guide','Dein Lernziel',[lessonGoal]);}
  for(const [id,label] of [['guide','▤ Vorwissen'],['explain','ⓘ Warum?']])if(sheets.has(id))tools.append(button(label,()=>openSheet(id)));
  const extraEntry=query('#exercise-round');if(extraEntry){storeSheet('variety','Zusätzliche Übungen',[el('p','','Du kannst mit weiteren Aufgaben zu dieser Lektion üben. Dein Pflichtfortschritt bleibt erhalten.'),extraEntry]);tools.append(button('◇ Mehr üben',()=>openSheet('variety')));}

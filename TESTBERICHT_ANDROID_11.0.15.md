@@ -10,7 +10,10 @@ existierte die Auswahlhilfe nach drei Fehlversuchen, ihr Button lag aber in eine
 auf null beziehungsweise wenige Pixel geschrumpften Inhaltsbereich. Sie wurde
 nicht durch einen fehlenden Schwellenwert verhindert. Der Button liegt jetzt im
 festen Aktionsbereich. Auswahl, ausdrückliche Bestätigung, Vormerkung freiwilligen
-Sprechens und gekennzeichnete Kana-Selbstprüfung bleiben erhalten.
+Sprechens und gekennzeichnete Kana-Selbstprüfung bleiben erhalten. Nach einer
+qualifizierten Kana-Aufnahme öffnet eine feste Aktion deren Erklärung und Bestätigung.
+Ab dem dritten Versuch bleibt sie innerhalb der Auswahlhilfe verfügbar. Bei ihrer
+Bestätigung schließt der Dialog; die Speicherung nennt ausdrücklich self_check.
 
 CSS-Textspalten teilten Antwortgruppen und lange Rückmeldungen auf. Das automatische
 Umschalten zur Rückmeldung verdeckte dabei andere Antworten; bei kleiner Ansicht
@@ -71,7 +74,7 @@ Idempotenzprüfung plattformneutral verglichen.
 71 JavaScript-Prüfungen bestanden, darunter Lösbarkeit aller 150 Lektionen und neue
 Fälle für fünf Fehlerarten, Hörziel, Queue, Neustart, alte Profile, ungültige Daten
 und einmalige XP. Die gezielte Browserprüfung besteht in sechs Formaten einschließlich
-320×640, Querformat und 160 Prozent Schrift: 24 Ansichten. Sie prüft tatsächliche
+320×640, Querformat und 160 Prozent Schrift: 36 Ansichten. Sie prüft tatsächliche
 Touch-Trefferflächen statt erzwungener Klicks, alle vier Antworten, Hilfe-Seiten,
 feste Auswahlhilfe nach drei Versuchen und Neustart, falsche/korrekte bestätigte
 Auswahl, dieselbe Aufgabe am Ende und Abschluss erst nach erfolgreicher Wiederholung.
@@ -96,7 +99,10 @@ Auswahlbutton wurde unten abgeschnitten und deshalb in die feste Aktionsleiste
 verlegt. Drei neue Testauswahlen verwendeten zunächst ungeeignete Selektoren oder
 einen nicht vorhandenen Antworttext; sie wurden auf exakte Texte und abgeschlossene
 Layoutanordnung korrigiert. Ein Python-Start scheiterte am eingeschränkten temporären
-Dateizugriff und wurde mit genehmigtem Prozesszugriff wiederholt. Das sind getrennte
+Dateizugriff und wurde mit genehmigtem Prozesszugriff wiederholt. Ein weiterer gezielter Vergleich fand die ebenfalls verdeckte Kana-Selbstprüfung
+in sechs Formaten. Die neue Dialogprüfung fand anschließend einen nach erfolgreicher
+Selbstprüfung offenen Auswahlhilfedialog; dessen Abschluss wurde korrigiert. Der
+finale Browserlauf besteht beide Kana-Wege. Das sind getrennte
 Implementierungs-/Testfehlversuche, keine bestandenen Prüfungen des vorherigen Stands.
 
 ## Praktische Geräteprüfung, noch offen

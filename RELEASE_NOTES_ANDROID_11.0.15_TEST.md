@@ -5,6 +5,8 @@
 - Nach drei erfolglosen Sprechversuchen bleibt **Antwort stattdessen auswählen**
   fest am unteren Rand sichtbar, auch nach einem Neustart. Die passende Auswahl
   und ihre Bestätigung sind nötig. Technische Fehler vergeben keine Aussprache-Note.
+- Die gekennzeichnete Kana-Selbstprüfung nach geeigneter Aufnahme ist ebenfalls
+  sichtbar aufrufbar und schließt ihren Hilfedialog nach Bestätigung.
 - Falsch beantwortete Lernaufgaben können ans Ende verschoben werden und kommen
   dort in ihrer ursprünglichen Aufgabenart wieder. Abschluss und XP erst nach
   gelöster Fehlerwiederholung und Abschlussrunde; erneute Fehler wieder ans Ende.
